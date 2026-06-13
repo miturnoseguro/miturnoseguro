@@ -411,6 +411,44 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .disp-feedback.ok  { background: var(--success-soft); color: #166534; }
 .disp-feedback.err { background: var(--danger-soft); color: #991B1B; }
 
+/* ── VISTA SYSTEM ── */
+.view { display: none; }
+.view.active { display: block; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-family: 'Open Sans', sans-serif;
+}
+.breadcrumb-bar a {
+  color: var(--brand);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+.breadcrumb-bar a:hover { color: var(--brand-dark); }
+.breadcrumb-sep { color: var(--muted); }
+.breadcrumb-current { color: var(--muted); font-weight: 500; }
+
+/* ── APP VIEW NAV ── */
+.app-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.app-nav-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.app-nav .brand { display: flex; align-items: center; gap: 10px; }
+.app-nav .brand img { width: 30px; height: 30px; }
+.app-nav .brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
+.app-nav .brand-name span { color: var(--brand); }
+.app-nav-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--brand); cursor: pointer; padding: 8px 14px; border-radius: 999px; transition: background 0.15s; border: none; background: none; font-family: 'Open Sans', sans-serif; }
+.app-nav-back:hover { background: var(--brand-soft); }
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .nav-links { display: none; }
@@ -433,6 +471,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 </head>
 <body>
 
+<!-- ═══════════ VISTA: LANDING ═══════════ -->
+<div id="view-landing" class="view active">
+
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
@@ -447,8 +488,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <a href="#testimonios">Testimonios</a>
     </div>
     <div class="nav-cta">
-      <a href="#app" class="btn btn-ghost">Ingresar</a>
-      <a href="#app" class="btn btn-primary">Reservar turno</a>
+      <button onclick="showApp('profesional')" class="btn btn-ghost">Ingresar</button>
+      <button onclick="showApp('reservar')" class="btn btn-primary">Reservar turno</button>
     </div>
   </div>
 </nav>
@@ -461,8 +502,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <h1>Tu turno, <span class="highlight">confirmado</span> al instante.</h1>
       <p class="lead">La plataforma para reservar turnos médicos online. Pagás al reservar, tu profesional recibe el cobro directo y nadie pierde tiempo con cancelaciones de último momento.</p>
       <div class="hero-actions">
-        <a href="#app" class="btn btn-primary btn-lg">Buscar un turno →</a>
-        <a href="#app-profesional" class="btn btn-ghost btn-lg">Soy profesional de la salud</a>
+        <button onclick="showApp('reservar')" class="btn btn-primary btn-lg">Buscar un turno →</button>
+        <button onclick="showApp('profesional')" class="btn btn-ghost btn-lg">Soy profesional de la salud</button>
       </div>
       <div class="hero-trust">
         <div class="avatars"><span>👩‍⚕️</span><span>🩺</span><span>👨‍⚕️</span><span>🧑‍⚕️</span></div>
@@ -579,7 +620,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           <li><span class="check">✓</span> Pago seguro con Mercado Pago</li>
           <li><span class="check">✓</span> Confirmación y recordatorios por email</li>
         </ul>
-        <a href="#app" class="btn btn-ghost btn-block" style="border:1.5px solid var(--line);">Buscar turno</a>
+        <button onclick="showApp('reservar')" class="btn btn-ghost btn-block" style="border:1.5px solid var(--line);">Buscar turno</button>
       </div>
       <div class="pricing-card highlight">
         <span class="pricing-tag">Más elegido</span>
@@ -592,7 +633,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           <li><span class="check">✓</span> Panel con estadísticas e ingresos proyectados</li>
           <li><span class="check">✓</span> Reducción de ausencias por pago anticipado</li>
         </ul>
-        <a href="#app-profesional" class="btn btn-primary btn-block">Crear mi perfil →</a>
+        <button onclick="showApp('profesional')" class="btn btn-primary btn-block">Crear mi perfil →</button>
       </div>
     </div>
   </div>
@@ -632,17 +673,35 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <h2>Empezá a usar Mi Turno Seguro hoy</h2>
       <p>Sumate gratis. Creá tu perfil profesional en minutos y empezá a recibir reservas con pago garantizado.</p>
       <div class="cta-actions">
-        <a href="#app-profesional" class="btn btn-primary btn-lg">Crear mi perfil profesional</a>
-        <a href="#app" class="btn btn-ghost btn-lg">Reservar un turno</a>
+        <button onclick="showApp('profesional')" class="btn btn-primary btn-lg">Crear mi perfil profesional</button>
+        <button onclick="showApp('reservar')" class="btn btn-ghost btn-lg">Reservar un turno</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     APP
-═══════════════════════════════════════════════════════════════════════ -->
-<section id="app" style="background:var(--paper); padding-top:48px; border-top:1px solid var(--line);">
+</div><!-- /view-landing -->
+
+<!-- ═══════════ VISTA: APP ═══════════ -->
+<div id="view-app" class="view">
+
+  <!-- NAV de la app -->
+  <nav class="app-nav">
+    <div class="app-nav-inner">
+      <a class="brand" onclick="showLanding()" style="cursor:pointer;">
+        <img src="icon-192.png" alt="Mi Turno Seguro">
+        <span class="brand-name">Mi Turno<span>Seguro</span></span>
+      </a>
+      <div class="breadcrumb-bar" style="background:transparent; border:none; padding:0;">
+        <a onclick="showLanding()">← Inicio</a>
+        <span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current" id="breadcrumb-label">La app</span>
+      </div>
+      <button class="app-nav-back" onclick="showLanding()">← Volver al inicio</button>
+    </div>
+  </nav>
+
+  <section id="app" style="background:var(--paper); padding-top:32px;">
   <div class="container" style="max-width:640px;">
     <div class="section-header" style="margin-bottom:32px;">
       <div class="section-eyebrow">La app</div>
@@ -843,6 +902,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 
 </section>
 
+</div><!-- /view-app -->
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -855,7 +916,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <p>La forma más simple de reservar y gestionar turnos médicos online, con pago garantizado.</p>
       </div>
       <div class="footer-col"><h4>Producto</h4><a href="#producto">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#precios">Precios</a></div>
-      <div class="footer-col"><h4>Cuenta</h4><a href="#app">Reservar turno</a><a href="#app-profesional">Soy profesional</a><a href="#app-profesional">Acceder a mi panel</a></div>
+      <div class="footer-col"><h4>Cuenta</h4><a onclick="showApp('reservar')" style="cursor:pointer;">Reservar turno</a><a onclick="showApp('profesional')" style="cursor:pointer;">Soy profesional</a><a onclick="showApp('profesional')" style="cursor:pointer;">Acceder a mi panel</a></div>
       <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos y condiciones</a></div>
     </div>
     <div class="footer-bottom">
