@@ -180,43 +180,106 @@ nav {
 
 <!-- TAB: PROFESIONAL -->
 <div id="tab-profesional" class="section">
-  <p class="section-label">Tu perfil profesional</p>
-  <div class="card">
-    <div class="form-group">
-      <label>Nombre completo</label>
-      <input type="text" placeholder="Dra. María García" value="Dra. María García">
+
+  <!-- PASO 1: Registro (visible si no hay profesional guardado) -->
+  <div id="pro-registro">
+    <p class="section-label">Creá tu perfil</p>
+    <div class="card">
+      <div class="form-group">
+        <label>Nombre completo</label>
+        <input type="text" id="pro-nombre" placeholder="Dra. María García">
+      </div>
+      <div class="form-group">
+        <label>Especialidad</label>
+        <input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica">
+      </div>
+      <div class="form-group">
+        <label>Precio por consulta (ARS)</label>
+        <input type="number" id="pro-precio" placeholder="8000">
+      </div>
+      <div class="form-group">
+        <label>Duración del turno (minutos)</label>
+        <input type="number" id="pro-duracion" placeholder="50">
+      </div>
+      <div id="pro-registro-error" style="display:none; color:#EF4444; font-size:13px; margin-bottom:12px;"></div>
+      <button class="btn btn-primary" id="btn-registrar" onclick="registrarProfesional()">
+        Crear mi perfil →
+      </button>
     </div>
-    <div class="form-group">
-      <label>Especialidad</label>
-      <input type="text" placeholder="Ej: Psicología clínica" value="Psicología clínica">
-    </div>
-    <div class="form-group">
-      <label>Precio por consulta (ARS)</label>
-      <input type="number" placeholder="8000" value="8000">
-    </div>
-    <div class="form-group">
-      <label>Duración del turno</label>
-      <input type="text" placeholder="50 minutos" value="50 minutos">
-    </div>
-    <div class="divider"></div>
-    <div class="section-label">Vinculá tu cuenta de Mercado Pago</div>
     <div class="info-box">
-      <strong>¿Por qué vincular MP?</strong>
-      Cada vez que un paciente pague su turno, el dinero llega directo a tu cuenta de MP. TurnoYa descuenta automáticamente el 3% de comisión.
+      <strong>¿Ya tenés un perfil?</strong>
+      Ingresá tu ID de profesional para acceder a tu panel.
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <input type="text" id="pro-id-login" placeholder="PRO-XXXXXX-XXXX" style="flex:1; padding:10px 12px; border:1.5px solid var(--line); border-radius:8px; font-size:14px; outline:none;">
+        <button class="btn btn-outline" style="width:auto; padding:10px 16px; white-space:nowrap;" onclick="loginProfesional()">Acceder</button>
+      </div>
+      <div id="pro-login-error" style="display:none; color:#EF4444; font-size:12px; margin-top:6px;"></div>
     </div>
-    <button class="btn btn-mp">
-      <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-      Vincular mi cuenta →
-    </button>
   </div>
 
-  <div class="card">
-    <div class="section-label">Resumen del mes — Junio 2025</div>
-    <div class="summary-row"><span class="label">Turnos cobrados</span><span class="value">18 turnos</span></div>
-    <div class="summary-row"><span class="label">Facturado bruto</span><span class="value">$144.000</span></div>
-    <div class="summary-row"><span class="label">Comisión TurnoYa (3%)</span><span class="value" style="color:#EF4444;">— $4.320</span></div>
-    <div class="summary-row total"><span class="label">Recibiste en MP</span><span class="value">$139.680</span></div>
+  <!-- PASO 2: Vincular MP (visible después del registro, si no tiene MP) -->
+  <div id="pro-vincular-mp" style="display:none;">
+    <p class="section-label">Vinculá tu Mercado Pago</p>
+    <div class="card">
+      <div style="text-align:center; padding:12px 0 20px;">
+        <div style="font-size:48px; margin-bottom:12px;">🎉</div>
+        <div style="font-weight:600; font-size:17px; margin-bottom:6px;">¡Perfil creado!</div>
+        <div style="font-size:13px; color:var(--muted); margin-bottom:4px;">Tu ID de profesional es:</div>
+        <div id="pro-id-display" style="font-family:monospace; font-size:15px; background:var(--teal-light); color:var(--teal); padding:8px 16px; border-radius:8px; display:inline-block; margin-bottom:16px; font-weight:600;"></div>
+        <div style="font-size:12px; color:var(--muted);">Guardalo — lo vas a necesitar para acceder a tu panel.</div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Último paso: vinculá tu cuenta MP</div>
+      <div class="info-box">
+        <strong>¿Por qué es necesario?</strong>
+        Cuando un paciente pague su turno, el dinero llega directo a tu cuenta de Mercado Pago. TurnoYa descuenta automáticamente el 3% de comisión sobre cada cobro.
+      </div>
+      <button class="btn btn-mp" id="btn-vincular-mp" onclick="vincularMP()">
+        <span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span>
+        Vincular mi cuenta →
+      </button>
+    </div>
   </div>
+
+  <!-- PASO 3: Dashboard (visible si tiene MP vinculado) -->
+  <div id="pro-dashboard" style="display:none;">
+    <p class="section-label">Tu panel</p>
+
+    <!-- Header del profesional -->
+    <div class="card">
+      <div class="card-header" style="margin-bottom:0;">
+        <div class="avatar teal" style="font-size:28px;">👩‍⚕️</div>
+        <div>
+          <div class="doc-name" id="dash-nombre">—</div>
+          <div class="doc-spec" id="dash-especialidad">—</div>
+          <span class="badge badge-green">✓ MP vinculado</span>
+        </div>
+        <div class="doc-price">
+          <div class="price-amount" id="dash-precio">—</div>
+          <div class="price-label">por sesión</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumen del mes -->
+    <div class="card">
+      <div class="section-label">Resumen — este mes</div>
+      <div id="dash-resumen">
+        <div style="color:var(--muted); font-size:13px; text-align:center; padding:16px 0;">Calculando...</div>
+      </div>
+    </div>
+
+    <!-- Próximos turnos -->
+    <div class="card">
+      <div class="section-label">Próximos turnos</div>
+      <div id="dash-turnos">
+        <div style="color:var(--muted); font-size:13px; text-align:center; padding:16px 0;">Cargando...</div>
+      </div>
+    </div>
+
+    <button class="btn btn-outline" style="margin-top:8px;" onclick="cerrarSesionPro()">Cerrar sesión</button>
+  </div>
+
 </div>
 
 <!-- TAB: INTEGRACIÓN -->
@@ -430,6 +493,7 @@ function checkPaymentReturn() {
 document.addEventListener('DOMContentLoaded', function() {
   checkPaymentReturn();
   cargarProfesionales();
+  cargarEstadoProfesional();
 });
 
 async function cargarProfesionales() {
@@ -579,6 +643,224 @@ async function confirmarPago() {
   }
 }
 
+// ─────────────────────────────────────────────────────────────────────────
+// PANEL PROFESIONAL
+// ─────────────────────────────────────────────────────────────────────────
+
+// Estado del profesional logueado (persiste en sessionStorage)
+var profesionalActual = null;
+
+function cargarEstadoProfesional() {
+  try {
+    var raw = sessionStorage.getItem('pro_actual');
+    if (raw) profesionalActual = JSON.parse(raw);
+  } catch(e) {}
+  if (profesionalActual) mostrarDashboard(profesionalActual);
+}
+
+function guardarEstadoProfesional(pro) {
+  profesionalActual = pro;
+  try { sessionStorage.setItem('pro_actual', JSON.stringify(pro)); } catch(e) {}
+}
+
+async function registrarProfesional() {
+  var nombre       = document.getElementById('pro-nombre').value.trim();
+  var especialidad = document.getElementById('pro-especialidad').value.trim();
+  var precio       = document.getElementById('pro-precio').value.trim();
+  var duracion     = document.getElementById('pro-duracion').value.trim();
+  var errorEl      = document.getElementById('pro-registro-error');
+  var btn          = document.getElementById('btn-registrar');
+
+  if (!nombre || !especialidad || !precio) {
+    errorEl.textContent = 'Completá nombre, especialidad y precio.';
+    errorEl.style.display = 'block';
+    return;
+  }
+  errorEl.style.display = 'none';
+  btn.textContent = 'Creando perfil...';
+  btn.disabled    = true;
+
+  try {
+    var data = await apiPost('profesionales', {
+      nombre:       nombre,
+      especialidad: especialidad,
+      precio:       Number(precio),
+      duracion_min: Number(duracion) || 50
+    });
+
+    if (data.error) {
+      errorEl.textContent = data.error;
+      errorEl.style.display = 'block';
+      btn.textContent = 'Crear mi perfil →';
+      btn.disabled    = false;
+      return;
+    }
+
+    // Registro exitoso → mostrar paso de vincular MP
+    document.getElementById('pro-id-display').textContent = data.id;
+    document.getElementById('pro-registro').style.display    = 'none';
+    document.getElementById('pro-vincular-mp').style.display = 'block';
+
+    // Guardamos el ID y la URL de auth para el botón de vincular
+    guardarEstadoProfesional({ id: data.id, nombre: nombre, especialidad: especialidad, precio: Number(precio), tiene_mp: false });
+    document.getElementById('btn-vincular-mp').dataset.authUrl = data.mp_auth_url;
+
+  } catch(err) {
+    errorEl.textContent = 'Error de conexión. Intentá de nuevo.';
+    errorEl.style.display = 'block';
+    btn.textContent = 'Crear mi perfil →';
+    btn.disabled    = false;
+  }
+}
+
+async function loginProfesional() {
+  var id      = document.getElementById('pro-id-login').value.trim();
+  var errorEl = document.getElementById('pro-login-error');
+
+  if (!id) {
+    errorEl.textContent = 'Ingresá tu ID de profesional.';
+    errorEl.style.display = 'block';
+    return;
+  }
+  errorEl.style.display = 'none';
+
+  try {
+    // Buscamos el profesional en la lista pública
+    var data = await apiGet('profesionales');
+    var pro  = (data.profesionales || []).find(function(p) { return p.id === id; });
+
+    if (!pro) {
+      errorEl.textContent = 'No encontramos ese ID. Verificá que esté bien escrito.';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    guardarEstadoProfesional(pro);
+
+    if (!pro.tiene_mp) {
+      // Tiene perfil pero no vinculó MP → mostrar paso de vincular
+      document.getElementById('pro-id-display').textContent = pro.id;
+      // Necesitamos la mp_auth_url → la generamos llamando al registro de nuevo no aplica,
+      // así que le mostramos un mensaje alternativo
+      document.getElementById('pro-registro').style.display    = 'none';
+      document.getElementById('pro-vincular-mp').style.display = 'block';
+      // Sin auth_url guardada, el botón llama a generarAuthUrl
+      document.getElementById('btn-vincular-mp').dataset.authUrl = '';
+      document.getElementById('btn-vincular-mp').dataset.proId   = pro.id;
+    } else {
+      mostrarDashboard(pro);
+    }
+  } catch(err) {
+    errorEl.textContent = 'Error de conexión.';
+    errorEl.style.display = 'block';
+  }
+}
+
+function vincularMP() {
+  var btn     = document.getElementById('btn-vincular-mp');
+  var authUrl = btn.dataset.authUrl;
+
+  if (authUrl) {
+    window.location.href = authUrl;
+  } else {
+    // Fallback: redirigir al OAuth generando la URL en el backend
+    var proId = (profesionalActual && profesionalActual.id) || btn.dataset.proId || '';
+    if (!proId) { alert('No se encontró tu ID de profesional.'); return; }
+    apiGet('oauth_url', { profesional_id: proId }).then(function(data) {
+      if (data.mp_auth_url) window.location.href = data.mp_auth_url;
+      else alert('No se pudo obtener la URL de vinculación.');
+    }).catch(function() { alert('Error de conexión.'); });
+  }
+}
+
+function mostrarDashboard(pro) {
+  document.getElementById('pro-registro').style.display    = 'none';
+  document.getElementById('pro-vincular-mp').style.display = 'none';
+  document.getElementById('pro-dashboard').style.display   = 'block';
+
+  document.getElementById('dash-nombre').textContent      = pro.nombre || '—';
+  document.getElementById('dash-especialidad').textContent = pro.especialidad || '—';
+  document.getElementById('dash-precio').textContent      = pro.precio ? '$' + Number(pro.precio).toLocaleString('es-AR') : '—';
+
+  cargarTurnosProfesional(pro.id);
+}
+
+async function cargarTurnosProfesional(profesionalId) {
+  var turnosEl  = document.getElementById('dash-turnos');
+  var resumenEl = document.getElementById('dash-resumen');
+
+  try {
+    var data   = await apiGet('turnos_profesional', { profesional_id: profesionalId });
+    var turnos = data.turnos || [];
+
+    if (turnos.length === 0) {
+      turnosEl.innerHTML  = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Todavía no tenés turnos agendados.</div>';
+      resumenEl.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Sin movimientos aún.</div>';
+      return;
+    }
+
+    // Ordenar por fecha+hora desc
+    turnos.sort(function(a, b) {
+      return (b.fecha + b.hora).localeCompare(a.fecha + a.hora);
+    });
+
+    // Próximos (estado pendiente_pago o confirmado, fecha >= hoy)
+    var hoy      = hoyISO();
+    var proximos = turnos.filter(function(t) {
+      return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago');
+    });
+
+    // Resumen: confirmados este mes
+    var mesActual   = hoy.substring(0, 7);
+    var confirmados = turnos.filter(function(t) { return t.estado === 'confirmado' && t.fecha.startsWith(mesActual); });
+    var precio      = profesionalActual ? profesionalActual.precio : 0;
+    var bruto       = confirmados.length * precio;
+    var comision    = Math.round(bruto * 0.03);
+
+    resumenEl.innerHTML =
+      '<div class="summary-row"><span class="label">Turnos confirmados (este mes)</span><span class="value">' + confirmados.length + '</span></div>' +
+      '<div class="summary-row"><span class="label">Facturado bruto</span><span class="value">$' + bruto.toLocaleString('es-AR') + '</span></div>' +
+      '<div class="summary-row"><span class="label">Comisión TurnoYa (3%)</span><span class="value" style="color:#EF4444;">— $' + comision.toLocaleString('es-AR') + '</span></div>' +
+      '<div class="summary-row total"><span class="label">Recibiste en MP</span><span class="value">$' + (bruto - comision).toLocaleString('es-AR') + '</span></div>';
+
+    var estadoColor = { confirmado: '#065F46', pendiente_pago: '#92400E', cancelado: '#991B1B' };
+    var estadoBg    = { confirmado: '#D1FAE5', pendiente_pago: '#FEF3C7', cancelado: '#FEE2E2' };
+
+    if (proximos.length === 0) {
+      turnosEl.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>';
+    } else {
+      turnosEl.innerHTML = proximos.slice(0, 10).map(function(t) {
+        var bg  = estadoBg[t.estado]    || '#F3F4F6';
+        var col = estadoColor[t.estado] || '#374151';
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);">' +
+          '<div>' +
+            '<div style="font-weight:500;font-size:14px;">' + t.paciente_nombre + '</div>' +
+            '<div style="font-size:12px;color:var(--muted);">' + t.fecha + ' · ' + t.hora + '</div>' +
+          '</div>' +
+          '<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:' + bg + ';color:' + col + ';">' + t.estado.replace('_', ' ') + '</span>' +
+        '</div>';
+      }).join('');
+    }
+
+  } catch(err) {
+    turnosEl.innerHTML = '<div style="color:#EF4444;font-size:13px;">Error al cargar turnos.</div>';
+  }
+}
+
+function cerrarSesionPro() {
+  profesionalActual = null;
+  try { sessionStorage.removeItem('pro_actual'); } catch(e) {}
+  document.getElementById('pro-dashboard').style.display   = 'none';
+  document.getElementById('pro-vincular-mp').style.display = 'none';
+  document.getElementById('pro-registro').style.display    = 'block';
+  // Limpiar campos
+  ['pro-nombre','pro-especialidad','pro-precio','pro-duracion','pro-id-login'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────
 function showTab(name, el) {
   document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
   document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
