@@ -411,38 +411,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .disp-feedback.ok  { background: var(--success-soft); color: #166534; }
 .disp-feedback.err { background: var(--danger-soft); color: #991B1B; }
 
-
-/* ── ROUTING: páginas ── */
-.page { display: none; }
-.page.active { display: block; }
-
-/* ── BREADCRUMB ── */
-.breadcrumb-bar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  padding: 0 24px;
-}
-.breadcrumb-inner {
-  max-width: 640px;
-  margin: 0 auto;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-}
-.breadcrumb-inner a {
-  color: var(--brand);
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: color 0.15s;
-}
-.breadcrumb-inner a:hover { color: var(--brand-dark); }
-.breadcrumb-sep { color: #CBD5E1; font-size: 15px; line-height: 1; }
-.breadcrumb-current { color: var(--muted); font-weight: 600; }
-
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .nav-links { display: none; }
@@ -465,9 +433,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 </head>
 <body>
 
-<!-- ── PÁGINA: LANDING ── -->
-<div id="page-landing" class="page active">
-
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
@@ -482,8 +447,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <a href="#testimonios">Testimonios</a>
     </div>
     <div class="nav-cta">
-      <a href="#/app" class="btn btn-ghost">Ingresar</a>
-      <a href="#/app" class="btn btn-primary">Reservar turno</a>
+      <a href="#app" class="btn btn-ghost">Ingresar</a>
+      <a href="#app" class="btn btn-primary">Reservar turno</a>
     </div>
   </div>
 </nav>
@@ -496,8 +461,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <h1>Tu turno, <span class="highlight">confirmado</span> al instante.</h1>
       <p class="lead">La plataforma para reservar turnos médicos online. Pagás al reservar, tu profesional recibe el cobro directo y nadie pierde tiempo con cancelaciones de último momento.</p>
       <div class="hero-actions">
-        <a href="#/app" class="btn btn-primary btn-lg">Buscar un turno →</a>
-        <a href="#/app-profesional" class="btn btn-ghost btn-lg">Soy profesional de la salud</a>
+        <a href="#app" class="btn btn-primary btn-lg">Buscar un turno →</a>
+        <a href="#app-profesional" class="btn btn-ghost btn-lg">Soy profesional de la salud</a>
       </div>
       <div class="hero-trust">
         <div class="avatars"><span>👩‍⚕️</span><span>🩺</span><span>👨‍⚕️</span><span>🧑‍⚕️</span></div>
@@ -614,7 +579,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           <li><span class="check">✓</span> Pago seguro con Mercado Pago</li>
           <li><span class="check">✓</span> Confirmación y recordatorios por email</li>
         </ul>
-        <a href="#/app" class="btn btn-ghost btn-block" style="border:1.5px solid var(--line);">Buscar turno</a>
+        <a href="#app" class="btn btn-ghost btn-block" style="border:1.5px solid var(--line);">Buscar turno</a>
       </div>
       <div class="pricing-card highlight">
         <span class="pricing-tag">Más elegido</span>
@@ -627,7 +592,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           <li><span class="check">✓</span> Panel con estadísticas e ingresos proyectados</li>
           <li><span class="check">✓</span> Reducción de ausencias por pago anticipado</li>
         </ul>
-        <a href="#/app-profesional" class="btn btn-primary btn-block">Crear mi perfil →</a>
+        <a href="#app-profesional" class="btn btn-primary btn-block">Crear mi perfil →</a>
       </div>
     </div>
   </div>
@@ -667,61 +632,13 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <h2>Empezá a usar Mi Turno Seguro hoy</h2>
       <p>Sumate gratis. Creá tu perfil profesional en minutos y empezá a recibir reservas con pago garantizado.</p>
       <div class="cta-actions">
-        <a href="#/app-profesional" class="btn btn-primary btn-lg">Crear mi perfil profesional</a>
-        <a href="#/app" class="btn btn-ghost btn-lg">Reservar un turno</a>
+        <a href="#app-profesional" class="btn btn-primary btn-lg">Crear mi perfil profesional</a>
+        <a href="#app" class="btn btn-ghost btn-lg">Reservar un turno</a>
       </div>
     </div>
   </div>
 </section>
 
-
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="#" class="brand">
-          <img src="icon-192.png" alt="" style="width:32px;height:32px;">
-          <span class="brand-name">Mi Turno<span style="color:#60A5FA;">Seguro</span></span>
-        </a>
-        <p>La forma más simple de reservar y gestionar turnos médicos online, con pago garantizado.</p>
-      </div>
-      <div class="footer-col"><h4>Producto</h4><a href="#producto">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#precios">Precios</a></div>
-      <div class="footer-col"><h4>Cuenta</h4><a href="#/app">Reservar turno</a><a href="#/app-profesional">Soy profesional</a><a href="#/app-profesional">Acceder a mi panel</a></div>
-      <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos y condiciones</a></div>
-    </div>
-    <div class="footer-bottom">
-      <div>© 2026 Mi Turno Seguro. Todos los derechos reservados.</div>
-      <div>Pagos procesados con Mercado Pago</div>
-    </div>
-  </div>
-</footer>
-
-
-</div><!-- fin page-landing -->
-
-<!-- ── PÁGINA: APP ── -->
-<div id="page-app" class="page">
-  <!-- Mini nav en la app -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="#/" class="brand" onclick="irALanding(event)">
-        <img src="icon-192.png" alt="Mi Turno Seguro">
-        <span class="brand-name">Mi Turno<span>Seguro</span></span>
-      </a>
-    </div>
-  </nav>
-  <!-- Breadcrumb -->
-  <div class="breadcrumb-bar">
-    <div class="breadcrumb-inner">
-      <a href="#/" onclick="irALanding(event)">
-        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M6 1L1 7h2v5h3V9h2v3h3V7h2L8 1z" fill="currentColor"/></svg>
-        Inicio
-      </a>
-      <span class="breadcrumb-sep">›</span>
-      <span class="breadcrumb-current" id="breadcrumb-label">Reservar turno</span>
-    </div>
-  </div>
 <!-- ══════════════════════════════════════════════════════════════════════
      APP
 ═══════════════════════════════════════════════════════════════════════ -->
@@ -786,9 +703,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <div style="text-align:center; padding:12px 0 20px;">
           <div style="font-size:48px; margin-bottom:12px;">🎉</div>
           <div style="font-weight:700; font-size:17px; margin-bottom:6px;">¡Perfil creado!</div>
-          <div style="font-size:13px; color:var(--muted); margin-bottom:4px;">Tu ID de profesional es:</div>
-          <div id="pro-id-display" style="font-family:monospace; font-size:15px; background:var(--brand-soft); color:var(--brand); padding:8px 16px; border-radius:10px; display:inline-block; margin-bottom:16px; font-weight:700;"></div>
-          <div style="font-size:12px; color:var(--muted);">Guardalo — lo vas a necesitar para acceder a tu panel.</div>
+          <div style="font-size:13px; color:var(--muted);">Vas a poder acceder a tu panel en cualquier momento con tu email.</div>
+          <div id="pro-id-display" style="display:none;"></div>
         </div>
         <div class="divider"></div>
         <div class="section-label">Último paso: vinculá tu cuenta MP</div>
@@ -927,59 +843,29 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 
 </section>
 
-</div><!-- fin page-app -->
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="brand">
+          <img src="icon-192.png" alt="" style="width:32px;height:32px;">
+          <span class="brand-name">Mi Turno<span style="color:#60A5FA;">Seguro</span></span>
+        </a>
+        <p>La forma más simple de reservar y gestionar turnos médicos online, con pago garantizado.</p>
+      </div>
+      <div class="footer-col"><h4>Producto</h4><a href="#producto">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#precios">Precios</a></div>
+      <div class="footer-col"><h4>Cuenta</h4><a href="#app">Reservar turno</a><a href="#app-profesional">Soy profesional</a><a href="#app-profesional">Acceder a mi panel</a></div>
+      <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos y condiciones</a></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Mi Turno Seguro. Todos los derechos reservados.</div>
+      <div>Pagos procesados con Mercado Pago</div>
+    </div>
+  </div>
+</footer>
 
 <script>
-
-// ─────────────────────────────────────────────────────────────────────────
-// ROUTING POR HASH
-// ─────────────────────────────────────────────────────────────────────────
-function mostrarPagina(hash) {
-  var landing = document.getElementById('page-landing');
-  var appPage  = document.getElementById('page-app');
-  var label    = document.getElementById('breadcrumb-label');
-
-  if (hash === '#/app' || hash === '#/app-profesional') {
-    landing.classList.remove('active');
-    appPage.classList.add('active');
-    window.scrollTo(0, 0);
-    // Si es profesional, cambiar tab
-    if (hash === '#/app-profesional') {
-      var tabPro = document.querySelector('.tabs .tab:nth-child(2)');
-      if (tabPro) tabPro.click();
-      if (label) label.textContent = 'Panel profesional';
-    } else {
-      var tabRes = document.querySelector('.tabs .tab:nth-child(1)');
-      if (tabRes && !tabRes.classList.contains('active')) tabRes.click();
-      if (label) label.textContent = 'Reservar turno';
-    }
-    // Cargar profesionales si no se cargaron aún
-    if (!appInitialized) { appInitialized = true; cargarProfesionales(); }
-  } else {
-    appPage.classList.remove('active');
-    landing.classList.add('active');
-    // Scroll a ancla si viene de #/producto etc
-    var anch = hash.replace('#/', '#');
-    if (anch && anch !== '#') {
-      setTimeout(function() {
-        var el = document.querySelector(anch);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 50);
-    }
-  }
-}
-
-var appInitialized = false;
-
-function irALanding(e) {
-  if (e) e.preventDefault();
-  window.location.hash = '/';
-}
-
-window.addEventListener('hashchange', function() {
-  mostrarPagina(window.location.hash);
-});
-
 // ─────────────────────────────────────────────────────────────────────────
 // CONFIGURACIÓN
 // ─────────────────────────────────────────────────────────────────────────
@@ -1049,7 +935,7 @@ function apiPost(path, body) {
 document.addEventListener('DOMContentLoaded', function() {
   checkPaymentReturn();
   checkHashTab();
-  // cargarProfesionales() se llama cuando el usuario entra a la página de app (lazy)
+  cargarProfesionales();
   cargarEstadoProfesional();
   inicializarDispState();
   renderDispDays();
@@ -1624,12 +1510,6 @@ function generarCantidadHorarios(inicio, fin, duracionMin) {
   }
   return count;
 }
-
-// Inicializar routing al cargar
-document.addEventListener('DOMContentLoaded', function() {
-  mostrarPagina(window.location.hash || '#/');
-});
-
 </script>
 </body>
 </html>
