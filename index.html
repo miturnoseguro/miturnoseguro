@@ -3,168 +3,794 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TurnoYa — Reservá tu turno médico</title>
+<title>Mi Turno Seguro — Reservá turnos médicos online, sin esperas</title>
+<link rel="icon" type="image/png" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --teal: #0A7E6E;
-  --teal-light: #E6F4F1;
-  --teal-mid: #C2E0DA;
-  --ink: #111827;
-  --muted: #6B7280;
-  --line: #E5E7EB;
-  --white: #FFFFFF;
-  --mp-blue: #009EE3;
-  --warning: #F59E0B;
-  --success: #10B981;
-  --radius: 12px;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --brand: #2563EB;
+  --brand-dark: #1E3A8A;
+  --brand-soft: #EFF4FF;
+  --brand-mid: #DBEAFE;
+  --ink: #0F172A;
+  --muted: #64748B;
+  --line: #E6EAF0;
+  --paper: #F7F9FC;
+  --surface: #FFFFFF;
+  --success: #16A34A;
+  --success-soft: #E9F8EE;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 24px 60px rgba(37, 99, 235, 0.18);
 }
 
-body { font-family: 'Inter', sans-serif; background: #F7FAF9; color: var(--ink); min-height: 100vh; }
+html { scroll-behavior: smooth; }
 
-nav {
-  background: var(--white); border-bottom: 1px solid var(--line);
-  padding: 0 24px; height: 60px; display: flex; align-items: center;
-  justify-content: space-between; position: sticky; top: 0; z-index: 100;
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 16px;
 }
-.logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--teal); letter-spacing: -0.5px; }
-.logo span { color: var(--ink); }
-.nav-badge { background: var(--teal-light); color: var(--teal); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
 
+h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; line-height: 1.15; letter-spacing: -0.01em; }
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ── NAV ───────────────────────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: 1160px; margin: 0 auto; padding: 0 24px;
+  height: 72px; display: flex; align-items: center; justify-content: space-between;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand img { width: 36px; height: 36px; }
+.brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 19px; color: var(--ink); }
+.brand-name span { color: var(--brand); }
+
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 14px; font-weight: 600; color: var(--muted); transition: color 0.15s; }
+.nav-links a:hover { color: var(--ink); }
+
+.nav-cta {
+  display: flex; align-items: center; gap: 12px;
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 22px; border-radius: 999px; font-size: 14px; font-weight: 700;
+  font-family: 'Outfit', sans-serif; cursor: pointer; border: none; transition: all 0.18s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--brand); color: white; box-shadow: 0 8px 20px rgba(37,99,235,0.28); }
+.btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover { background: var(--brand-soft); }
+.btn-lg { padding: 16px 32px; font-size: 15px; }
+.btn-block { width: 100%; }
+
+.nav-burger { display: none; }
+
+/* ── HERO ──────────────────────────────────────────────────────────────── */
 .hero {
-  background: linear-gradient(135deg, var(--teal) 0%, #0D9488 100%);
-  color: white; padding: 48px 24px 56px; text-align: center;
+  position: relative; overflow: hidden;
+  padding: 88px 0 64px;
 }
-.hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.8; margin-bottom: 12px; }
-.hero h1 { font-family: 'DM Serif Display', serif; font-size: 36px; line-height: 1.15; margin-bottom: 12px; }
-.hero h1 em { font-style: italic; opacity: 0.85; }
-.hero p { font-size: 15px; opacity: 0.85; max-width: 380px; margin: 0 auto 28px; line-height: 1.6; }
-.hero-stats { display: flex; justify-content: center; gap: 32px; }
-.stat { text-align: center; }
-.stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; display: block; }
-.stat-label { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; }
+.hero::before {
+  content: ''; position: absolute; top: -200px; right: -160px;
+  width: 560px; height: 560px; border-radius: 50%;
+  background: radial-gradient(circle, var(--brand-mid) 0%, transparent 70%);
+  z-index: 0;
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--brand-soft); color: var(--brand-dark);
+  font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px;
+  margin-bottom: 24px;
+}
+.hero-eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+.hero h1 {
+  font-size: 52px; font-weight: 800; color: var(--ink); margin-bottom: 20px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--brand) 0%, #60A5FA 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero p.lead {
+  font-size: 18px; color: var(--muted); max-width: 460px; margin-bottom: 32px;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
 
-.tabs { display: flex; background: var(--white); border-bottom: 1px solid var(--line); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.hero-trust { display: flex; align-items: center; gap: 16px; }
+.hero-trust .avatars { display: flex; }
+.hero-trust .avatars span {
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--paper);
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+  margin-left: -10px; background: var(--brand-soft);
+}
+.hero-trust .avatars span:first-child { margin-left: 0; }
+.hero-trust-text { font-size: 13px; color: var(--muted); }
+.hero-trust-text strong { color: var(--ink); }
+
+/* Mock phone card */
+.hero-visual { position: relative; display: flex; justify-content: center; }
+.phone-mock {
+  background: var(--surface); border-radius: 28px; box-shadow: var(--shadow-lg);
+  width: 340px; padding: 22px; border: 1px solid var(--line);
+  transform: rotate(2deg);
+}
+.phone-mock-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.phone-mock-header img { width: 28px; height: 28px; }
+.phone-mock-header .mname { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 14px; }
+.phone-card {
+  background: var(--paper); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 12px;
+  border: 1px solid var(--line);
+}
+.phone-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.phone-avatar {
+  width: 38px; height: 38px; border-radius: 50%; background: var(--brand-soft);
+  display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.phone-doc-name { font-weight: 700; font-size: 13px; }
+.phone-doc-spec { font-size: 11px; color: var(--muted); }
+.phone-price { margin-left: auto; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--brand); font-size: 14px; }
+.phone-slots { display: flex; gap: 6px; flex-wrap: wrap; }
+.phone-slot {
+  font-size: 11px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted);
+}
+.phone-slot.active { background: var(--brand); color: white; border-color: var(--brand); font-weight: 700; }
+
+.floating-badge {
+  position: absolute; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow);
+  padding: 12px 16px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line);
+}
+.floating-badge .icon {
+  width: 34px; height: 34px; border-radius: 10px; background: var(--success-soft);
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.floating-badge .text { font-size: 12px; }
+.floating-badge .text strong { display: block; font-size: 13px; }
+.badge-1 { top: 18px; left: -36px; }
+.badge-2 { bottom: 30px; right: -28px; }
+
+/* ── LOGOS / TRUST ─────────────────────────────────────────────────────── */
+.logos-section { padding: 48px 0; }
+.logos-label {
+  text-align: center; font-size: 13px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 32px;
+}
+.logos-grid {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px;
+  opacity: 0.65;
+}
+.logo-item {
+  font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 20px; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+.logo-item .ic { font-size: 22px; }
+
+/* ── SECTION HEADERS ───────────────────────────────────────────────────── */
+.section { padding: 80px 0; }
+.section-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
+.section-eyebrow {
+  font-size: 13px; font-weight: 700; color: var(--brand); text-transform: uppercase;
+  letter-spacing: 1.5px; margin-bottom: 12px;
+}
+.section-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 14px; }
+.section-header p { color: var(--muted); font-size: 16px; }
+
+/* ── FEATURES ──────────────────────────────────────────────────────────── */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.feature-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 28px; transition: all 0.2s;
+}
+.feature-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); border-color: var(--brand-mid); }
+.feature-icon {
+  width: 48px; height: 48px; border-radius: 12px; background: var(--brand-soft);
+  display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 18px;
+}
+.feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.feature-card p { font-size: 14px; color: var(--muted); }
+
+/* ── HOW IT WORKS ──────────────────────────────────────────────────────── */
+.steps-wrap { background: var(--surface); }
+.steps-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative;
+}
+.step-card { text-align: left; position: relative; }
+.step-icon {
+  width: 52px; height: 52px; border-radius: 14px; background: var(--brand);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 18px;
+  box-shadow: 0 8px 16px rgba(37,99,235,0.25);
+}
+.step-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.step-card p { font-size: 13.5px; color: var(--muted); }
+
+/* ── STATS BAND ────────────────────────────────────────────────────────── */
+.stats-band {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  border-radius: 24px; padding: 56px 48px; color: white;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center;
+}
+.stat-big { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 40px; margin-bottom: 6px; }
+.stat-cap { font-size: 13px; opacity: 0.8; font-weight: 600; }
+
+/* ── PRICING ───────────────────────────────────────────────────────────── */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 800px; margin: 0 auto;
+}
+.pricing-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 36px; text-align: left;
+}
+.pricing-card.highlight {
+  border: 2px solid var(--brand); position: relative; box-shadow: var(--shadow-lg);
+}
+.pricing-tag {
+  position: absolute; top: -13px; left: 28px; background: var(--brand); color: white;
+  font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px;
+}
+.pricing-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.pricing-card .pricing-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.pricing-price { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 38px; margin-bottom: 4px; }
+.pricing-price span { font-size: 15px; color: var(--muted); font-weight: 600; }
+.pricing-list { list-style: none; margin: 24px 0 28px; }
+.pricing-list li {
+  display: flex; align-items: flex-start; gap: 10px; font-size: 14px; margin-bottom: 12px; color: var(--ink);
+}
+.pricing-list li .check {
+  width: 18px; height: 18px; border-radius: 50%; background: var(--success-soft); color: var(--success);
+  display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+}
+
+/* ── TESTIMONIALS ──────────────────────────────────────────────────────── */
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.testimonial-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
+}
+.testimonial-stars { color: #FBBF24; font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+.testimonial-card p { font-size: 14.5px; color: var(--ink); margin-bottom: 20px; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--brand-soft);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.testimonial-name { font-weight: 700; font-size: 13.5px; }
+.testimonial-role { font-size: 12px; color: var(--muted); }
+
+/* ── CTA ───────────────────────────────────────────────────────────────── */
+.cta-section {
+  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 100%);
+  border-radius: 24px; padding: 64px 48px; text-align: center; color: white;
+  position: relative; overflow: hidden;
+}
+.cta-section::after {
+  content: ''; position: absolute; bottom: -120px; left: -80px;
+  width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+}
+.cta-section h2 { font-size: 34px; font-weight: 800; margin-bottom: 14px; position: relative; z-index: 1; }
+.cta-section p { font-size: 16px; opacity: 0.85; max-width: 480px; margin: 0 auto 32px; position: relative; z-index: 1; }
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+.cta-section .btn-primary { background: white; color: var(--brand-dark); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.cta-section .btn-primary:hover { background: var(--brand-soft); }
+.cta-section .btn-ghost { color: white; border: 1.5px solid rgba(255,255,255,0.4); }
+.cta-section .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+/* ── FOOTER ────────────────────────────────────────────────────────────── */
+footer { background: var(--ink); color: white; padding: 56px 0 28px; }
+.footer-grid {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px;
+}
+.footer-brand .brand-name { color: white; }
+.footer-brand p { font-size: 13.5px; color: #94A3B8; margin-top: 12px; max-width: 240px; }
+.footer-col h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: #94A3B8; }
+.footer-col a { display: block; font-size: 14px; color: #CBD5E1; margin-bottom: 10px; transition: color 0.15s; }
+.footer-col a:hover { color: white; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #94A3B8; flex-wrap: wrap; gap: 12px;
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { font-size: 38px; }
+  .hero-visual { order: -1; }
+  .phone-mock { transform: none; }
+  .floating-badge { display: none; }
+  .features-grid, .steps-grid, .testimonials-grid { grid-template-columns: 1fr; }
+  .stats-band { grid-template-columns: repeat(2, 1fr); padding: 40px 24px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .logos-grid { justify-content: center; }
+  .section-header h2 { font-size: 28px; }
+  .cta-section { padding: 48px 24px; }
+  .cta-section h2 { font-size: 26px; }
+}
+
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+
+
+/* ── NAV ───────────────────────────────────────────────────────────────── */
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand img { width: 30px; height: 30px; }
+.brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
+.brand-name span { color: var(--brand); }
+.nav-badge {
+  background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700;
+  padding: 6px 14px; border-radius: 999px;
+}
+
+/* ── TABS — segmented control flotante ────────────────────────────────── */
+.tabs-wrap { padding: 20px 16px 0; max-width: 640px; margin: 0 auto; }
+.tabs {
+  display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px; box-shadow: var(--shadow);
+}
 .tab {
-  flex: 1; min-width: 120px; padding: 14px 16px; font-size: 13px; font-weight: 500;
-  color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
-  text-align: center; white-space: nowrap; transition: all 0.2s;
-  background: none; border-top: none; border-left: none; border-right: none;
+  flex: 1; padding: 11px 14px; font-size: 13.5px; font-weight: 700;
+  font-family: 'Outfit', sans-serif; color: var(--muted); cursor: pointer;
+  border: none; background: none; border-radius: 999px; transition: all 0.18s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
 }
-.tab.active { color: var(--teal); border-bottom-color: var(--teal); background: var(--teal-light); }
+.tab.active { color: white; background: var(--brand); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+.tab:not(.active):hover { color: var(--ink); background: var(--brand-soft); }
 
-.section { display: none; padding: 20px 16px 40px; max-width: 600px; margin: 0 auto; }
-.section.active { display: block; }
+.section { display: none; padding: 24px 16px 40px; max-width: 640px; margin: 0 auto; }
+.section.active { display: block; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-.card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+/* ── CARDS ─────────────────────────────────────────────────────────────── */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
 .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-.avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-.avatar.teal { background: var(--teal-light); }
+.avatar { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.avatar.teal { background: var(--brand-soft); }
 .avatar.blue { background: #EFF6FF; }
 .avatar.purple { background: #F5F3FF; }
-.doc-name { font-weight: 600; font-size: 16px; margin-bottom: 2px; }
+.doc-name { font-weight: 700; font-size: 16px; margin-bottom: 2px; font-family: 'Outfit', sans-serif; }
 .doc-spec { font-size: 13px; color: var(--muted); }
 .doc-price { margin-left: auto; text-align: right; }
-.price-amount { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--teal); }
+.price-amount { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 19px; color: var(--brand); }
 .price-label { font-size: 11px; color: var(--muted); }
 
 .slots { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .slot {
-  padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--line);
-  font-size: 13px; cursor: pointer; transition: all 0.15s;
-  background: none; color: var(--ink);
+  padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--line);
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  background: none; color: var(--ink); font-family: 'Open Sans', sans-serif;
 }
-.slot:hover, .slot.selected { border-color: var(--teal); background: var(--teal-light); color: var(--teal); font-weight: 500; }
-.slot.taken { background: #F3F4F6; color: #D1D5DB; cursor: not-allowed; text-decoration: line-through; }
+.slot:hover, .slot.selected { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+.slot.taken { background: #F3F4F6; color: #CBD5E1; cursor: not-allowed; text-decoration: line-through; border-color: var(--line); }
 
-.btn { display: block; width: 100%; padding: 14px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; text-align: center; }
-.btn-primary { background: var(--teal); color: white; }
-.btn-primary:hover { background: #085F53; transform: translateY(-1px); }
+.btn { display: block; width: 100%; padding: 13px; border-radius: 999px; font-size: 14.5px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; border: none; transition: all 0.18s; text-align: center; }
+.btn-primary { background: var(--brand); color: white; box-shadow: 0 6px 16px rgba(37,99,235,0.25); }
+.btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
 .btn-mp { background: var(--mp-blue); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
 .btn-mp:hover { background: #0085C2; }
-.btn-outline { background: white; color: var(--teal); border: 1.5px solid var(--teal); }
+.btn-outline { background: white; color: var(--brand); border: 1.5px solid var(--brand-mid); }
+.btn-outline:hover { background: var(--brand-soft); }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
+.overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
 .overlay.open { display: flex; }
-.modal { background: white; border-radius: 20px 20px 0 0; width: 100%; max-width: 600px; padding: 28px 24px 40px; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
+.modal { background: white; border-radius: 24px 24px 0 0; width: 100%; max-width: 640px; padding: 28px 24px 40px; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
 @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .modal-handle { width: 36px; height: 4px; background: var(--line); border-radius: 2px; margin: 0 auto 20px; }
-.modal h2 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 6px; }
+.modal h2 { font-size: 22px; margin-bottom: 6px; }
 .modal .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
 
 .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
 .summary-row:last-child { border-bottom: none; }
 .summary-row .label { color: var(--muted); }
-.summary-row .value { font-weight: 500; }
-.summary-row.total .value { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--teal); }
-.commission-note { background: var(--teal-light); border-left: 3px solid var(--teal); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 12px; color: var(--teal); margin: 12px 0 20px; }
+.summary-row .value { font-weight: 600; }
+.summary-row.total .value { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 20px; color: var(--brand); }
+.commission-note { background: var(--brand-soft); border-left: 3px solid var(--brand); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 12px; color: var(--brand-dark); margin: 12px 0 20px; }
 
-.mp-logo { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; color: var(--mp-blue); }
-.mp-dot { width: 8px; height: 8px; background: var(--mp-blue); border-radius: 50%; }
+.mp-logo { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; }
+.mp-dot { width: 8px; height: 8px; background: white; border-radius: 50%; }
 
 .success-screen { display: none; text-align: center; padding: 40px 20px; }
-.success-icon { width: 72px; height: 72px; background: #D1FAE5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; }
-.success-screen h2 { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 8px; }
+.success-icon { width: 72px; height: 72px; background: var(--success-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; }
+.success-screen h2 { font-size: 26px; margin-bottom: 8px; }
 .success-screen p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
 
-.tech-section { margin-bottom: 24px; }
-.tech-title { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-.code-block { background: #1E293B; border-radius: var(--radius); padding: 16px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.7; color: #E2E8F0; overflow-x: auto; margin-bottom: 12px; }
-.info-box { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: var(--radius); padding: 14px 16px; font-size: 13px; color: #92400E; margin-bottom: 12px; }
-.info-box strong { display: block; margin-bottom: 4px; }
-.step-row { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
-.step-num { width: 28px; height: 28px; background: var(--teal); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
-.step-content { flex: 1; }
-.step-content strong { display: block; font-size: 14px; margin-bottom: 4px; }
-.step-content p { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-.badge-green { background: #D1FAE5; color: #065F46; }
-.badge-blue { background: #DBEAFE; color: #1E40AF; }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+.badge-green { background: var(--success-soft); color: #166534; }
+.badge-blue { background: var(--brand-soft); color: var(--brand-dark); }
 
 .form-group { margin-bottom: 16px; }
-.form-group label { display: block; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
-.form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 8px; font-size: 15px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
-.form-group input:focus { border-color: var(--teal); }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+.form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; }
+.form-group input:focus { border-color: var(--brand); }
 
-.section-label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+.section-label { font-size: 12.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
 .divider { height: 1px; background: var(--line); margin: 20px 0; }
 
-.payment-banner { padding: 16px 20px; border-radius: var(--radius); margin: 16px; font-size: 14px; font-weight: 500; text-align: center; }
-.payment-banner.success { background: #D1FAE5; color: #065F46; }
-.payment-banner.error   { background: #FEE2E2; color: #991B1B; }
-.payment-banner.pending { background: #FEF3C7; color: #92400E; }
+.payment-banner { padding: 16px 20px; border-radius: var(--radius-sm); margin: 16px; font-size: 14px; font-weight: 600; text-align: center; }
+.payment-banner.success { background: var(--success-soft); color: #166534; }
+.payment-banner.error   { background: var(--danger-soft); color: #991B1B; }
+.payment-banner.pending { background: var(--warning-soft); color: #92400E; }
+
+/* ── DASHBOARD: stats grid ─────────────────────────────────────────────── */
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.stat-box {
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 14px 12px; text-align: center;
+}
+.stat-box .num { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 21px; color: var(--ink); }
+.stat-box .num.brand { color: var(--brand); }
+.stat-box .num.success { color: var(--success); }
+.stat-box .cap { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+
+.occupancy-bar-track {
+  width: 100%; height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 10px 0 6px;
+}
+.occupancy-bar-fill {
+  height: 100%; background: linear-gradient(90deg, var(--brand) 0%, #60A5FA 100%); border-radius: 999px;
+  transition: width 0.6s ease;
+}
+.occupancy-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.occupancy-label strong { color: var(--ink); }
+
+/* Mini bar chart */
+.chart-wrap { display: flex; align-items: flex-end; gap: 8px; height: 120px; padding: 0 4px 4px; margin-top: 8px; }
+.chart-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+.chart-bar { width: 100%; max-width: 28px; background: var(--brand-mid); border-radius: 6px 6px 2px 2px; transition: all 0.4s ease; position: relative; }
+.chart-bar.has-data { background: linear-gradient(180deg, #60A5FA 0%, var(--brand) 100%); }
+.chart-bar-label { font-size: 10.5px; color: var(--muted); margin-top: 6px; font-weight: 600; text-transform: capitalize; }
+.chart-bar-value { font-size: 10px; color: var(--brand-dark); font-weight: 700; margin-bottom: 4px; min-height: 12px; }
+
+.tech-section { margin-bottom: 24px; }
+
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">Turno<span>Ya</span></div>
-  <div class="nav-badge" id="api-status">Conectando...</div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand">
+      <img src="icon-192.png" alt="Mi Turno Seguro">
+      <span class="brand-name">Mi Turno<span>Seguro</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#producto">Producto</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#precios">Precios</a>
+      <a href="#testimonios">Testimonios</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#app" class="btn btn-ghost">Ingresar</a>
+      <a href="#app" class="btn btn-primary">Reservar turno</a>
+    </div>
+  </div>
 </nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container hero-inner">
+    <div>
+      <div class="hero-eyebrow"><span class="dot"></span> Pagos protegidos con Mercado Pago</div>
+      <h1>Tu turno, <span class="highlight">confirmado</span> al instante.</h1>
+      <p class="lead">La plataforma para reservar turnos médicos online. Pagás al reservar, tu profesional recibe el cobro directo y nadie pierde tiempo con cancelaciones de último momento.</p>
+      <div class="hero-actions">
+        <a href="#app" class="btn btn-primary btn-lg">Buscar un turno →</a>
+        <a href="#app-profesional" class="btn btn-ghost btn-lg">Soy profesional de la salud</a>
+      </div>
+      <div class="hero-trust">
+        <div class="avatars">
+          <span>👩‍⚕️</span><span>🩺</span><span>👨‍⚕️</span><span>🧑‍⚕️</span>
+        </div>
+        <div class="hero-trust-text"><strong>+450 profesionales</strong> ya gestionan sus turnos con nosotros</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-mock">
+        <div class="phone-mock-header">
+          <img src="icon-192.png" alt="">
+          <span class="mname">Mi Turno Seguro</span>
+        </div>
+        <div class="phone-card">
+          <div class="phone-card-top">
+            <div class="phone-avatar">👩‍⚕️</div>
+            <div>
+              <div class="phone-doc-name">Dra. Laura Méndez</div>
+              <div class="phone-doc-spec">Psicología clínica</div>
+            </div>
+            <div class="phone-price">$8.000</div>
+          </div>
+          <div class="phone-slots">
+            <span class="phone-slot">09:00</span>
+            <span class="phone-slot active">10:30</span>
+            <span class="phone-slot">11:20</span>
+            <span class="phone-slot">14:00</span>
+          </div>
+        </div>
+        <div class="phone-card">
+          <div class="phone-card-top">
+            <div class="phone-avatar">🩺</div>
+            <div>
+              <div class="phone-doc-name">Dr. Tomás Ibarra</div>
+              <div class="phone-doc-spec">Clínica médica</div>
+            </div>
+            <div class="phone-price">$10.500</div>
+          </div>
+          <div class="phone-slots">
+            <span class="phone-slot">08:30</span>
+            <span class="phone-slot">09:20</span>
+            <span class="phone-slot">15:40</span>
+          </div>
+        </div>
+      </div>
+      <div class="floating-badge badge-1">
+        <div class="icon">✅</div>
+        <div class="text"><strong>Turno confirmado</strong>Pago acreditado</div>
+      </div>
+      <div class="floating-badge badge-2">
+        <div class="icon">⚡</div>
+        <div class="text"><strong>0% no-shows</strong>Cobro al reservar</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- LOGOS -->
+<section class="logos-section">
+  <div class="container">
+    <div class="logos-label">Empresas y centros de salud que confían en Mi Turno Seguro</div>
+    <div class="logos-grid">
+      <div class="logo-item"><span class="ic">🏥</span> ClinicaVida</div>
+      <div class="logo-item"><span class="ic">🧠</span> PsicoRed</div>
+      <div class="logo-item"><span class="ic">🦷</span> SonrisaPlus</div>
+      <div class="logo-item"><span class="ic">💊</span> Farmavida</div>
+      <div class="logo-item"><span class="ic">🩻</span> DiagnoSur</div>
+      <div class="logo-item"><span class="ic">❤️</span> CardioCenter</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="producto">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Por qué Mi Turno Seguro</div>
+      <h2>Todo lo que necesitás para gestionar turnos</h2>
+      <p>Una herramienta simple para pacientes y profesionales, sin instalaciones ni configuraciones complicadas.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Pago al reservar</h3>
+        <p>El paciente paga el 100% del turno con Mercado Pago al momento de reservar. La hora queda garantizada.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Agenda en tiempo real</h3>
+        <p>Los horarios disponibles se actualizan al instante para evitar superposiciones y dobles reservas.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💸</div>
+        <h3>Cobro directo a tu cuenta</h3>
+        <p>El dinero llega directo a la cuenta de Mercado Pago del profesional, con una comisión mínima del 3%.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Panel con estadísticas</h3>
+        <p>Visualizá tus turnos, ingresos, ocupación y proyecciones desde un panel pensado para profesionales.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>100% online</h3>
+        <p>Sin apps que instalar. Funciona en cualquier celular o computadora, directo desde el navegador.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>Menos ausencias</h3>
+        <p>Al requerir el pago anticipado, las inasistencias bajan drásticamente y tu agenda se ordena sola.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section steps-wrap" id="como-funciona">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Cómo funciona</div>
+      <h2>Reservar un turno toma menos de un minuto</h2>
+      <p>Sin registros largos ni formularios eternos.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">1</div>
+        <h3>Elegí profesional y horario</h3>
+        <p>Mirá la disponibilidad real de cada profesional y elegí el día y hora que te quede mejor.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">2</div>
+        <h3>Completá tus datos</h3>
+        <p>Ingresá tu nombre y email para recibir la confirmación y los detalles del turno.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">3</div>
+        <h3>Pagá con Mercado Pago</h3>
+        <p>Pagá de forma segura el valor de la consulta para garantizar tu reserva.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">4</div>
+        <h3>Recibí la confirmación</h3>
+        <p>Tu turno queda confirmado al instante y el profesional recibe el pago en su cuenta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section">
+  <div class="container">
+    <div class="stats-band">
+      <div>
+        <div class="stat-big">+450</div>
+        <div class="stat-cap">Profesionales activos</div>
+      </div>
+      <div>
+        <div class="stat-big">+12.000</div>
+        <div class="stat-cap">Turnos confirmados</div>
+      </div>
+      <div>
+        <div class="stat-big">0%</div>
+        <div class="stat-cap">Tasa de no-shows</div>
+      </div>
+      <div>
+        <div class="stat-big">3%</div>
+        <div class="stat-cap">Comisión por turno</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="precios">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Precios</div>
+      <h2>Simple, sin costos fijos</h2>
+      <p>Solo pagás cuando cobrás. Sin abonos mensuales, sin sorpresas.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Para pacientes</h3>
+        <div class="pricing-sub">Reservar y pagar turnos</div>
+        <div class="pricing-price">Gratis</div>
+        <ul class="pricing-list">
+          <li><span class="check">✓</span> Buscar profesionales y horarios disponibles</li>
+          <li><span class="check">✓</span> Pago seguro con Mercado Pago</li>
+          <li><span class="check">✓</span> Confirmación y recordatorios por email</li>
+        </ul>
+        <a href="#app" class="btn btn-ghost btn-block" style="border:1.5px solid var(--line);">Buscar turno</a>
+      </div>
+      <div class="pricing-card highlight">
+        <span class="pricing-tag">Más elegido</span>
+        <h3>Para profesionales</h3>
+        <div class="pricing-sub">Gestioná tu agenda y cobros</div>
+        <div class="pricing-price">3% <span>por turno cobrado</span></div>
+        <ul class="pricing-list">
+          <li><span class="check">✓</span> Agenda online ilimitada</li>
+          <li><span class="check">✓</span> Cobros directos a tu cuenta de Mercado Pago</li>
+          <li><span class="check">✓</span> Panel con estadísticas e ingresos proyectados</li>
+          <li><span class="check">✓</span> Reducción de ausencias por pago anticipado</li>
+        </ul>
+        <a href="#app-profesional" class="btn btn-primary btn-block">Crear mi perfil →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonios">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Testimonios</div>
+      <h2>Profesionales y pacientes que ya lo usan</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>“Desde que pido el pago al reservar, las ausencias bajaron casi a cero. Mi agenda se ordenó sola.”</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👩‍⚕️</div>
+          <div>
+            <div class="testimonial-name">Dra. Laura Méndez</div>
+            <div class="testimonial-role">Psicología clínica</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>“Reservé en menos de un minuto desde el celular y ya tenía la confirmación en mi email. Súper simple.”</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">🙋‍♀️</div>
+          <div>
+            <div class="testimonial-name">Camila Roldán</div>
+            <div class="testimonial-role">Paciente</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>“El panel me muestra todo: turnos próximos, lo que voy a facturar y la comisión. Me ahorra horas de planillas.”</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">🩺</div>
+          <div>
+            <div class="testimonial-name">Dr. Tomás Ibarra</div>
+            <div class="testimonial-role">Clínica médica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-section">
+      <h2>Empezá a usar Mi Turno Seguro hoy</h2>
+      <p>Sumate gratis. Creá tu perfil profesional en minutos y empezá a recibir reservas con pago garantizado.</p>
+      <div class="cta-actions">
+        <a href="#app-profesional" class="btn btn-primary btn-lg">Crear mi perfil profesional</a>
+        <a href="#app" class="btn btn-ghost btn-lg">Reservar un turno</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     APP — Reservar turno / Panel profesional
+═══════════════════════════════════════════════════════════════════════ -->
+<section id="app" style="background:var(--paper); padding-top:48px; border-top:1px solid var(--line);">
+  <div class="container" style="max-width:640px;">
+    <div class="section-header" style="margin-bottom:32px;">
+      <div class="section-eyebrow">La app</div>
+      <h2>Reservá tu turno ahora</h2>
+      <p>Elegí un profesional, un horario y confirmá con pago seguro.</p>
+    </div>
+  </div>
+
 
 <div id="payment-banner" style="display:none;"></div>
 
-<div class="hero">
-  <div class="hero-eyebrow">Turnos médicos online</div>
-  <h1>Reservá tu turno.<br><em>Sin llamadas, sin esperas.</em></h1>
-  <p>Pagá el 100% al reservar. Tu hora está garantizada.</p>
-  <div class="hero-stats">
-    <div class="stat"><span class="stat-num">0%</span><span class="stat-label">No-shows</span></div>
-    <div class="stat"><span class="stat-num">3%</span><span class="stat-label">Comisión</span></div>
-    <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">Disponible</span></div>
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('reservar', this)">🗓️ Reservar turno</button>
+    <button class="tab" onclick="showTab('profesional', this)">👩‍⚕️ Soy profesional</button>
   </div>
-</div>
-
-<div class="tabs">
-  <button class="tab active" onclick="showTab('reservar', this)">🗓 Reservar turno</button>
-  <button class="tab" onclick="showTab('profesional', this)">👨‍⚕️ Soy profesional</button>
-  <button class="tab" onclick="showTab('integracion', this)">⚙️ Integración MP</button>
 </div>
 
 <!-- TAB: RESERVAR -->
@@ -181,7 +807,7 @@ nav {
 <!-- TAB: PROFESIONAL -->
 <div id="tab-profesional" class="section">
 
-  <!-- PASO 1: Registro (visible si no hay profesional guardado) -->
+  <!-- PASO 1: Registro -->
   <div id="pro-registro">
     <p class="section-label">Creá tu perfil</p>
     <div class="card">
@@ -201,47 +827,47 @@ nav {
         <label>Duración del turno (minutos)</label>
         <input type="number" id="pro-duracion" placeholder="50">
       </div>
-      <div id="pro-registro-error" style="display:none; color:#EF4444; font-size:13px; margin-bottom:12px;"></div>
+      <div id="pro-registro-error" style="display:none; color:var(--danger); font-size:13px; margin-bottom:12px;"></div>
       <button class="btn btn-primary" id="btn-registrar" onclick="registrarProfesional()">
         Crear mi perfil →
       </button>
     </div>
-    <div class="info-box">
-      <strong>¿Ya tenés un perfil?</strong>
-      Ingresá tu ID de profesional para acceder a tu panel.
-      <div style="display:flex; gap:8px; margin-top:10px;">
-        <input type="text" id="pro-id-login" placeholder="PRO-XXXXXX-XXXX" style="flex:1; padding:10px 12px; border:1.5px solid var(--line); border-radius:8px; font-size:14px; outline:none;">
-        <button class="btn btn-outline" style="width:auto; padding:10px 16px; white-space:nowrap;" onclick="loginProfesional()">Acceder</button>
+    <div class="card" style="background:var(--brand-soft); border-color:var(--brand-mid);">
+      <strong style="display:block; margin-bottom:6px; font-size:14px;">¿Ya tenés un perfil?</strong>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Ingresá tu ID de profesional para acceder a tu panel.</p>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="pro-id-login" placeholder="PRO-XXXXXX-XXXX" style="flex:1; padding:11px 14px; border:1.5px solid var(--line); border-radius:10px; font-size:14px; outline:none; font-family:'Open Sans',sans-serif;">
+        <button class="btn btn-outline" style="width:auto; padding:11px 18px; white-space:nowrap;" onclick="loginProfesional()">Acceder</button>
       </div>
-      <div id="pro-login-error" style="display:none; color:#EF4444; font-size:12px; margin-top:6px;"></div>
+      <div id="pro-login-error" style="display:none; color:var(--danger); font-size:12px; margin-top:8px;"></div>
     </div>
   </div>
 
-  <!-- PASO 2: Vincular MP (visible después del registro, si no tiene MP) -->
+  <!-- PASO 2: Vincular MP -->
   <div id="pro-vincular-mp" style="display:none;">
     <p class="section-label">Vinculá tu Mercado Pago</p>
     <div class="card">
       <div style="text-align:center; padding:12px 0 20px;">
         <div style="font-size:48px; margin-bottom:12px;">🎉</div>
-        <div style="font-weight:600; font-size:17px; margin-bottom:6px;">¡Perfil creado!</div>
+        <div style="font-weight:700; font-size:17px; margin-bottom:6px;">¡Perfil creado!</div>
         <div style="font-size:13px; color:var(--muted); margin-bottom:4px;">Tu ID de profesional es:</div>
-        <div id="pro-id-display" style="font-family:monospace; font-size:15px; background:var(--teal-light); color:var(--teal); padding:8px 16px; border-radius:8px; display:inline-block; margin-bottom:16px; font-weight:600;"></div>
+        <div id="pro-id-display" style="font-family:monospace; font-size:15px; background:var(--brand-soft); color:var(--brand); padding:8px 16px; border-radius:10px; display:inline-block; margin-bottom:16px; font-weight:700;"></div>
         <div style="font-size:12px; color:var(--muted);">Guardalo — lo vas a necesitar para acceder a tu panel.</div>
       </div>
       <div class="divider"></div>
       <div class="section-label">Último paso: vinculá tu cuenta MP</div>
-      <div class="info-box">
-        <strong>¿Por qué es necesario?</strong>
-        Cuando un paciente pague su turno, el dinero llega directo a tu cuenta de Mercado Pago. TurnoYa descuenta automáticamente el 3% de comisión sobre cada cobro.
+      <div class="card" style="background:var(--warning-soft); border-color:#FDE68A; box-shadow:none; margin-bottom:16px;">
+        <strong style="display:block; margin-bottom:4px; font-size:13px; color:#92400E;">¿Por qué es necesario?</strong>
+        <p style="font-size:13px; color:#92400E;">Cuando un paciente pague su turno, el dinero llega directo a tu cuenta de Mercado Pago. Mi Turno Seguro descuenta automáticamente el 3% de comisión sobre cada cobro.</p>
       </div>
       <button class="btn btn-mp" id="btn-vincular-mp" onclick="vincularMP()">
-        <span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span>
+        <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
         Vincular mi cuenta →
       </button>
     </div>
   </div>
 
-  <!-- PASO 3: Dashboard (visible si tiene MP vinculado) -->
+  <!-- PASO 3: Dashboard -->
   <div id="pro-dashboard" style="display:none;">
     <p class="section-label">Tu panel</p>
 
@@ -261,11 +887,36 @@ nav {
       </div>
     </div>
 
-    <!-- Resumen del mes -->
+    <!-- Resumen del mes — stat boxes -->
     <div class="card">
       <div class="section-label">Resumen — este mes</div>
-      <div id="dash-resumen">
-        <div style="color:var(--muted); font-size:13px; text-align:center; padding:16px 0;">Calculando...</div>
+      <div class="stats-grid" id="dash-stats">
+        <div class="stat-box"><div class="num">—</div><div class="cap">Confirmados</div></div>
+        <div class="stat-box"><div class="num brand">—</div><div class="cap">Facturado</div></div>
+        <div class="stat-box"><div class="num success">—</div><div class="cap">Recibís en MP</div></div>
+      </div>
+      <div id="dash-resumen-detalle"></div>
+    </div>
+
+    <!-- Ocupación -->
+    <div class="card">
+      <div class="section-label">Ocupación de la semana</div>
+      <div id="dash-ocupacion">
+        <div style="color:var(--muted); font-size:13px; text-align:center; padding:8px 0;">Calculando...</div>
+      </div>
+    </div>
+
+    <!-- Gráfico turnos por día -->
+    <div class="card">
+      <div class="section-label">Turnos por día — próximos 7 días</div>
+      <div class="chart-wrap" id="dash-chart"></div>
+    </div>
+
+    <!-- Próximos ingresos -->
+    <div class="card">
+      <div class="section-label">Próximos ingresos estimados</div>
+      <div id="dash-ingresos">
+        <div style="color:var(--muted); font-size:13px; text-align:center; padding:8px 0;">Calculando...</div>
       </div>
     </div>
 
@@ -280,42 +931,6 @@ nav {
     <button class="btn btn-outline" style="margin-top:8px;" onclick="cerrarSesionPro()">Cerrar sesión</button>
   </div>
 
-</div>
-
-<!-- TAB: INTEGRACIÓN -->
-<div id="tab-integracion" class="section">
-  <p class="section-label">Cómo funciona la integración</p>
-  <div class="card tech-section">
-    <div class="tech-title">Arquitectura — Marketplace MP</div>
-    <div class="step-row">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <strong>Creá tu app en MP Developers</strong>
-        <p>Entrá a developers.mercadopago.com, creá una aplicación y activá el modo Marketplace. Obtenés tu <code>client_id</code> y <code>client_secret</code>.</p>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <strong>OAuth: el profesional autoriza tu app</strong>
-        <p>Redirigís al profesional a la URL de autorización de MP. Él aprueba y MP te devuelve un <code>access_token</code> específico de ese usuario.</p>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <strong>Creás el pago con split automático</strong>
-        <p>Al cobrar el turno, usás el <code>access_token</code> del profesional como vendedor y definís tu comisión del 3% con <code>marketplace_fee</code>.</p>
-      </div>
-    </div>
-    <div class="step-row">
-      <div class="step-num">4</div>
-      <div class="step-content">
-        <strong>MP distribuye automáticamente</strong>
-        <p>MP cobra al paciente, envía el 97% al profesional y el 3% a tu cuenta. Todo automático.</p>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- MODAL DE PAGO -->
@@ -344,7 +959,7 @@ nav {
       </div>
 
       <div class="commission-note">
-        TurnoYa cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.
+        Mi Turno Seguro cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.
       </div>
 
       <div class="form-group">
@@ -357,7 +972,7 @@ nav {
       </div>
 
       <button class="btn btn-mp" id="btn-pagar" onclick="confirmarPago()">
-        <span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span>
+        <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
         Pagar ahora →
       </button>
     </div>
@@ -370,6 +985,46 @@ nav {
     </div>
   </div>
 </div>
+
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="brand">
+          <img src="icon-192.png" alt="" style="width:32px;height:32px;">
+          <span class="brand-name">Mi Turno<span style="color:#60A5FA;">Seguro</span></span>
+        </a>
+        <p>La forma más simple de reservar y gestionar turnos médicos online, con pago garantizado.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Producto</h4>
+        <a href="#producto">Características</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#precios">Precios</a>
+      </div>
+      <div class="footer-col">
+        <h4>Cuenta</h4>
+        <a href="#app">Reservar turno</a>
+        <a href="#app-profesional">Soy profesional</a>
+        <a href="#app-profesional">Acceder a mi panel</a>
+      </div>
+      <div class="footer-col">
+        <h4>Soporte</h4>
+        <a href="#">Centro de ayuda</a>
+        <a href="#">Contacto</a>
+        <a href="#">Términos y condiciones</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Mi Turno Seguro. Todos los derechos reservados.</div>
+      <div>Pagos procesados con Mercado Pago</div>
+    </div>
+  </div>
+</footer>
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────
@@ -424,11 +1079,7 @@ function apiGet(path, params) {
   });
 }
 
-// Los POST siguen usando fetch normal (no tienen restricción CORS en Apps Script para POST desde mismo dominio,
-// pero Apps Script tampoco responde bien a POST cross-origin. Usamos JSONP también via GET con body serializado)
 function apiPost(path, body) {
-  // Apps Script no soporta CORS en POST desde origen externo.
-  // Serializamos el body como parámetro GET + JSONP como workaround.
   return new Promise(function(resolve, reject) {
     var cbName = '_jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
     var bodyEncoded = encodeURIComponent(JSON.stringify(body));
@@ -463,7 +1114,7 @@ function apiPost(path, body) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// Leer ?estado=... cuando MP redirige de vuelta al sitio
+// Leer ?estado=... cuando MP redirige de vuelta al sitio, y #profesional
 // ─────────────────────────────────────────────────────────────────────────
 function checkPaymentReturn() {
   var params  = new URLSearchParams(window.location.search);
@@ -487,11 +1138,25 @@ function checkPaymentReturn() {
   }
 }
 
+function checkHashTab() {
+  if (window.location.hash === '#app-profesional') {
+    var tabs = document.querySelectorAll('.tab');
+    showTab('profesional', tabs[1]);
+    setTimeout(function() {
+      var el = document.getElementById('app');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+}
+
+window.addEventListener('hashchange', checkHashTab);
+
 // ─────────────────────────────────────────────────────────────────────────
 // INICIALIZACIÓN
 // ─────────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   checkPaymentReturn();
+  checkHashTab();
   cargarProfesionales();
   cargarEstadoProfesional();
 });
@@ -510,8 +1175,8 @@ async function cargarProfesionales() {
     }
 
     badge.textContent = 'Conectado ✓';
-    badge.style.background = '#D1FAE5';
-    badge.style.color = '#065F46';
+    badge.style.background = 'var(--success-soft)';
+    badge.style.color = '#166534';
 
     var avatares = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
     var colores  = ['teal','blue','purple','teal','blue'];
@@ -544,9 +1209,9 @@ async function cargarProfesionales() {
 
   } catch (err) {
     badge.textContent = 'Error de conexión';
-    badge.style.background = '#FEE2E2';
+    badge.style.background = 'var(--danger-soft)';
     badge.style.color = '#991B1B';
-    container.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:600;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que <code>API_URL</code> esté configurado y que el script esté deployado como Web App pública.</div><div style="font-size:12px;color:#EF4444;margin-top:8px;">' + err.message + '</div></div>';
+    container.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:700;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que <code>API_URL</code> esté configurado y que el script esté deployado como Web App pública.</div><div style="font-size:12px;color:var(--danger);margin-top:8px;">' + err.message + '</div></div>';
   }
 }
 
@@ -560,7 +1225,6 @@ async function cargarHorarios(profesionalId) {
       return;
     }
 
-    // Guardamos precio y nombre del profesional desde los slots de turnos
     var pro = data.profesional || {};
 
     slotsEl.innerHTML = data.horarios.map(function(h) {
@@ -576,7 +1240,7 @@ async function cargarHorarios(profesionalId) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// INTERACCIONES
+// INTERACCIONES — RESERVA
 // ─────────────────────────────────────────────────────────────────────────
 function seleccionarSlot(el, profesionalId, nombre, hora, precio) {
   document.getElementById('slots-' + profesionalId)
@@ -599,7 +1263,7 @@ function abrirModal(profesionalId, nombre, precio) {
   document.getElementById('modal-nombre').value = '';
   document.getElementById('modal-email').value  = '';
   var btn = document.getElementById('btn-pagar');
-  btn.innerHTML = '<span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span> Pagar ahora →';
+  btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
   btn.disabled  = false;
 
   document.getElementById('modal-body').style.display     = 'block';
@@ -633,12 +1297,12 @@ async function confirmarPago() {
       window.location.href = data.init_point;
     } else {
       alert('Error: ' + (data.error || 'No se pudo crear el pago'));
-      btn.innerHTML = '<span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span> Pagar ahora →';
+      btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
       btn.disabled  = false;
     }
   } catch (err) {
     alert('Error de conexión. Intentá de nuevo.');
-    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span> Pagar ahora →';
+    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
     btn.disabled  = false;
   }
 }
@@ -647,7 +1311,6 @@ async function confirmarPago() {
 // PANEL PROFESIONAL
 // ─────────────────────────────────────────────────────────────────────────
 
-// Estado del profesional logueado (persiste en sessionStorage)
 var profesionalActual = null;
 
 function cargarEstadoProfesional() {
@@ -696,13 +1359,11 @@ async function registrarProfesional() {
       return;
     }
 
-    // Registro exitoso → mostrar paso de vincular MP
     document.getElementById('pro-id-display').textContent = data.id;
     document.getElementById('pro-registro').style.display    = 'none';
     document.getElementById('pro-vincular-mp').style.display = 'block';
 
-    // Guardamos el ID y la URL de auth para el botón de vincular
-    guardarEstadoProfesional({ id: data.id, nombre: nombre, especialidad: especialidad, precio: Number(precio), tiene_mp: false });
+    guardarEstadoProfesional({ id: data.id, nombre: nombre, especialidad: especialidad, precio: Number(precio), duracion_min: Number(duracion) || 50, tiene_mp: false });
     document.getElementById('btn-vincular-mp').dataset.authUrl = data.mp_auth_url;
 
   } catch(err) {
@@ -725,7 +1386,6 @@ async function loginProfesional() {
   errorEl.style.display = 'none';
 
   try {
-    // Buscamos el profesional en la lista pública
     var data = await apiGet('profesionales');
     var pro  = (data.profesionales || []).find(function(p) { return p.id === id; });
 
@@ -738,13 +1398,9 @@ async function loginProfesional() {
     guardarEstadoProfesional(pro);
 
     if (!pro.tiene_mp) {
-      // Tiene perfil pero no vinculó MP → mostrar paso de vincular
       document.getElementById('pro-id-display').textContent = pro.id;
-      // Necesitamos la mp_auth_url → la generamos llamando al registro de nuevo no aplica,
-      // así que le mostramos un mensaje alternativo
       document.getElementById('pro-registro').style.display    = 'none';
       document.getElementById('pro-vincular-mp').style.display = 'block';
-      // Sin auth_url guardada, el botón llama a generarAuthUrl
       document.getElementById('btn-vincular-mp').dataset.authUrl = '';
       document.getElementById('btn-vincular-mp').dataset.proId   = pro.id;
     } else {
@@ -763,7 +1419,6 @@ function vincularMP() {
   if (authUrl) {
     window.location.href = authUrl;
   } else {
-    // Fallback: redirigir al OAuth generando la URL en el backend
     var proId = (profesionalActual && profesionalActual.id) || btn.dataset.proId || '';
     if (!proId) { alert('No se encontró tu ID de profesional.'); return; }
     apiGet('oauth_url', { profesional_id: proId }).then(function(data) {
@@ -786,45 +1441,113 @@ function mostrarDashboard(pro) {
 }
 
 async function cargarTurnosProfesional(profesionalId) {
-  var turnosEl  = document.getElementById('dash-turnos');
-  var resumenEl = document.getElementById('dash-resumen');
+  var turnosEl   = document.getElementById('dash-turnos');
+  var statsEl    = document.getElementById('dash-stats');
+  var detalleEl  = document.getElementById('dash-resumen-detalle');
+  var ocupEl     = document.getElementById('dash-ocupacion');
+  var chartEl    = document.getElementById('dash-chart');
+  var ingresosEl = document.getElementById('dash-ingresos');
 
   try {
     var data   = await apiGet('turnos_profesional', { profesional_id: profesionalId });
     var turnos = data.turnos || [];
+    var precio   = profesionalActual ? Number(profesionalActual.precio) || 0 : 0;
+    var duracion = profesionalActual ? Number(profesionalActual.duracion_min) || 50 : 50;
+
+    var hoy = hoyISO();
 
     if (turnos.length === 0) {
       turnosEl.innerHTML  = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Todavía no tenés turnos agendados.</div>';
-      resumenEl.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Sin movimientos aún.</div>';
-      return;
     }
 
-    // Ordenar por fecha+hora desc
-    turnos.sort(function(a, b) {
+    // ── Ordenar por fecha+hora desc para listado de próximos ──
+    var turnosOrdenados = turnos.slice().sort(function(a, b) {
       return (b.fecha + b.hora).localeCompare(a.fecha + a.hora);
     });
 
-    // Próximos (estado pendiente_pago o confirmado, fecha >= hoy)
-    var hoy      = hoyISO();
-    var proximos = turnos.filter(function(t) {
+    var proximos = turnosOrdenados.filter(function(t) {
       return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago');
     });
 
-    // Resumen: confirmados este mes
+    // ── Resumen del mes ──
     var mesActual   = hoy.substring(0, 7);
     var confirmados = turnos.filter(function(t) { return t.estado === 'confirmado' && t.fecha.startsWith(mesActual); });
-    var precio      = profesionalActual ? profesionalActual.precio : 0;
     var bruto       = confirmados.length * precio;
     var comision    = Math.round(bruto * 0.03);
+    var neto        = bruto - comision;
 
-    resumenEl.innerHTML =
-      '<div class="summary-row"><span class="label">Turnos confirmados (este mes)</span><span class="value">' + confirmados.length + '</span></div>' +
-      '<div class="summary-row"><span class="label">Facturado bruto</span><span class="value">$' + bruto.toLocaleString('es-AR') + '</span></div>' +
-      '<div class="summary-row"><span class="label">Comisión TurnoYa (3%)</span><span class="value" style="color:#EF4444;">— $' + comision.toLocaleString('es-AR') + '</span></div>' +
-      '<div class="summary-row total"><span class="label">Recibiste en MP</span><span class="value">$' + (bruto - comision).toLocaleString('es-AR') + '</span></div>';
+    statsEl.innerHTML =
+      '<div class="stat-box"><div class="num">' + confirmados.length + '</div><div class="cap">Confirmados</div></div>' +
+      '<div class="stat-box"><div class="num brand">$' + bruto.toLocaleString('es-AR') + '</div><div class="cap">Facturado</div></div>' +
+      '<div class="stat-box"><div class="num success">$' + neto.toLocaleString('es-AR') + '</div><div class="cap">Recibís en MP</div></div>';
 
-    var estadoColor = { confirmado: '#065F46', pendiente_pago: '#92400E', cancelado: '#991B1B' };
-    var estadoBg    = { confirmado: '#D1FAE5', pendiente_pago: '#FEF3C7', cancelado: '#FEE2E2' };
+    detalleEl.innerHTML =
+      '<div class="divider"></div>' +
+      '<div class="summary-row"><span class="label">Comisión Mi Turno Seguro (3%)</span><span class="value" style="color:var(--danger);">— $' + comision.toLocaleString('es-AR') + '</span></div>';
+
+    // ── Ocupación de la semana (próximos 7 días, slots ocupados / disponibles) ──
+    var horariosTotalesPorDia = generarCantidadHorarios('09:00', '18:00', duracion);
+    var diasSemana = [];
+    for (var i = 0; i < 7; i++) {
+      diasSemana.push(sumarDias(hoy, i));
+    }
+
+    var ocupadosPorDia = {};
+    diasSemana.forEach(function(d) { ocupadosPorDia[d] = 0; });
+
+    turnos.forEach(function(t) {
+      if ((t.estado === 'confirmado' || t.estado === 'pendiente_pago') && ocupadosPorDia.hasOwnProperty(t.fecha)) {
+        ocupadosPorDia[t.fecha]++;
+      }
+    });
+
+    var totalOcupados   = diasSemana.reduce(function(acc, d) { return acc + ocupadosPorDia[d]; }, 0);
+    var totalDisponibles = horariosTotalesPorDia * 7;
+    var pctOcupacion = totalDisponibles > 0 ? Math.round((totalOcupados / totalDisponibles) * 100) : 0;
+
+    ocupEl.innerHTML =
+      '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:' + pctOcupacion + '%;"></div></div>' +
+      '<div class="occupancy-label"><span><strong>' + pctOcupacion + '%</strong> ocupado</span><span>' + totalOcupados + ' de ' + totalDisponibles + ' turnos disponibles</span></div>';
+
+    // ── Gráfico de turnos por día ──
+    var maxTurnos = Math.max.apply(null, diasSemana.map(function(d) { return ocupadosPorDia[d]; }).concat([1]));
+
+    chartEl.innerHTML = diasSemana.map(function(d) {
+      var cantidad = ocupadosPorDia[d];
+      var alturaPct = Math.max((cantidad / maxTurnos) * 100, cantidad > 0 ? 14 : 4);
+      var nombreDia = formatearDiaCorto(d);
+      return '<div class="chart-bar-col">' +
+        '<div class="chart-bar-value">' + (cantidad > 0 ? cantidad : '') + '</div>' +
+        '<div class="chart-bar' + (cantidad > 0 ? ' has-data' : '') + '" style="height:' + alturaPct + '%;"></div>' +
+        '<div class="chart-bar-label">' + nombreDia + '</div>' +
+      '</div>';
+    }).join('');
+
+    // ── Próximos ingresos estimados (turnos futuros pendientes/confirmados) ──
+    var futurosTurnos = turnos.filter(function(t) {
+      return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago');
+    });
+    var confirmadosFuturos = futurosTurnos.filter(function(t) { return t.estado === 'confirmado'; });
+    var pendientesFuturos  = futurosTurnos.filter(function(t) { return t.estado === 'pendiente_pago'; });
+
+    var brutoConfirmado = confirmadosFuturos.length * precio;
+    var brutoPendiente  = pendientesFuturos.length * precio;
+    var netoConfirmado  = Math.round(brutoConfirmado * (1 - 0.03));
+    var netoPendiente   = Math.round(brutoPendiente * (1 - 0.03));
+    var netoTotal       = netoConfirmado + netoPendiente;
+
+    if (futurosTurnos.length === 0) {
+      ingresosEl.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No tenés turnos próximos para proyectar ingresos.</div>';
+    } else {
+      ingresosEl.innerHTML =
+        '<div class="summary-row"><span class="label">Confirmados (' + confirmadosFuturos.length + ')</span><span class="value">$' + netoConfirmado.toLocaleString('es-AR') + '</span></div>' +
+        '<div class="summary-row"><span class="label">Pendientes de pago (' + pendientesFuturos.length + ')</span><span class="value">$' + netoPendiente.toLocaleString('es-AR') + '</span></div>' +
+        '<div class="summary-row total"><span class="label">Total proyectado (neto)</span><span class="value">$' + netoTotal.toLocaleString('es-AR') + '</span></div>';
+    }
+
+    // ── Próximos turnos (listado) ──
+    var estadoColor = { confirmado: '#166534', pendiente_pago: '#92400E', cancelado: '#991B1B' };
+    var estadoBg    = { confirmado: 'var(--success-soft)', pendiente_pago: 'var(--warning-soft)', cancelado: 'var(--danger-soft)' };
 
     if (proximos.length === 0) {
       turnosEl.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>';
@@ -834,16 +1557,20 @@ async function cargarTurnosProfesional(profesionalId) {
         var col = estadoColor[t.estado] || '#374151';
         return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);">' +
           '<div>' +
-            '<div style="font-weight:500;font-size:14px;">' + t.paciente_nombre + '</div>' +
+            '<div style="font-weight:600;font-size:14px;">' + t.paciente_nombre + '</div>' +
             '<div style="font-size:12px;color:var(--muted);">' + t.fecha + ' · ' + t.hora + '</div>' +
           '</div>' +
-          '<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:' + bg + ';color:' + col + ';">' + t.estado.replace('_', ' ') + '</span>' +
+          '<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:' + bg + ';color:' + col + ';">' + t.estado.replace('_', ' ') + '</span>' +
         '</div>';
       }).join('');
     }
 
   } catch(err) {
-    turnosEl.innerHTML = '<div style="color:#EF4444;font-size:13px;">Error al cargar turnos.</div>';
+    turnosEl.innerHTML = '<div style="color:var(--danger);font-size:13px;">Error al cargar turnos.</div>';
+    statsEl.innerHTML = '';
+    ocupEl.innerHTML = '<div style="color:var(--danger);font-size:13px;">Error al calcular ocupación.</div>';
+    chartEl.innerHTML = '';
+    ingresosEl.innerHTML = '<div style="color:var(--danger);font-size:13px;">Error al calcular ingresos.</div>';
   }
 }
 
@@ -853,7 +1580,6 @@ function cerrarSesionPro() {
   document.getElementById('pro-dashboard').style.display   = 'none';
   document.getElementById('pro-vincular-mp').style.display = 'none';
   document.getElementById('pro-registro').style.display    = 'block';
-  // Limpiar campos
   ['pro-nombre','pro-especialidad','pro-precio','pro-duracion','pro-id-login'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.value = '';
@@ -886,6 +1612,34 @@ function hoyISO() {
 function formatearFecha(iso) {
   var d = new Date(iso + 'T12:00:00');
   return d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'short' });
+}
+
+function formatearDiaCorto(iso) {
+  var d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('es-AR', { weekday: 'short' }).replace('.', '');
+}
+
+function sumarDias(iso, dias) {
+  var d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate() + dias);
+  return d.toISOString().split('T')[0];
+}
+
+function generarCantidadHorarios(inicio, fin, duracionMin) {
+  var partsInicio = inicio.split(':');
+  var h = Number(partsInicio[0]);
+  var m = Number(partsInicio[1]);
+  var partsFin = fin.split(':');
+  var hFin = Number(partsFin[0]);
+  var mFin = Number(partsFin[1]);
+
+  var count = 0;
+  while (h < hFin || (h === hFin && m < mFin)) {
+    count++;
+    m += duracionMin;
+    if (m >= 60) { h += Math.floor(m / 60); m = m % 60; }
+  }
+  return count;
 }
 </script>
 </body>
