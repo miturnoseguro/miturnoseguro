@@ -1022,14 +1022,10 @@ function checkPaymentReturn() {
   }
 }
 
+// DESPUÉS
 function checkHashTab() {
   if (window.location.hash === '#app-profesional') {
-    var tabs = document.querySelectorAll('.tab');
-    showTab('profesional', tabs[1]);
-    setTimeout(function() {
-      var el = document.getElementById('app');
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+    showApp('profesional');
   }
 }
 window.addEventListener('hashchange', checkHashTab);
@@ -1570,6 +1566,31 @@ function generarCantidadHorarios(inicio, fin, duracionMin) {
     if (m >= 60) { h += Math.floor(m / 60); m = m % 60; }
   }
   return count;
+}
+  function showApp(tab) {
+  document.getElementById('view-landing').classList.remove('active');
+  document.getElementById('view-app').classList.add('active');
+
+  var labels = {
+    reservar:     'Reservar turno',
+    profesional:  'Panel profesional'
+  };
+  document.getElementById('breadcrumb-label').textContent = labels[tab] || 'La app';
+
+  var tabs = document.querySelectorAll('.tabs .tab');
+  if (tab === 'reservar') {
+    showTab('reservar', tabs[0]);
+  } else if (tab === 'profesional') {
+    showTab('profesional', tabs[1]);
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showLanding() {
+  document.getElementById('view-app').classList.remove('active');
+  document.getElementById('view-landing').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>
