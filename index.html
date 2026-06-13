@@ -115,10 +115,6 @@ nav {
 .tech-section { margin-bottom: 24px; }
 .tech-title { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 .code-block { background: #1E293B; border-radius: var(--radius); padding: 16px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.7; color: #E2E8F0; overflow-x: auto; margin-bottom: 12px; }
-.code-block .comment { color: #64748B; }
-.code-block .key { color: #7DD3FC; }
-.code-block .string { color: #86EFAC; }
-.code-block .number { color: #FCA5A5; }
 .info-box { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: var(--radius); padding: 14px 16px; font-size: 13px; color: #92400E; margin-bottom: 12px; }
 .info-box strong { display: block; margin-bottom: 4px; }
 .step-row { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
@@ -139,7 +135,6 @@ nav {
 .section-label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
 .divider { height: 1px; background: var(--line); margin: 20px 0; }
 
-/* Banner de estado de pago (cuando MP redirige de vuelta) */
 .payment-banner { padding: 16px 20px; border-radius: var(--radius); margin: 16px; font-size: 14px; font-weight: 500; text-align: center; }
 .payment-banner.success { background: #D1FAE5; color: #065F46; }
 .payment-banner.error   { background: #FEE2E2; color: #991B1B; }
@@ -153,7 +148,6 @@ nav {
   <div class="nav-badge" id="api-status">Conectando...</div>
 </nav>
 
-<!-- FIX #3: banner que aparece cuando MP redirige de vuelta con ?estado=... -->
 <div id="payment-banner" style="display:none;"></div>
 
 <div class="hero">
@@ -290,7 +284,6 @@ nav {
         TurnoYa cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.
       </div>
 
-      <!-- FIX #2: se agregaron id="modal-nombre" e id="modal-email" que faltaban -->
       <div class="form-group">
         <label>Tu nombre</label>
         <input type="text" id="modal-nombre" placeholder="Juan Pérez">
@@ -300,7 +293,6 @@ nav {
         <input type="email" id="modal-email" placeholder="juan@email.com">
       </div>
 
-      <!-- FIX #1: onclick apunta a confirmarPago(), no a simulatePay() que no existía -->
       <button class="btn btn-mp" id="btn-pagar" onclick="confirmarPago()">
         <span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span>
         Pagar ahora →
@@ -330,33 +322,93 @@ var selectedProfesional = null;
 var fechaSeleccionada   = hoyISO();
 
 // ─────────────────────────────────────────────────────────────────────────
-// API HELPERS
+// API HELPERS — JSONP (resuelve CORS con Google Apps Script)
 // ─────────────────────────────────────────────────────────────────────────
-async function apiGet(path, params) {
+function apiGet(path, params) {
   params = params || {};
-  var qs = new URLSearchParams(Object.assign({ path: path }, params)).toString();
-  var res = await fetch(API_URL + '?' + qs);
-  return res.json();
+  return new Promise(function(resolve, reject) {
+    var cbName = '_jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    var allParams = Object.assign({ path: path, callback: cbName }, params);
+    var qs = Object.keys(allParams)
+      .map(function(k) { return encodeURIComponent(k) + '=' + encodeURIComponent(allParams[k]); })
+      .join('&');
+
+    var script = document.createElement('script');
+    script.src = API_URL + '?' + qs;
+
+    var timeout = setTimeout(function() {
+      cleanup();
+      reject(new Error('Timeout: la API no respondió'));
+    }, 15000);
+
+    window[cbName] = function(data) {
+      cleanup();
+      resolve(data);
+    };
+
+    function cleanup() {
+      clearTimeout(timeout);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+
+    script.onerror = function() {
+      cleanup();
+      reject(new Error('Error de red al llamar la API'));
+    };
+
+    document.body.appendChild(script);
+  });
 }
 
-async function apiPost(path, body) {
-  var res = await fetch(API_URL + '?path=' + path, {
-    method: 'POST',
-    body: JSON.stringify(body)
+// Los POST siguen usando fetch normal (no tienen restricción CORS en Apps Script para POST desde mismo dominio,
+// pero Apps Script tampoco responde bien a POST cross-origin. Usamos JSONP también via GET con body serializado)
+function apiPost(path, body) {
+  // Apps Script no soporta CORS en POST desde origen externo.
+  // Serializamos el body como parámetro GET + JSONP como workaround.
+  return new Promise(function(resolve, reject) {
+    var cbName = '_jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    var bodyEncoded = encodeURIComponent(JSON.stringify(body));
+    var src = API_URL + '?path=' + path + '&callback=' + cbName + '&_body=' + bodyEncoded;
+
+    var script = document.createElement('script');
+    script.src = src;
+
+    var timeout = setTimeout(function() {
+      cleanup();
+      reject(new Error('Timeout'));
+    }, 15000);
+
+    window[cbName] = function(data) {
+      cleanup();
+      resolve(data);
+    };
+
+    function cleanup() {
+      clearTimeout(timeout);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+
+    script.onerror = function() {
+      cleanup();
+      reject(new Error('Error de red'));
+    };
+
+    document.body.appendChild(script);
   });
-  return res.json();
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// FIX #3: leer ?estado=... cuando MP redirige de vuelta al sitio
+// Leer ?estado=... cuando MP redirige de vuelta al sitio
 // ─────────────────────────────────────────────────────────────────────────
 function checkPaymentReturn() {
-  var params = new URLSearchParams(window.location.search);
+  var params  = new URLSearchParams(window.location.search);
   var estado  = params.get('estado');
   var turnoId = params.get('turno_id');
   if (!estado) return;
 
-  var banner  = document.getElementById('payment-banner');
+  var banner   = document.getElementById('payment-banner');
   var mensajes = {
     confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId || '') + ' está confirmado. Te enviamos un email.',
     error:      '❌ Hubo un problema con el pago. Podés intentarlo de nuevo.',
@@ -365,10 +417,9 @@ function checkPaymentReturn() {
   var clases = { confirmado: 'success', error: 'error', pendiente: 'pending' };
 
   if (mensajes[estado]) {
-    banner.className  = 'payment-banner ' + (clases[estado] || '');
+    banner.className   = 'payment-banner ' + (clases[estado] || '');
     banner.textContent = mensajes[estado];
     banner.style.display = 'block';
-    // Limpia los params de la URL sin recargar la página
     window.history.replaceState({}, '', window.location.pathname);
   }
 }
@@ -424,18 +475,18 @@ async function cargarProfesionales() {
     }).join('');
 
     data.profesionales.forEach(function(pro) {
-      cargarHorarios(pro.id, pro.nombre, pro.precio);
+      cargarHorarios(pro.id);
     });
 
   } catch (err) {
     badge.textContent = 'Error de conexión';
     badge.style.background = '#FEE2E2';
     badge.style.color = '#991B1B';
-    container.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:600;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que <code>API_URL</code> esté configurado correctamente.</div></div>';
+    container.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:600;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que <code>API_URL</code> esté configurado y que el script esté deployado como Web App pública.</div><div style="font-size:12px;color:#EF4444;margin-top:8px;">' + err.message + '</div></div>';
   }
 }
 
-async function cargarHorarios(profesionalId, nombre, precio) {
+async function cargarHorarios(profesionalId) {
   var slotsEl = document.getElementById('slots-' + profesionalId);
   try {
     var data = await apiGet('turnos', { profesional_id: profesionalId, fecha: fechaSeleccionada });
@@ -445,11 +496,14 @@ async function cargarHorarios(profesionalId, nombre, precio) {
       return;
     }
 
+    // Guardamos precio y nombre del profesional desde los slots de turnos
+    var pro = data.profesional || {};
+
     slotsEl.innerHTML = data.horarios.map(function(h) {
       if (!h.disponible) {
         return '<button class="slot taken" disabled>' + h.hora + '</button>';
       }
-      return '<button class="slot" onclick="seleccionarSlot(this, \'' + profesionalId + '\', \'' + nombre.replace(/'/g, "\\'") + '\', \'' + h.hora + '\', ' + precio + ')">' + h.hora + '</button>';
+      return '<button class="slot" onclick="seleccionarSlot(this, \'' + profesionalId + '\', \'' + (pro.nombre || '').replace(/'/g, "\\'") + '\', \'' + h.hora + '\', ' + (pro.precio || 0) + ')">' + h.hora + '</button>';
     }).join('');
 
   } catch (err) {
@@ -478,19 +532,17 @@ function abrirModal(profesionalId, nombre, precio) {
   document.getElementById('modal-slot').textContent  = selectedSlotTime;
   document.getElementById('modal-price').textContent = '$' + Number(precio).toLocaleString('es-AR');
 
-  // Limpiar campos y resetear botón
   document.getElementById('modal-nombre').value = '';
   document.getElementById('modal-email').value  = '';
   var btn = document.getElementById('btn-pagar');
-  btn.textContent = 'Pagar ahora →';
-  btn.disabled    = false;
+  btn.innerHTML = '<span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span> Pagar ahora →';
+  btn.disabled  = false;
 
-  document.getElementById('modal-body').style.display    = 'block';
+  document.getElementById('modal-body').style.display     = 'block';
   document.getElementById('success-screen').style.display = 'none';
   document.getElementById('payModal').classList.add('open');
 }
 
-// FIX #1: función correcta (antes el botón llamaba a simulatePay() que no existía)
 async function confirmarPago() {
   var nombre = document.getElementById('modal-nombre').value.trim();
   var email  = document.getElementById('modal-email').value.trim();
@@ -506,29 +558,27 @@ async function confirmarPago() {
 
   try {
     var data = await apiPost('turnos', {
-      profesional_id: selectedProfesional.id,
-      fecha:          fechaSeleccionada,
-      hora:           selectedSlotTime,
+      profesional_id:  selectedProfesional.id,
+      fecha:           fechaSeleccionada,
+      hora:            selectedSlotTime,
       paciente_nombre: nombre,
       paciente_email:  email
     });
 
     if (data.init_point) {
-      // Redirigir al checkout real de Mercado Pago
       window.location.href = data.init_point;
     } else {
       alert('Error: ' + (data.error || 'No se pudo crear el pago'));
-      btn.textContent = 'Pagar ahora →';
-      btn.disabled    = false;
+      btn.innerHTML = '<span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span> Pagar ahora →';
+      btn.disabled  = false;
     }
   } catch (err) {
     alert('Error de conexión. Intentá de nuevo.');
-    btn.textContent = 'Pagar ahora →';
-    btn.disabled    = false;
+    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span> Pagar ahora →';
+    btn.disabled  = false;
   }
 }
 
-// FIX: showTab ahora recibe el elemento clickeado como parámetro
 function showTab(name, el) {
   document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
   document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
