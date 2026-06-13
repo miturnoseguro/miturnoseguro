@@ -23,57 +23,34 @@
   --surface: #FFFFFF;
   --success: #16A34A;
   --success-soft: #E9F8EE;
+  --warning-soft: #FFFBEB;
+  --danger: #DC2626;
+  --danger-soft: #FEF2F2;
   --radius: 16px;
   --radius-sm: 10px;
   --shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
   --shadow-lg: 0 24px 60px rgba(37, 99, 235, 0.18);
+  --mp-blue: #009EE3;
 }
 
 html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Open Sans', sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  line-height: 1.6;
-  font-size: 16px;
-}
-
+body { font-family: 'Open Sans', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.6; font-size: 16px; }
 h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; line-height: 1.15; letter-spacing: -0.01em; }
-
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-
 a { color: inherit; text-decoration: none; }
 
-/* ── NAV ───────────────────────────────────────────────────────────────── */
-.nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-}
-.nav-inner {
-  max-width: 1160px; margin: 0 auto; padding: 0 24px;
-  height: 72px; display: flex; align-items: center; justify-content: space-between;
-}
+/* ── NAV ── */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand img { width: 36px; height: 36px; }
 .brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 19px; color: var(--ink); }
 .brand-name span { color: var(--brand); }
-
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links a { font-size: 14px; font-weight: 600; color: var(--muted); transition: color 0.15s; }
 .nav-links a:hover { color: var(--ink); }
-
-.nav-cta {
-  display: flex; align-items: center; gap: 12px;
-}
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 12px 22px; border-radius: 999px; font-size: 14px; font-weight: 700;
-  font-family: 'Outfit', sans-serif; cursor: pointer; border: none; transition: all 0.18s;
-  white-space: nowrap;
-}
+.nav-cta { display: flex; align-items: center; gap: 12px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 999px; font-size: 14px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; border: none; transition: all 0.18s; white-space: nowrap; }
 .btn-primary { background: var(--brand); color: white; box-shadow: 0 8px 20px rgba(37,99,235,0.28); }
 .btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
 .btn-ghost { background: transparent; color: var(--ink); }
@@ -81,214 +58,104 @@ a { color: inherit; text-decoration: none; }
 .btn-lg { padding: 16px 32px; font-size: 15px; }
 .btn-block { width: 100%; }
 
-.nav-burger { display: none; }
-
-/* ── HERO ──────────────────────────────────────────────────────────────── */
-.hero {
-  position: relative; overflow: hidden;
-  padding: 88px 0 64px;
-}
-.hero::before {
-  content: ''; position: absolute; top: -200px; right: -160px;
-  width: 560px; height: 560px; border-radius: 50%;
-  background: radial-gradient(circle, var(--brand-mid) 0%, transparent 70%);
-  z-index: 0;
-}
-.hero-inner {
-  position: relative; z-index: 1;
-  display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center;
-}
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--brand-soft); color: var(--brand-dark);
-  font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px;
-  margin-bottom: 24px;
-}
+/* ── HERO ── */
+.hero { position: relative; overflow: hidden; padding: 88px 0 64px; }
+.hero::before { content: ''; position: absolute; top: -200px; right: -160px; width: 560px; height: 560px; border-radius: 50%; background: radial-gradient(circle, var(--brand-mid) 0%, transparent 70%); z-index: 0; }
+.hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--brand-soft); color: var(--brand-dark); font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px; margin-bottom: 24px; }
 .hero-eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
-.hero h1 {
-  font-size: 52px; font-weight: 800; color: var(--ink); margin-bottom: 20px;
-}
-.hero h1 .highlight {
-  background: linear-gradient(135deg, var(--brand) 0%, #60A5FA 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.hero p.lead {
-  font-size: 18px; color: var(--muted); max-width: 460px; margin-bottom: 32px;
-}
+.hero h1 { font-size: 52px; font-weight: 800; color: var(--ink); margin-bottom: 20px; }
+.hero h1 .highlight { background: linear-gradient(135deg, var(--brand) 0%, #60A5FA 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero p.lead { font-size: 18px; color: var(--muted); max-width: 460px; margin-bottom: 32px; }
 .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
-
 .hero-trust { display: flex; align-items: center; gap: 16px; }
 .hero-trust .avatars { display: flex; }
-.hero-trust .avatars span {
-  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--paper);
-  display: flex; align-items: center; justify-content: center; font-size: 16px;
-  margin-left: -10px; background: var(--brand-soft);
-}
+.hero-trust .avatars span { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--paper); display: flex; align-items: center; justify-content: center; font-size: 16px; margin-left: -10px; background: var(--brand-soft); }
 .hero-trust .avatars span:first-child { margin-left: 0; }
 .hero-trust-text { font-size: 13px; color: var(--muted); }
 .hero-trust-text strong { color: var(--ink); }
-
-/* Mock phone card */
 .hero-visual { position: relative; display: flex; justify-content: center; }
-.phone-mock {
-  background: var(--surface); border-radius: 28px; box-shadow: var(--shadow-lg);
-  width: 340px; padding: 22px; border: 1px solid var(--line);
-  transform: rotate(2deg);
-}
+.phone-mock { background: var(--surface); border-radius: 28px; box-shadow: var(--shadow-lg); width: 340px; padding: 22px; border: 1px solid var(--line); transform: rotate(2deg); }
 .phone-mock-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
 .phone-mock-header img { width: 28px; height: 28px; }
 .phone-mock-header .mname { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 14px; }
-.phone-card {
-  background: var(--paper); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 12px;
-  border: 1px solid var(--line);
-}
+.phone-card { background: var(--paper); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 12px; border: 1px solid var(--line); }
 .phone-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.phone-avatar {
-  width: 38px; height: 38px; border-radius: 50%; background: var(--brand-soft);
-  display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
-}
+.phone-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--brand-soft); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
 .phone-doc-name { font-weight: 700; font-size: 13px; }
 .phone-doc-spec { font-size: 11px; color: var(--muted); }
 .phone-price { margin-left: auto; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--brand); font-size: 14px; }
 .phone-slots { display: flex; gap: 6px; flex-wrap: wrap; }
-.phone-slot {
-  font-size: 11px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted);
-}
+.phone-slot { font-size: 11px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
 .phone-slot.active { background: var(--brand); color: white; border-color: var(--brand); font-weight: 700; }
-
-.floating-badge {
-  position: absolute; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow);
-  padding: 12px 16px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line);
-}
-.floating-badge .icon {
-  width: 34px; height: 34px; border-radius: 10px; background: var(--success-soft);
-  display: flex; align-items: center; justify-content: center; font-size: 16px;
-}
+.floating-badge { position: absolute; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 12px 16px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); }
+.floating-badge .icon { width: 34px; height: 34px; border-radius: 10px; background: var(--success-soft); display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .floating-badge .text { font-size: 12px; }
 .floating-badge .text strong { display: block; font-size: 13px; }
 .badge-1 { top: 18px; left: -36px; }
 .badge-2 { bottom: 30px; right: -28px; }
 
-/* ── LOGOS / TRUST ─────────────────────────────────────────────────────── */
+/* ── LOGOS ── */
 .logos-section { padding: 48px 0; }
-.logos-label {
-  text-align: center; font-size: 13px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 32px;
-}
-.logos-grid {
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px;
-  opacity: 0.65;
-}
-.logo-item {
-  font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 20px; color: var(--ink);
-  display: flex; align-items: center; gap: 8px;
-}
+.logos-label { text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 32px; }
+.logos-grid { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px; opacity: 0.65; }
+.logo-item { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 20px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
 .logo-item .ic { font-size: 22px; }
 
-/* ── SECTION HEADERS ───────────────────────────────────────────────────── */
-.section { padding: 80px 0; }
+/* ── SECTION HEADERS ── */
+.section-lp { padding: 80px 0; }
 .section-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
-.section-eyebrow {
-  font-size: 13px; font-weight: 700; color: var(--brand); text-transform: uppercase;
-  letter-spacing: 1.5px; margin-bottom: 12px;
-}
+.section-eyebrow { font-size: 13px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
 .section-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 14px; }
 .section-header p { color: var(--muted); font-size: 16px; }
 
-/* ── FEATURES ──────────────────────────────────────────────────────────── */
-.features-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
-}
-.feature-card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 28px; transition: all 0.2s;
-}
+/* ── FEATURES ── */
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.feature-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; transition: all 0.2s; }
 .feature-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); border-color: var(--brand-mid); }
-.feature-icon {
-  width: 48px; height: 48px; border-radius: 12px; background: var(--brand-soft);
-  display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 18px;
-}
+.feature-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--brand-soft); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 18px; }
 .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
 .feature-card p { font-size: 14px; color: var(--muted); }
 
-/* ── HOW IT WORKS ──────────────────────────────────────────────────────── */
+/* ── STEPS ── */
 .steps-wrap { background: var(--surface); }
-.steps-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative;
-}
-.step-card { text-align: left; position: relative; }
-.step-icon {
-  width: 52px; height: 52px; border-radius: 14px; background: var(--brand);
-  color: white; display: flex; align-items: center; justify-content: center;
-  font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 18px;
-  box-shadow: 0 8px 16px rgba(37,99,235,0.25);
-}
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.step-card { text-align: left; }
+.step-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--brand); color: white; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 18px; box-shadow: 0 8px 16px rgba(37,99,235,0.25); }
 .step-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
 .step-card p { font-size: 13.5px; color: var(--muted); }
 
-/* ── STATS BAND ────────────────────────────────────────────────────────── */
-.stats-band {
-  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
-  border-radius: 24px; padding: 56px 48px; color: white;
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center;
-}
+/* ── STATS BAND ── */
+.stats-band { background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%); border-radius: 24px; padding: 56px 48px; color: white; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
 .stat-big { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 40px; margin-bottom: 6px; }
 .stat-cap { font-size: 13px; opacity: 0.8; font-weight: 600; }
 
-/* ── PRICING ───────────────────────────────────────────────────────────── */
-.pricing-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 800px; margin: 0 auto;
-}
-.pricing-card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 36px; text-align: left;
-}
-.pricing-card.highlight {
-  border: 2px solid var(--brand); position: relative; box-shadow: var(--shadow-lg);
-}
-.pricing-tag {
-  position: absolute; top: -13px; left: 28px; background: var(--brand); color: white;
-  font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px;
-}
+/* ── PRICING ── */
+.pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 800px; margin: 0 auto; }
+.pricing-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 36px; }
+.pricing-card.highlight { border: 2px solid var(--brand); position: relative; box-shadow: var(--shadow-lg); }
+.pricing-tag { position: absolute; top: -13px; left: 28px; background: var(--brand); color: white; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
 .pricing-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
 .pricing-card .pricing-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
 .pricing-price { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 38px; margin-bottom: 4px; }
 .pricing-price span { font-size: 15px; color: var(--muted); font-weight: 600; }
 .pricing-list { list-style: none; margin: 24px 0 28px; }
-.pricing-list li {
-  display: flex; align-items: flex-start; gap: 10px; font-size: 14px; margin-bottom: 12px; color: var(--ink);
-}
-.pricing-list li .check {
-  width: 18px; height: 18px; border-radius: 50%; background: var(--success-soft); color: var(--success);
-  display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
-}
+.pricing-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; margin-bottom: 12px; }
+.pricing-list li .check { width: 18px; height: 18px; border-radius: 50%; background: var(--success-soft); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
 
-/* ── TESTIMONIALS ──────────────────────────────────────────────────────── */
+/* ── TESTIMONIALS ── */
 .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.testimonial-card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
-}
+.testimonial-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
 .testimonial-stars { color: #FBBF24; font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
-.testimonial-card p { font-size: 14.5px; color: var(--ink); margin-bottom: 20px; }
+.testimonial-card p { font-size: 14.5px; margin-bottom: 20px; }
 .testimonial-author { display: flex; align-items: center; gap: 12px; }
-.testimonial-avatar {
-  width: 40px; height: 40px; border-radius: 50%; background: var(--brand-soft);
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
-}
+.testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--brand-soft); display: flex; align-items: center; justify-content: center; font-size: 18px; }
 .testimonial-name { font-weight: 700; font-size: 13.5px; }
 .testimonial-role { font-size: 12px; color: var(--muted); }
 
-/* ── CTA ───────────────────────────────────────────────────────────────── */
-.cta-section {
-  background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 100%);
-  border-radius: 24px; padding: 64px 48px; text-align: center; color: white;
-  position: relative; overflow: hidden;
-}
-.cta-section::after {
-  content: ''; position: absolute; bottom: -120px; left: -80px;
-  width: 320px; height: 320px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
-}
+/* ── CTA ── */
+.cta-section { background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 100%); border-radius: 24px; padding: 64px 48px; text-align: center; color: white; position: relative; overflow: hidden; }
+.cta-section::after { content: ''; position: absolute; bottom: -120px; left: -80px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%); }
 .cta-section h2 { font-size: 34px; font-weight: 800; margin-bottom: 14px; position: relative; z-index: 1; }
 .cta-section p { font-size: 16px; opacity: 0.85; max-width: 480px; margin: 0 auto 32px; position: relative; z-index: 1; }
 .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
@@ -297,75 +164,29 @@ a { color: inherit; text-decoration: none; }
 .cta-section .btn-ghost { color: white; border: 1.5px solid rgba(255,255,255,0.4); }
 .cta-section .btn-ghost:hover { background: rgba(255,255,255,0.1); }
 
-/* ── FOOTER ────────────────────────────────────────────────────────────── */
+/* ── FOOTER ── */
 footer { background: var(--ink); color: white; padding: 56px 0 28px; }
-.footer-grid {
-  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px;
-}
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
 .footer-brand .brand-name { color: white; }
 .footer-brand p { font-size: 13.5px; color: #94A3B8; margin-top: 12px; max-width: 240px; }
 .footer-col h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: #94A3B8; }
 .footer-col a { display: block; font-size: 14px; color: #CBD5E1; margin-bottom: 10px; transition: color 0.15s; }
 .footer-col a:hover { color: white; }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;
-  display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #94A3B8; flex-wrap: wrap; gap: 12px;
-}
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #94A3B8; flex-wrap: wrap; gap: 12px; }
 
-/* ── RESPONSIVE ────────────────────────────────────────────────────────── */
-@media (max-width: 900px) {
-  .nav-links { display: none; }
-  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-  .hero h1 { font-size: 38px; }
-  .hero-visual { order: -1; }
-  .phone-mock { transform: none; }
-  .floating-badge { display: none; }
-  .features-grid, .steps-grid, .testimonials-grid { grid-template-columns: 1fr; }
-  .stats-band { grid-template-columns: repeat(2, 1fr); padding: 40px 24px; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .logos-grid { justify-content: center; }
-  .section-header h2 { font-size: 28px; }
-  .cta-section { padding: 48px 24px; }
-  .cta-section h2 { font-size: 26px; }
-}
-
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-
-
-
-/* ── NAV ───────────────────────────────────────────────────────────────── */
-.brand { display: flex; align-items: center; gap: 10px; }
-.brand img { width: 30px; height: 30px; }
-.brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
-.brand-name span { color: var(--brand); }
-.nav-badge {
-  background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700;
-  padding: 6px 14px; border-radius: 999px;
-}
-
-/* ── TABS — segmented control flotante ────────────────────────────────── */
+/* ══════════════════════════════════
+   APP SECTION — tabs, cards, modal
+══════════════════════════════════ */
 .tabs-wrap { padding: 20px 16px 0; max-width: 640px; margin: 0 auto; }
-.tabs {
-  display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line);
-  border-radius: 999px; padding: 4px; box-shadow: var(--shadow);
-}
-.tab {
-  flex: 1; padding: 11px 14px; font-size: 13.5px; font-weight: 700;
-  font-family: 'Outfit', sans-serif; color: var(--muted); cursor: pointer;
-  border: none; background: none; border-radius: 999px; transition: all 0.18s;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
+.tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px; box-shadow: var(--shadow); }
+.tab { flex: 1; padding: 11px 14px; font-size: 13.5px; font-weight: 700; font-family: 'Outfit', sans-serif; color: var(--muted); cursor: pointer; border: none; background: none; border-radius: 999px; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .tab.active { color: white; background: var(--brand); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 .tab:not(.active):hover { color: var(--ink); background: var(--brand-soft); }
 
-.section { display: none; padding: 24px 16px 40px; max-width: 640px; margin: 0 auto; }
-.section.active { display: block; animation: fadeIn 0.25s ease; }
+.app-section { display: none; padding: 24px 16px 40px; max-width: 640px; margin: 0 auto; }
+.app-section.active { display: block; animation: fadeIn 0.25s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ── CARDS ─────────────────────────────────────────────────────────────── */
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
 .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
 .avatar { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
@@ -379,23 +200,20 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .price-label { font-size: 11px; color: var(--muted); }
 
 .slots { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.slot {
-  padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--line);
-  font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
-  background: none; color: var(--ink); font-family: 'Open Sans', sans-serif;
-}
+.slot { padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--line); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; background: none; color: var(--ink); font-family: 'Open Sans', sans-serif; }
 .slot:hover, .slot.selected { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
 .slot.taken { background: #F3F4F6; color: #CBD5E1; cursor: not-allowed; text-decoration: line-through; border-color: var(--line); }
 
-.btn { display: block; width: 100%; padding: 13px; border-radius: 999px; font-size: 14.5px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; border: none; transition: all 0.18s; text-align: center; }
-.btn-primary { background: var(--brand); color: white; box-shadow: 0 6px 16px rgba(37,99,235,0.25); }
-.btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
-.btn-mp { background: var(--mp-blue); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
-.btn-mp:hover { background: #0085C2; }
-.btn-outline { background: white; color: var(--brand); border: 1.5px solid var(--brand-mid); }
-.btn-outline:hover { background: var(--brand-soft); }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+.btn-app { display: block; width: 100%; padding: 13px; border-radius: 999px; font-size: 14.5px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; border: none; transition: all 0.18s; text-align: center; }
+.btn-app.btn-primary { background: var(--brand); color: white; box-shadow: 0 6px 16px rgba(37,99,235,0.25); }
+.btn-app.btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
+.btn-app.btn-mp { background: var(--mp-blue); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.btn-app.btn-mp:hover { background: #0085C2; }
+.btn-app.btn-outline { background: white; color: var(--brand); border: 1.5px solid var(--brand-mid); }
+.btn-app.btn-outline:hover { background: var(--brand-soft); }
+.btn-app:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
+/* Modal */
 .overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
 .overlay.open { display: flex; }
 .modal { background: white; border-radius: 24px 24px 0 0; width: 100%; max-width: 640px; padding: 28px 24px 40px; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
@@ -425,8 +243,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
-.form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; }
-.form-group input:focus { border-color: var(--brand); }
+.form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; background: white; }
+.form-group input:focus, .form-group select:focus { border-color: var(--brand); }
 
 .section-label { font-size: 12.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
 .divider { height: 1px; background: var(--line); margin: 20px 0; }
@@ -436,37 +254,181 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .payment-banner.error   { background: var(--danger-soft); color: #991B1B; }
 .payment-banner.pending { background: var(--warning-soft); color: #92400E; }
 
-/* ── DASHBOARD: stats grid ─────────────────────────────────────────────── */
-.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-.stat-box {
-  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm);
-  padding: 14px 12px; text-align: center;
-}
+/* Dashboard stats */
+.stats-grid-dash { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.stat-box { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 12px; text-align: center; }
 .stat-box .num { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 21px; color: var(--ink); }
 .stat-box .num.brand { color: var(--brand); }
 .stat-box .num.success { color: var(--success); }
 .stat-box .cap { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 2px; }
-
-.occupancy-bar-track {
-  width: 100%; height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 10px 0 6px;
-}
-.occupancy-bar-fill {
-  height: 100%; background: linear-gradient(90deg, var(--brand) 0%, #60A5FA 100%); border-radius: 999px;
-  transition: width 0.6s ease;
-}
+.occupancy-bar-track { width: 100%; height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 10px 0 6px; }
+.occupancy-bar-fill { height: 100%; background: linear-gradient(90deg, var(--brand) 0%, #60A5FA 100%); border-radius: 999px; transition: width 0.6s ease; }
 .occupancy-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
 .occupancy-label strong { color: var(--ink); }
-
-/* Mini bar chart */
 .chart-wrap { display: flex; align-items: flex-end; gap: 8px; height: 120px; padding: 0 4px 4px; margin-top: 8px; }
 .chart-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
-.chart-bar { width: 100%; max-width: 28px; background: var(--brand-mid); border-radius: 6px 6px 2px 2px; transition: all 0.4s ease; position: relative; }
+.chart-bar { width: 100%; max-width: 28px; background: var(--brand-mid); border-radius: 6px 6px 2px 2px; transition: all 0.4s ease; }
 .chart-bar.has-data { background: linear-gradient(180deg, #60A5FA 0%, var(--brand) 100%); }
 .chart-bar-label { font-size: 10.5px; color: var(--muted); margin-top: 6px; font-weight: 600; text-transform: capitalize; }
 .chart-bar-value { font-size: 10px; color: var(--brand-dark); font-weight: 700; margin-bottom: 4px; min-height: 12px; }
 
-.tech-section { margin-bottom: 24px; }
+/* ══════════════════════════════════
+   DISPONIBILIDAD — configurador
+══════════════════════════════════ */
+.disp-grid {
+  display: grid;
+  gap: 10px;
+}
 
+/* Fila de un día */
+.disp-day-row {
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.disp-day-row.has-blocks {
+  border-color: var(--brand-mid);
+}
+
+.disp-day-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--paper);
+  cursor: pointer;
+  user-select: none;
+}
+.disp-day-header:hover { background: var(--brand-soft); }
+
+.disp-day-toggle {
+  width: 36px; height: 20px;
+  background: var(--line); border-radius: 999px;
+  position: relative; flex-shrink: 0; transition: background 0.2s;
+  cursor: pointer;
+}
+.disp-day-toggle::after {
+  content: '';
+  position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: white; transition: left 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.disp-day-toggle.on { background: var(--brand); }
+.disp-day-toggle.on::after { left: 18px; }
+
+.disp-day-name {
+  font-weight: 700; font-size: 14px;
+  flex: 1;
+}
+.disp-day-summary {
+  font-size: 12px; color: var(--muted);
+}
+
+.disp-day-blocks {
+  display: none;
+  padding: 12px 14px 14px;
+  border-top: 1px solid var(--line);
+  background: white;
+  gap: 8px;
+  flex-direction: column;
+}
+.disp-day-blocks.open { display: flex; }
+
+.disp-block-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 8px;
+  align-items: end;
+}
+.disp-block-row label {
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  display: block; margin-bottom: 4px;
+}
+.disp-block-row input[type="time"] {
+  width: 100%; padding: 9px 10px;
+  border: 1.5px solid var(--line); border-radius: 8px;
+  font-size: 14px; font-family: 'Open Sans', sans-serif;
+  outline: none; transition: border-color 0.2s;
+}
+.disp-block-row input[type="time"]:focus { border-color: var(--brand); }
+
+.btn-remove-block {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1.5px solid var(--line); background: white;
+  color: var(--muted); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+  margin-bottom: 1px;
+}
+.btn-remove-block:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
+
+.btn-add-block {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 999px;
+  border: 1.5px dashed var(--brand-mid);
+  background: var(--brand-soft); color: var(--brand);
+  font-size: 12px; font-weight: 700; font-family: 'Outfit', sans-serif;
+  cursor: pointer; transition: all 0.15s; margin-top: 4px;
+  width: fit-content;
+}
+.btn-add-block:hover { border-color: var(--brand); background: var(--brand-mid); }
+
+.disp-preset-chips {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px;
+}
+.disp-preset-chip {
+  padding: 5px 12px; border-radius: 999px;
+  border: 1.5px solid var(--line); background: none;
+  font-size: 12px; font-weight: 600; color: var(--muted);
+  font-family: 'Open Sans', sans-serif;
+  cursor: pointer; transition: all 0.15s;
+}
+.disp-preset-chip:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+
+.disp-save-bar {
+  position: sticky; bottom: 16px;
+  margin-top: 16px;
+}
+.disp-save-btn {
+  width: 100%; padding: 14px;
+  border-radius: 999px; border: none;
+  background: var(--brand); color: white;
+  font-size: 15px; font-weight: 700; font-family: 'Outfit', sans-serif;
+  cursor: pointer; transition: all 0.18s;
+  box-shadow: 0 8px 24px rgba(37,99,235,0.3);
+}
+.disp-save-btn:hover { background: var(--brand-dark); transform: translateY(-1px); }
+.disp-save-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.disp-feedback {
+  margin-top: 10px; padding: 10px 16px;
+  border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  text-align: center; display: none;
+}
+.disp-feedback.ok  { background: var(--success-soft); color: #166534; }
+.disp-feedback.err { background: var(--danger-soft); color: #991B1B; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { font-size: 38px; }
+  .hero-visual { order: -1; }
+  .phone-mock { transform: none; }
+  .floating-badge { display: none; }
+  .features-grid, .steps-grid, .testimonials-grid { grid-template-columns: 1fr; }
+  .stats-band { grid-template-columns: repeat(2, 1fr); padding: 40px 24px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .logos-grid { justify-content: center; }
+  .section-header h2 { font-size: 28px; }
+  .cta-section { padding: 48px 24px; }
+  .cta-section h2 { font-size: 26px; }
+  .disp-block-row { grid-template-columns: 1fr 1fr auto; }
+}
 </style>
 </head>
 <body>
@@ -503,9 +465,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <a href="#app-profesional" class="btn btn-ghost btn-lg">Soy profesional de la salud</a>
       </div>
       <div class="hero-trust">
-        <div class="avatars">
-          <span>👩‍⚕️</span><span>🩺</span><span>👨‍⚕️</span><span>🧑‍⚕️</span>
-        </div>
+        <div class="avatars"><span>👩‍⚕️</span><span>🩺</span><span>👨‍⚕️</span><span>🧑‍⚕️</span></div>
         <div class="hero-trust-text"><strong>+450 profesionales</strong> ya gestionan sus turnos con nosotros</div>
       </div>
     </div>
@@ -518,43 +478,22 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <div class="phone-card">
           <div class="phone-card-top">
             <div class="phone-avatar">👩‍⚕️</div>
-            <div>
-              <div class="phone-doc-name">Dra. Laura Méndez</div>
-              <div class="phone-doc-spec">Psicología clínica</div>
-            </div>
+            <div><div class="phone-doc-name">Dra. Laura Méndez</div><div class="phone-doc-spec">Psicología clínica</div></div>
             <div class="phone-price">$8.000</div>
           </div>
-          <div class="phone-slots">
-            <span class="phone-slot">09:00</span>
-            <span class="phone-slot active">10:30</span>
-            <span class="phone-slot">11:20</span>
-            <span class="phone-slot">14:00</span>
-          </div>
+          <div class="phone-slots"><span class="phone-slot">09:00</span><span class="phone-slot active">10:30</span><span class="phone-slot">11:20</span><span class="phone-slot">14:00</span></div>
         </div>
         <div class="phone-card">
           <div class="phone-card-top">
             <div class="phone-avatar">🩺</div>
-            <div>
-              <div class="phone-doc-name">Dr. Tomás Ibarra</div>
-              <div class="phone-doc-spec">Clínica médica</div>
-            </div>
+            <div><div class="phone-doc-name">Dr. Tomás Ibarra</div><div class="phone-doc-spec">Clínica médica</div></div>
             <div class="phone-price">$10.500</div>
           </div>
-          <div class="phone-slots">
-            <span class="phone-slot">08:30</span>
-            <span class="phone-slot">09:20</span>
-            <span class="phone-slot">15:40</span>
-          </div>
+          <div class="phone-slots"><span class="phone-slot">08:30</span><span class="phone-slot">09:20</span><span class="phone-slot">15:40</span></div>
         </div>
       </div>
-      <div class="floating-badge badge-1">
-        <div class="icon">✅</div>
-        <div class="text"><strong>Turno confirmado</strong>Pago acreditado</div>
-      </div>
-      <div class="floating-badge badge-2">
-        <div class="icon">⚡</div>
-        <div class="text"><strong>0% no-shows</strong>Cobro al reservar</div>
-      </div>
+      <div class="floating-badge badge-1"><div class="icon">✅</div><div class="text"><strong>Turno confirmado</strong>Pago acreditado</div></div>
+      <div class="floating-badge badge-2"><div class="icon">⚡</div><div class="text"><strong>0% no-shows</strong>Cobro al reservar</div></div>
     </div>
   </div>
 </header>
@@ -575,7 +514,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 </section>
 
 <!-- FEATURES -->
-<section class="section" id="producto">
+<section class="section-lp" id="producto">
   <div class="container">
     <div class="section-header">
       <div class="section-eyebrow">Por qué Mi Turno Seguro</div>
@@ -583,42 +522,18 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <p>Una herramienta simple para pacientes y profesionales, sin instalaciones ni configuraciones complicadas.</p>
     </div>
     <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <h3>Pago al reservar</h3>
-        <p>El paciente paga el 100% del turno con Mercado Pago al momento de reservar. La hora queda garantizada.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📅</div>
-        <h3>Agenda en tiempo real</h3>
-        <p>Los horarios disponibles se actualizan al instante para evitar superposiciones y dobles reservas.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">💸</div>
-        <h3>Cobro directo a tu cuenta</h3>
-        <p>El dinero llega directo a la cuenta de Mercado Pago del profesional, con una comisión mínima del 3%.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Panel con estadísticas</h3>
-        <p>Visualizá tus turnos, ingresos, ocupación y proyecciones desde un panel pensado para profesionales.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📱</div>
-        <h3>100% online</h3>
-        <p>Sin apps que instalar. Funciona en cualquier celular o computadora, directo desde el navegador.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">✅</div>
-        <h3>Menos ausencias</h3>
-        <p>Al requerir el pago anticipado, las inasistencias bajan drásticamente y tu agenda se ordena sola.</p>
-      </div>
+      <div class="feature-card"><div class="feature-icon">🔒</div><h3>Pago al reservar</h3><p>El paciente paga el 100% del turno con Mercado Pago al momento de reservar. La hora queda garantizada.</p></div>
+      <div class="feature-card"><div class="feature-icon">📅</div><h3>Agenda en tiempo real</h3><p>Los horarios disponibles se actualizan al instante para evitar superposiciones y dobles reservas.</p></div>
+      <div class="feature-card"><div class="feature-icon">💸</div><h3>Cobro directo a tu cuenta</h3><p>El dinero llega directo a la cuenta de Mercado Pago del profesional, con una comisión mínima del 3%.</p></div>
+      <div class="feature-card"><div class="feature-icon">🗓️</div><h3>Disponibilidad personalizada</h3><p>Configurá exactamente qué días y en qué horarios trabajás. Bloques de mañana, tarde o como prefieras.</p></div>
+      <div class="feature-card"><div class="feature-icon">📱</div><h3>100% online</h3><p>Sin apps que instalar. Funciona en cualquier celular o computadora, directo desde el navegador.</p></div>
+      <div class="feature-card"><div class="feature-icon">✅</div><h3>Menos ausencias</h3><p>Al requerir el pago anticipado, las inasistencias bajan drásticamente y tu agenda se ordena sola.</p></div>
     </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="section steps-wrap" id="como-funciona">
+<section class="section-lp steps-wrap" id="como-funciona">
   <div class="container">
     <div class="section-header">
       <div class="section-eyebrow">Cómo funciona</div>
@@ -626,56 +541,28 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <p>Sin registros largos ni formularios eternos.</p>
     </div>
     <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-icon">1</div>
-        <h3>Elegí profesional y horario</h3>
-        <p>Mirá la disponibilidad real de cada profesional y elegí el día y hora que te quede mejor.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon">2</div>
-        <h3>Completá tus datos</h3>
-        <p>Ingresá tu nombre y email para recibir la confirmación y los detalles del turno.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon">3</div>
-        <h3>Pagá con Mercado Pago</h3>
-        <p>Pagá de forma segura el valor de la consulta para garantizar tu reserva.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon">4</div>
-        <h3>Recibí la confirmación</h3>
-        <p>Tu turno queda confirmado al instante y el profesional recibe el pago en su cuenta.</p>
-      </div>
+      <div class="step-card"><div class="step-icon">1</div><h3>Elegí profesional y horario</h3><p>Mirá la disponibilidad real de cada profesional y elegí el día y hora que te quede mejor.</p></div>
+      <div class="step-card"><div class="step-icon">2</div><h3>Completá tus datos</h3><p>Ingresá tu nombre y email para recibir la confirmación y los detalles del turno.</p></div>
+      <div class="step-card"><div class="step-icon">3</div><h3>Pagá con Mercado Pago</h3><p>Pagá de forma segura el valor de la consulta para garantizar tu reserva.</p></div>
+      <div class="step-card"><div class="step-icon">4</div><h3>Recibí la confirmación</h3><p>Tu turno queda confirmado al instante y el profesional recibe el pago en su cuenta.</p></div>
     </div>
   </div>
 </section>
 
 <!-- STATS -->
-<section class="section">
+<section class="section-lp">
   <div class="container">
     <div class="stats-band">
-      <div>
-        <div class="stat-big">+450</div>
-        <div class="stat-cap">Profesionales activos</div>
-      </div>
-      <div>
-        <div class="stat-big">+12.000</div>
-        <div class="stat-cap">Turnos confirmados</div>
-      </div>
-      <div>
-        <div class="stat-big">0%</div>
-        <div class="stat-cap">Tasa de no-shows</div>
-      </div>
-      <div>
-        <div class="stat-big">3%</div>
-        <div class="stat-cap">Comisión por turno</div>
-      </div>
+      <div><div class="stat-big">+450</div><div class="stat-cap">Profesionales activos</div></div>
+      <div><div class="stat-big">+12.000</div><div class="stat-cap">Turnos confirmados</div></div>
+      <div><div class="stat-big">0%</div><div class="stat-cap">Tasa de no-shows</div></div>
+      <div><div class="stat-big">3%</div><div class="stat-cap">Comisión por turno</div></div>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section class="section" id="precios">
+<section class="section-lp" id="precios">
   <div class="container">
     <div class="section-header">
       <div class="section-eyebrow">Precios</div>
@@ -700,7 +587,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <div class="pricing-sub">Gestioná tu agenda y cobros</div>
         <div class="pricing-price">3% <span>por turno cobrado</span></div>
         <ul class="pricing-list">
-          <li><span class="check">✓</span> Agenda online ilimitada</li>
+          <li><span class="check">✓</span> Agenda online con disponibilidad personalizable</li>
           <li><span class="check">✓</span> Cobros directos a tu cuenta de Mercado Pago</li>
           <li><span class="check">✓</span> Panel con estadísticas e ingresos proyectados</li>
           <li><span class="check">✓</span> Reducción de ausencias por pago anticipado</li>
@@ -712,7 +599,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="section" id="testimonios">
+<section class="section-lp" id="testimonios">
   <div class="container">
     <div class="section-header">
       <div class="section-eyebrow">Testimonios</div>
@@ -721,43 +608,25 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     <div class="testimonials-grid">
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
-        <p>“Desde que pido el pago al reservar, las ausencias bajaron casi a cero. Mi agenda se ordenó sola.”</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">👩‍⚕️</div>
-          <div>
-            <div class="testimonial-name">Dra. Laura Méndez</div>
-            <div class="testimonial-role">Psicología clínica</div>
-          </div>
-        </div>
+        <p>"Desde que pido el pago al reservar, las ausencias bajaron casi a cero. Mi agenda se ordenó sola."</p>
+        <div class="testimonial-author"><div class="testimonial-avatar">👩‍⚕️</div><div><div class="testimonial-name">Dra. Laura Méndez</div><div class="testimonial-role">Psicología clínica</div></div></div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
-        <p>“Reservé en menos de un minuto desde el celular y ya tenía la confirmación en mi email. Súper simple.”</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">🙋‍♀️</div>
-          <div>
-            <div class="testimonial-name">Camila Roldán</div>
-            <div class="testimonial-role">Paciente</div>
-          </div>
-        </div>
+        <p>"Reservé en menos de un minuto desde el celular y ya tenía la confirmación en mi email. Súper simple."</p>
+        <div class="testimonial-author"><div class="testimonial-avatar">🙋‍♀️</div><div><div class="testimonial-name">Camila Roldán</div><div class="testimonial-role">Paciente</div></div></div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
-        <p>“El panel me muestra todo: turnos próximos, lo que voy a facturar y la comisión. Me ahorra horas de planillas.”</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">🩺</div>
-          <div>
-            <div class="testimonial-name">Dr. Tomás Ibarra</div>
-            <div class="testimonial-role">Clínica médica</div>
-          </div>
-        </div>
+        <p>"El panel me muestra todo: turnos próximos, lo que voy a facturar y la comisión. Me ahorra horas de planillas."</p>
+        <div class="testimonial-author"><div class="testimonial-avatar">🩺</div><div><div class="testimonial-name">Dr. Tomás Ibarra</div><div class="testimonial-role">Clínica médica</div></div></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="section">
+<section class="section-lp">
   <div class="container">
     <div class="cta-section">
       <h2>Empezá a usar Mi Turno Seguro hoy</h2>
@@ -770,9 +639,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </div>
 </section>
 
-
 <!-- ══════════════════════════════════════════════════════════════════════
-     APP — Reservar turno / Panel profesional
+     APP
 ═══════════════════════════════════════════════════════════════════════ -->
 <section id="app" style="background:var(--paper); padding-top:48px; border-top:1px solid var(--line);">
   <div class="container" style="max-width:640px;">
@@ -783,209 +651,196 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     </div>
   </div>
 
+  <div id="payment-banner" style="display:none;"></div>
 
-<div id="payment-banner" style="display:none;"></div>
-
-<div class="tabs-wrap">
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('reservar', this)">🗓️ Reservar turno</button>
-    <button class="tab" onclick="showTab('profesional', this)">👩‍⚕️ Soy profesional</button>
-  </div>
-</div>
-
-<!-- TAB: RESERVAR -->
-<div id="tab-reservar" class="section active">
-  <p class="section-label">Profesionales disponibles hoy</p>
-  <div id="profesionales-container">
-    <div class="card" style="text-align:center; padding:40px 20px; color:var(--muted);">
-      <div style="font-size:32px; margin-bottom:12px;">⏳</div>
-      <div>Cargando profesionales...</div>
-    </div>
-  </div>
-</div>
-
-<!-- TAB: PROFESIONAL -->
-<div id="tab-profesional" class="section">
-
-  <!-- PASO 1: Registro -->
-  <div id="pro-registro">
-    <p class="section-label">Creá tu perfil</p>
-    <div class="card">
-      <div class="form-group">
-        <label>Nombre completo</label>
-        <input type="text" id="pro-nombre" placeholder="Dra. María García">
-      </div>
-      <div class="form-group">
-        <label>Especialidad</label>
-        <input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica">
-      </div>
-      <div class="form-group">
-        <label>Precio por consulta (ARS)</label>
-        <input type="number" id="pro-precio" placeholder="8000">
-      </div>
-      <div class="form-group">
-        <label>Duración del turno (minutos)</label>
-        <input type="number" id="pro-duracion" placeholder="50">
-      </div>
-      <div id="pro-registro-error" style="display:none; color:var(--danger); font-size:13px; margin-bottom:12px;"></div>
-      <button class="btn btn-primary" id="btn-registrar" onclick="registrarProfesional()">
-        Crear mi perfil →
-      </button>
-    </div>
-    <div class="card" style="background:var(--brand-soft); border-color:var(--brand-mid);">
-      <strong style="display:block; margin-bottom:6px; font-size:14px;">¿Ya tenés un perfil?</strong>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Ingresá tu ID de profesional para acceder a tu panel.</p>
-      <div style="display:flex; gap:8px;">
-        <input type="text" id="pro-id-login" placeholder="PRO-XXXXXX-XXXX" style="flex:1; padding:11px 14px; border:1.5px solid var(--line); border-radius:10px; font-size:14px; outline:none; font-family:'Open Sans',sans-serif;">
-        <button class="btn btn-outline" style="width:auto; padding:11px 18px; white-space:nowrap;" onclick="loginProfesional()">Acceder</button>
-      </div>
-      <div id="pro-login-error" style="display:none; color:var(--danger); font-size:12px; margin-top:8px;"></div>
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('reservar', this)">🗓️ Reservar turno</button>
+      <button class="tab" onclick="showTab('profesional', this)">👩‍⚕️ Soy profesional</button>
     </div>
   </div>
 
-  <!-- PASO 2: Vincular MP -->
-  <div id="pro-vincular-mp" style="display:none;">
-    <p class="section-label">Vinculá tu Mercado Pago</p>
-    <div class="card">
-      <div style="text-align:center; padding:12px 0 20px;">
-        <div style="font-size:48px; margin-bottom:12px;">🎉</div>
-        <div style="font-weight:700; font-size:17px; margin-bottom:6px;">¡Perfil creado!</div>
-        <div style="font-size:13px; color:var(--muted); margin-bottom:4px;">Tu ID de profesional es:</div>
-        <div id="pro-id-display" style="font-family:monospace; font-size:15px; background:var(--brand-soft); color:var(--brand); padding:8px 16px; border-radius:10px; display:inline-block; margin-bottom:16px; font-weight:700;"></div>
-        <div style="font-size:12px; color:var(--muted);">Guardalo — lo vas a necesitar para acceder a tu panel.</div>
+  <!-- TAB: RESERVAR -->
+  <div id="tab-reservar" class="app-section active">
+    <p class="section-label">Profesionales disponibles hoy</p>
+    <div id="profesionales-container">
+      <div class="card" style="text-align:center; padding:40px 20px; color:var(--muted);">
+        <div style="font-size:32px; margin-bottom:12px;">⏳</div>
+        <div>Cargando profesionales...</div>
       </div>
-      <div class="divider"></div>
-      <div class="section-label">Último paso: vinculá tu cuenta MP</div>
-      <div class="card" style="background:var(--warning-soft); border-color:#FDE68A; box-shadow:none; margin-bottom:16px;">
-        <strong style="display:block; margin-bottom:4px; font-size:13px; color:#92400E;">¿Por qué es necesario?</strong>
-        <p style="font-size:13px; color:#92400E;">Cuando un paciente pague su turno, el dinero llega directo a tu cuenta de Mercado Pago. Mi Turno Seguro descuenta automáticamente el 3% de comisión sobre cada cobro.</p>
-      </div>
-      <button class="btn btn-mp" id="btn-vincular-mp" onclick="vincularMP()">
-        <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-        Vincular mi cuenta →
-      </button>
     </div>
   </div>
 
-  <!-- PASO 3: Dashboard -->
-  <div id="pro-dashboard" style="display:none;">
-    <p class="section-label">Tu panel</p>
+  <!-- TAB: PROFESIONAL -->
+  <div id="tab-profesional" class="app-section">
 
-    <!-- Header del profesional -->
-    <div class="card">
-      <div class="card-header" style="margin-bottom:0;">
-        <div class="avatar teal" style="font-size:28px;">👩‍⚕️</div>
-        <div>
-          <div class="doc-name" id="dash-nombre">—</div>
-          <div class="doc-spec" id="dash-especialidad">—</div>
-          <span class="badge badge-green">✓ MP vinculado</span>
+    <!-- PASO 1: Registro / Login -->
+    <div id="pro-registro">
+      <p class="section-label">Creá tu perfil</p>
+      <div class="card">
+        <div class="form-group"><label>Nombre completo</label><input type="text" id="pro-nombre" placeholder="Dra. María García"></div>
+        <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica"></div>
+        <div class="form-group"><label>Precio por consulta (ARS)</label><input type="number" id="pro-precio" placeholder="8000"></div>
+        <div class="form-group"><label>Duración del turno (minutos)</label><input type="number" id="pro-duracion" placeholder="50"></div>
+        <div id="pro-registro-error" style="display:none; color:var(--danger); font-size:13px; margin-bottom:12px;"></div>
+        <button class="btn-app btn-primary" id="btn-registrar" onclick="registrarProfesional()">Crear mi perfil →</button>
+      </div>
+      <div class="card" style="background:var(--brand-soft); border-color:var(--brand-mid);">
+        <strong style="display:block; margin-bottom:6px; font-size:14px;">¿Ya tenés un perfil?</strong>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Ingresá tu ID de profesional para acceder a tu panel.</p>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="pro-id-login" placeholder="PRO-XXXXXX-XXXX" style="flex:1; padding:11px 14px; border:1.5px solid var(--line); border-radius:10px; font-size:14px; outline:none; font-family:'Open Sans',sans-serif;">
+          <button class="btn-app btn-outline" style="width:auto; padding:11px 18px; white-space:nowrap;" onclick="loginProfesional()">Acceder</button>
         </div>
-        <div class="doc-price">
-          <div class="price-amount" id="dash-precio">—</div>
-          <div class="price-label">por sesión</div>
+        <div id="pro-login-error" style="display:none; color:var(--danger); font-size:12px; margin-top:8px;"></div>
+      </div>
+    </div>
+
+    <!-- PASO 2: Vincular MP -->
+    <div id="pro-vincular-mp" style="display:none;">
+      <p class="section-label">Vinculá tu Mercado Pago</p>
+      <div class="card">
+        <div style="text-align:center; padding:12px 0 20px;">
+          <div style="font-size:48px; margin-bottom:12px;">🎉</div>
+          <div style="font-weight:700; font-size:17px; margin-bottom:6px;">¡Perfil creado!</div>
+          <div style="font-size:13px; color:var(--muted); margin-bottom:4px;">Tu ID de profesional es:</div>
+          <div id="pro-id-display" style="font-family:monospace; font-size:15px; background:var(--brand-soft); color:var(--brand); padding:8px 16px; border-radius:10px; display:inline-block; margin-bottom:16px; font-weight:700;"></div>
+          <div style="font-size:12px; color:var(--muted);">Guardalo — lo vas a necesitar para acceder a tu panel.</div>
+        </div>
+        <div class="divider"></div>
+        <div class="section-label">Último paso: vinculá tu cuenta MP</div>
+        <div class="card" style="background:var(--warning-soft); border-color:#FDE68A; box-shadow:none; margin-bottom:16px;">
+          <strong style="display:block; margin-bottom:4px; font-size:13px; color:#92400E;">¿Por qué es necesario?</strong>
+          <p style="font-size:13px; color:#92400E;">Cuando un paciente pague su turno, el dinero llega directo a tu cuenta de Mercado Pago. Mi Turno Seguro descuenta automáticamente el 3% de comisión sobre cada cobro.</p>
+        </div>
+        <button class="btn-app btn-mp" id="btn-vincular-mp" onclick="vincularMP()">
+          <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
+          Vincular mi cuenta →
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 3: Dashboard -->
+    <div id="pro-dashboard" style="display:none;">
+
+      <!-- Header profesional -->
+      <div class="card">
+        <div class="card-header" style="margin-bottom:0;">
+          <div class="avatar teal" style="font-size:28px;">👩‍⚕️</div>
+          <div>
+            <div class="doc-name" id="dash-nombre">—</div>
+            <div class="doc-spec" id="dash-especialidad">—</div>
+            <span class="badge badge-green">✓ MP vinculado</span>
+          </div>
+          <div class="doc-price">
+            <div class="price-amount" id="dash-precio">—</div>
+            <div class="price-label">por sesión</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Resumen del mes — stat boxes -->
-    <div class="card">
-      <div class="section-label">Resumen — este mes</div>
-      <div class="stats-grid" id="dash-stats">
-        <div class="stat-box"><div class="num">—</div><div class="cap">Confirmados</div></div>
-        <div class="stat-box"><div class="num brand">—</div><div class="cap">Facturado</div></div>
-        <div class="stat-box"><div class="num success">—</div><div class="cap">Recibís en MP</div></div>
+      <!-- Pestañas del panel -->
+      <div style="display:flex; gap:6px; margin-bottom:16px;">
+        <button class="tab active" id="dash-tab-stats"   onclick="showDashTab('stats',   this)" style="flex:none; padding:9px 18px;">📊 Estadísticas</button>
+        <button class="tab"        id="dash-tab-turnos"  onclick="showDashTab('turnos',  this)" style="flex:none; padding:9px 18px;">🗓️ Turnos</button>
+        <button class="tab"        id="dash-tab-disp"    onclick="showDashTab('disp',    this)" style="flex:none; padding:9px 18px;">⏰ Disponibilidad</button>
       </div>
-      <div id="dash-resumen-detalle"></div>
+
+      <!-- Sub-panel: Estadísticas -->
+      <div id="dash-panel-stats">
+        <div class="card">
+          <div class="section-label">Resumen — este mes</div>
+          <div class="stats-grid-dash" id="dash-stats">
+            <div class="stat-box"><div class="num">—</div><div class="cap">Confirmados</div></div>
+            <div class="stat-box"><div class="num brand">—</div><div class="cap">Facturado</div></div>
+            <div class="stat-box"><div class="num success">—</div><div class="cap">Recibís en MP</div></div>
+          </div>
+          <div id="dash-resumen-detalle"></div>
+        </div>
+        <div class="card">
+          <div class="section-label">Ocupación de la semana</div>
+          <div id="dash-ocupacion"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
+        </div>
+        <div class="card">
+          <div class="section-label">Turnos por día — próximos 7 días</div>
+          <div class="chart-wrap" id="dash-chart"></div>
+        </div>
+        <div class="card">
+          <div class="section-label">Próximos ingresos estimados</div>
+          <div id="dash-ingresos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
+        </div>
+      </div>
+
+      <!-- Sub-panel: Próximos turnos -->
+      <div id="dash-panel-turnos" style="display:none;">
+        <div class="card">
+          <div class="section-label">Próximos turnos</div>
+          <div id="dash-turnos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Cargando...</div></div>
+        </div>
+      </div>
+
+      <!-- Sub-panel: Disponibilidad -->
+      <div id="dash-panel-disp" style="display:none;">
+        <div class="card">
+          <div class="section-label" style="margin-bottom:6px;">Configurá cuándo trabajás</div>
+          <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">
+            Activá los días que atendés y agregá uno o más bloques de horario por día. Los pacientes solo verán turnos dentro de estos bloques.
+          </p>
+
+          <!-- Preset rápidos globales -->
+          <div class="section-label" style="margin-bottom:8px;">Aplicar preset a días activos</div>
+          <div class="disp-preset-chips">
+            <button class="disp-preset-chip" onclick="aplicarPresetGlobal('manana')">☀️ Solo mañana (8–13)</button>
+            <button class="disp-preset-chip" onclick="aplicarPresetGlobal('tarde')">🌇 Solo tarde (14–19)</button>
+            <button class="disp-preset-chip" onclick="aplicarPresetGlobal('completo')">📅 Día completo (8–19)</button>
+            <button class="disp-preset-chip" onclick="aplicarPresetGlobal('lun-vie')">💼 Lun a Vie</button>
+          </div>
+
+          <div class="divider" style="margin:14px 0;"></div>
+
+          <div class="disp-grid" id="disp-days-container">
+            <!-- Generado por JS -->
+          </div>
+
+          <div class="disp-save-bar">
+            <button class="disp-save-btn" id="btn-guardar-disp" onclick="guardarDisponibilidad()">Guardar disponibilidad</button>
+            <div class="disp-feedback" id="disp-feedback"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-app btn-outline" style="margin-top:8px;" onclick="cerrarSesionPro()">Cerrar sesión</button>
     </div>
 
-    <!-- Ocupación -->
-    <div class="card">
-      <div class="section-label">Ocupación de la semana</div>
-      <div id="dash-ocupacion">
-        <div style="color:var(--muted); font-size:13px; text-align:center; padding:8px 0;">Calculando...</div>
+  </div><!-- fin tab-profesional -->
+
+  <!-- MODAL DE PAGO -->
+  <div class="overlay" id="payModal" onclick="closeModalOutside(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <h2>Confirmá tu turno</h2>
+      <p class="subtitle">El pago garantiza tu reserva</p>
+      <div id="modal-body">
+        <div class="summary-row"><span class="label">Profesional</span><span class="value" id="modal-doc">—</span></div>
+        <div class="summary-row"><span class="label">Fecha</span><span class="value" id="modal-fecha">—</span></div>
+        <div class="summary-row"><span class="label">Horario</span><span class="value" id="modal-slot">—</span></div>
+        <div class="summary-row total"><span class="label">Total a pagar</span><span class="value" id="modal-price">—</span></div>
+        <div class="commission-note">Mi Turno Seguro cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.</div>
+        <div class="form-group"><label>Tu nombre</label><input type="text" id="modal-nombre" placeholder="Juan Pérez"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="modal-email" placeholder="juan@email.com"></div>
+        <button class="btn-app btn-mp" id="btn-pagar" onclick="confirmarPago()">
+          <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
+          Pagar ahora →
+        </button>
+      </div>
+      <div id="success-screen" class="success-screen">
+        <div class="success-icon">✅</div>
+        <h2>¡Turno confirmado!</h2>
+        <p>Te enviamos los detalles por email. El profesional recibió el pago en su cuenta de Mercado Pago.</p>
+        <button class="btn-app btn-outline" onclick="closeModal()">Volver al inicio</button>
       </div>
     </div>
-
-    <!-- Gráfico turnos por día -->
-    <div class="card">
-      <div class="section-label">Turnos por día — próximos 7 días</div>
-      <div class="chart-wrap" id="dash-chart"></div>
-    </div>
-
-    <!-- Próximos ingresos -->
-    <div class="card">
-      <div class="section-label">Próximos ingresos estimados</div>
-      <div id="dash-ingresos">
-        <div style="color:var(--muted); font-size:13px; text-align:center; padding:8px 0;">Calculando...</div>
-      </div>
-    </div>
-
-    <!-- Próximos turnos -->
-    <div class="card">
-      <div class="section-label">Próximos turnos</div>
-      <div id="dash-turnos">
-        <div style="color:var(--muted); font-size:13px; text-align:center; padding:16px 0;">Cargando...</div>
-      </div>
-    </div>
-
-    <button class="btn btn-outline" style="margin-top:8px;" onclick="cerrarSesionPro()">Cerrar sesión</button>
   </div>
-
-</div>
-
-<!-- MODAL DE PAGO -->
-<div class="overlay" id="payModal" onclick="closeModalOutside(event)">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <h2>Confirmá tu turno</h2>
-    <p class="subtitle">El pago garantiza tu reserva</p>
-
-    <div id="modal-body">
-      <div class="summary-row">
-        <span class="label">Profesional</span>
-        <span class="value" id="modal-doc">—</span>
-      </div>
-      <div class="summary-row">
-        <span class="label">Fecha</span>
-        <span class="value" id="modal-fecha">—</span>
-      </div>
-      <div class="summary-row">
-        <span class="label">Horario</span>
-        <span class="value" id="modal-slot">—</span>
-      </div>
-      <div class="summary-row total">
-        <span class="label">Total a pagar</span>
-        <span class="value" id="modal-price">—</span>
-      </div>
-
-      <div class="commission-note">
-        Mi Turno Seguro cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.
-      </div>
-
-      <div class="form-group">
-        <label>Tu nombre</label>
-        <input type="text" id="modal-nombre" placeholder="Juan Pérez">
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="modal-email" placeholder="juan@email.com">
-      </div>
-
-      <button class="btn btn-mp" id="btn-pagar" onclick="confirmarPago()">
-        <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-        Pagar ahora →
-      </button>
-    </div>
-
-    <div id="success-screen" class="success-screen">
-      <div class="success-icon">✅</div>
-      <h2>¡Turno confirmado!</h2>
-      <p>Te enviamos los detalles por email. El profesional recibió el pago en su cuenta de Mercado Pago.</p>
-      <button class="btn btn-outline" onclick="closeModal()">Volver al inicio</button>
-    </div>
-  </div>
-</div>
-
 
 </section>
 
@@ -1000,24 +855,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         </a>
         <p>La forma más simple de reservar y gestionar turnos médicos online, con pago garantizado.</p>
       </div>
-      <div class="footer-col">
-        <h4>Producto</h4>
-        <a href="#producto">Características</a>
-        <a href="#como-funciona">Cómo funciona</a>
-        <a href="#precios">Precios</a>
-      </div>
-      <div class="footer-col">
-        <h4>Cuenta</h4>
-        <a href="#app">Reservar turno</a>
-        <a href="#app-profesional">Soy profesional</a>
-        <a href="#app-profesional">Acceder a mi panel</a>
-      </div>
-      <div class="footer-col">
-        <h4>Soporte</h4>
-        <a href="#">Centro de ayuda</a>
-        <a href="#">Contacto</a>
-        <a href="#">Términos y condiciones</a>
-      </div>
+      <div class="footer-col"><h4>Producto</h4><a href="#producto">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#precios">Precios</a></div>
+      <div class="footer-col"><h4>Cuenta</h4><a href="#app">Reservar turno</a><a href="#app-profesional">Soy profesional</a><a href="#app-profesional">Acceder a mi panel</a></div>
+      <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos y condiciones</a></div>
     </div>
     <div class="footer-bottom">
       <div>© 2026 Mi Turno Seguro. Todos los derechos reservados.</div>
@@ -1030,7 +870,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 // ─────────────────────────────────────────────────────────────────────────
 // CONFIGURACIÓN
 // ─────────────────────────────────────────────────────────────────────────
-const API_URL = 'https://script.google.com/macros/s/AKfycbyfCAVC-Kb8Wc2R2JrVKqMPjn5PIE-Thl-z_4FfHw7Ngin1Tht2GwbvQ5YgjVUue2EvbA/exec';
+var API_URL = 'https://script.google.com/macros/s/AKfycbyfCAVC-Kb8Wc2R2JrVKqMPjn5PIE-Thl-z_4FfHw7Ngin1Tht2GwbvQ5YgjVUue2EvbA/exec';
 
 // ─────────────────────────────────────────────────────────────────────────
 // ESTADO GLOBAL
@@ -1038,43 +878,39 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbyfCAVC-Kb8Wc2R2JrVKqMP
 var selectedSlotTime    = null;
 var selectedProfesional = null;
 var fechaSeleccionada   = hoyISO();
+var profesionalActual   = null;
+
+// Estado del configurador de disponibilidad
+// dispState[dia] = [ {inicio:'09:00', fin:'13:00'}, ... ] | null (inactivo)
+var dispState = {};
+
+var DIAS = [
+  { num: 1, nombre: 'Lunes' },
+  { num: 2, nombre: 'Martes' },
+  { num: 3, nombre: 'Miércoles' },
+  { num: 4, nombre: 'Jueves' },
+  { num: 5, nombre: 'Viernes' },
+  { num: 6, nombre: 'Sábado' },
+  { num: 0, nombre: 'Domingo' }
+];
 
 // ─────────────────────────────────────────────────────────────────────────
-// API HELPERS — JSONP (resuelve CORS con Google Apps Script)
+// API HELPERS — JSONP
 // ─────────────────────────────────────────────────────────────────────────
 function apiGet(path, params) {
   params = params || {};
   return new Promise(function(resolve, reject) {
     var cbName = '_jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
     var allParams = Object.assign({ path: path, callback: cbName }, params);
-    var qs = Object.keys(allParams)
-      .map(function(k) { return encodeURIComponent(k) + '=' + encodeURIComponent(allParams[k]); })
-      .join('&');
-
+    var qs = Object.keys(allParams).map(function(k) {
+      return encodeURIComponent(k) + '=' + encodeURIComponent(allParams[k]);
+    }).join('&');
     var script = document.createElement('script');
     script.src = API_URL + '?' + qs;
-
-    var timeout = setTimeout(function() {
-      cleanup();
-      reject(new Error('Timeout: la API no respondió'));
-    }, 15000);
-
-    window[cbName] = function(data) {
-      cleanup();
-      resolve(data);
-    };
-
-    function cleanup() {
-      clearTimeout(timeout);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
-
-    script.onerror = function() {
-      cleanup();
-      reject(new Error('Error de red al llamar la API'));
-    };
-
+    var timeout = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
+    window[cbName] = function(data) { cleanup(); resolve(data); };
+    function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
+    script.onerror = function() { cleanup(); reject(new Error('Error de red')); };
     document.body.appendChild(script);
   });
 }
@@ -1084,52 +920,40 @@ function apiPost(path, body) {
     var cbName = '_jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
     var bodyEncoded = encodeURIComponent(JSON.stringify(body));
     var src = API_URL + '?path=' + path + '&callback=' + cbName + '&_body=' + bodyEncoded;
-
     var script = document.createElement('script');
     script.src = src;
-
-    var timeout = setTimeout(function() {
-      cleanup();
-      reject(new Error('Timeout'));
-    }, 15000);
-
-    window[cbName] = function(data) {
-      cleanup();
-      resolve(data);
-    };
-
-    function cleanup() {
-      clearTimeout(timeout);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
-
-    script.onerror = function() {
-      cleanup();
-      reject(new Error('Error de red'));
-    };
-
+    var timeout = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
+    window[cbName] = function(data) { cleanup(); resolve(data); };
+    function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
+    script.onerror = function() { cleanup(); reject(new Error('Error de red')); };
     document.body.appendChild(script);
   });
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// Leer ?estado=... cuando MP redirige de vuelta al sitio, y #profesional
+// INIT
 // ─────────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  checkPaymentReturn();
+  checkHashTab();
+  cargarProfesionales();
+  cargarEstadoProfesional();
+  inicializarDispState();
+  renderDispDays();
+});
+
 function checkPaymentReturn() {
   var params  = new URLSearchParams(window.location.search);
   var estado  = params.get('estado');
   var turnoId = params.get('turno_id');
   if (!estado) return;
-
-  var banner   = document.getElementById('payment-banner');
+  var banner = document.getElementById('payment-banner');
   var mensajes = {
-    confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId || '') + ' está confirmado. Te enviamos un email.',
+    confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId || '') + ' está confirmado.',
     error:      '❌ Hubo un problema con el pago. Podés intentarlo de nuevo.',
-    pendiente:  '⏳ El pago está pendiente de acreditación. Te avisamos cuando se confirme.'
+    pendiente:  '⏳ El pago está pendiente. Te avisamos cuando se confirme.'
   };
   var clases = { confirmado: 'success', error: 'error', pendiente: 'pending' };
-
   if (mensajes[estado]) {
     banner.className   = 'payment-banner ' + (clases[estado] || '');
     banner.textContent = mensajes[estado];
@@ -1148,39 +972,21 @@ function checkHashTab() {
     }, 50);
   }
 }
-
 window.addEventListener('hashchange', checkHashTab);
 
 // ─────────────────────────────────────────────────────────────────────────
-// INICIALIZACIÓN
+// PROFESIONALES — listado para reservar
 // ─────────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
-  checkPaymentReturn();
-  checkHashTab();
-  cargarProfesionales();
-  cargarEstadoProfesional();
-});
-
 async function cargarProfesionales() {
   var container = document.getElementById('profesionales-container');
-  var badge     = document.getElementById('api-status');
-
   try {
     var data = await apiGet('profesionales');
-
     if (!data.profesionales || data.profesionales.length === 0) {
       container.innerHTML = '<div class="card" style="text-align:center;padding:40px 20px;color:var(--muted);"><div style="font-size:32px;margin-bottom:12px;">🏥</div><div>No hay profesionales disponibles aún.</div></div>';
-      badge.textContent = 'Sin datos';
       return;
     }
-
-    badge.textContent = 'Conectado ✓';
-    badge.style.background = 'var(--success-soft)';
-    badge.style.color = '#166534';
-
     var avatares = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
     var colores  = ['teal','blue','purple','teal','blue'];
-
     container.innerHTML = data.profesionales.map(function(pro, i) {
       return '<div class="card" id="card-' + pro.id + '">' +
         '<div class="card-header">' +
@@ -1188,30 +994,18 @@ async function cargarProfesionales() {
           '<div>' +
             '<div class="doc-name">' + pro.nombre + '</div>' +
             '<div class="doc-spec">' + pro.especialidad + '</div>' +
-            (pro.tiene_mp
-              ? '<span class="badge badge-green">✓ Acepta pagos</span>'
-              : '<span class="badge badge-blue">Sin MP vinculado</span>') +
+            (pro.tiene_mp ? '<span class="badge badge-green">✓ Acepta pagos</span>' : '<span class="badge badge-blue">Sin MP vinculado</span>') +
           '</div>' +
-          '<div class="doc-price">' +
-            '<div class="price-amount">$' + Number(pro.precio).toLocaleString('es-AR') + '</div>' +
-            '<div class="price-label">por sesión</div>' +
-          '</div>' +
+          '<div class="doc-price"><div class="price-amount">$' + Number(pro.precio).toLocaleString('es-AR') + '</div><div class="price-label">por sesión</div></div>' +
         '</div>' +
         '<div class="section-label" style="margin-bottom:8px;">Horarios — ' + formatearFecha(fechaSeleccionada) + '</div>' +
         '<div class="slots" id="slots-' + pro.id + '"><div style="color:var(--muted);font-size:13px;">Cargando horarios...</div></div>' +
-        '<button class="btn btn-primary" onclick="abrirModal(\'' + pro.id + '\', \'' + pro.nombre.replace(/'/g, "\\'") + '\', ' + pro.precio + ')">Confirmar y pagar →</button>' +
+        '<button class="btn-app btn-primary" onclick="abrirModal(\'' + pro.id + '\', \'' + pro.nombre.replace(/'/g,"\\'") + '\', ' + pro.precio + ')">Confirmar y pagar →</button>' +
       '</div>';
     }).join('');
-
-    data.profesionales.forEach(function(pro) {
-      cargarHorarios(pro.id);
-    });
-
+    data.profesionales.forEach(function(pro) { cargarHorarios(pro.id); });
   } catch (err) {
-    badge.textContent = 'Error de conexión';
-    badge.style.background = 'var(--danger-soft)';
-    badge.style.color = '#991B1B';
-    container.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:700;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que <code>API_URL</code> esté configurado y que el script esté deployado como Web App pública.</div><div style="font-size:12px;color:var(--danger);margin-top:8px;">' + err.message + '</div></div>';
+    container.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:700;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que API_URL esté configurado y el script deployado como Web App pública.</div><div style="font-size:12px;color:var(--danger);margin-top:8px;">' + err.message + '</div></div>';
   }
 }
 
@@ -1219,32 +1013,23 @@ async function cargarHorarios(profesionalId) {
   var slotsEl = document.getElementById('slots-' + profesionalId);
   try {
     var data = await apiGet('turnos', { profesional_id: profesionalId, fecha: fechaSeleccionada });
-
     if (!data.horarios || data.horarios.length === 0) {
-      slotsEl.innerHTML = '<div style="color:var(--muted);font-size:13px;">Sin horarios disponibles</div>';
+      slotsEl.innerHTML = '<div style="color:var(--muted);font-size:13px;">' +
+        (data.sin_disponibilidad ? 'Sin disponibilidad para hoy' : 'Sin horarios disponibles') + '</div>';
       return;
     }
-
     var pro = data.profesional || {};
-
     slotsEl.innerHTML = data.horarios.map(function(h) {
-      if (!h.disponible) {
-        return '<button class="slot taken" disabled>' + h.hora + '</button>';
-      }
-      return '<button class="slot" onclick="seleccionarSlot(this, \'' + profesionalId + '\', \'' + (pro.nombre || '').replace(/'/g, "\\'") + '\', \'' + h.hora + '\', ' + (pro.precio || 0) + ')">' + h.hora + '</button>';
+      if (!h.disponible) return '<button class="slot taken" disabled>' + h.hora + '</button>';
+      return '<button class="slot" onclick="seleccionarSlot(this, \'' + profesionalId + '\', \'' + (pro.nombre || '').replace(/'/g,"\\'") + '\', \'' + h.hora + '\', ' + (pro.precio || 0) + ')">' + h.hora + '</button>';
     }).join('');
-
   } catch (err) {
     slotsEl.innerHTML = '<div style="color:var(--muted);font-size:13px;">Error al cargar horarios</div>';
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// INTERACCIONES — RESERVA
-// ─────────────────────────────────────────────────────────────────────────
 function seleccionarSlot(el, profesionalId, nombre, hora, precio) {
-  document.getElementById('slots-' + profesionalId)
-    .querySelectorAll('.slot').forEach(function(s) { s.classList.remove('selected'); });
+  document.getElementById('slots-' + profesionalId).querySelectorAll('.slot').forEach(function(s) { s.classList.remove('selected'); });
   el.classList.add('selected');
   selectedSlotTime    = hora;
   selectedProfesional = { id: profesionalId, nombre: nombre, precio: precio };
@@ -1252,20 +1037,17 @@ function seleccionarSlot(el, profesionalId, nombre, hora, precio) {
 
 function abrirModal(profesionalId, nombre, precio) {
   if (!selectedProfesional || selectedProfesional.id !== profesionalId || !selectedSlotTime) {
-    alert('Por favor elegí un horario primero.');
-    return;
+    alert('Por favor elegí un horario primero.'); return;
   }
   document.getElementById('modal-doc').textContent   = nombre;
   document.getElementById('modal-fecha').textContent = formatearFecha(fechaSeleccionada);
   document.getElementById('modal-slot').textContent  = selectedSlotTime;
   document.getElementById('modal-price').textContent = '$' + Number(precio).toLocaleString('es-AR');
-
   document.getElementById('modal-nombre').value = '';
   document.getElementById('modal-email').value  = '';
   var btn = document.getElementById('btn-pagar');
   btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
   btn.disabled  = false;
-
   document.getElementById('modal-body').style.display     = 'block';
   document.getElementById('success-screen').style.display = 'none';
   document.getElementById('payModal').classList.add('open');
@@ -1275,15 +1057,9 @@ async function confirmarPago() {
   var nombre = document.getElementById('modal-nombre').value.trim();
   var email  = document.getElementById('modal-email').value.trim();
   var btn    = document.getElementById('btn-pagar');
-
-  if (!nombre || !email) {
-    alert('Por favor completá tu nombre y email.');
-    return;
-  }
-
+  if (!nombre || !email) { alert('Por favor completá tu nombre y email.'); return; }
   btn.textContent = 'Procesando...';
   btn.disabled    = true;
-
   try {
     var data = await apiPost('turnos', {
       profesional_id:  selectedProfesional.id,
@@ -1292,7 +1068,6 @@ async function confirmarPago() {
       paciente_nombre: nombre,
       paciente_email:  email
     });
-
     if (data.init_point) {
       window.location.href = data.init_point;
     } else {
@@ -1310,14 +1085,8 @@ async function confirmarPago() {
 // ─────────────────────────────────────────────────────────────────────────
 // PANEL PROFESIONAL
 // ─────────────────────────────────────────────────────────────────────────
-
-var profesionalActual = null;
-
 function cargarEstadoProfesional() {
-  try {
-    var raw = sessionStorage.getItem('pro_actual');
-    if (raw) profesionalActual = JSON.parse(raw);
-  } catch(e) {}
+  try { var raw = sessionStorage.getItem('pro_actual'); if (raw) profesionalActual = JSON.parse(raw); } catch(e) {}
   if (profesionalActual) mostrarDashboard(profesionalActual);
 }
 
@@ -1333,70 +1102,33 @@ async function registrarProfesional() {
   var duracion     = document.getElementById('pro-duracion').value.trim();
   var errorEl      = document.getElementById('pro-registro-error');
   var btn          = document.getElementById('btn-registrar');
-
-  if (!nombre || !especialidad || !precio) {
-    errorEl.textContent = 'Completá nombre, especialidad y precio.';
-    errorEl.style.display = 'block';
-    return;
-  }
+  if (!nombre || !especialidad || !precio) { errorEl.textContent = 'Completá nombre, especialidad y precio.'; errorEl.style.display = 'block'; return; }
   errorEl.style.display = 'none';
-  btn.textContent = 'Creando perfil...';
-  btn.disabled    = true;
-
+  btn.textContent = 'Creando perfil...'; btn.disabled = true;
   try {
-    var data = await apiPost('profesionales', {
-      nombre:       nombre,
-      especialidad: especialidad,
-      precio:       Number(precio),
-      duracion_min: Number(duracion) || 50
-    });
-
-    if (data.error) {
-      errorEl.textContent = data.error;
-      errorEl.style.display = 'block';
-      btn.textContent = 'Crear mi perfil →';
-      btn.disabled    = false;
-      return;
-    }
-
+    var data = await apiPost('profesionales', { nombre, especialidad, precio: Number(precio), duracion_min: Number(duracion) || 50 });
+    if (data.error) { errorEl.textContent = data.error; errorEl.style.display = 'block'; btn.textContent = 'Crear mi perfil →'; btn.disabled = false; return; }
     document.getElementById('pro-id-display').textContent = data.id;
     document.getElementById('pro-registro').style.display    = 'none';
     document.getElementById('pro-vincular-mp').style.display = 'block';
-
-    guardarEstadoProfesional({ id: data.id, nombre: nombre, especialidad: especialidad, precio: Number(precio), duracion_min: Number(duracion) || 50, tiene_mp: false });
+    guardarEstadoProfesional({ id: data.id, nombre, especialidad, precio: Number(precio), duracion_min: Number(duracion) || 50, tiene_mp: false });
     document.getElementById('btn-vincular-mp').dataset.authUrl = data.mp_auth_url;
-
   } catch(err) {
-    errorEl.textContent = 'Error de conexión. Intentá de nuevo.';
-    errorEl.style.display = 'block';
-    btn.textContent = 'Crear mi perfil →';
-    btn.disabled    = false;
+    errorEl.textContent = 'Error de conexión. Intentá de nuevo.'; errorEl.style.display = 'block';
+    btn.textContent = 'Crear mi perfil →'; btn.disabled = false;
   }
 }
 
 async function loginProfesional() {
   var id      = document.getElementById('pro-id-login').value.trim();
   var errorEl = document.getElementById('pro-login-error');
-
-  if (!id) {
-    errorEl.textContent = 'Ingresá tu ID de profesional.';
-    errorEl.style.display = 'block';
-    return;
-  }
+  if (!id) { errorEl.textContent = 'Ingresá tu ID de profesional.'; errorEl.style.display = 'block'; return; }
   errorEl.style.display = 'none';
-
   try {
     var data = await apiGet('profesionales');
     var pro  = (data.profesionales || []).find(function(p) { return p.id === id; });
-
-    if (!pro) {
-      errorEl.textContent = 'No encontramos ese ID. Verificá que esté bien escrito.';
-      errorEl.style.display = 'block';
-      return;
-    }
-
+    if (!pro) { errorEl.textContent = 'No encontramos ese ID.'; errorEl.style.display = 'block'; return; }
     guardarEstadoProfesional(pro);
-
     if (!pro.tiene_mp) {
       document.getElementById('pro-id-display').textContent = pro.id;
       document.getElementById('pro-registro').style.display    = 'none';
@@ -1406,38 +1138,37 @@ async function loginProfesional() {
     } else {
       mostrarDashboard(pro);
     }
-  } catch(err) {
-    errorEl.textContent = 'Error de conexión.';
-    errorEl.style.display = 'block';
-  }
+  } catch(err) { errorEl.textContent = 'Error de conexión.'; errorEl.style.display = 'block'; }
 }
 
 function vincularMP() {
   var btn     = document.getElementById('btn-vincular-mp');
   var authUrl = btn.dataset.authUrl;
-
-  if (authUrl) {
-    window.location.href = authUrl;
-  } else {
-    var proId = (profesionalActual && profesionalActual.id) || btn.dataset.proId || '';
-    if (!proId) { alert('No se encontró tu ID de profesional.'); return; }
-    apiGet('oauth_url', { profesional_id: proId }).then(function(data) {
-      if (data.mp_auth_url) window.location.href = data.mp_auth_url;
-      else alert('No se pudo obtener la URL de vinculación.');
-    }).catch(function() { alert('Error de conexión.'); });
-  }
+  if (authUrl) { window.location.href = authUrl; return; }
+  var proId = (profesionalActual && profesionalActual.id) || btn.dataset.proId || '';
+  if (!proId) { alert('No se encontró tu ID de profesional.'); return; }
+  apiGet('oauth_url', { profesional_id: proId }).then(function(data) {
+    if (data.mp_auth_url) window.location.href = data.mp_auth_url;
+    else alert('No se pudo obtener la URL de vinculación.');
+  }).catch(function() { alert('Error de conexión.'); });
 }
 
 function mostrarDashboard(pro) {
   document.getElementById('pro-registro').style.display    = 'none';
   document.getElementById('pro-vincular-mp').style.display = 'none';
   document.getElementById('pro-dashboard').style.display   = 'block';
-
-  document.getElementById('dash-nombre').textContent      = pro.nombre || '—';
+  document.getElementById('dash-nombre').textContent       = pro.nombre || '—';
   document.getElementById('dash-especialidad').textContent = pro.especialidad || '—';
-  document.getElementById('dash-precio').textContent      = pro.precio ? '$' + Number(pro.precio).toLocaleString('es-AR') : '—';
-
+  document.getElementById('dash-precio').textContent       = pro.precio ? '$' + Number(pro.precio).toLocaleString('es-AR') : '—';
   cargarTurnosProfesional(pro.id);
+  cargarDispProfesional(pro.id);
+}
+
+function showDashTab(name, el) {
+  ['stats','turnos','disp'].forEach(function(n) {
+    document.getElementById('dash-panel-' + n).style.display = (n === name) ? 'block' : 'none';
+    document.getElementById('dash-tab-'   + n).classList.toggle('active', n === name);
+  });
 }
 
 async function cargarTurnosProfesional(profesionalId) {
@@ -1453,23 +1184,9 @@ async function cargarTurnosProfesional(profesionalId) {
     var turnos = data.turnos || [];
     var precio   = profesionalActual ? Number(profesionalActual.precio) || 0 : 0;
     var duracion = profesionalActual ? Number(profesionalActual.duracion_min) || 50 : 50;
-
     var hoy = hoyISO();
 
-    if (turnos.length === 0) {
-      turnosEl.innerHTML  = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Todavía no tenés turnos agendados.</div>';
-    }
-
-    // ── Ordenar por fecha+hora desc para listado de próximos ──
-    var turnosOrdenados = turnos.slice().sort(function(a, b) {
-      return (b.fecha + b.hora).localeCompare(a.fecha + a.hora);
-    });
-
-    var proximos = turnosOrdenados.filter(function(t) {
-      return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago');
-    });
-
-    // ── Resumen del mes ──
+    // Resumen del mes
     var mesActual   = hoy.substring(0, 7);
     var confirmados = turnos.filter(function(t) { return t.estado === 'confirmado' && t.fecha.startsWith(mesActual); });
     var bruto       = confirmados.length * precio;
@@ -1481,95 +1198,65 @@ async function cargarTurnosProfesional(profesionalId) {
       '<div class="stat-box"><div class="num brand">$' + bruto.toLocaleString('es-AR') + '</div><div class="cap">Facturado</div></div>' +
       '<div class="stat-box"><div class="num success">$' + neto.toLocaleString('es-AR') + '</div><div class="cap">Recibís en MP</div></div>';
 
-    detalleEl.innerHTML =
-      '<div class="divider"></div>' +
-      '<div class="summary-row"><span class="label">Comisión Mi Turno Seguro (3%)</span><span class="value" style="color:var(--danger);">— $' + comision.toLocaleString('es-AR') + '</span></div>';
+    detalleEl.innerHTML = '<div class="divider"></div><div class="summary-row"><span class="label">Comisión Mi Turno Seguro (3%)</span><span class="value" style="color:var(--danger);">— $' + comision.toLocaleString('es-AR') + '</span></div>';
 
-    // ── Ocupación de la semana (próximos 7 días, slots ocupados / disponibles) ──
-    var horariosTotalesPorDia = generarCantidadHorarios('09:00', '18:00', duracion);
+    // Ocupación (usa slots de disponibilidad si está cargada)
     var diasSemana = [];
-    for (var i = 0; i < 7; i++) {
-      diasSemana.push(sumarDias(hoy, i));
-    }
-
+    for (var i = 0; i < 7; i++) diasSemana.push(sumarDias(hoy, i));
+    var horariosTotalesPorDia = generarCantidadHorarios('09:00', '18:00', duracion);
     var ocupadosPorDia = {};
     diasSemana.forEach(function(d) { ocupadosPorDia[d] = 0; });
-
     turnos.forEach(function(t) {
       if ((t.estado === 'confirmado' || t.estado === 'pendiente_pago') && ocupadosPorDia.hasOwnProperty(t.fecha)) {
         ocupadosPorDia[t.fecha]++;
       }
     });
-
-    var totalOcupados   = diasSemana.reduce(function(acc, d) { return acc + ocupadosPorDia[d]; }, 0);
+    var totalOcupados    = diasSemana.reduce(function(acc, d) { return acc + ocupadosPorDia[d]; }, 0);
     var totalDisponibles = horariosTotalesPorDia * 7;
-    var pctOcupacion = totalDisponibles > 0 ? Math.round((totalOcupados / totalDisponibles) * 100) : 0;
+    var pctOcupacion     = totalDisponibles > 0 ? Math.round((totalOcupados / totalDisponibles) * 100) : 0;
+    ocupEl.innerHTML = '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:' + pctOcupacion + '%;"></div></div><div class="occupancy-label"><span><strong>' + pctOcupacion + '%</strong> ocupado</span><span>' + totalOcupados + ' de ' + totalDisponibles + ' turnos</span></div>';
 
-    ocupEl.innerHTML =
-      '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:' + pctOcupacion + '%;"></div></div>' +
-      '<div class="occupancy-label"><span><strong>' + pctOcupacion + '%</strong> ocupado</span><span>' + totalOcupados + ' de ' + totalDisponibles + ' turnos disponibles</span></div>';
-
-    // ── Gráfico de turnos por día ──
+    // Gráfico
     var maxTurnos = Math.max.apply(null, diasSemana.map(function(d) { return ocupadosPorDia[d]; }).concat([1]));
-
     chartEl.innerHTML = diasSemana.map(function(d) {
       var cantidad = ocupadosPorDia[d];
       var alturaPct = Math.max((cantidad / maxTurnos) * 100, cantidad > 0 ? 14 : 4);
-      var nombreDia = formatearDiaCorto(d);
-      return '<div class="chart-bar-col">' +
-        '<div class="chart-bar-value">' + (cantidad > 0 ? cantidad : '') + '</div>' +
-        '<div class="chart-bar' + (cantidad > 0 ? ' has-data' : '') + '" style="height:' + alturaPct + '%;"></div>' +
-        '<div class="chart-bar-label">' + nombreDia + '</div>' +
-      '</div>';
+      return '<div class="chart-bar-col"><div class="chart-bar-value">' + (cantidad > 0 ? cantidad : '') + '</div><div class="chart-bar' + (cantidad > 0 ? ' has-data' : '') + '" style="height:' + alturaPct + '%;"></div><div class="chart-bar-label">' + formatearDiaCorto(d) + '</div></div>';
     }).join('');
 
-    // ── Próximos ingresos estimados (turnos futuros pendientes/confirmados) ──
-    var futurosTurnos = turnos.filter(function(t) {
-      return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago');
-    });
+    // Próximos ingresos
+    var futurosTurnos      = turnos.filter(function(t) { return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago'); });
     var confirmadosFuturos = futurosTurnos.filter(function(t) { return t.estado === 'confirmado'; });
     var pendientesFuturos  = futurosTurnos.filter(function(t) { return t.estado === 'pendiente_pago'; });
+    var brutoConf   = confirmadosFuturos.length * precio;
+    var brutoPend   = pendientesFuturos.length * precio;
+    var netoConf    = Math.round(brutoConf * 0.97);
+    var netoPend    = Math.round(brutoPend * 0.97);
+    ingresosEl.innerHTML = futurosTurnos.length === 0
+      ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No tenés turnos próximos para proyectar.</div>'
+      : '<div class="summary-row"><span class="label">Confirmados (' + confirmadosFuturos.length + ')</span><span class="value">$' + netoConf.toLocaleString('es-AR') + '</span></div>' +
+        '<div class="summary-row"><span class="label">Pendientes de pago (' + pendientesFuturos.length + ')</span><span class="value">$' + netoPend.toLocaleString('es-AR') + '</span></div>' +
+        '<div class="summary-row total"><span class="label">Total proyectado (neto)</span><span class="value">$' + (netoConf + netoPend).toLocaleString('es-AR') + '</span></div>';
 
-    var brutoConfirmado = confirmadosFuturos.length * precio;
-    var brutoPendiente  = pendientesFuturos.length * precio;
-    var netoConfirmado  = Math.round(brutoConfirmado * (1 - 0.03));
-    var netoPendiente   = Math.round(brutoPendiente * (1 - 0.03));
-    var netoTotal       = netoConfirmado + netoPendiente;
-
-    if (futurosTurnos.length === 0) {
-      ingresosEl.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No tenés turnos próximos para proyectar ingresos.</div>';
-    } else {
-      ingresosEl.innerHTML =
-        '<div class="summary-row"><span class="label">Confirmados (' + confirmadosFuturos.length + ')</span><span class="value">$' + netoConfirmado.toLocaleString('es-AR') + '</span></div>' +
-        '<div class="summary-row"><span class="label">Pendientes de pago (' + pendientesFuturos.length + ')</span><span class="value">$' + netoPendiente.toLocaleString('es-AR') + '</span></div>' +
-        '<div class="summary-row total"><span class="label">Total proyectado (neto)</span><span class="value">$' + netoTotal.toLocaleString('es-AR') + '</span></div>';
-    }
-
-    // ── Próximos turnos (listado) ──
-    var estadoColor = { confirmado: '#166534', pendiente_pago: '#92400E', cancelado: '#991B1B' };
-    var estadoBg    = { confirmado: 'var(--success-soft)', pendiente_pago: 'var(--warning-soft)', cancelado: 'var(--danger-soft)' };
-
-    if (proximos.length === 0) {
-      turnosEl.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>';
-    } else {
-      turnosEl.innerHTML = proximos.slice(0, 10).map(function(t) {
-        var bg  = estadoBg[t.estado]    || '#F3F4F6';
-        var col = estadoColor[t.estado] || '#374151';
-        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);">' +
-          '<div>' +
-            '<div style="font-weight:600;font-size:14px;">' + t.paciente_nombre + '</div>' +
-            '<div style="font-size:12px;color:var(--muted);">' + t.fecha + ' · ' + t.hora + '</div>' +
-          '</div>' +
-          '<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:' + bg + ';color:' + col + ';">' + t.estado.replace('_', ' ') + '</span>' +
-        '</div>';
-      }).join('');
-    }
+    // Próximos turnos (listado)
+    var proximos = turnos.filter(function(t) { return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago'); })
+      .sort(function(a, b) { return (a.fecha + a.hora).localeCompare(b.fecha + b.hora); });
+    var estadoBg  = { confirmado: 'var(--success-soft)', pendiente_pago: 'var(--warning-soft)' };
+    var estadoCol = { confirmado: '#166534', pendiente_pago: '#92400E' };
+    turnosEl.innerHTML = proximos.length === 0
+      ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>'
+      : proximos.slice(0, 10).map(function(t) {
+          return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);">' +
+            '<div><div style="font-weight:600;font-size:14px;">' + t.paciente_nombre + '</div><div style="font-size:12px;color:var(--muted);">' + t.fecha + ' · ' + t.hora + '</div></div>' +
+            '<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:' + (estadoBg[t.estado] || '#F3F4F6') + ';color:' + (estadoCol[t.estado] || '#374151') + ';">' + t.estado.replace('_', ' ') + '</span>' +
+          '</div>';
+        }).join('');
 
   } catch(err) {
-    turnosEl.innerHTML = '<div style="color:var(--danger);font-size:13px;">Error al cargar turnos.</div>';
-    statsEl.innerHTML = '';
-    ocupEl.innerHTML = '<div style="color:var(--danger);font-size:13px;">Error al calcular ocupación.</div>';
-    chartEl.innerHTML = '';
+    turnosEl.innerHTML  = '<div style="color:var(--danger);font-size:13px;">Error al cargar turnos.</div>';
+    statsEl.innerHTML   = '';
+    ocupEl.innerHTML    = '<div style="color:var(--danger);font-size:13px;">Error al calcular ocupación.</div>';
+    chartEl.innerHTML   = '';
     ingresosEl.innerHTML = '<div style="color:var(--danger);font-size:13px;">Error al calcular ingresos.</div>';
   }
 }
@@ -1581,33 +1268,213 @@ function cerrarSesionPro() {
   document.getElementById('pro-vincular-mp').style.display = 'none';
   document.getElementById('pro-registro').style.display    = 'block';
   ['pro-nombre','pro-especialidad','pro-precio','pro-duracion','pro-id-login'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.value = '';
+    var el = document.getElementById(id); if (el) el.value = '';
   });
 }
 
 // ─────────────────────────────────────────────────────────────────────────
+// DISPONIBILIDAD — configurador
+// ─────────────────────────────────────────────────────────────────────────
+
+function inicializarDispState() {
+  DIAS.forEach(function(d) { dispState[d.num] = null; });
+}
+
+async function cargarDispProfesional(profesionalId) {
+  try {
+    var data = await apiGet('disponibilidad', { profesional_id: profesionalId });
+    var bloques = data.bloques || [];
+    inicializarDispState();
+    bloques.forEach(function(b) {
+      if (!dispState[b.dia]) dispState[b.dia] = [];
+      dispState[b.dia].push({ inicio: b.inicio, fin: b.fin });
+    });
+    renderDispDays();
+  } catch(e) {
+    // Si falla, mostramos el configurador vacío igualmente
+    renderDispDays();
+  }
+}
+
+function renderDispDays() {
+  var container = document.getElementById('disp-days-container');
+  if (!container) return;
+
+  container.innerHTML = DIAS.map(function(d) {
+    var activo  = dispState[d.num] !== null;
+    var bloques = activo ? dispState[d.num] : [];
+
+    var blocksHtml = bloques.map(function(b, idx) {
+      return renderBloque(d.num, idx, b.inicio, b.fin);
+    }).join('');
+
+    var resumen = !activo ? 'No disponible'
+      : bloques.length === 0 ? 'Sin horarios — agregá un bloque'
+      : bloques.map(function(b) { return b.inicio + '–' + b.fin; }).join(', ');
+
+    return '<div class="disp-day-row' + (activo ? ' has-blocks' : '') + '" id="disp-row-' + d.num + '">' +
+      '<div class="disp-day-header" onclick="toggleDia(' + d.num + ')">' +
+        '<div class="disp-day-toggle' + (activo ? ' on' : '') + '" id="toggle-' + d.num + '"></div>' +
+        '<span class="disp-day-name">' + d.nombre + '</span>' +
+        '<span class="disp-day-summary" id="disp-summary-' + d.num + '">' + resumen + '</span>' +
+      '</div>' +
+      '<div class="disp-day-blocks' + (activo ? ' open' : '') + '" id="disp-blocks-' + d.num + '">' +
+        '<div id="disp-bloques-list-' + d.num + '">' + blocksHtml + '</div>' +
+        '<button class="btn-add-block" onclick="agregarBloque(' + d.num + ')">+ Agregar bloque de horario</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderBloque(dia, idx, inicio, fin) {
+  return '<div class="disp-block-row" id="disp-bloque-' + dia + '-' + idx + '">' +
+    '<div><label>Desde</label><input type="time" value="' + (inicio || '09:00') + '" onchange="actualizarBloque(' + dia + ', ' + idx + ', \'inicio\', this.value)"></div>' +
+    '<div><label>Hasta</label><input type="time" value="' + (fin || '13:00') + '" onchange="actualizarBloque(' + dia + ', ' + idx + ', \'fin\', this.value)"></div>' +
+    '<button class="btn-remove-block" onclick="eliminarBloque(' + dia + ', ' + idx + ')" title="Eliminar bloque">✕</button>' +
+  '</div>';
+}
+
+function toggleDia(dia) {
+  if (dispState[dia] === null) {
+    // Activar con un bloque vacío por defecto
+    dispState[dia] = [{ inicio: '09:00', fin: '13:00' }];
+  } else {
+    dispState[dia] = null;
+  }
+  renderDispDays();
+}
+
+function agregarBloque(dia) {
+  if (!dispState[dia]) dispState[dia] = [];
+  // Bloque siguiente sugerido basado en el último
+  var ultimo = dispState[dia][dispState[dia].length - 1];
+  var nuevoInicio = ultimo ? ultimo.fin : '09:00';
+  var nuevoFin    = sumarHora(nuevoInicio, 240); // +4h por defecto
+  dispState[dia].push({ inicio: nuevoInicio, fin: nuevoFin });
+  renderDispDays();
+}
+
+function eliminarBloque(dia, idx) {
+  if (!dispState[dia]) return;
+  dispState[dia].splice(idx, 1);
+  if (dispState[dia].length === 0) {
+    // Mantiene el día activo pero sin bloques (el usuario puede agregar otro)
+  }
+  renderDispDays();
+}
+
+function actualizarBloque(dia, idx, campo, valor) {
+  if (!dispState[dia] || !dispState[dia][idx]) return;
+  dispState[dia][idx][campo] = valor;
+  // Actualizar resumen
+  actualizarResumenDia(dia);
+}
+
+function actualizarResumenDia(dia) {
+  var el = document.getElementById('disp-summary-' + dia);
+  if (!el) return;
+  var bloques = dispState[dia];
+  if (!bloques || bloques.length === 0) { el.textContent = 'Sin horarios — agregá un bloque'; return; }
+  el.textContent = bloques.map(function(b) { return b.inicio + '–' + b.fin; }).join(', ');
+}
+
+// Presets globales
+function aplicarPresetGlobal(preset) {
+  var presets = {
+    manana:  [{ inicio: '08:00', fin: '13:00' }],
+    tarde:   [{ inicio: '14:00', fin: '19:00' }],
+    completo:[{ inicio: '08:00', fin: '13:00' }, { inicio: '14:00', fin: '19:00' }]
+  };
+  DIAS.forEach(function(d) {
+    if (preset === 'lun-vie') {
+      if (d.num >= 1 && d.num <= 5) {
+        // Mantener horarios existentes o usar completo
+        dispState[d.num] = dispState[d.num] && dispState[d.num].length > 0
+          ? dispState[d.num]
+          : [{ inicio: '09:00', fin: '18:00' }];
+      } else {
+        dispState[d.num] = null;
+      }
+    } else if (dispState[d.num] !== null) {
+      // Solo aplicar a días ya activos
+      dispState[d.num] = presets[preset].map(function(b) { return { inicio: b.inicio, fin: b.fin }; });
+    }
+  });
+  renderDispDays();
+}
+
+async function guardarDisponibilidad() {
+  if (!profesionalActual) { alert('Sesión no encontrada.'); return; }
+
+  var btn      = document.getElementById('btn-guardar-disp');
+  var feedback = document.getElementById('disp-feedback');
+  btn.textContent = 'Guardando...';
+  btn.disabled    = true;
+  feedback.style.display = 'none';
+
+  // Construir lista de bloques
+  var bloques = [];
+  var error   = null;
+  DIAS.forEach(function(d) {
+    if (!dispState[d.num]) return;
+    (dispState[d.num] || []).forEach(function(b) {
+      if (!b.inicio || !b.fin) { error = 'Completá todos los horarios de inicio y fin.'; return; }
+      if (b.inicio >= b.fin) { error = 'La hora de inicio debe ser anterior a la de fin en ' + d.nombre + '.'; return; }
+      bloques.push({ dia: d.num, inicio: b.inicio, fin: b.fin });
+    });
+  });
+
+  if (error) {
+    feedback.textContent   = error;
+    feedback.className     = 'disp-feedback err';
+    feedback.style.display = 'block';
+    btn.textContent = 'Guardar disponibilidad';
+    btn.disabled    = false;
+    return;
+  }
+
+  try {
+    var data = await apiPost('disponibilidad', {
+      profesional_id: profesionalActual.id,
+      bloques:        bloques
+    });
+
+    if (data.ok) {
+      feedback.textContent   = '✓ Disponibilidad guardada correctamente';
+      feedback.className     = 'disp-feedback ok';
+    } else {
+      feedback.textContent   = '✗ ' + (data.error || 'Error al guardar');
+      feedback.className     = 'disp-feedback err';
+    }
+    feedback.style.display = 'block';
+    setTimeout(function() { feedback.style.display = 'none'; }, 4000);
+  } catch(err) {
+    feedback.textContent   = '✗ Error de conexión. Intentá de nuevo.';
+    feedback.className     = 'disp-feedback err';
+    feedback.style.display = 'block';
+  }
+
+  btn.textContent = 'Guardar disponibilidad';
+  btn.disabled    = false;
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// UI HELPERS
+// ─────────────────────────────────────────────────────────────────────────
 function showTab(name, el) {
-  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
-  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.app-section').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.tabs .tab').forEach(function(t) { t.classList.remove('active'); });
   document.getElementById('tab-' + name).classList.add('active');
   el.classList.add('active');
 }
 
-function closeModal() {
-  document.getElementById('payModal').classList.remove('open');
-}
-
-function closeModalOutside(e) {
-  if (e.target === document.getElementById('payModal')) closeModal();
-}
+function closeModal() { document.getElementById('payModal').classList.remove('open'); }
+function closeModalOutside(e) { if (e.target === document.getElementById('payModal')) closeModal(); }
 
 // ─────────────────────────────────────────────────────────────────────────
 // UTILIDADES
 // ─────────────────────────────────────────────────────────────────────────
-function hoyISO() {
-  return new Date().toISOString().split('T')[0];
-}
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
 
 function formatearFecha(iso) {
   var d = new Date(iso + 'T12:00:00');
@@ -1625,18 +1492,21 @@ function sumarDias(iso, dias) {
   return d.toISOString().split('T')[0];
 }
 
-function generarCantidadHorarios(inicio, fin, duracionMin) {
-  var partsInicio = inicio.split(':');
-  var h = Number(partsInicio[0]);
-  var m = Number(partsInicio[1]);
-  var partsFin = fin.split(':');
-  var hFin = Number(partsFin[0]);
-  var mFin = Number(partsFin[1]);
+function sumarHora(hora, minutos) {
+  var parts = hora.split(':');
+  var h = Number(parts[0]);
+  var m = Number(parts[1]) + minutos;
+  if (m >= 60) { h += Math.floor(m / 60); m = m % 60; }
+  if (h >= 24) h = 23;
+  return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+}
 
+function generarCantidadHorarios(inicio, fin, duracionMin) {
+  var parts = inicio.split(':'); var h = Number(parts[0]); var m = Number(parts[1]);
+  var pf    = fin.split(':');   var hF = Number(pf[0]);   var mF = Number(pf[1]);
   var count = 0;
-  while (h < hFin || (h === hFin && m < mFin)) {
-    count++;
-    m += duracionMin;
+  while (h < hF || (h === hF && m < mF)) {
+    count++; m += duracionMin;
     if (m >= 60) { h += Math.floor(m / 60); m = m % 60; }
   }
   return count;
