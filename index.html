@@ -10,938 +10,550 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
---teal: #0A7E6E;
---teal-light: #E6F4F1;
---teal-mid: #C2E0DA;
---ink: #111827;
---muted: #6B7280;
---line: #E5E7EB;
---white: #FFFFFF;
---mp-blue: #009EE3;
---warning: #F59E0B;
---success: #10B981;
---radius: 12px;
---shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --teal: #0A7E6E;
+  --teal-light: #E6F4F1;
+  --teal-mid: #C2E0DA;
+  --ink: #111827;
+  --muted: #6B7280;
+  --line: #E5E7EB;
+  --white: #FFFFFF;
+  --mp-blue: #009EE3;
+  --warning: #F59E0B;
+  --success: #10B981;
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
-body {
-font-family: 'Inter', sans-serif;
-background: #F7FAF9;
-color: var(--ink);
-min-height: 100vh;
-}
+body { font-family: 'Inter', sans-serif; background: #F7FAF9; color: var(--ink); min-height: 100vh; }
 
-/* NAV */
 nav {
-background: var(--white);
-border-bottom: 1px solid var(--line);
-padding: 0 24px;
-height: 60px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-position: sticky;
-top: 0;
-z-index: 100;
+  background: var(--white); border-bottom: 1px solid var(--line);
+  padding: 0 24px; height: 60px; display: flex; align-items: center;
+  justify-content: space-between; position: sticky; top: 0; z-index: 100;
 }
-.logo {
-font-family: 'DM Serif Display', serif;
-font-size: 22px;
-color: var(--teal);
-letter-spacing: -0.5px;
-}
+.logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--teal); letter-spacing: -0.5px; }
 .logo span { color: var(--ink); }
-.nav-badge {
-background: var(--teal-light);
-color: var(--teal);
-font-size: 12px;
-font-weight: 600;
-padding: 4px 10px;
-border-radius: 20px;
-}
+.nav-badge { background: var(--teal-light); color: var(--teal); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
 
-/* HERO */
 .hero {
-background: linear-gradient(135deg, var(--teal) 0%, #0D9488 100%);
-color: white;
-padding: 48px 24px 56px;
-text-align: center;
+  background: linear-gradient(135deg, var(--teal) 0%, #0D9488 100%);
+  color: white; padding: 48px 24px 56px; text-align: center;
 }
-.hero-eyebrow {
-font-size: 12px;
-font-weight: 600;
-letter-spacing: 1.5px;
-text-transform: uppercase;
-opacity: 0.8;
-margin-bottom: 12px;
-}
-.hero h1 {
-font-family: 'DM Serif Display', serif;
-font-size: 36px;
-line-height: 1.15;
-margin-bottom: 12px;
-}
-.hero h1 em {
-font-style: italic;
-opacity: 0.85;
-}
-.hero p {
-font-size: 15px;
-opacity: 0.85;
-max-width: 380px;
-margin: 0 auto 28px;
-line-height: 1.6;
-}
-.hero-stats {
-display: flex;
-justify-content: center;
-gap: 32px;
-}
+.hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.8; margin-bottom: 12px; }
+.hero h1 { font-family: 'DM Serif Display', serif; font-size: 36px; line-height: 1.15; margin-bottom: 12px; }
+.hero h1 em { font-style: italic; opacity: 0.85; }
+.hero p { font-size: 15px; opacity: 0.85; max-width: 380px; margin: 0 auto 28px; line-height: 1.6; }
+.hero-stats { display: flex; justify-content: center; gap: 32px; }
 .stat { text-align: center; }
-.stat-num {
-font-family: 'DM Serif Display', serif;
-font-size: 28px;
-display: block;
-}
-.stat-label {
-font-size: 11px;
-opacity: 0.7;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-}
+.stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; display: block; }
+.stat-label { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* TABS */
-.tabs {
-display: flex;
-background: var(--white);
-border-bottom: 1px solid var(--line);
-overflow-x: auto;
--webkit-overflow-scrolling: touch;
-}
+.tabs { display: flex; background: var(--white); border-bottom: 1px solid var(--line); overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tab {
-flex: 1;
-min-width: 120px;
-padding: 14px 16px;
-font-size: 13px;
-font-weight: 500;
-color: var(--muted);
-cursor: pointer;
-border-bottom: 2px solid transparent;
-text-align: center;
-white-space: nowrap;
-transition: all 0.2s;
-background: none;
-border-top: none;
-border-left: none;
-border-right: none;
+  flex: 1; min-width: 120px; padding: 14px 16px; font-size: 13px; font-weight: 500;
+  color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+  text-align: center; white-space: nowrap; transition: all 0.2s;
+  background: none; border-top: none; border-left: none; border-right: none;
 }
-.tab.active {
-color: var(--teal);
-border-bottom-color: var(--teal);
-background: var(--teal-light);
-}
+.tab.active { color: var(--teal); border-bottom-color: var(--teal); background: var(--teal-light); }
 
-/* SECTIONS */
 .section { display: none; padding: 20px 16px 40px; max-width: 600px; margin: 0 auto; }
 .section.active { display: block; }
 
-/* CARDS */
-.card {
-background: var(--white);
-border-radius: var(--radius);
-box-shadow: var(--shadow);
-padding: 20px;
-margin-bottom: 16px;
-}
-.card-header {
-display: flex;
-align-items: center;
-gap: 14px;
-margin-bottom: 16px;
-}
-.avatar {
-width: 52px; height: 52px;
-border-radius: 50%;
-display: flex; align-items: center; justify-content: center;
-font-size: 22px;
-flex-shrink: 0;
-}
+.card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
 .avatar.teal { background: var(--teal-light); }
 .avatar.blue { background: #EFF6FF; }
 .avatar.purple { background: #F5F3FF; }
-.doc-name {
-font-weight: 600;
-font-size: 16px;
-margin-bottom: 2px;
-}
-.doc-spec {
-font-size: 13px;
-color: var(--muted);
-}
-.doc-price {
-margin-left: auto;
-text-align: right;
-}
-.price-amount {
-font-family: 'DM Serif Display', serif;
-font-size: 20px;
-color: var(--teal);
-}
+.doc-name { font-weight: 600; font-size: 16px; margin-bottom: 2px; }
+.doc-spec { font-size: 13px; color: var(--muted); }
+.doc-price { margin-left: auto; text-align: right; }
+.price-amount { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--teal); }
 .price-label { font-size: 11px; color: var(--muted); }
 
-.slots {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
-margin-bottom: 16px;
-}
+.slots { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .slot {
-padding: 6px 14px;
-border-radius: 20px;
-border: 1.5px solid var(--line);
-font-size: 13px;
-cursor: pointer;
-transition: all 0.15s;
-background: none;
-color: var(--ink);
+  padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--line);
+  font-size: 13px; cursor: pointer; transition: all 0.15s;
+  background: none; color: var(--ink);
 }
-.slot:hover, .slot.selected {
-border-color: var(--teal);
-background: var(--teal-light);
-color: var(--teal);
-font-weight: 500;
-}
-.slot.taken {
-background: #F3F4F6;
-color: #D1D5DB;
-cursor: not-allowed;
-text-decoration: line-through;
-}
+.slot:hover, .slot.selected { border-color: var(--teal); background: var(--teal-light); color: var(--teal); font-weight: 500; }
+.slot.taken { background: #F3F4F6; color: #D1D5DB; cursor: not-allowed; text-decoration: line-through; }
 
-/* BUTTONS */
-.btn {
-display: block;
-width: 100%;
-padding: 14px;
-border-radius: var(--radius);
-font-size: 15px;
-font-weight: 600;
-cursor: pointer;
-border: none;
-transition: all 0.2s;
-text-align: center;
-}
-.btn-primary {
-background: var(--teal);
-color: white;
-}
+.btn { display: block; width: 100%; padding: 14px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; text-align: center; }
+.btn-primary { background: var(--teal); color: white; }
 .btn-primary:hover { background: #085F53; transform: translateY(-1px); }
-.btn-mp {
-background: var(--mp-blue);
-color: white;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 10px;
-}
+.btn-mp { background: var(--mp-blue); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
 .btn-mp:hover { background: #0085C2; }
-.btn-outline {
-background: white;
-color: var(--teal);
-border: 1.5px solid var(--teal);
-}
+.btn-outline { background: white; color: var(--teal); border: 1.5px solid var(--teal); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-/* MODAL */
-.overlay {
-display: none;
-position: fixed;
-inset: 0;
-background: rgba(0,0,0,0.5);
-z-index: 200;
-align-items: flex-end;
-justify-content: center;
-}
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
 .overlay.open { display: flex; }
-.modal {
-background: white;
-border-radius: 20px 20px 0 0;
-width: 100%;
-max-width: 600px;
-padding: 28px 24px 40px;
-animation: slideUp 0.3s ease;
-}
-@keyframes slideUp {
-from { transform: translateY(40px); opacity: 0; }
-to { transform: translateY(0); opacity: 1; }
-}
-.modal-handle {
-width: 36px; height: 4px;
-background: var(--line);
-border-radius: 2px;
-margin: 0 auto 20px;
-}
-.modal h2 {
-font-family: 'DM Serif Display', serif;
-font-size: 22px;
-margin-bottom: 6px;
-}
-.modal .subtitle {
-font-size: 13px;
-color: var(--muted);
-margin-bottom: 20px;
-}
+.modal { background: white; border-radius: 20px 20px 0 0; width: 100%; max-width: 600px; padding: 28px 24px 40px; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-handle { width: 36px; height: 4px; background: var(--line); border-radius: 2px; margin: 0 auto 20px; }
+.modal h2 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 6px; }
+.modal .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
 
-/* SUMMARY ROW */
-.summary-row {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 12px 0;
-border-bottom: 1px solid var(--line);
-font-size: 14px;
-}
+.summary-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
 .summary-row:last-child { border-bottom: none; }
 .summary-row .label { color: var(--muted); }
 .summary-row .value { font-weight: 500; }
-.summary-row.total .value {
-font-family: 'DM Serif Display', serif;
-font-size: 20px;
-color: var(--teal);
-}
-.commission-note {
-background: var(--teal-light);
-border-left: 3px solid var(--teal);
-padding: 10px 14px;
-border-radius: 0 8px 8px 0;
-font-size: 12px;
-color: var(--teal);
-margin: 12px 0 20px;
-}
+.summary-row.total .value { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--teal); }
+.commission-note { background: var(--teal-light); border-left: 3px solid var(--teal); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 12px; color: var(--teal); margin: 12px 0 20px; }
 
-/* MP LOGO */
-.mp-logo {
-display: inline-flex;
-align-items: center;
-gap: 6px;
-font-weight: 700;
-font-size: 15px;
-color: var(--mp-blue);
-}
+.mp-logo { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; color: var(--mp-blue); }
 .mp-dot { width: 8px; height: 8px; background: var(--mp-blue); border-radius: 50%; }
 
-/* SUCCESS */
-.success-screen {
-display: none;
-text-align: center;
-padding: 40px 20px;
-}
-.success-icon {
-width: 72px; height: 72px;
-background: #D1FAE5;
-border-radius: 50%;
-display: flex; align-items: center; justify-content: center;
-font-size: 32px;
-margin: 0 auto 20px;
-}
-.success-screen h2 {
-font-family: 'DM Serif Display', serif;
-font-size: 26px;
-margin-bottom: 8px;
-}
+.success-screen { display: none; text-align: center; padding: 40px 20px; }
+.success-icon { width: 72px; height: 72px; background: #D1FAE5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; }
+.success-screen h2 { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 8px; }
 .success-screen p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
 
-/* SECTION TECH */
 .tech-section { margin-bottom: 24px; }
-.tech-title {
-font-size: 12px;
-font-weight: 600;
-letter-spacing: 1px;
-text-transform: uppercase;
-color: var(--muted);
-margin-bottom: 12px;
-}
-.code-block {
-background: #1E293B;
-border-radius: var(--radius);
-padding: 16px;
-font-family: 'Courier New', monospace;
-font-size: 12px;
-line-height: 1.7;
-color: #E2E8F0;
-overflow-x: auto;
-margin-bottom: 12px;
-}
+.tech-title { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.code-block { background: #1E293B; border-radius: var(--radius); padding: 16px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.7; color: #E2E8F0; overflow-x: auto; margin-bottom: 12px; }
 .code-block .comment { color: #64748B; }
 .code-block .key { color: #7DD3FC; }
 .code-block .string { color: #86EFAC; }
 .code-block .number { color: #FCA5A5; }
-.info-box {
-background: #FFF7ED;
-border: 1px solid #FED7AA;
-border-radius: var(--radius);
-padding: 14px 16px;
-font-size: 13px;
-color: #92400E;
-margin-bottom: 12px;
-}
+.info-box { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: var(--radius); padding: 14px 16px; font-size: 13px; color: #92400E; margin-bottom: 12px; }
 .info-box strong { display: block; margin-bottom: 4px; }
-.step-row {
-display: flex;
-gap: 14px;
-align-items: flex-start;
-margin-bottom: 16px;
-}
-.step-num {
-width: 28px; height: 28px;
-background: var(--teal);
-color: white;
-border-radius: 50%;
-display: flex; align-items: center; justify-content: center;
-font-size: 13px;
-font-weight: 600;
-flex-shrink: 0;
-}
+.step-row { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+.step-num { width: 28px; height: 28px; background: var(--teal); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
 .step-content { flex: 1; }
 .step-content strong { display: block; font-size: 14px; margin-bottom: 4px; }
 .step-content p { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-/* BADGE */
-.badge {
-display: inline-flex;
-align-items: center;
-gap: 4px;
-padding: 3px 10px;
-border-radius: 20px;
-font-size: 11px;
-font-weight: 600;
-}
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
 .badge-green { background: #D1FAE5; color: #065F46; }
 .badge-blue { background: #DBEAFE; color: #1E40AF; }
 
-/* FORM */
 .form-group { margin-bottom: 16px; }
-.form-group label {
-display: block;
-font-size: 13px;
-font-weight: 500;
-color: var(--muted);
-margin-bottom: 6px;
-}
-.form-group input {
-width: 100%;
-padding: 12px 14px;
-border: 1.5px solid var(--line);
-border-radius: 8px;
-font-size: 15px;
-font-family: 'Inter', sans-serif;
-outline: none;
-transition: border-color 0.2s;
-}
+.form-group label { display: block; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
+.form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 8px; font-size: 15px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
 .form-group input:focus { border-color: var(--teal); }
 
-.section-label {
-font-size: 13px;
-font-weight: 600;
-color: var(--muted);
-text-transform: uppercase;
-letter-spacing: 0.8px;
-margin-bottom: 12px;
-}
+.section-label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+.divider { height: 1px; background: var(--line); margin: 20px 0; }
 
-.divider {
-height: 1px;
-background: var(--line);
-margin: 20px 0;
-}
+/* Banner de estado de pago (cuando MP redirige de vuelta) */
+.payment-banner { padding: 16px 20px; border-radius: var(--radius); margin: 16px; font-size: 14px; font-weight: 500; text-align: center; }
+.payment-banner.success { background: #D1FAE5; color: #065F46; }
+.payment-banner.error   { background: #FEE2E2; color: #991B1B; }
+.payment-banner.pending { background: #FEF3C7; color: #92400E; }
 </style>
 </head>
 <body>
 
 <nav>
-<div class="logo">Turno<span>Ya</span></div>
-<div class="nav-badge" id="api-status">Conectando...</div>
+  <div class="logo">Turno<span>Ya</span></div>
+  <div class="nav-badge" id="api-status">Conectando...</div>
 </nav>
 
+<!-- FIX #3: banner que aparece cuando MP redirige de vuelta con ?estado=... -->
+<div id="payment-banner" style="display:none;"></div>
+
 <div class="hero">
-<div class="hero-eyebrow">Turnos médicos online</div>
-<h1>Reservá tu turno.<br><em>Sin llamadas, sin esperas.</em></h1>
-<p>Pagá el 100% al reservar. Tu hora está garantizada.</p>
-<div class="hero-stats">
-<div class="stat">
-<span class="stat-num">0%</span>
-<span class="stat-label">No-shows</span>
-</div>
-<div class="stat">
-<span class="stat-num">3%</span>
-<span class="stat-label">Comisión</span>
-</div>
-<div class="stat">
-<span class="stat-num">24/7</span>
-<span class="stat-label">Disponible</span>
-</div>
-</div>
+  <div class="hero-eyebrow">Turnos médicos online</div>
+  <h1>Reservá tu turno.<br><em>Sin llamadas, sin esperas.</em></h1>
+  <p>Pagá el 100% al reservar. Tu hora está garantizada.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">0%</span><span class="stat-label">No-shows</span></div>
+    <div class="stat"><span class="stat-num">3%</span><span class="stat-label">Comisión</span></div>
+    <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">Disponible</span></div>
+  </div>
 </div>
 
 <div class="tabs">
-<button class="tab active" onclick="showTab('reservar')">🗓 Reservar turno</button>
-<button class="tab" onclick="showTab('profesional')">👨‍⚕️ Soy profesional</button>
-<button class="tab" onclick="showTab('integracion')">⚙️ Integración MP</button>
+  <button class="tab active" onclick="showTab('reservar', this)">🗓 Reservar turno</button>
+  <button class="tab" onclick="showTab('profesional', this)">👨‍⚕️ Soy profesional</button>
+  <button class="tab" onclick="showTab('integracion', this)">⚙️ Integración MP</button>
 </div>
 
 <!-- TAB: RESERVAR -->
 <div id="tab-reservar" class="section active">
-<p class="section-label">Profesionales disponibles hoy</p>
-<div id="profesionales-container">
-<div class="card" style="text-align:center; padding: 40px 20px; color: var(--muted);">
-<div style="font-size:32px; margin-bottom:12px;">⏳</div>
-<div>Cargando profesionales...</div>
-</div>
-</div>
+  <p class="section-label">Profesionales disponibles hoy</p>
+  <div id="profesionales-container">
+    <div class="card" style="text-align:center; padding:40px 20px; color:var(--muted);">
+      <div style="font-size:32px; margin-bottom:12px;">⏳</div>
+      <div>Cargando profesionales...</div>
+    </div>
+  </div>
 </div>
 
 <!-- TAB: PROFESIONAL -->
 <div id="tab-profesional" class="section">
-<p class="section-label">Tu perfil profesional</p>
-<div class="card">
-<div class="form-group">
-<label>Nombre completo</label>
-<input type="text" placeholder="Dra. María García" value="Dra. María García">
-</div>
-<div class="form-group">
-<label>Especialidad</label>
-<input type="text" placeholder="Ej: Psicología clínica" value="Psicología clínica">
-</div>
-<div class="form-group">
-<label>Precio por consulta (ARS)</label>
-<input type="number" placeholder="8000" value="8000">
-</div>
-<div class="form-group">
-<label>Duración del turno</label>
-<input type="text" placeholder="50 minutos" value="50 minutos">
-</div>
-<div class="divider"></div>
-<div class="section-label">Vinculá tu cuenta de Mercado Pago</div>
-<div class="info-box">
-<strong>¿Por qué vincular MP?</strong>
-Cada vez que un paciente pague su turno, el dinero llega directo a tu cuenta de MP. TurnoYa descuenta automáticamente el 3% de comisión antes de transferirte.
-</div>
-<button class="btn btn-mp">
-<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-Vincular mi cuenta →
-</button>
-</div>
+  <p class="section-label">Tu perfil profesional</p>
+  <div class="card">
+    <div class="form-group">
+      <label>Nombre completo</label>
+      <input type="text" placeholder="Dra. María García" value="Dra. María García">
+    </div>
+    <div class="form-group">
+      <label>Especialidad</label>
+      <input type="text" placeholder="Ej: Psicología clínica" value="Psicología clínica">
+    </div>
+    <div class="form-group">
+      <label>Precio por consulta (ARS)</label>
+      <input type="number" placeholder="8000" value="8000">
+    </div>
+    <div class="form-group">
+      <label>Duración del turno</label>
+      <input type="text" placeholder="50 minutos" value="50 minutos">
+    </div>
+    <div class="divider"></div>
+    <div class="section-label">Vinculá tu cuenta de Mercado Pago</div>
+    <div class="info-box">
+      <strong>¿Por qué vincular MP?</strong>
+      Cada vez que un paciente pague su turno, el dinero llega directo a tu cuenta de MP. TurnoYa descuenta automáticamente el 3% de comisión.
+    </div>
+    <button class="btn btn-mp">
+      <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
+      Vincular mi cuenta →
+    </button>
+  </div>
 
-<div class="card">
-<div class="section-label">Resumen del mes — Junio 2025</div>
-<div class="summary-row">
-<span class="label">Turnos cobrados</span>
-<span class="value">18 turnos</span>
-</div>
-<div class="summary-row">
-<span class="label">Facturado bruto</span>
-<span class="value">$144.000</span>
-</div>
-<div class="summary-row">
-<span class="label">Comisión TurnoYa (3%)</span>
-<span class="value" style="color:#EF4444;">— $4.320</span>
-</div>
-<div class="summary-row total">
-<span class="label">Recibiste en MP</span>
-<span class="value">$139.680</span>
-</div>
-</div>
+  <div class="card">
+    <div class="section-label">Resumen del mes — Junio 2025</div>
+    <div class="summary-row"><span class="label">Turnos cobrados</span><span class="value">18 turnos</span></div>
+    <div class="summary-row"><span class="label">Facturado bruto</span><span class="value">$144.000</span></div>
+    <div class="summary-row"><span class="label">Comisión TurnoYa (3%)</span><span class="value" style="color:#EF4444;">— $4.320</span></div>
+    <div class="summary-row total"><span class="label">Recibiste en MP</span><span class="value">$139.680</span></div>
+  </div>
 </div>
 
 <!-- TAB: INTEGRACIÓN -->
 <div id="tab-integracion" class="section">
-<p class="section-label">Cómo funciona la integración</p>
-
-<div class="card tech-section">
-<div class="tech-title">Arquitectura — Marketplace MP</div>
-<div class="step-row">
-<div class="step-num">1</div>
-<div class="step-content">
-<strong>Creá tu app en MP Developers</strong>
-<p>Entrá a developers.mercadopago.com, creá una aplicación y activá el modo Marketplace. Obtenés tu <code>client_id</code> y <code>client_secret</code>.</p>
-</div>
-</div>
-<div class="step-row">
-<div class="step-num">2</div>
-<div class="step-content">
-<strong>OAuth: el profesional autoriza tu app</strong>
-<p>Redirigís al profesional a la URL de autorización de MP. Él aprueba y MP te devuelve un <code>access_token</code> específico de ese usuario.</p>
-</div>
-</div>
-<div class="step-row">
-<div class="step-num">3</div>
-<div class="step-content">
-<strong>Creás el pago con split automático</strong>
-<p>Al cobrar el turno, usás el <code>access_token</code> del profesional como vendedor y definís tu comisión del 3% con <code>marketplace_fee</code>.</p>
-</div>
-</div>
-<div class="step-row">
-<div class="step-num">4</div>
-<div class="step-content">
-<strong>MP distribuye automáticamente</strong>
-<p>MP cobra al paciente, envía el 97% al profesional y el 3% a tu cuenta. Todo automático, sin movimientos manuales.</p>
-</div>
-</div>
-</div>
-
-<div class="card tech-section">
-<div class="tech-title">URL de autorización OAuth</div>
-<div class="code-block">
-<span class="comment">// Paso 1: redirigir al profesional</span>
-<span class="key">const</span> authUrl = <span class="string">`https://auth.mercadopago.com/authorization
-?client_id=<span style="color:#FCA5A5;">TU_CLIENT_ID</span>
-&response_type=code
-&platform_id=mp
-&redirect_uri=https://turnoya.com/oauth/callback`</span>;
-
-<span class="comment">// En tu callback, recibís el code y lo canjeás</span>
-<span class="key">const</span> res = <span class="key">await</span> fetch(<span class="string">'https://api.mercadopago.com/oauth/token'</span>, {
-method: <span class="string">'POST'</span>,
-body: JSON.stringify({
-client_id: <span class="string">'TU_CLIENT_ID'</span>,
-client_secret: <span class="string">'TU_CLIENT_SECRET'</span>,
-code: req.query.code,
-grant_type: <span class="string">'authorization_code'</span>,
-redirect_uri: <span class="string">'https://turnoya.com/oauth/callback'</span>
-})
-});
-<span class="comment">// Guardás res.access_token en tu DB asociado al profesional</span>
-</div>
-</div>
-
-<div class="card tech-section">
-<div class="tech-title">Crear preferencia de pago con comisión</div>
-<div class="code-block">
-<span class="comment">// Paso 2: crear el checkout con marketplace_fee</span>
-<span class="key">const</span> preference = <span class="key">await</span> fetch(
-<span class="string">'https://api.mercadopago.com/checkout/preferences'</span>,
-{
-method: <span class="string">'POST'</span>,
-headers: {
-<span class="comment">// ← access_token del PROFESIONAL (no el tuyo)</span>
-<span class="key">'Authorization'</span>: <span class="string">`Bearer ${profesional.mpAccessToken}`</span>
-},
-body: JSON.stringify({
-items: [{
-title: <span class="string">'Consulta médica — TurnoYa'</span>,
-quantity: <span class="number">1</span>,
-unit_price: <span class="number">8000</span> <span class="comment">// precio del turno</span>
-}],
-<span class="comment">// Tu comisión del 3%</span>
-marketplace_fee: <span class="number">240</span>, <span class="comment">// 8000 * 0.03</span>
-back_urls: {
-success: <span class="string">'https://turnoya.com/turno/confirmado'</span>,
-failure: <span class="string">'https://turnoya.com/turno/error'</span>
-},
-auto_return: <span class="string">'approved'</span>
-})
-}
-);
-<span class="key">const</span> { init_point } = <span class="key">await</span> preference.json();
-<span class="comment">// Redirigís al paciente a init_point para pagar</span>
-</div>
-</div>
-
-<div class="card">
-<div class="tech-title">Links importantes</div>
-<div class="step-row" style="margin-bottom:10px;">
-<div style="font-size:18px;">📚</div>
-<div class="step-content">
-<strong>Documentación oficial Marketplace</strong>
-<p style="color:var(--mp-blue);">developers.mercadopago.com/es/docs/marketplace</p>
-</div>
-</div>
-<div class="step-row" style="margin-bottom:10px;">
-<div style="font-size:18px;">🧪</div>
-<div class="step-content">
-<strong>Sandbox para pruebas</strong>
-<p>MP te da cuentas de prueba para simular pagos sin dinero real.</p>
-</div>
-</div>
-<div class="step-row">
-<div style="font-size:18px;">💡</div>
-<div class="step-content">
-<strong>Tip importante</strong>
-<p>El <code>marketplace_fee</code> va a tu cuenta automáticamente. No necesitás hacer transferencias manuales.</p>
-</div>
-</div>
-</div>
+  <p class="section-label">Cómo funciona la integración</p>
+  <div class="card tech-section">
+    <div class="tech-title">Arquitectura — Marketplace MP</div>
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Creá tu app en MP Developers</strong>
+        <p>Entrá a developers.mercadopago.com, creá una aplicación y activá el modo Marketplace. Obtenés tu <code>client_id</code> y <code>client_secret</code>.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>OAuth: el profesional autoriza tu app</strong>
+        <p>Redirigís al profesional a la URL de autorización de MP. Él aprueba y MP te devuelve un <code>access_token</code> específico de ese usuario.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>Creás el pago con split automático</strong>
+        <p>Al cobrar el turno, usás el <code>access_token</code> del profesional como vendedor y definís tu comisión del 3% con <code>marketplace_fee</code>.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>MP distribuye automáticamente</strong>
+        <p>MP cobra al paciente, envía el 97% al profesional y el 3% a tu cuenta. Todo automático.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL DE PAGO -->
 <div class="overlay" id="payModal" onclick="closeModalOutside(event)">
-<div class="modal">
-<div class="modal-handle"></div>
-<h2>Confirmá tu turno</h2>
-<p class="subtitle">El pago garantiza tu reserva</p>
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>Confirmá tu turno</h2>
+    <p class="subtitle">El pago garantiza tu reserva</p>
 
-<div id="modal-body">
-<div class="summary-row">
-<span class="label">Profesional</span>
-<span class="value" id="modal-doc">—</span>
-</div>
-<div class="summary-row">
-<span class="label">Fecha</span>
-<span class="value">Lunes 16 de junio</span>
-</div>
-<div class="summary-row">
-<span class="label">Horario</span>
-<span class="value" id="modal-slot">—</span>
-</div>
-<div class="summary-row total">
-<span class="label">Total a pagar</span>
-<span class="value" id="modal-price">—</span>
-</div>
+    <div id="modal-body">
+      <div class="summary-row">
+        <span class="label">Profesional</span>
+        <span class="value" id="modal-doc">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Fecha</span>
+        <span class="value" id="modal-fecha">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Horario</span>
+        <span class="value" id="modal-slot">—</span>
+      </div>
+      <div class="summary-row total">
+        <span class="label">Total a pagar</span>
+        <span class="value" id="modal-price">—</span>
+      </div>
 
-<div class="commission-note">
-TurnoYa cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.
-</div>
+      <div class="commission-note">
+        TurnoYa cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.
+      </div>
 
-<div class="form-group">
-<label>Tu nombre</label>
-<input type="text" placeholder="Juan Pérez">
-</div>
-<div class="form-group">
-<label>Email</label>
-<input type="email" placeholder="juan@email.com">
-</div>
+      <!-- FIX #2: se agregaron id="modal-nombre" e id="modal-email" que faltaban -->
+      <div class="form-group">
+        <label>Tu nombre</label>
+        <input type="text" id="modal-nombre" placeholder="Juan Pérez">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="modal-email" placeholder="juan@email.com">
+      </div>
 
-<button class="btn btn-mp" onclick="simulatePay()">
-<span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span>
-Pagar ahora →
-</button>
-</div>
+      <!-- FIX #1: onclick apunta a confirmarPago(), no a simulatePay() que no existía -->
+      <button class="btn btn-mp" id="btn-pagar" onclick="confirmarPago()">
+        <span class="mp-logo"><span class="mp-dot" style="background:white;"></span>Mercado Pago</span>
+        Pagar ahora →
+      </button>
+    </div>
 
-<div id="success-screen" class="success-screen">
-<div class="success-icon">✅</div>
-<h2>¡Turno confirmado!</h2>
-<p>Te enviamos los detalles por email. El profesional recibió el pago en su cuenta de Mercado Pago.</p>
-<button class="btn btn-outline" onclick="closeModal()">Volver al inicio</button>
-</div>
-</div>
+    <div id="success-screen" class="success-screen">
+      <div class="success-icon">✅</div>
+      <h2>¡Turno confirmado!</h2>
+      <p>Te enviamos los detalles por email. El profesional recibió el pago en su cuenta de Mercado Pago.</p>
+      <button class="btn btn-outline" onclick="closeModal()">Volver al inicio</button>
+    </div>
+  </div>
 </div>
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────
-// CONFIGURACIÓN — pegá la URL de tu Apps Script deployado acá
+// CONFIGURACIÓN
 // ─────────────────────────────────────────────────────────────────────────
-const API_URL = 'https://script.google.com/macros/s/AKfycbzFKbxQo_teWzCTiDH2cSv5ZcBpRkdAy8bQ5EO4NIuKOPSlVPEUoRY8tfpxjT-Tdg5J9Q/exec'; // ej: https://script.google.com/macros/s/XXX/exec
+const API_URL = 'https://script.google.com/macros/s/AKfycbzFKbxQo_teWzCTiDH2cSv5ZcBpRkdAy8bQ5EO4NIuKOPSlVPEUoRY8tfpxjT-Tdg5J9Q/exec';
 
 // ─────────────────────────────────────────────────────────────────────────
 // ESTADO GLOBAL
 // ─────────────────────────────────────────────────────────────────────────
-let selectedSlotTime = null;
-let selectedProfesional = null; // { id, nombre, precio }
-let fechaSeleccionada = hoyISO();
+var selectedSlotTime    = null;
+var selectedProfesional = null;
+var fechaSeleccionada   = hoyISO();
 
 // ─────────────────────────────────────────────────────────────────────────
 // API HELPERS
 // ─────────────────────────────────────────────────────────────────────────
-async function apiGet(path, params = {}) {
-const qs = new URLSearchParams({ path, ...params }).toString();
-const res = await fetch(`${API_URL}?${qs}`);
-return res.json();
+async function apiGet(path, params) {
+  params = params || {};
+  var qs = new URLSearchParams(Object.assign({ path: path }, params)).toString();
+  var res = await fetch(API_URL + '?' + qs);
+  return res.json();
 }
 
 async function apiPost(path, body) {
-const res = await fetch(`${API_URL}?path=${path}`, {
-method: 'POST',
-body: JSON.stringify(body)
-});
-return res.json();
+  var res = await fetch(API_URL + '?path=' + path, {
+    method: 'POST',
+    body: JSON.stringify(body)
+  });
+  return res.json();
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// FIX #3: leer ?estado=... cuando MP redirige de vuelta al sitio
+// ─────────────────────────────────────────────────────────────────────────
+function checkPaymentReturn() {
+  var params = new URLSearchParams(window.location.search);
+  var estado  = params.get('estado');
+  var turnoId = params.get('turno_id');
+  if (!estado) return;
+
+  var banner  = document.getElementById('payment-banner');
+  var mensajes = {
+    confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId || '') + ' está confirmado. Te enviamos un email.',
+    error:      '❌ Hubo un problema con el pago. Podés intentarlo de nuevo.',
+    pendiente:  '⏳ El pago está pendiente de acreditación. Te avisamos cuando se confirme.'
+  };
+  var clases = { confirmado: 'success', error: 'error', pendiente: 'pending' };
+
+  if (mensajes[estado]) {
+    banner.className  = 'payment-banner ' + (clases[estado] || '');
+    banner.textContent = mensajes[estado];
+    banner.style.display = 'block';
+    // Limpia los params de la URL sin recargar la página
+    window.history.replaceState({}, '', window.location.pathname);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────
 // INICIALIZACIÓN
 // ─────────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-cargarProfesionales();
+document.addEventListener('DOMContentLoaded', function() {
+  checkPaymentReturn();
+  cargarProfesionales();
 });
 
 async function cargarProfesionales() {
-const container = document.getElementById('profesionales-container');
-const badge = document.getElementById('api-status');
+  var container = document.getElementById('profesionales-container');
+  var badge     = document.getElementById('api-status');
 
-try {
-const data = await apiGet('profesionales');
+  try {
+    var data = await apiGet('profesionales');
 
-if (!data.profesionales || data.profesionales.length === 0) {
-container.innerHTML = `
-<div class="card" style="text-align:center; padding:40px 20px; color:var(--muted);">
-<div style="font-size:32px; margin-bottom:12px;">🏥</div>
-<div>No hay profesionales disponibles aún.</div>
-</div>`;
-badge.textContent = 'Sin datos';
-return;
-}
+    if (!data.profesionales || data.profesionales.length === 0) {
+      container.innerHTML = '<div class="card" style="text-align:center;padding:40px 20px;color:var(--muted);"><div style="font-size:32px;margin-bottom:12px;">🏥</div><div>No hay profesionales disponibles aún.</div></div>';
+      badge.textContent = 'Sin datos';
+      return;
+    }
 
-badge.textContent = 'Conectado ✓';
-badge.style.background = '#D1FAE5';
-badge.style.color = '#065F46';
+    badge.textContent = 'Conectado ✓';
+    badge.style.background = '#D1FAE5';
+    badge.style.color = '#065F46';
 
-const avatares = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
-const colores = ['teal','blue','purple','teal','blue'];
+    var avatares = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
+    var colores  = ['teal','blue','purple','teal','blue'];
 
-container.innerHTML = data.profesionales.map((pro, i) => `
-<div class="card" id="card-${pro.id}">
-<div class="card-header">
-<div class="avatar ${colores[i % colores.length]}">${avatares[i % avatares.length]}</div>
-<div>
-<div class="doc-name">${pro.nombre}</div>
-<div class="doc-spec">${pro.especialidad}</div>
-${pro.tiene_mp
-? '<span class="badge badge-green">✓ Acepta pagos</span>'
-: '<span class="badge badge-blue">Sin MP vinculado</span>'}
-</div>
-<div class="doc-price">
-<div class="price-amount">$${Number(pro.precio).toLocaleString('es-AR')}</div>
-<div class="price-label">por sesión</div>
-</div>
-</div>
-<div class="section-label" style="margin-bottom:8px;">Horarios — ${formatearFecha(fechaSeleccionada)}</div>
-<div class="slots" id="slots-${pro.id}">
-<div style="color:var(--muted); font-size:13px;">Cargando horarios...</div>
-</div>
-<button class="btn btn-primary" onclick="abrirModal('${pro.id}', '${pro.nombre}', ${pro.precio})">
-Confirmar y pagar →
-</button>
-</div>
-`).join('');
+    container.innerHTML = data.profesionales.map(function(pro, i) {
+      return '<div class="card" id="card-' + pro.id + '">' +
+        '<div class="card-header">' +
+          '<div class="avatar ' + colores[i % colores.length] + '">' + avatares[i % avatares.length] + '</div>' +
+          '<div>' +
+            '<div class="doc-name">' + pro.nombre + '</div>' +
+            '<div class="doc-spec">' + pro.especialidad + '</div>' +
+            (pro.tiene_mp
+              ? '<span class="badge badge-green">✓ Acepta pagos</span>'
+              : '<span class="badge badge-blue">Sin MP vinculado</span>') +
+          '</div>' +
+          '<div class="doc-price">' +
+            '<div class="price-amount">$' + Number(pro.precio).toLocaleString('es-AR') + '</div>' +
+            '<div class="price-label">por sesión</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="section-label" style="margin-bottom:8px;">Horarios — ' + formatearFecha(fechaSeleccionada) + '</div>' +
+        '<div class="slots" id="slots-' + pro.id + '"><div style="color:var(--muted);font-size:13px;">Cargando horarios...</div></div>' +
+        '<button class="btn btn-primary" onclick="abrirModal(\'' + pro.id + '\', \'' + pro.nombre.replace(/'/g, "\\'") + '\', ' + pro.precio + ')">Confirmar y pagar →</button>' +
+      '</div>';
+    }).join('');
 
-// Cargar horarios de cada profesional en paralelo
-data.profesionales.forEach(pro => cargarHorarios(pro.id, pro.nombre, pro.precio));
+    data.profesionales.forEach(function(pro) {
+      cargarHorarios(pro.id, pro.nombre, pro.precio);
+    });
 
-} catch (err) {
-badge.textContent = 'Error de conexión';
-badge.style.background = '#FEE2E2';
-badge.style.color = '#991B1B';
-container.innerHTML = `
-<div class="card" style="padding:24px;">
-<div style="font-weight:600; margin-bottom:8px;">No se pudo conectar con la API</div>
-<div style="font-size:13px; color:var(--muted);">
-Verificá que <code>API_URL</code> esté configurado correctamente en el código.
-</div>
-</div>`;
-}
+  } catch (err) {
+    badge.textContent = 'Error de conexión';
+    badge.style.background = '#FEE2E2';
+    badge.style.color = '#991B1B';
+    container.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:600;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que <code>API_URL</code> esté configurado correctamente.</div></div>';
+  }
 }
 
 async function cargarHorarios(profesionalId, nombre, precio) {
-const slotsEl = document.getElementById(`slots-${profesionalId}`);
-try {
-const data = await apiGet('turnos', {
-profesional_id: profesionalId,
-fecha: fechaSeleccionada
-});
+  var slotsEl = document.getElementById('slots-' + profesionalId);
+  try {
+    var data = await apiGet('turnos', { profesional_id: profesionalId, fecha: fechaSeleccionada });
 
-if (!data.horarios || data.horarios.length === 0) {
-slotsEl.innerHTML = '<div style="color:var(--muted); font-size:13px;">Sin horarios disponibles</div>';
-return;
-}
+    if (!data.horarios || data.horarios.length === 0) {
+      slotsEl.innerHTML = '<div style="color:var(--muted);font-size:13px;">Sin horarios disponibles</div>';
+      return;
+    }
 
-slotsEl.innerHTML = data.horarios.map(h => {
-if (!h.disponible) {
-return `<button class="slot taken" disabled>${h.hora}</button>`;
-}
-return `<button class="slot" onclick="seleccionarSlot(this, '${profesionalId}', '${nombre}', '${h.hora}', ${precio})">${h.hora}</button>`;
-}).join('');
+    slotsEl.innerHTML = data.horarios.map(function(h) {
+      if (!h.disponible) {
+        return '<button class="slot taken" disabled>' + h.hora + '</button>';
+      }
+      return '<button class="slot" onclick="seleccionarSlot(this, \'' + profesionalId + '\', \'' + nombre.replace(/'/g, "\\'") + '\', \'' + h.hora + '\', ' + precio + ')">' + h.hora + '</button>';
+    }).join('');
 
-} catch (err) {
-slotsEl.innerHTML = '<div style="color:var(--muted); font-size:13px;">Error al cargar horarios</div>';
-}
+  } catch (err) {
+    slotsEl.innerHTML = '<div style="color:var(--muted);font-size:13px;">Error al cargar horarios</div>';
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────
 // INTERACCIONES
 // ─────────────────────────────────────────────────────────────────────────
 function seleccionarSlot(el, profesionalId, nombre, hora, precio) {
-document.getElementById(`slots-${profesionalId}`)
-.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
-el.classList.add('selected');
-selectedSlotTime = hora;
-selectedProfesional = { id: profesionalId, nombre, precio };
+  document.getElementById('slots-' + profesionalId)
+    .querySelectorAll('.slot').forEach(function(s) { s.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedSlotTime    = hora;
+  selectedProfesional = { id: profesionalId, nombre: nombre, precio: precio };
 }
 
 function abrirModal(profesionalId, nombre, precio) {
-if (!selectedProfesional || selectedProfesional.id !== profesionalId || !selectedSlotTime) {
-alert('Por favor elegí un horario primero.');
-return;
-}
-document.getElementById('modal-doc').textContent = nombre;
-document.getElementById('modal-slot').textContent = selectedSlotTime;
-document.getElementById('modal-price').textContent = '$' + Number(precio).toLocaleString('es-AR');
-document.getElementById('modal-body').style.display = 'block';
-document.getElementById('success-screen').style.display = 'none';
-document.getElementById('modal-nombre').value = '';
-document.getElementById('modal-email').value = '';
-document.getElementById('payModal').classList.add('open');
+  if (!selectedProfesional || selectedProfesional.id !== profesionalId || !selectedSlotTime) {
+    alert('Por favor elegí un horario primero.');
+    return;
+  }
+  document.getElementById('modal-doc').textContent   = nombre;
+  document.getElementById('modal-fecha').textContent = formatearFecha(fechaSeleccionada);
+  document.getElementById('modal-slot').textContent  = selectedSlotTime;
+  document.getElementById('modal-price').textContent = '$' + Number(precio).toLocaleString('es-AR');
+
+  // Limpiar campos y resetear botón
+  document.getElementById('modal-nombre').value = '';
+  document.getElementById('modal-email').value  = '';
+  var btn = document.getElementById('btn-pagar');
+  btn.textContent = 'Pagar ahora →';
+  btn.disabled    = false;
+
+  document.getElementById('modal-body').style.display    = 'block';
+  document.getElementById('success-screen').style.display = 'none';
+  document.getElementById('payModal').classList.add('open');
 }
 
+// FIX #1: función correcta (antes el botón llamaba a simulatePay() que no existía)
 async function confirmarPago() {
-const nombre = document.getElementById('modal-nombre').value.trim();
-const email = document.getElementById('modal-email').value.trim();
-const btn = document.getElementById('btn-pagar');
+  var nombre = document.getElementById('modal-nombre').value.trim();
+  var email  = document.getElementById('modal-email').value.trim();
+  var btn    = document.getElementById('btn-pagar');
 
-if (!nombre || !email) {
-alert('Por favor completá tu nombre y email.');
-return;
+  if (!nombre || !email) {
+    alert('Por favor completá tu nombre y email.');
+    return;
+  }
+
+  btn.textContent = 'Procesando...';
+  btn.disabled    = true;
+
+  try {
+    var data = await apiPost('turnos', {
+      profesional_id: selectedProfesional.id,
+      fecha:          fechaSeleccionada,
+      hora:           selectedSlotTime,
+      paciente_nombre: nombre,
+      paciente_email:  email
+    });
+
+    if (data.init_point) {
+      // Redirigir al checkout real de Mercado Pago
+      window.location.href = data.init_point;
+    } else {
+      alert('Error: ' + (data.error || 'No se pudo crear el pago'));
+      btn.textContent = 'Pagar ahora →';
+      btn.disabled    = false;
+    }
+  } catch (err) {
+    alert('Error de conexión. Intentá de nuevo.');
+    btn.textContent = 'Pagar ahora →';
+    btn.disabled    = false;
+  }
 }
 
-btn.textContent = 'Procesando...';
-btn.disabled = true;
-
-try {
-const data = await apiPost('turnos', {
-profesional_id: selectedProfesional.id,
-fecha: fechaSeleccionada,
-hora: selectedSlotTime,
-paciente_nombre: nombre,
-paciente_email: email
-});
-
-if (data.init_point) {
-// Redirigir al checkout real de Mercado Pago
-window.location.href = data.init_point;
-} else {
-alert('Error: ' + (data.error || 'No se pudo crear el pago'));
-btn.textContent = 'Pagar con Mercado Pago →';
-btn.disabled = false;
-}
-} catch (err) {
-alert('Error de conexión. Intentá de nuevo.');
-btn.textContent = 'Pagar con Mercado Pago →';
-btn.disabled = false;
-}
-}
-
-function showTab(name) {
-document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-document.getElementById('tab-' + name).classList.add('active');
-event.target.classList.add('active');
+// FIX: showTab ahora recibe el elemento clickeado como parámetro
+function showTab(name, el) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.getElementById('tab-' + name).classList.add('active');
+  el.classList.add('active');
 }
 
 function closeModal() {
-document.getElementById('payModal').classList.remove('open');
+  document.getElementById('payModal').classList.remove('open');
 }
 
 function closeModalOutside(e) {
-if (e.target === document.getElementById('payModal')) closeModal();
+  if (e.target === document.getElementById('payModal')) closeModal();
 }
 
 // ─────────────────────────────────────────────────────────────────────────
 // UTILIDADES
 // ─────────────────────────────────────────────────────────────────────────
 function hoyISO() {
-return new Date().toISOString().split('T')[0];
+  return new Date().toISOString().split('T')[0];
 }
 
 function formatearFecha(iso) {
-const d = new Date(iso + 'T12:00:00');
-return d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'short' });
+  var d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'short' });
 }
 </script>
 </body>
