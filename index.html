@@ -6,6 +6,10 @@
 <title>Mi Turno Seguro — Reservá turnos médicos online, sin esperas</title>
 <link rel="icon" type="image/png" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<!-- Auth0 SPA SDK -->
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap');
 
@@ -39,7 +43,7 @@ h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; line-height: 1.15; letter-sp
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 a { color: inherit; text-decoration: none; }
 
-/* ── NAV ── */
+/* NAV */
 .nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .nav-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 10px; }
@@ -58,7 +62,7 @@ a { color: inherit; text-decoration: none; }
 .btn-lg { padding: 16px 32px; font-size: 15px; }
 .btn-block { width: 100%; }
 
-/* ── HERO ── */
+/* HERO */
 .hero { position: relative; overflow: hidden; padding: 88px 0 64px; }
 .hero::before { content: ''; position: absolute; top: -200px; right: -160px; width: 560px; height: 560px; border-radius: 50%; background: radial-gradient(circle, var(--brand-mid) 0%, transparent 70%); z-index: 0; }
 .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; }
@@ -95,21 +99,21 @@ a { color: inherit; text-decoration: none; }
 .badge-1 { top: 18px; left: -36px; }
 .badge-2 { bottom: 30px; right: -28px; }
 
-/* ── LOGOS ── */
+/* LOGOS */
 .logos-section { padding: 48px 0; }
 .logos-label { text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 32px; }
 .logos-grid { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px; opacity: 0.65; }
 .logo-item { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 20px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
 .logo-item .ic { font-size: 22px; }
 
-/* ── SECTION HEADERS ── */
+/* SECTION HEADERS */
 .section-lp { padding: 80px 0; }
 .section-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
 .section-eyebrow { font-size: 13px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
 .section-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 14px; }
 .section-header p { color: var(--muted); font-size: 16px; }
 
-/* ── FEATURES ── */
+/* FEATURES */
 .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .feature-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; transition: all 0.2s; }
 .feature-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); border-color: var(--brand-mid); }
@@ -117,7 +121,7 @@ a { color: inherit; text-decoration: none; }
 .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
 .feature-card p { font-size: 14px; color: var(--muted); }
 
-/* ── STEPS ── */
+/* STEPS */
 .steps-wrap { background: var(--surface); }
 .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .step-card { text-align: left; }
@@ -125,12 +129,12 @@ a { color: inherit; text-decoration: none; }
 .step-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
 .step-card p { font-size: 13.5px; color: var(--muted); }
 
-/* ── STATS BAND ── */
+/* STATS */
 .stats-band { background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%); border-radius: 24px; padding: 56px 48px; color: white; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
 .stat-big { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 40px; margin-bottom: 6px; }
 .stat-cap { font-size: 13px; opacity: 0.8; font-weight: 600; }
 
-/* ── PRICING ── */
+/* PRICING */
 .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 800px; margin: 0 auto; }
 .pricing-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 36px; }
 .pricing-card.highlight { border: 2px solid var(--brand); position: relative; box-shadow: var(--shadow-lg); }
@@ -143,7 +147,7 @@ a { color: inherit; text-decoration: none; }
 .pricing-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; margin-bottom: 12px; }
 .pricing-list li .check { width: 18px; height: 18px; border-radius: 50%; background: var(--success-soft); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
 
-/* ── TESTIMONIALS ── */
+/* TESTIMONIALS */
 .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .testimonial-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
 .testimonial-stars { color: #FBBF24; font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
@@ -153,7 +157,7 @@ a { color: inherit; text-decoration: none; }
 .testimonial-name { font-weight: 700; font-size: 13.5px; }
 .testimonial-role { font-size: 12px; color: var(--muted); }
 
-/* ── CTA ── */
+/* CTA */
 .cta-section { background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 100%); border-radius: 24px; padding: 64px 48px; text-align: center; color: white; position: relative; overflow: hidden; }
 .cta-section::after { content: ''; position: absolute; bottom: -120px; left: -80px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%); }
 .cta-section h2 { font-size: 34px; font-weight: 800; margin-bottom: 14px; position: relative; z-index: 1; }
@@ -164,25 +168,22 @@ a { color: inherit; text-decoration: none; }
 .cta-section .btn-ghost { color: white; border: 1.5px solid rgba(255,255,255,0.4); }
 .cta-section .btn-ghost:hover { background: rgba(255,255,255,0.1); }
 
-/* ── FOOTER ── */
+/* FOOTER */
 footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
 .footer-brand .brand-name { color: white; }
 .footer-brand p { font-size: 13.5px; color: #94A3B8; margin-top: 12px; max-width: 240px; }
 .footer-col h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: #94A3B8; }
-.footer-col a { display: block; font-size: 14px; color: #CBD5E1; margin-bottom: 10px; transition: color 0.15s; }
+.footer-col a { display: block; font-size: 14px; color: #CBD5E1; margin-bottom: 10px; transition: color 0.15s; cursor: pointer; }
 .footer-col a:hover { color: white; }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #94A3B8; flex-wrap: wrap; gap: 12px; }
 
-/* ══════════════════════════════════
-   APP SECTION — tabs, cards, modal
-══════════════════════════════════ */
+/* APP */
 .tabs-wrap { padding: 20px 16px 0; max-width: 640px; margin: 0 auto; }
 .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px; box-shadow: var(--shadow); }
 .tab { flex: 1; padding: 11px 14px; font-size: 13.5px; font-weight: 700; font-family: 'Outfit', sans-serif; color: var(--muted); cursor: pointer; border: none; background: none; border-radius: 999px; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .tab.active { color: white; background: var(--brand); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 .tab:not(.active):hover { color: var(--ink); background: var(--brand-soft); }
-
 .app-section { display: none; padding: 24px 16px 40px; max-width: 640px; margin: 0 auto; }
 .app-section.active { display: block; animation: fadeIn 0.25s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -198,20 +199,35 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .doc-price { margin-left: auto; text-align: right; }
 .price-amount { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 19px; color: var(--brand); }
 .price-label { font-size: 11px; color: var(--muted); }
-
 .slots { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .slot { padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--line); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; background: none; color: var(--ink); font-family: 'Open Sans', sans-serif; }
 .slot:hover, .slot.selected { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
 .slot.taken { background: #F3F4F6; color: #CBD5E1; cursor: not-allowed; text-decoration: line-through; border-color: var(--line); }
-
 .btn-app { display: block; width: 100%; padding: 13px; border-radius: 999px; font-size: 14.5px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; border: none; transition: all 0.18s; text-align: center; }
 .btn-app.btn-primary { background: var(--brand); color: white; box-shadow: 0 6px 16px rgba(37,99,235,0.25); }
 .btn-app.btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
 .btn-app.btn-mp { background: var(--mp-blue); color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
 .btn-app.btn-mp:hover { background: #0085C2; }
+.btn-app.btn-mp:disabled { opacity: 0.55; cursor: not-allowed; }
 .btn-app.btn-outline { background: white; color: var(--brand); border: 1.5px solid var(--brand-mid); }
 .btn-app.btn-outline:hover { background: var(--brand-soft); }
 .btn-app:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+
+/* Google login button */
+.btn-google { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 14px 20px; border: 1.5px solid var(--line); border-radius: 999px; background: white; color: var(--ink); font-size: 15px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.18s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.btn-google:hover { border-color: #4285F4; box-shadow: 0 4px 16px rgba(66,133,244,0.15); transform: translateY(-1px); }
+
+/* User chip in nav */
+.user-chip { display: flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; background: var(--brand-soft); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--brand-dark); }
+.user-chip-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+.btn-logout { padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--muted); background: none; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer; transition: all 0.15s; font-family: 'Open Sans', sans-serif; }
+.btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+/* Auth gate */
+.auth-gate { text-align: center; padding: 40px 20px; }
+.auth-gate .auth-icon { font-size: 48px; margin-bottom: 16px; }
+.auth-gate h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+.auth-gate p { font-size: 14px; color: var(--muted); margin-bottom: 24px; max-width: 300px; margin-left: auto; margin-right: auto; }
 
 /* Modal */
 .overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
@@ -221,37 +237,31 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .modal-handle { width: 36px; height: 4px; background: var(--line); border-radius: 2px; margin: 0 auto 20px; }
 .modal h2 { font-size: 22px; margin-bottom: 6px; }
 .modal .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-
 .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
 .summary-row:last-child { border-bottom: none; }
 .summary-row .label { color: var(--muted); }
 .summary-row .value { font-weight: 600; }
 .summary-row.total .value { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 20px; color: var(--brand); }
 .commission-note { background: var(--brand-soft); border-left: 3px solid var(--brand); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 12px; color: var(--brand-dark); margin: 12px 0 20px; }
-
 .mp-logo { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; }
 .mp-dot { width: 8px; height: 8px; background: white; border-radius: 50%; }
-
 .success-screen { display: none; text-align: center; padding: 40px 20px; }
 .success-icon { width: 72px; height: 72px; background: var(--success-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; }
 .success-screen h2 { font-size: 26px; margin-bottom: 8px; }
 .success-screen p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
-
 .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
-.badge-green { background: var(--success-soft); color: #166534; }
-.badge-blue { background: var(--brand-soft); color: var(--brand-dark); }
-
+.badge-green  { background: var(--success-soft); color: #166534; }
+.badge-blue   { background: var(--brand-soft);   color: var(--brand-dark); }
+.badge-orange { background: #FFF7ED; color: #C2410C; }
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
-.form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; background: white; }
-.form-group input:focus, .form-group select:focus { border-color: var(--brand); }
-
+.form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; background: white; }
+.form-group input:focus { border-color: var(--brand); }
 .section-label { font-size: 12.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
 .divider { height: 1px; background: var(--line); margin: 20px 0; }
-
 .payment-banner { padding: 16px 20px; border-radius: var(--radius-sm); margin: 16px; font-size: 14px; font-weight: 600; text-align: center; }
 .payment-banner.success { background: var(--success-soft); color: #166534; }
-.payment-banner.error   { background: var(--danger-soft); color: #991B1B; }
+.payment-banner.error   { background: var(--danger-soft);  color: #991B1B; }
 .payment-banner.pending { background: var(--warning-soft); color: #92400E; }
 
 /* Dashboard stats */
@@ -272,184 +282,66 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .chart-bar-label { font-size: 10.5px; color: var(--muted); margin-top: 6px; font-weight: 600; text-transform: capitalize; }
 .chart-bar-value { font-size: 10px; color: var(--brand-dark); font-weight: 700; margin-bottom: 4px; min-height: 12px; }
 
-/* ══════════════════════════════════
-   DISPONIBILIDAD — configurador
-══════════════════════════════════ */
-.disp-grid {
-  display: grid;
-  gap: 10px;
-}
+/* MP status card */
+.mp-status-card { background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius-sm); padding: 16px 18px; display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.mp-status-icon { font-size: 28px; flex-shrink: 0; }
+.mp-status-text { flex: 1; }
+.mp-status-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+.mp-status-text span { font-size: 12px; color: var(--muted); }
+.mp-status-card.linked { border-color: var(--success); background: var(--success-soft); }
+.mp-status-card.unlinked { border-color: #FCD34D; background: var(--warning-soft); }
 
-/* Fila de un día */
-.disp-day-row {
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  transition: border-color 0.15s;
-}
-.disp-day-row.has-blocks {
-  border-color: var(--brand-mid);
-}
-
-.disp-day-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  background: var(--paper);
-  cursor: pointer;
-  user-select: none;
-}
+/* Disponibilidad */
+.disp-grid { display: grid; gap: 10px; }
+.disp-day-row { border: 1.5px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; transition: border-color 0.15s; }
+.disp-day-row.has-blocks { border-color: var(--brand-mid); }
+.disp-day-header { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--paper); cursor: pointer; user-select: none; }
 .disp-day-header:hover { background: var(--brand-soft); }
-
-.disp-day-toggle {
-  width: 36px; height: 20px;
-  background: var(--line); border-radius: 999px;
-  position: relative; flex-shrink: 0; transition: background 0.2s;
-  cursor: pointer;
-}
-.disp-day-toggle::after {
-  content: '';
-  position: absolute; top: 2px; left: 2px;
-  width: 16px; height: 16px; border-radius: 50%;
-  background: white; transition: left 0.2s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
+.disp-day-toggle { width: 36px; height: 20px; background: var(--line); border-radius: 999px; position: relative; flex-shrink: 0; transition: background 0.2s; }
+.disp-day-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
 .disp-day-toggle.on { background: var(--brand); }
 .disp-day-toggle.on::after { left: 18px; }
-
-.disp-day-name {
-  font-weight: 700; font-size: 14px;
-  flex: 1;
-}
-.disp-day-summary {
-  font-size: 12px; color: var(--muted);
-}
-
-.disp-day-blocks {
-  display: none;
-  padding: 12px 14px 14px;
-  border-top: 1px solid var(--line);
-  background: white;
-  gap: 8px;
-  flex-direction: column;
-}
+.disp-day-name { font-weight: 700; font-size: 14px; flex: 1; }
+.disp-day-summary { font-size: 12px; color: var(--muted); }
+.disp-day-blocks { display: none; padding: 12px 14px 14px; border-top: 1px solid var(--line); background: white; gap: 8px; flex-direction: column; }
 .disp-day-blocks.open { display: flex; }
-
-.disp-block-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 8px;
-  align-items: end;
-}
-.disp-block-row label {
-  font-size: 11px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 0.5px;
-  display: block; margin-bottom: 4px;
-}
-.disp-block-row input[type="time"] {
-  width: 100%; padding: 9px 10px;
-  border: 1.5px solid var(--line); border-radius: 8px;
-  font-size: 14px; font-family: 'Open Sans', sans-serif;
-  outline: none; transition: border-color 0.2s;
-}
+.disp-block-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: end; }
+.disp-block-row label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+.disp-block-row input[type="time"] { width: 100%; padding: 9px 10px; border: 1.5px solid var(--line); border-radius: 8px; font-size: 14px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; }
 .disp-block-row input[type="time"]:focus { border-color: var(--brand); }
-
-.btn-remove-block {
-  width: 32px; height: 32px; border-radius: 8px;
-  border: 1.5px solid var(--line); background: white;
-  color: var(--muted); font-size: 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; flex-shrink: 0;
-  margin-bottom: 1px;
-}
+.btn-remove-block { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--line); background: white; color: var(--muted); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; margin-bottom: 1px; }
 .btn-remove-block:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
-
-.btn-add-block {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 7px 14px; border-radius: 999px;
-  border: 1.5px dashed var(--brand-mid);
-  background: var(--brand-soft); color: var(--brand);
-  font-size: 12px; font-weight: 700; font-family: 'Outfit', sans-serif;
-  cursor: pointer; transition: all 0.15s; margin-top: 4px;
-  width: fit-content;
-}
+.btn-add-block { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; border: 1.5px dashed var(--brand-mid); background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.15s; margin-top: 4px; width: fit-content; }
 .btn-add-block:hover { border-color: var(--brand); background: var(--brand-mid); }
-
-.disp-preset-chips {
-  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px;
-}
-.disp-preset-chip {
-  padding: 5px 12px; border-radius: 999px;
-  border: 1.5px solid var(--line); background: none;
-  font-size: 12px; font-weight: 600; color: var(--muted);
-  font-family: 'Open Sans', sans-serif;
-  cursor: pointer; transition: all 0.15s;
-}
+.disp-preset-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.disp-preset-chip { padding: 5px 12px; border-radius: 999px; border: 1.5px solid var(--line); background: none; font-size: 12px; font-weight: 600; color: var(--muted); font-family: 'Open Sans', sans-serif; cursor: pointer; transition: all 0.15s; }
 .disp-preset-chip:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
-
-.disp-save-bar {
-  position: sticky; bottom: 16px;
-  margin-top: 16px;
-}
-.disp-save-btn {
-  width: 100%; padding: 14px;
-  border-radius: 999px; border: none;
-  background: var(--brand); color: white;
-  font-size: 15px; font-weight: 700; font-family: 'Outfit', sans-serif;
-  cursor: pointer; transition: all 0.18s;
-  box-shadow: 0 8px 24px rgba(37,99,235,0.3);
-}
+.disp-save-bar { position: sticky; bottom: 16px; margin-top: 16px; }
+.disp-save-btn { width: 100%; padding: 14px; border-radius: 999px; border: none; background: var(--brand); color: white; font-size: 15px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.18s; box-shadow: 0 8px 24px rgba(37,99,235,0.3); }
 .disp-save-btn:hover { background: var(--brand-dark); transform: translateY(-1px); }
 .disp-save-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-.disp-feedback {
-  margin-top: 10px; padding: 10px 16px;
-  border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
-  text-align: center; display: none;
-}
+.disp-feedback { margin-top: 10px; padding: 10px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; text-align: center; display: none; }
 .disp-feedback.ok  { background: var(--success-soft); color: #166534; }
-.disp-feedback.err { background: var(--danger-soft); color: #991B1B; }
+.disp-feedback.err { background: var(--danger-soft);  color: #991B1B; }
 
-/* ── VISTA SYSTEM ── */
+/* Spinner */
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 4px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Views */
 .view { display: none; }
 .view.active { display: block; }
 
-/* ── BREADCRUMB ── */
-.breadcrumb-bar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13.5px;
-  font-family: 'Open Sans', sans-serif;
-}
-.breadcrumb-bar a {
-  color: var(--brand);
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: color 0.15s;
-  cursor: pointer;
-}
-.breadcrumb-bar a:hover { color: var(--brand-dark); }
-.breadcrumb-sep { color: var(--muted); }
-.breadcrumb-current { color: var(--muted); font-weight: 500; }
-
-/* ── APP VIEW NAV ── */
+/* App nav */
 .app-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .app-nav-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.app-nav .brand { display: flex; align-items: center; gap: 10px; }
-.app-nav .brand img { width: 30px; height: 30px; }
+.app-nav .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 .app-nav .brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
 .app-nav .brand-name span { color: var(--brand); }
 .app-nav-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--brand); cursor: pointer; padding: 8px 14px; border-radius: 999px; transition: background 0.15s; border: none; background: none; font-family: 'Open Sans', sans-serif; }
 .app-nav-back:hover { background: var(--brand-soft); }
 
-/* ── Responsive ── */
+/* Responsive */
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .hero-inner { grid-template-columns: 1fr; gap: 40px; }
@@ -465,16 +357,13 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   .section-header h2 { font-size: 28px; }
   .cta-section { padding: 48px 24px; }
   .cta-section h2 { font-size: 26px; }
-  .disp-block-row { grid-template-columns: 1fr 1fr auto; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════ VISTA: LANDING ═══════════ -->
+<!-- ═══════ LANDING ═══════ -->
 <div id="view-landing" class="view active">
-
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
     <a href="#" class="brand">
@@ -494,7 +383,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </div>
 </nav>
 
-<!-- HERO -->
 <header class="hero">
   <div class="container hero-inner">
     <div>
@@ -512,24 +400,13 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     </div>
     <div class="hero-visual">
       <div class="phone-mock">
-        <div class="phone-mock-header">
-          <img src="icon-192.png" alt="">
-          <span class="mname">Mi Turno Seguro</span>
-        </div>
+        <div class="phone-mock-header"><img src="icon-192.png" alt=""><span class="mname">Mi Turno Seguro</span></div>
         <div class="phone-card">
-          <div class="phone-card-top">
-            <div class="phone-avatar">👩‍⚕️</div>
-            <div><div class="phone-doc-name">Dra. Laura Méndez</div><div class="phone-doc-spec">Psicología clínica</div></div>
-            <div class="phone-price">$8.000</div>
-          </div>
+          <div class="phone-card-top"><div class="phone-avatar">👩‍⚕️</div><div><div class="phone-doc-name">Dra. Laura Méndez</div><div class="phone-doc-spec">Psicología clínica</div></div><div class="phone-price">$8.000</div></div>
           <div class="phone-slots"><span class="phone-slot">09:00</span><span class="phone-slot active">10:30</span><span class="phone-slot">11:20</span><span class="phone-slot">14:00</span></div>
         </div>
         <div class="phone-card">
-          <div class="phone-card-top">
-            <div class="phone-avatar">🩺</div>
-            <div><div class="phone-doc-name">Dr. Tomás Ibarra</div><div class="phone-doc-spec">Clínica médica</div></div>
-            <div class="phone-price">$10.500</div>
-          </div>
+          <div class="phone-card-top"><div class="phone-avatar">🩺</div><div><div class="phone-doc-name">Dr. Tomás Ibarra</div><div class="phone-doc-spec">Clínica médica</div></div><div class="phone-price">$10.500</div></div>
           <div class="phone-slots"><span class="phone-slot">08:30</span><span class="phone-slot">09:20</span><span class="phone-slot">15:40</span></div>
         </div>
       </div>
@@ -539,7 +416,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </div>
 </header>
 
-<!-- LOGOS -->
 <section class="logos-section">
   <div class="container">
     <div class="logos-label">Empresas y centros de salud que confían en Mi Turno Seguro</div>
@@ -554,7 +430,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </div>
 </section>
 
-<!-- FEATURES -->
 <section class="section-lp" id="producto">
   <div class="container">
     <div class="section-header">
@@ -573,7 +448,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section class="section-lp steps-wrap" id="como-funciona">
   <div class="container">
     <div class="section-header">
@@ -590,7 +464,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </div>
 </section>
 
-<!-- STATS -->
 <section class="section-lp">
   <div class="container">
     <div class="stats-band">
@@ -602,7 +475,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </div>
 </section>
 
-<!-- PRICING -->
 <section class="section-lp" id="precios">
   <div class="container">
     <div class="section-header">
@@ -639,7 +511,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
 <section class="section-lp" id="testimonios">
   <div class="container">
     <div class="section-header">
@@ -647,26 +518,13 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <h2>Profesionales y pacientes que ya lo usan</h2>
     </div>
     <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p>"Desde que pido el pago al reservar, las ausencias bajaron casi a cero. Mi agenda se ordenó sola."</p>
-        <div class="testimonial-author"><div class="testimonial-avatar">👩‍⚕️</div><div><div class="testimonial-name">Dra. Laura Méndez</div><div class="testimonial-role">Psicología clínica</div></div></div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p>"Reservé en menos de un minuto desde el celular y ya tenía la confirmación en mi email. Súper simple."</p>
-        <div class="testimonial-author"><div class="testimonial-avatar">🙋‍♀️</div><div><div class="testimonial-name">Camila Roldán</div><div class="testimonial-role">Paciente</div></div></div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p>"El panel me muestra todo: turnos próximos, lo que voy a facturar y la comisión. Me ahorra horas de planillas."</p>
-        <div class="testimonial-author"><div class="testimonial-avatar">🩺</div><div><div class="testimonial-name">Dr. Tomás Ibarra</div><div class="testimonial-role">Clínica médica</div></div></div>
-      </div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Desde que pido el pago al reservar, las ausencias bajaron casi a cero. Mi agenda se ordenó sola."</p><div class="testimonial-author"><div class="testimonial-avatar">👩‍⚕️</div><div><div class="testimonial-name">Dra. Laura Méndez</div><div class="testimonial-role">Psicología clínica</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Reservé en menos de un minuto desde el celular y ya tenía la confirmación en mi email. Súper simple."</p><div class="testimonial-author"><div class="testimonial-avatar">🙋‍♀️</div><div><div class="testimonial-name">Camila Roldán</div><div class="testimonial-role">Paciente</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"El panel me muestra todo: turnos próximos, lo que voy a facturar y la comisión. Me ahorra horas de planillas."</p><div class="testimonial-author"><div class="testimonial-avatar">🩺</div><div><div class="testimonial-name">Dr. Tomás Ibarra</div><div class="testimonial-role">Clínica médica</div></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
 <section class="section-lp">
   <div class="container">
     <div class="cta-section">
@@ -679,244 +537,270 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     </div>
   </div>
 </section>
-
 </div><!-- /view-landing -->
 
-<!-- ═══════════ VISTA: APP ═══════════ -->
+
+<!-- ═══════ APP ═══════ -->
 <div id="view-app" class="view">
 
-  <!-- NAV de la app -->
   <nav class="app-nav">
     <div class="app-nav-inner">
-      <a class="brand" onclick="showLanding()" style="cursor:pointer;">
-        <img src="icon-192.png" alt="Mi Turno Seguro">
+      <div class="brand" onclick="showLanding()">
+        <img src="icon-192.png" alt="">
         <span class="brand-name">Mi Turno<span>Seguro</span></span>
-      </a>
-      <div class="breadcrumb-bar" style="background:transparent; border:none; padding:0;">
-        <a onclick="showLanding()">← Inicio</a>
-        <span class="breadcrumb-sep">/</span>
-        <span class="breadcrumb-current" id="breadcrumb-label">La app</span>
       </div>
-      <button class="app-nav-back" onclick="showLanding()">← Volver al inicio</button>
+      <!-- User chip (visible cuando está logueado) -->
+      <div id="nav-user-area" style="display:none; align-items:center; gap:10px; flex-shrink:0;">
+        <div class="user-chip">
+          <div class="user-chip-avatar" id="nav-avatar-initials">?</div>
+          <span id="nav-user-name">—</span>
+        </div>
+        <button class="btn-logout" onclick="logoutAuth0()">Salir</button>
+      </div>
+      <button class="app-nav-back" onclick="showLanding()">← Inicio</button>
     </div>
   </nav>
 
-  <section id="app" style="background:var(--paper); padding-top:32px;">
-  <div class="container" style="max-width:640px;">
-    <div class="section-header" style="margin-bottom:32px;">
-      <div class="section-eyebrow">La app</div>
-      <h2>Reservá tu turno ahora</h2>
-      <p>Elegí un profesional, un horario y confirmá con pago seguro.</p>
-    </div>
-  </div>
-
-  <div id="payment-banner" style="display:none;"></div>
-
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <button class="tab active" onclick="showTab('reservar', this)">🗓️ Reservar turno</button>
-      <button class="tab" onclick="showTab('profesional', this)">👩‍⚕️ Soy profesional</button>
-    </div>
-  </div>
-
-  <!-- TAB: RESERVAR -->
-  <div id="tab-reservar" class="app-section active">
-    <p class="section-label">Profesionales disponibles hoy</p>
-    <div id="profesionales-container">
-      <div class="card" style="text-align:center; padding:40px 20px; color:var(--muted);">
-        <div style="font-size:32px; margin-bottom:12px;">⏳</div>
-        <div>Cargando profesionales...</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB: PROFESIONAL -->
-  <div id="tab-profesional" class="app-section">
-
-    <!-- PASO 1: Registro / Login -->
-    <div id="pro-registro">
-      <p class="section-label">Creá tu perfil</p>
-      <div class="card">
-        <div class="form-group"><label>Nombre completo</label><input type="text" id="pro-nombre" placeholder="Dra. María García"></div>
-        <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica"></div>
-        <div class="form-group"><label>Precio por consulta (ARS)</label><input type="number" id="pro-precio" placeholder="8000"></div>
-        <div class="form-group"><label>Duración del turno (minutos)</label><input type="number" id="pro-duracion" placeholder="50"></div>
-        <div id="pro-registro-error" style="display:none; color:var(--danger); font-size:13px; margin-bottom:12px;"></div>
-        <button class="btn-app btn-primary" id="btn-registrar" onclick="registrarProfesional()">Crear mi perfil →</button>
-      </div>
-      <div class="card" style="background:var(--brand-soft); border-color:var(--brand-mid);">
-        <strong style="display:block; margin-bottom:6px; font-size:14px;">¿Ya tenés un perfil?</strong>
-        <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Ingresá tu ID de profesional para acceder a tu panel.</p>
-        <div style="display:flex; gap:8px;">
-          <input type="text" id="pro-id-login" placeholder="PRO-XXXXXX-XXXX" style="flex:1; padding:11px 14px; border:1.5px solid var(--line); border-radius:10px; font-size:14px; outline:none; font-family:'Open Sans',sans-serif;">
-          <button class="btn-app btn-outline" style="width:auto; padding:11px 18px; white-space:nowrap;" onclick="loginProfesional()">Acceder</button>
-        </div>
-        <div id="pro-login-error" style="display:none; color:var(--danger); font-size:12px; margin-top:8px;"></div>
+  <section style="background:var(--paper); padding-top:32px; min-height:80vh;">
+    <div class="container" style="max-width:640px;">
+      <div class="section-header" style="margin-bottom:32px;">
+        <div class="section-eyebrow">La app</div>
+        <h2>Reservá tu turno ahora</h2>
+        <p>Elegí un profesional, un horario y confirmá con pago seguro.</p>
       </div>
     </div>
 
-    <!-- PASO 2: Vincular MP -->
-    <div id="pro-vincular-mp" style="display:none;">
-      <p class="section-label">Vinculá tu Mercado Pago</p>
-      <div class="card">
-        <div style="text-align:center; padding:12px 0 20px;">
-          <div style="font-size:48px; margin-bottom:12px;">🎉</div>
-          <div style="font-weight:700; font-size:17px; margin-bottom:6px;">¡Perfil creado!</div>
-          <div style="font-size:13px; color:var(--muted);">Vas a poder acceder a tu panel en cualquier momento con tu email.</div>
-          <div id="pro-id-display" style="display:none;"></div>
-        </div>
-        <div class="divider"></div>
-        <div class="section-label">Último paso: vinculá tu cuenta MP</div>
-        <div class="card" style="background:var(--warning-soft); border-color:#FDE68A; box-shadow:none; margin-bottom:16px;">
-          <strong style="display:block; margin-bottom:4px; font-size:13px; color:#92400E;">¿Por qué es necesario?</strong>
-          <p style="font-size:13px; color:#92400E;">Cuando un paciente pague su turno, el dinero llega directo a tu cuenta de Mercado Pago. Mi Turno Seguro descuenta automáticamente el 3% de comisión sobre cada cobro.</p>
-        </div>
-        <button class="btn-app btn-mp" id="btn-vincular-mp" onclick="vincularMP()">
-          <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-          Vincular mi cuenta →
-        </button>
+    <div id="payment-banner" style="display:none;"></div>
+
+    <div class="tabs-wrap">
+      <div class="tabs">
+        <button class="tab active" id="tab-btn-reservar"    onclick="showTab('reservar', this)">🗓️ Reservar turno</button>
+        <button class="tab"        id="tab-btn-profesional" onclick="handleProTab(this)">👩‍⚕️ Soy profesional</button>
       </div>
     </div>
 
-    <!-- PASO 3: Dashboard -->
-    <div id="pro-dashboard" style="display:none;">
-
-      <!-- Header profesional -->
-      <div class="card">
-        <div class="card-header" style="margin-bottom:0;">
-          <div class="avatar teal" style="font-size:28px;">👩‍⚕️</div>
-          <div>
-            <div class="doc-name" id="dash-nombre">—</div>
-            <div class="doc-spec" id="dash-especialidad">—</div>
-            <span class="badge badge-green">✓ MP vinculado</span>
-          </div>
-          <div class="doc-price">
-            <div class="price-amount" id="dash-precio">—</div>
-            <div class="price-label">por sesión</div>
-          </div>
+    <!-- TAB: RESERVAR -->
+    <div id="tab-reservar" class="app-section active">
+      <p class="section-label">Profesionales disponibles hoy</p>
+      <div id="profesionales-container">
+        <div class="card" style="text-align:center;padding:40px 20px;color:var(--muted);">
+          <div style="font-size:32px;margin-bottom:12px;">⏳</div>
+          <div>Cargando profesionales...</div>
         </div>
       </div>
+    </div>
 
-      <!-- Pestañas del panel -->
-      <div style="display:flex; gap:6px; margin-bottom:16px;">
-        <button class="tab active" id="dash-tab-stats"   onclick="showDashTab('stats',   this)" style="flex:none; padding:9px 18px;">📊 Estadísticas</button>
-        <button class="tab"        id="dash-tab-turnos"  onclick="showDashTab('turnos',  this)" style="flex:none; padding:9px 18px;">🗓️ Turnos</button>
-        <button class="tab"        id="dash-tab-disp"    onclick="showDashTab('disp',    this)" style="flex:none; padding:9px 18px;">⏰ Disponibilidad</button>
-      </div>
+    <!-- TAB: PROFESIONAL -->
+    <div id="tab-profesional" class="app-section">
 
-      <!-- Sub-panel: Estadísticas -->
-      <div id="dash-panel-stats">
-        <div class="card">
-          <div class="section-label">Resumen — este mes</div>
-          <div class="stats-grid-dash" id="dash-stats">
-            <div class="stat-box"><div class="num">—</div><div class="cap">Confirmados</div></div>
-            <div class="stat-box"><div class="num brand">—</div><div class="cap">Facturado</div></div>
-            <div class="stat-box"><div class="num success">—</div><div class="cap">Recibís en MP</div></div>
-          </div>
-          <div id="dash-resumen-detalle"></div>
-        </div>
-        <div class="card">
-          <div class="section-label">Ocupación de la semana</div>
-          <div id="dash-ocupacion"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
-        </div>
-        <div class="card">
-          <div class="section-label">Turnos por día — próximos 7 días</div>
-          <div class="chart-wrap" id="dash-chart"></div>
-        </div>
-        <div class="card">
-          <div class="section-label">Próximos ingresos estimados</div>
-          <div id="dash-ingresos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
-        </div>
-      </div>
-
-      <!-- Sub-panel: Próximos turnos -->
-      <div id="dash-panel-turnos" style="display:none;">
-        <div class="card">
-          <div class="section-label">Próximos turnos</div>
-          <div id="dash-turnos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Cargando...</div></div>
-        </div>
-      </div>
-
-      <!-- Sub-panel: Disponibilidad -->
-      <div id="dash-panel-disp" style="display:none;">
-        <div class="card">
-          <div class="section-label" style="margin-bottom:6px;">Configurá cuándo trabajás</div>
-          <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">
-            Activá los días que atendés y agregá uno o más bloques de horario por día. Los pacientes solo verán turnos dentro de estos bloques.
+      <!-- GATE: requiere login con Google -->
+      <div id="pro-auth-gate">
+        <div class="card auth-gate">
+          <div class="auth-icon">👩‍⚕️</div>
+          <h3>Panel de profesionales</h3>
+          <p>Ingresá con tu cuenta de Google para acceder a tu agenda, cobros y disponibilidad.</p>
+          <button class="btn-google" onclick="loginWithGoogle()">
+            <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            Continuar con Google
+          </button>
+          <p style="font-size:12px;color:var(--muted);margin-top:16px;margin-bottom:0;">
+            Al ingresar aceptás los <a href="#" style="color:var(--brand);">Términos y condiciones</a>
           </p>
-
-          <!-- Preset rápidos globales -->
-          <div class="section-label" style="margin-bottom:8px;">Aplicar preset a días activos</div>
-          <div class="disp-preset-chips">
-            <button class="disp-preset-chip" onclick="aplicarPresetGlobal('manana')">☀️ Solo mañana (8–13)</button>
-            <button class="disp-preset-chip" onclick="aplicarPresetGlobal('tarde')">🌇 Solo tarde (14–19)</button>
-            <button class="disp-preset-chip" onclick="aplicarPresetGlobal('completo')">📅 Día completo (8–19)</button>
-            <button class="disp-preset-chip" onclick="aplicarPresetGlobal('lun-vie')">💼 Lun a Vie</button>
-          </div>
-
-          <div class="divider" style="margin:14px 0;"></div>
-
-          <div class="disp-grid" id="disp-days-container">
-            <!-- Generado por JS -->
-          </div>
-
-          <div class="disp-save-bar">
-            <button class="disp-save-btn" id="btn-guardar-disp" onclick="guardarDisponibilidad()">Guardar disponibilidad</button>
-            <div class="disp-feedback" id="disp-feedback"></div>
-          </div>
         </div>
       </div>
 
-      <button class="btn-app btn-outline" style="margin-top:8px;" onclick="cerrarSesionPro()">Cerrar sesión</button>
-    </div>
-
-  </div><!-- fin tab-profesional -->
-
-  <!-- MODAL DE PAGO -->
-  <div class="overlay" id="payModal" onclick="closeModalOutside(event)">
-    <div class="modal">
-      <div class="modal-handle"></div>
-      <h2>Confirmá tu turno</h2>
-      <p class="subtitle">El pago garantiza tu reserva</p>
-      <div id="modal-body">
-        <div class="summary-row"><span class="label">Profesional</span><span class="value" id="modal-doc">—</span></div>
-        <div class="summary-row"><span class="label">Fecha</span><span class="value" id="modal-fecha">—</span></div>
-        <div class="summary-row"><span class="label">Horario</span><span class="value" id="modal-slot">—</span></div>
-        <div class="summary-row total"><span class="label">Total a pagar</span><span class="value" id="modal-price">—</span></div>
-        <div class="commission-note">Mi Turno Seguro cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.</div>
-        <div class="form-group"><label>Tu nombre</label><input type="text" id="modal-nombre" placeholder="Juan Pérez"></div>
-        <div class="form-group"><label>Email</label><input type="email" id="modal-email" placeholder="juan@email.com"></div>
-        <button class="btn-app btn-mp" id="btn-pagar" onclick="confirmarPago()">
-          <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-          Pagar ahora →
-        </button>
+      <!-- FORMULARIO DE REGISTRO (primer ingreso) -->
+      <div id="pro-registro" style="display:none;">
+        <p class="section-label">Completá tu perfil</p>
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:12px;background:var(--brand-soft);border-radius:var(--radius-sm);">
+            <img id="reg-user-photo" src="" style="width:40px;height:40px;border-radius:50%;display:none;" alt="">
+            <div class="user-chip-avatar" id="reg-user-avatar" style="width:40px;height:40px;font-size:16px;">?</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;" id="reg-user-name">—</div>
+              <div style="font-size:12px;color:var(--muted);" id="reg-user-email">—</div>
+            </div>
+          </div>
+          <div class="form-group"><label>Nombre completo (como verán los pacientes)</label><input type="text" id="pro-nombre" placeholder="Dra. María García"></div>
+          <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica"></div>
+          <div class="form-group"><label>Precio por consulta (ARS)</label><input type="number" id="pro-precio" placeholder="8000"></div>
+          <div class="form-group"><label>Duración del turno (minutos)</label><input type="number" id="pro-duracion" placeholder="50"></div>
+          <div id="pro-registro-error" style="display:none;color:var(--danger);font-size:13px;margin-bottom:12px;"></div>
+          <button class="btn-app btn-primary" id="btn-registrar" onclick="registrarProfesional()">Crear mi perfil →</button>
+        </div>
       </div>
-      <div id="success-screen" class="success-screen">
-        <div class="success-icon">✅</div>
-        <h2>¡Turno confirmado!</h2>
-        <p>Te enviamos los detalles por email. El profesional recibió el pago en su cuenta de Mercado Pago.</p>
-        <button class="btn-app btn-outline" onclick="closeModal()">Volver al inicio</button>
+
+      <!-- DASHBOARD -->
+      <div id="pro-dashboard" style="display:none;">
+
+        <div class="card">
+          <div class="card-header" style="margin-bottom:0;">
+            <div class="avatar teal" style="font-size:28px;">👩‍⚕️</div>
+            <div>
+              <div class="doc-name" id="dash-nombre">—</div>
+              <div class="doc-spec" id="dash-especialidad">—</div>
+              <span class="badge badge-green"  id="dash-mp-badge"    style="display:none;">✓ MP vinculado</span>
+              <span class="badge badge-orange" id="dash-mp-badge-no" style="display:none;">⚠ MP sin vincular</span>
+            </div>
+            <div class="doc-price">
+              <div class="price-amount" id="dash-precio">—</div>
+              <div class="price-label">por sesión</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs del panel -->
+        <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;">
+          <button class="tab active" id="dash-tab-stats"  onclick="showDashTab('stats',  this)" style="flex:none;padding:9px 18px;">📊 Estadísticas</button>
+          <button class="tab"        id="dash-tab-turnos" onclick="showDashTab('turnos', this)" style="flex:none;padding:9px 18px;">🗓️ Turnos</button>
+          <button class="tab"        id="dash-tab-disp"   onclick="showDashTab('disp',   this)" style="flex:none;padding:9px 18px;">⏰ Disponibilidad</button>
+          <button class="tab"        id="dash-tab-mp"     onclick="showDashTab('mp',     this)" style="flex:none;padding:9px 18px;">💳 Mercado Pago</button>
+        </div>
+
+        <!-- Stats -->
+        <div id="dash-panel-stats">
+          <div class="card">
+            <div class="section-label">Resumen — este mes</div>
+            <div class="stats-grid-dash" id="dash-stats">
+              <div class="stat-box"><div class="num">—</div><div class="cap">Confirmados</div></div>
+              <div class="stat-box"><div class="num brand">—</div><div class="cap">Facturado</div></div>
+              <div class="stat-box"><div class="num success">—</div><div class="cap">Recibís en MP</div></div>
+            </div>
+            <div id="dash-resumen-detalle"></div>
+          </div>
+          <div class="card">
+            <div class="section-label">Ocupación de la semana</div>
+            <div id="dash-ocupacion"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
+          </div>
+          <div class="card">
+            <div class="section-label">Turnos por día — próximos 7 días</div>
+            <div class="chart-wrap" id="dash-chart"></div>
+          </div>
+          <div class="card">
+            <div class="section-label">Próximos ingresos estimados</div>
+            <div id="dash-ingresos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
+          </div>
+        </div>
+
+        <!-- Turnos -->
+        <div id="dash-panel-turnos" style="display:none;">
+          <div class="card">
+            <div class="section-label">Próximos turnos</div>
+            <div id="dash-turnos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Cargando...</div></div>
+          </div>
+        </div>
+
+        <!-- Disponibilidad -->
+        <div id="dash-panel-disp" style="display:none;">
+          <div class="card">
+            <div class="section-label" style="margin-bottom:6px;">Configurá cuándo trabajás</div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Activá los días que atendés y agregá uno o más bloques de horario. Los pacientes solo verán turnos dentro de estos bloques.</p>
+            <div class="section-label" style="margin-bottom:8px;">Aplicar preset a días activos</div>
+            <div class="disp-preset-chips">
+              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('manana')">☀️ Solo mañana (8–13)</button>
+              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('tarde')">🌇 Solo tarde (14–19)</button>
+              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('completo')">📅 Día completo (8–19)</button>
+              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('lun-vie')">💼 Lun a Vie</button>
+            </div>
+            <div class="divider" style="margin:14px 0;"></div>
+            <div class="disp-grid" id="disp-days-container"></div>
+            <div class="disp-save-bar">
+              <button class="disp-save-btn" id="btn-guardar-disp" onclick="guardarDisponibilidad()">Guardar disponibilidad</button>
+              <div class="disp-feedback" id="disp-feedback"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mercado Pago -->
+        <div id="dash-panel-mp" style="display:none;">
+          <div class="card">
+            <div class="section-label" style="margin-bottom:14px;">Cuenta de Mercado Pago</div>
+
+            <!-- Sin vincular -->
+            <div id="mp-unlinked-state">
+              <div class="mp-status-card unlinked">
+                <div class="mp-status-icon">⚠️</div>
+                <div class="mp-status-text">
+                  <strong>Cuenta no vinculada</strong>
+                  <span>Necesitás vincular tu MP para recibir pagos de los turnos.</span>
+                </div>
+              </div>
+              <div class="card" style="background:var(--warning-soft);border-color:#FCD34D;box-shadow:none;margin-bottom:20px;">
+                <strong style="display:block;margin-bottom:6px;font-size:13px;color:#92400E;">¿Por qué es necesario?</strong>
+                <p style="font-size:13px;color:#92400E;margin-bottom:0;">Cuando un paciente pague su turno, el dinero llega directo a tu Mercado Pago. Mi Turno Seguro descuenta automáticamente el 3% de comisión.</p>
+              </div>
+              <button class="btn-app btn-mp" id="btn-vincular-mp" onclick="iniciarVinculacionMP()">
+                <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
+                Vincular mi cuenta →
+              </button>
+              <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px;">Serás redirigido a Mercado Pago para autorizar la conexión de forma segura.</p>
+            </div>
+
+            <!-- Vinculado -->
+            <div id="mp-linked-state" style="display:none;">
+              <div class="mp-status-card linked">
+                <div class="mp-status-icon">✅</div>
+                <div class="mp-status-text">
+                  <strong>Cuenta vinculada correctamente</strong>
+                  <span id="mp-linked-info">Los pagos llegan directo a tu cuenta.</span>
+                </div>
+              </div>
+              <div class="summary-row"><span class="label">Comisión por turno</span><span class="value">3%</span></div>
+              <div class="summary-row"><span class="label">Acreditación</span><span class="value">Inmediata al confirmar pago</span></div>
+              <div class="divider"></div>
+              <button class="btn-app btn-outline" onclick="desvincularMP()" style="color:var(--danger);border-color:var(--danger);">Desvincular cuenta de MP</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-app btn-outline" style="margin-top:8px;max-width:640px;margin-left:auto;margin-right:auto;display:block;" onclick="cerrarSesionPro()">Cerrar sesión</button>
+      </div>
+    </div><!-- /tab-profesional -->
+
+    <!-- MODAL DE PAGO -->
+    <div class="overlay" id="payModal" onclick="closeModalOutside(event)">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <h2>Confirmá tu turno</h2>
+        <p class="subtitle">El pago garantiza tu reserva</p>
+        <div id="modal-body">
+          <div class="summary-row"><span class="label">Profesional</span><span class="value" id="modal-doc">—</span></div>
+          <div class="summary-row"><span class="label">Fecha</span><span class="value" id="modal-fecha">—</span></div>
+          <div class="summary-row"><span class="label">Horario</span><span class="value" id="modal-slot">—</span></div>
+          <div class="summary-row total"><span class="label">Total a pagar</span><span class="value" id="modal-price">—</span></div>
+          <div class="commission-note">Mi Turno Seguro cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.</div>
+          <div class="form-group"><label>Tu nombre</label><input type="text" id="modal-nombre" placeholder="Juan Pérez"></div>
+          <div class="form-group"><label>Email</label><input type="email" id="modal-email" placeholder="juan@email.com"></div>
+          <button class="btn-app btn-mp" id="btn-pagar" onclick="confirmarPago()">
+            <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
+            Pagar ahora →
+          </button>
+        </div>
+        <div id="success-screen" class="success-screen">
+          <div class="success-icon">✅</div>
+          <h2>¡Turno confirmado!</h2>
+          <p>Te enviamos los detalles por email. El profesional recibió el pago en su cuenta de Mercado Pago.</p>
+          <button class="btn-app btn-outline" onclick="closeModal()">Volver al inicio</button>
+        </div>
       </div>
     </div>
-  </div>
-
-</section>
-
+  </section>
 </div><!-- /view-app -->
 
-<!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="#" class="brand">
-          <img src="icon-192.png" alt="" style="width:32px;height:32px;">
-          <span class="brand-name">Mi Turno<span style="color:#60A5FA;">Seguro</span></span>
-        </a>
+        <a href="#" class="brand"><img src="icon-192.png" alt="" style="width:32px;height:32px;"><span class="brand-name">Mi Turno<span style="color:#60A5FA;">Seguro</span></span></a>
         <p>La forma más simple de reservar y gestionar turnos médicos online, con pago garantizado.</p>
       </div>
       <div class="footer-col"><h4>Producto</h4><a href="#producto">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#precios">Precios</a></div>
-      <div class="footer-col"><h4>Cuenta</h4><a onclick="showApp('reservar')" style="cursor:pointer;">Reservar turno</a><a onclick="showApp('profesional')" style="cursor:pointer;">Soy profesional</a><a onclick="showApp('profesional')" style="cursor:pointer;">Acceder a mi panel</a></div>
+      <div class="footer-col"><h4>Cuenta</h4><a onclick="showApp('reservar')">Reservar turno</a><a onclick="showApp('profesional')">Soy profesional</a></div>
       <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos y condiciones</a></div>
     </div>
     <div class="footer-bottom">
@@ -927,184 +811,399 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 </footer>
 
 <script>
-// ─────────────────────────────────────────────────────────────────────────
-// CONFIGURACIÓN
-// ─────────────────────────────────────────────────────────────────────────
-var API_URL = 'https://script.google.com/macros/s/AKfycbyfCAVC-Kb8Wc2R2JrVKqMPjn5PIE-Thl-z_4FfHw7Ngin1Tht2GwbvQ5YgjVUue2EvbA/exec';
+// ══════════════════════════════════════════════════════════════
+// ⚙️  CONFIGURACIÓN — completá con tus credenciales reales
+// ══════════════════════════════════════════════════════════════
+var CONFIG = {
+  // ── Auth0 ──
+  // 1. Creá una aplicación "Single Page Application" en https://manage.auth0.com
+  // 2. En "Allowed Callback URLs" y "Allowed Logout URLs" poné la URL de tu sitio
+  // 3. Habilitá la conexión "google-oauth2" en Authentication > Social
+  AUTH0_DOMAIN:    'TU_DOMINIO.auth0.com',   // ej: miturno.us.auth0.com
+  AUTH0_CLIENT_ID: 'TU_CLIENT_ID_DE_AUTH0',  // ej: abc123XYZ
 
-// ─────────────────────────────────────────────────────────────────────────
-// ESTADO GLOBAL
-// ─────────────────────────────────────────────────────────────────────────
-var selectedSlotTime    = null;
-var selectedProfesional = null;
-var fechaSeleccionada   = hoyISO();
-var profesionalActual   = null;
+  // ── Google Apps Script (backend) ──
+  API_URL: 'https://script.google.com/macros/s/AKfycbyfCAVC-Kb8Wc2R2JrVKqMPjn5PIE-Thl-z_4FfHw7Ngin1Tht2GwbvQ5YgjVUue2EvbA/exec',
 
-// Estado del configurador de disponibilidad
-// dispState[dia] = [ {inicio:'09:00', fin:'13:00'}, ... ] | null (inactivo)
-var dispState = {};
+  // ── Mercado Pago OAuth (Marketplace / Conectar) ──
+  // 1. Creá una app en https://www.mercadopago.com.ar/developers/panel/app
+  // 2. En "Redirect URIs" registrá la URL de tu sitio (la misma de abajo)
+  // 3. Copiá el APP_ID (client_id) de tu aplicación
+  MP_APP_ID:       'TU_APP_ID_MERCADO_PAGO',         // ej: 123456789
+  MP_REDIRECT_URI: window.location.origin + window.location.pathname,
+};
 
-var DIAS = [
-  { num: 1, nombre: 'Lunes' },
-  { num: 2, nombre: 'Martes' },
-  { num: 3, nombre: 'Miércoles' },
-  { num: 4, nombre: 'Jueves' },
-  { num: 5, nombre: 'Viernes' },
-  { num: 6, nombre: 'Sábado' },
-  { num: 0, nombre: 'Domingo' }
-];
+// ══════════════════════════════════════════════════════════════
+// AUTH0 — Login con Google
+// ══════════════════════════════════════════════════════════════
+var auth0Client = null;
+var currentUser = null;
 
-// ─────────────────────────────────────────────────────────────────────────
+async function initAuth0() {
+  try {
+    auth0Client = await auth0.createAuth0Client({
+      domain:   CONFIG.AUTH0_DOMAIN,
+      clientId: CONFIG.AUTH0_CLIENT_ID,
+      authorizationParams: {
+        redirect_uri: CONFIG.MP_REDIRECT_URI,
+        connection:   'google-oauth2',
+      },
+      cacheLocation: 'localstorage',
+    });
+
+    // Si venimos de un redirect de Auth0 (hay ?code=&state= de Auth0)
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('code') && params.get('state')) {
+      try {
+        await auth0Client.handleRedirectCallback();
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch(e) { /* puede ser callback de MP, no de Auth0 */ }
+    }
+
+    if (await auth0Client.isAuthenticated()) {
+      currentUser = await auth0Client.getUser();
+      updateNavUser(currentUser);
+    }
+  } catch(e) {
+    console.error('Auth0 init:', e);
+    var gateP = document.querySelector('#pro-auth-gate .auth-gate p');
+    if (gateP) gateP.textContent = '⚠️ Auth0 no configurado aún. Editá CONFIG.AUTH0_DOMAIN y CONFIG.AUTH0_CLIENT_ID.';
+  }
+}
+
+async function loginWithGoogle() {
+  if (!auth0Client) {
+    alert('Configurá AUTH0_DOMAIN y AUTH0_CLIENT_ID en la sección CONFIG del código.');
+    return;
+  }
+  try {
+    await auth0Client.loginWithRedirect({
+      authorizationParams: { connection: 'google-oauth2' }
+    });
+  } catch(e) {
+    console.error('Login error:', e);
+    alert('Error al iniciar sesión. Verificá la configuración de Auth0.');
+  }
+}
+
+async function logoutAuth0() {
+  profesionalActual = null;
+  try { sessionStorage.removeItem('pro_actual'); } catch(e) {}
+  currentUser = null;
+  updateNavUser(null);
+  showProAuthGate();
+  if (auth0Client) {
+    await auth0Client.logout({ logoutParams: { returnTo: window.location.origin } });
+  }
+}
+
+function updateNavUser(user) {
+  var area = document.getElementById('nav-user-area');
+  if (!user) { area.style.display = 'none'; return; }
+  area.style.display = 'flex';
+  document.getElementById('nav-user-name').textContent = (user.name || user.email || '').split(' ')[0];
+  var avatarEl = document.getElementById('nav-avatar-initials');
+  if (user.picture) {
+    avatarEl.outerHTML = '<img id="nav-avatar-initials" src="' + user.picture + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;" alt="">';
+  } else {
+    avatarEl.textContent = (user.name || user.email || '?')[0].toUpperCase();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// MERCADO PAGO OAUTH
+// ══════════════════════════════════════════════════════════════
+
+function iniciarVinculacionMP() {
+  if (!profesionalActual) { alert('No se encontró tu sesión. Intentá cerrar sesión y volver a entrar.'); return; }
+
+  var btn = document.getElementById('btn-vincular-mp');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Redirigiendo a Mercado Pago...';
+
+  // Intentar obtener la URL del backend primero (más seguro: el state lo genera el server)
+  apiGet('oauth_url', { profesional_id: profesionalActual.id })
+    .then(function(data) {
+      if (data && data.mp_auth_url) {
+        window.location.href = data.mp_auth_url;
+      } else {
+        // Fallback: construir la URL directamente
+        var url = buildMPAuthURL(profesionalActual.id);
+        if (url) { window.location.href = url; }
+        else { resetVincularBtn('No se pudo obtener la URL de MP. Verificá que MP_APP_ID esté configurado.'); }
+      }
+    })
+    .catch(function() {
+      // Backend sin respuesta: usar URL construida localmente
+      var url = buildMPAuthURL(profesionalActual.id);
+      if (url) { window.location.href = url; }
+      else { resetVincularBtn('Error de conexión. Verificá que API_URL y MP_APP_ID estén configurados.'); }
+    });
+}
+
+function buildMPAuthURL(proId) {
+  if (!CONFIG.MP_APP_ID || CONFIG.MP_APP_ID === 'TU_APP_ID_MERCADO_PAGO') return null;
+  var state = 'mts_' + proId + '_' + Date.now();
+  try { sessionStorage.setItem('mp_state', state); } catch(e) {}
+  return 'https://auth.mercadopago.com.ar/authorization'
+    + '?client_id='     + encodeURIComponent(CONFIG.MP_APP_ID)
+    + '&response_type=code'
+    + '&platform_id=mp'
+    + '&state='         + encodeURIComponent(state)
+    + '&redirect_uri='  + encodeURIComponent(CONFIG.MP_REDIRECT_URI);
+}
+
+function resetVincularBtn(msg) {
+  if (msg) alert(msg);
+  var btn = document.getElementById('btn-vincular-mp');
+  if (btn) { btn.disabled = false; btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Vincular mi cuenta →'; }
+}
+
+// Detectar y procesar el callback de MP (code= en la URL luego de autorizar)
+async function handleMPCallback() {
+  var params = new URLSearchParams(window.location.search);
+  var code   = params.get('code');
+  var state  = params.get('state');
+  var error  = params.get('error');
+
+  // Solo actuar si parece un callback de MP (state empieza con "mts_" o viene de nuestra app)
+  if (!code && !error) return false;
+  if (!state) return false;
+
+  // Si el state no es nuestro (es de Auth0), dejar que Auth0 lo procese
+  var savedState = '';
+  try { savedState = sessionStorage.getItem('mp_state') || ''; } catch(e) {}
+  var isMP = savedState && state === savedState;
+  // Si el state no coincide con el guardado, podría ser callback de Auth0
+  if (!isMP && !state.startsWith('mts_')) return false;
+
+  // Limpiar URL
+  window.history.replaceState({}, document.title, window.location.pathname);
+  try { sessionStorage.removeItem('mp_state'); } catch(e) {}
+
+  // Recuperar profesional del state (formato: mts_PROID_TIMESTAMP)
+  var proId = '';
+  var stateMatch = state.match(/^mts_([^_]+)/);
+  if (stateMatch) proId = stateMatch[1];
+  if (!proId && profesionalActual) proId = profesionalActual.id;
+
+  // Ir a la app en la tab de MP
+  showApp('profesional');
+  await waitForDashboard();
+  showDashTab('mp', document.getElementById('dash-tab-mp'));
+
+  if (error) {
+    toast('❌ MP no pudo vincularse: ' + (params.get('error_description') || error), 'error');
+    return true;
+  }
+
+  if (code && proId) {
+    // Enviar el code al backend para intercambiarlo por access_token
+    apiPost('mp_oauth', {
+      code:           code,
+      profesional_id: proId,
+      redirect_uri:   CONFIG.MP_REDIRECT_URI
+    }).then(function(data) {
+      if (data && data.ok) {
+        if (profesionalActual) { profesionalActual.tiene_mp = true; guardarEstadoProfesional(profesionalActual); }
+        mostrarEstadoMP(true, data.mp_email || '');
+        actualizarBadgeMP(true);
+        toast('✅ ¡Mercado Pago vinculado correctamente!', 'ok');
+      } else {
+        toast('❌ Error al vincular: ' + ((data && data.error) || 'respuesta inválida'), 'error');
+      }
+    }).catch(function() {
+      toast('❌ Error de conexión al procesar el código de MP.', 'error');
+    });
+  }
+  return true;
+}
+
+function waitForDashboard() {
+  return new Promise(function(res) {
+    var tries = 0;
+    var check = setInterval(function() {
+      if (document.getElementById('pro-dashboard') || ++tries > 20) { clearInterval(check); res(); }
+    }, 150);
+  });
+}
+
+function mostrarEstadoMP(vinculado, email) {
+  document.getElementById('mp-unlinked-state').style.display = vinculado ? 'none' : 'block';
+  document.getElementById('mp-linked-state').style.display   = vinculado ? 'block' : 'none';
+  if (email) document.getElementById('mp-linked-info').textContent = 'Cuenta: ' + email;
+}
+
+function actualizarBadgeMP(vinculado) {
+  document.getElementById('dash-mp-badge').style.display    = vinculado ? 'inline-flex' : 'none';
+  document.getElementById('dash-mp-badge-no').style.display = vinculado ? 'none' : 'inline-flex';
+}
+
+function desvincularMP() {
+  if (!confirm('¿Seguro querés desvincular tu Mercado Pago? Los pacientes no podrán pagarte hasta que lo vuelvas a vincular.')) return;
+  apiPost('mp_desvincular', { profesional_id: profesionalActual.id })
+    .then(function(data) {
+      if (data && data.ok) {
+        if (profesionalActual) { profesionalActual.tiene_mp = false; guardarEstadoProfesional(profesionalActual); }
+        mostrarEstadoMP(false, '');
+        actualizarBadgeMP(false);
+        toast('Cuenta de MP desvinculada.', 'ok');
+      }
+    })
+    .catch(function() { alert('Error al desvincular. Intentá de nuevo.'); });
+}
+
+function toast(msg, type) {
+  var el = document.createElement('div');
+  el.style.cssText = 'position:fixed;top:76px;left:50%;transform:translateX(-50%);z-index:9999;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.12);white-space:nowrap;max-width:90vw;text-align:center;';
+  if (type === 'ok')    { el.style.background = '#DCFCE7'; el.style.color = '#166534'; el.style.border = '1.5px solid #86EFAC'; }
+  if (type === 'error') { el.style.background = '#FEE2E2'; el.style.color = '#991B1B'; el.style.border = '1.5px solid #FCA5A5'; }
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(function() { el.remove(); }, 5000);
+}
+
+// ══════════════════════════════════════════════════════════════
 // API HELPERS — JSONP
-// ─────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
 function apiGet(path, params) {
   params = params || {};
   return new Promise(function(resolve, reject) {
-    var cbName = '_jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
-    var allParams = Object.assign({ path: path, callback: cbName }, params);
-    var qs = Object.keys(allParams).map(function(k) {
-      return encodeURIComponent(k) + '=' + encodeURIComponent(allParams[k]);
-    }).join('&');
-    var script = document.createElement('script');
-    script.src = API_URL + '?' + qs;
-    var timeout = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
-    window[cbName] = function(data) { cleanup(); resolve(data); };
-    function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
-    script.onerror = function() { cleanup(); reject(new Error('Error de red')); };
-    document.body.appendChild(script);
+    var cb = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
+    var qs = Object.assign({ path: path, callback: cb }, params);
+    var src = CONFIG.API_URL + '?' + Object.keys(qs).map(function(k) { return encodeURIComponent(k) + '=' + encodeURIComponent(qs[k]); }).join('&');
+    var s = document.createElement('script'); s.src = src;
+    var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
+    window[cb] = function(d) { cleanup(); resolve(d); };
+    function cleanup() { clearTimeout(t); delete window[cb]; s.parentNode && s.parentNode.removeChild(s); }
+    s.onerror = function() { cleanup(); reject(new Error('Error de red')); };
+    document.body.appendChild(s);
   });
 }
 
 function apiPost(path, body) {
   return new Promise(function(resolve, reject) {
-    var cbName = '_jsonp_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
-    var bodyEncoded = encodeURIComponent(JSON.stringify(body));
-    var src = API_URL + '?path=' + path + '&callback=' + cbName + '&_body=' + bodyEncoded;
-    var script = document.createElement('script');
-    script.src = src;
-    var timeout = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
-    window[cbName] = function(data) { cleanup(); resolve(data); };
-    function cleanup() { clearTimeout(timeout); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
-    script.onerror = function() { cleanup(); reject(new Error('Error de red')); };
-    document.body.appendChild(script);
+    var cb = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
+    var src = CONFIG.API_URL + '?path=' + path + '&callback=' + cb + '&_body=' + encodeURIComponent(JSON.stringify(body));
+    var s = document.createElement('script'); s.src = src;
+    var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
+    window[cb] = function(d) { cleanup(); resolve(d); };
+    function cleanup() { clearTimeout(t); delete window[cb]; s.parentNode && s.parentNode.removeChild(s); }
+    s.onerror = function() { cleanup(); reject(new Error('Error de red')); };
+    document.body.appendChild(s);
   });
 }
 
-// ─────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// ESTADO GLOBAL
+// ══════════════════════════════════════════════════════════════
+var selectedSlotTime = null, selectedProfesional = null;
+var fechaSeleccionada = hoyISO(), profesionalActual = null;
+var dispState = {};
+var DIAS = [
+  { num: 1, nombre: 'Lunes' }, { num: 2, nombre: 'Martes' }, { num: 3, nombre: 'Miércoles' },
+  { num: 4, nombre: 'Jueves' }, { num: 5, nombre: 'Viernes' }, { num: 6, nombre: 'Sábado' }, { num: 0, nombre: 'Domingo' }
+];
+
+// ══════════════════════════════════════════════════════════════
 // INIT
-// ─────────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
-  checkPaymentReturn();
-  checkHashTab();
-  cargarProfesionales();
-  cargarEstadoProfesional();
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async function() {
   inicializarDispState();
   renderDispDays();
+  checkPaymentReturn();
+
+  // 1. Manejar posible callback de MP (debe ir antes de Auth0)
+  var wasMPCallback = await handleMPCallback();
+
+  // 2. Inicializar Auth0 (puede hacer redirect si hay ?code=&state= de Auth0)
+  if (!wasMPCallback) await initAuth0();
+
+  // 3. Si hay usuario logueado y estamos en la tab pro, cargar perfil
+  if (currentUser && document.getElementById('tab-profesional').classList.contains('active')) {
+    cargarPerfilProfesional();
+  }
+
+  // 4. Restaurar sesión local del profesional
+  cargarEstadoProfesionalLocal();
+
+  // 5. Cargar lista de profesionales
+  cargarProfesionales();
 });
 
 function checkPaymentReturn() {
-  var params  = new URLSearchParams(window.location.search);
-  var estado  = params.get('estado');
-  var turnoId = params.get('turno_id');
+  var p = new URLSearchParams(window.location.search);
+  var estado = p.get('estado'), turnoId = p.get('turno_id');
   if (!estado) return;
-  var banner = document.getElementById('payment-banner');
-  var mensajes = {
-    confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId || '') + ' está confirmado.',
-    error:      '❌ Hubo un problema con el pago. Podés intentarlo de nuevo.',
-    pendiente:  '⏳ El pago está pendiente. Te avisamos cuando se confirme.'
-  };
-  var clases = { confirmado: 'success', error: 'error', pendiente: 'pending' };
-  if (mensajes[estado]) {
-    banner.className   = 'payment-banner ' + (clases[estado] || '');
-    banner.textContent = mensajes[estado];
-    banner.style.display = 'block';
-    window.history.replaceState({}, '', window.location.pathname);
-  }
+  var msgs  = { confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId||'') + ' está confirmado.', error: '❌ Hubo un problema con el pago.', pendiente: '⏳ El pago está pendiente.' };
+  var clses = { confirmado: 'success', error: 'error', pendiente: 'pending' };
+  var b = document.getElementById('payment-banner');
+  if (msgs[estado]) { b.className = 'payment-banner ' + (clses[estado]||''); b.textContent = msgs[estado]; b.style.display = 'block'; }
+  window.history.replaceState({}, '', window.location.pathname);
 }
 
-// DESPUÉS
-function checkHashTab() {
-  if (window.location.hash === '#app-profesional') {
-    showApp('profesional');
-  }
-}
-window.addEventListener('hashchange', checkHashTab);
-
-// ─────────────────────────────────────────────────────────────────────────
-// PROFESIONALES — listado para reservar
-// ─────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// PROFESIONALES — reservas
+// ══════════════════════════════════════════════════════════════
 async function cargarProfesionales() {
-  var container = document.getElementById('profesionales-container');
+  var c = document.getElementById('profesionales-container');
   try {
     var data = await apiGet('profesionales');
-    if (!data.profesionales || data.profesionales.length === 0) {
-      container.innerHTML = '<div class="card" style="text-align:center;padding:40px 20px;color:var(--muted);"><div style="font-size:32px;margin-bottom:12px;">🏥</div><div>No hay profesionales disponibles aún.</div></div>';
-      return;
+    if (!data.profesionales || !data.profesionales.length) {
+      c.innerHTML = '<div class="card" style="text-align:center;padding:40px 20px;color:var(--muted);"><div style="font-size:32px;margin-bottom:12px;">🏥</div><div>No hay profesionales disponibles aún.</div></div>'; return;
     }
-    var avatares = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
-    var colores  = ['teal','blue','purple','teal','blue'];
-    container.innerHTML = data.profesionales.map(function(pro, i) {
-      return '<div class="card" id="card-' + pro.id + '">' +
+    var av = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'], col = ['teal','blue','purple','teal','blue'];
+    c.innerHTML = data.profesionales.map(function(p, i) {
+      return '<div class="card">' +
         '<div class="card-header">' +
-          '<div class="avatar ' + colores[i % colores.length] + '">' + avatares[i % avatares.length] + '</div>' +
-          '<div>' +
-            '<div class="doc-name">' + pro.nombre + '</div>' +
-            '<div class="doc-spec">' + pro.especialidad + '</div>' +
-            (pro.tiene_mp ? '<span class="badge badge-green">✓ Acepta pagos</span>' : '<span class="badge badge-blue">Sin MP vinculado</span>') +
-          '</div>' +
-          '<div class="doc-price"><div class="price-amount">$' + Number(pro.precio).toLocaleString('es-AR') + '</div><div class="price-label">por sesión</div></div>' +
+          '<div class="avatar ' + col[i%col.length] + '">' + av[i%av.length] + '</div>' +
+          '<div><div class="doc-name">' + p.nombre + '</div><div class="doc-spec">' + p.especialidad + '</div>' +
+          (p.tiene_mp ? '<span class="badge badge-green">✓ Acepta pagos</span>' : '<span class="badge badge-blue">Sin MP</span>') + '</div>' +
+          '<div class="doc-price"><div class="price-amount">$' + Number(p.precio).toLocaleString('es-AR') + '</div><div class="price-label">por sesión</div></div>' +
         '</div>' +
         '<div class="section-label" style="margin-bottom:8px;">Horarios — ' + formatearFecha(fechaSeleccionada) + '</div>' +
-        '<div class="slots" id="slots-' + pro.id + '"><div style="color:var(--muted);font-size:13px;">Cargando horarios...</div></div>' +
-        '<button class="btn-app btn-primary" onclick="abrirModal(\'' + pro.id + '\', \'' + pro.nombre.replace(/'/g,"\\'") + '\', ' + pro.precio + ')">Confirmar y pagar →</button>' +
+        '<div class="slots" id="slots-' + p.id + '"><div style="color:var(--muted);font-size:13px;">Cargando...</div></div>' +
+        '<button class="btn-app btn-primary" onclick="abrirModal(\'' + p.id + '\',\'' + p.nombre.replace(/'/g,"\\'") + '\',' + p.precio + ')">Confirmar y pagar →</button>' +
       '</div>';
     }).join('');
-    data.profesionales.forEach(function(pro) { cargarHorarios(pro.id); });
-  } catch (err) {
-    container.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:700;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que API_URL esté configurado y el script deployado como Web App pública.</div><div style="font-size:12px;color:var(--danger);margin-top:8px;">' + err.message + '</div></div>';
+    data.profesionales.forEach(function(p) { cargarHorarios(p.id); });
+  } catch(e) {
+    c.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:700;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">' + e.message + '</div></div>';
   }
 }
 
-async function cargarHorarios(profesionalId) {
-  var slotsEl = document.getElementById('slots-' + profesionalId);
+async function cargarHorarios(proId) {
+  var el = document.getElementById('slots-' + proId);
+  if (!el) return;
   try {
-    var data = await apiGet('turnos', { profesional_id: profesionalId, fecha: fechaSeleccionada });
-    if (!data.horarios || data.horarios.length === 0) {
-      slotsEl.innerHTML = '<div style="color:var(--muted);font-size:13px;">' +
-        (data.sin_disponibilidad ? 'Sin disponibilidad para hoy' : 'Sin horarios disponibles') + '</div>';
-      return;
-    }
+    var data = await apiGet('turnos', { profesional_id: proId, fecha: fechaSeleccionada });
+    if (!data.horarios || !data.horarios.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;">' + (data.sin_disponibilidad ? 'Sin disponibilidad para hoy' : 'Sin horarios disponibles') + '</div>'; return; }
     var pro = data.profesional || {};
-    slotsEl.innerHTML = data.horarios.map(function(h) {
-      if (!h.disponible) return '<button class="slot taken" disabled>' + h.hora + '</button>';
-      return '<button class="slot" onclick="seleccionarSlot(this, \'' + profesionalId + '\', \'' + (pro.nombre || '').replace(/'/g,"\\'") + '\', \'' + h.hora + '\', ' + (pro.precio || 0) + ')">' + h.hora + '</button>';
+    el.innerHTML = data.horarios.map(function(h) {
+      return h.disponible
+        ? '<button class="slot" onclick="seleccionarSlot(this,\'' + proId + '\',\'' + (pro.nombre||'').replace(/'/g,"\\'") + '\',\'' + h.hora + '\',' + (pro.precio||0) + ')">' + h.hora + '</button>'
+        : '<button class="slot taken" disabled>' + h.hora + '</button>';
     }).join('');
-  } catch (err) {
-    slotsEl.innerHTML = '<div style="color:var(--muted);font-size:13px;">Error al cargar horarios</div>';
-  }
+  } catch(e) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;">Error al cargar horarios</div>'; }
 }
 
-function seleccionarSlot(el, profesionalId, nombre, hora, precio) {
-  document.getElementById('slots-' + profesionalId).querySelectorAll('.slot').forEach(function(s) { s.classList.remove('selected'); });
+function seleccionarSlot(el, proId, nombre, hora, precio) {
+  document.getElementById('slots-' + proId).querySelectorAll('.slot').forEach(function(s) { s.classList.remove('selected'); });
   el.classList.add('selected');
-  selectedSlotTime    = hora;
-  selectedProfesional = { id: profesionalId, nombre: nombre, precio: precio };
+  selectedSlotTime = hora; selectedProfesional = { id: proId, nombre: nombre, precio: precio };
 }
 
-function abrirModal(profesionalId, nombre, precio) {
-  if (!selectedProfesional || selectedProfesional.id !== profesionalId || !selectedSlotTime) {
-    alert('Por favor elegí un horario primero.'); return;
-  }
+function abrirModal(proId, nombre, precio) {
+  if (!selectedProfesional || selectedProfesional.id !== proId || !selectedSlotTime) { alert('Por favor elegí un horario primero.'); return; }
   document.getElementById('modal-doc').textContent   = nombre;
   document.getElementById('modal-fecha').textContent = formatearFecha(fechaSeleccionada);
   document.getElementById('modal-slot').textContent  = selectedSlotTime;
   document.getElementById('modal-price').textContent = '$' + Number(precio).toLocaleString('es-AR');
-  document.getElementById('modal-nombre').value = '';
-  document.getElementById('modal-email').value  = '';
+  document.getElementById('modal-nombre').value = currentUser ? (currentUser.name || '') : '';
+  document.getElementById('modal-email').value  = currentUser ? (currentUser.email || '') : '';
   var btn = document.getElementById('btn-pagar');
-  btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
-  btn.disabled  = false;
-  document.getElementById('modal-body').style.display     = 'block';
+  btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →'; btn.disabled = false;
+  document.getElementById('modal-body').style.display = 'block';
   document.getElementById('success-screen').style.display = 'none';
   document.getElementById('payModal').classList.add('open');
 }
@@ -1113,37 +1212,34 @@ async function confirmarPago() {
   var nombre = document.getElementById('modal-nombre').value.trim();
   var email  = document.getElementById('modal-email').value.trim();
   var btn    = document.getElementById('btn-pagar');
-  if (!nombre || !email) { alert('Por favor completá tu nombre y email.'); return; }
-  btn.textContent = 'Procesando...';
-  btn.disabled    = true;
+  if (!nombre || !email) { alert('Completá tu nombre y email.'); return; }
+  btn.innerHTML = '<span class="spinner"></span> Procesando...'; btn.disabled = true;
   try {
-    var data = await apiPost('turnos', {
-      profesional_id:  selectedProfesional.id,
-      fecha:           fechaSeleccionada,
-      hora:            selectedSlotTime,
-      paciente_nombre: nombre,
-      paciente_email:  email
-    });
-    if (data.init_point) {
-      window.location.href = data.init_point;
-    } else {
-      alert('Error: ' + (data.error || 'No se pudo crear el pago'));
-      btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
-      btn.disabled  = false;
-    }
-  } catch (err) {
-    alert('Error de conexión. Intentá de nuevo.');
-    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
-    btn.disabled  = false;
-  }
+    var data = await apiPost('turnos', { profesional_id: selectedProfesional.id, fecha: fechaSeleccionada, hora: selectedSlotTime, paciente_nombre: nombre, paciente_email: email });
+    if (data.init_point) { window.location.href = data.init_point; }
+    else { alert('Error: ' + (data.error || 'No se pudo crear el pago')); btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →'; btn.disabled = false; }
+  } catch(e) { alert('Error de conexión. Intentá de nuevo.'); btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →'; btn.disabled = false; }
 }
 
-// ─────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
 // PANEL PROFESIONAL
-// ─────────────────────────────────────────────────────────────────────────
-function cargarEstadoProfesional() {
-  try { var raw = sessionStorage.getItem('pro_actual'); if (raw) profesionalActual = JSON.parse(raw); } catch(e) {}
-  if (profesionalActual) mostrarDashboard(profesionalActual);
+// ══════════════════════════════════════════════════════════════
+function showProAuthGate() {
+  document.getElementById('pro-auth-gate').style.display  = 'block';
+  document.getElementById('pro-registro').style.display   = 'none';
+  document.getElementById('pro-dashboard').style.display   = 'none';
+}
+
+function handleProTab(tabEl) {
+  showTab('profesional', tabEl);
+  if (currentUser) cargarPerfilProfesional();
+}
+
+function cargarEstadoProfesionalLocal() {
+  try {
+    var raw = sessionStorage.getItem('pro_actual');
+    if (raw) { profesionalActual = JSON.parse(raw); if (currentUser) mostrarDashboard(profesionalActual); }
+  } catch(e) {}
 }
 
 function guardarEstadoProfesional(pro) {
@@ -1151,446 +1247,399 @@ function guardarEstadoProfesional(pro) {
   try { sessionStorage.setItem('pro_actual', JSON.stringify(pro)); } catch(e) {}
 }
 
+async function cargarPerfilProfesional() {
+  if (!currentUser) return;
+  document.getElementById('pro-auth-gate').style.display = 'none';
+  try {
+    var data = await apiGet('profesionales');
+    var pro  = (data.profesionales || []).find(function(p) { return p.email === currentUser.email || p.auth0_sub === currentUser.sub; });
+    if (pro) { guardarEstadoProfesional(pro); mostrarDashboard(pro); }
+    else { mostrarFormularioRegistro(); }
+  } catch(e) { mostrarFormularioRegistro(); }
+}
+
+function mostrarFormularioRegistro() {
+  document.getElementById('pro-auth-gate').style.display  = 'none';
+  document.getElementById('pro-dashboard').style.display  = 'none';
+  document.getElementById('pro-registro').style.display   = 'block';
+  if (currentUser) {
+    document.getElementById('pro-nombre').value = currentUser.name || '';
+    document.getElementById('reg-user-name').textContent  = currentUser.name  || '';
+    document.getElementById('reg-user-email').textContent = currentUser.email || '';
+    if (currentUser.picture) {
+      var img = document.getElementById('reg-user-photo');
+      img.src = currentUser.picture; img.style.display = 'block';
+      document.getElementById('reg-user-avatar').style.display = 'none';
+    } else {
+      document.getElementById('reg-user-avatar').textContent = (currentUser.name || '?')[0].toUpperCase();
+    }
+  }
+}
+
 async function registrarProfesional() {
   var nombre       = document.getElementById('pro-nombre').value.trim();
   var especialidad = document.getElementById('pro-especialidad').value.trim();
   var precio       = document.getElementById('pro-precio').value.trim();
   var duracion     = document.getElementById('pro-duracion').value.trim();
-  var errorEl      = document.getElementById('pro-registro-error');
+  var errEl        = document.getElementById('pro-registro-error');
   var btn          = document.getElementById('btn-registrar');
-  if (!nombre || !especialidad || !precio) { errorEl.textContent = 'Completá nombre, especialidad y precio.'; errorEl.style.display = 'block'; return; }
-  errorEl.style.display = 'none';
-  btn.textContent = 'Creando perfil...'; btn.disabled = true;
+  if (!nombre || !especialidad || !precio) { errEl.textContent = 'Completá nombre, especialidad y precio.'; errEl.style.display = 'block'; return; }
+  errEl.style.display = 'none';
+  btn.innerHTML = '<span class="spinner"></span> Creando perfil...'; btn.disabled = true;
   try {
-    var data = await apiPost('profesionales', { nombre, especialidad, precio: Number(precio), duracion_min: Number(duracion) || 50 });
-    if (data.error) { errorEl.textContent = data.error; errorEl.style.display = 'block'; btn.textContent = 'Crear mi perfil →'; btn.disabled = false; return; }
-    document.getElementById('pro-id-display').textContent = data.id;
-    document.getElementById('pro-registro').style.display    = 'none';
-    document.getElementById('pro-vincular-mp').style.display = 'block';
-    guardarEstadoProfesional({ id: data.id, nombre, especialidad, precio: Number(precio), duracion_min: Number(duracion) || 50, tiene_mp: false });
-    document.getElementById('btn-vincular-mp').dataset.authUrl = data.mp_auth_url;
-  } catch(err) {
-    errorEl.textContent = 'Error de conexión. Intentá de nuevo.'; errorEl.style.display = 'block';
-    btn.textContent = 'Crear mi perfil →'; btn.disabled = false;
-  }
-}
-
-async function loginProfesional() {
-  var id      = document.getElementById('pro-id-login').value.trim();
-  var errorEl = document.getElementById('pro-login-error');
-  if (!id) { errorEl.textContent = 'Ingresá tu ID de profesional.'; errorEl.style.display = 'block'; return; }
-  errorEl.style.display = 'none';
-  try {
-    var data = await apiGet('profesionales');
-    var pro  = (data.profesionales || []).find(function(p) { return p.id === id; });
-    if (!pro) { errorEl.textContent = 'No encontramos ese ID.'; errorEl.style.display = 'block'; return; }
+    var data = await apiPost('profesionales', {
+      nombre: nombre, especialidad: especialidad, precio: Number(precio), duracion_min: Number(duracion) || 50,
+      email:     currentUser ? currentUser.email : '',
+      auth0_sub: currentUser ? currentUser.sub   : '',
+    });
+    if (data.error) { errEl.textContent = data.error; errEl.style.display = 'block'; btn.innerHTML = 'Crear mi perfil →'; btn.disabled = false; return; }
+    var pro = { id: data.id, nombre: nombre, especialidad: especialidad, precio: Number(precio), duracion_min: Number(duracion)||50, tiene_mp: false, email: currentUser ? currentUser.email : '' };
     guardarEstadoProfesional(pro);
-    if (!pro.tiene_mp) {
-      document.getElementById('pro-id-display').textContent = pro.id;
-      document.getElementById('pro-registro').style.display    = 'none';
-      document.getElementById('pro-vincular-mp').style.display = 'block';
-      document.getElementById('btn-vincular-mp').dataset.authUrl = '';
-      document.getElementById('btn-vincular-mp').dataset.proId   = pro.id;
-    } else {
-      mostrarDashboard(pro);
-    }
-  } catch(err) { errorEl.textContent = 'Error de conexión.'; errorEl.style.display = 'block'; }
-}
-
-function vincularMP() {
-  var btn     = document.getElementById('btn-vincular-mp');
-  var authUrl = btn.dataset.authUrl;
-  if (authUrl) { window.location.href = authUrl; return; }
-  var proId = (profesionalActual && profesionalActual.id) || btn.dataset.proId || '';
-  if (!proId) { alert('No se encontró tu ID de profesional.'); return; }
-  apiGet('oauth_url', { profesional_id: proId }).then(function(data) {
-    if (data.mp_auth_url) window.location.href = data.mp_auth_url;
-    else alert('No se pudo obtener la URL de vinculación.');
-  }).catch(function() { alert('Error de conexión.'); });
+    mostrarDashboard(pro);
+  } catch(e) { errEl.textContent = 'Error de conexión.'; errEl.style.display = 'block'; btn.innerHTML = 'Crear mi perfil →'; btn.disabled = false; }
 }
 
 function mostrarDashboard(pro) {
-  document.getElementById('pro-registro').style.display    = 'none';
-  document.getElementById('pro-vincular-mp').style.display = 'none';
-  document.getElementById('pro-dashboard').style.display   = 'block';
-  document.getElementById('dash-nombre').textContent       = pro.nombre || '—';
+  document.getElementById('pro-auth-gate').style.display = 'none';
+  document.getElementById('pro-registro').style.display  = 'none';
+  document.getElementById('pro-dashboard').style.display = 'block';
+  document.getElementById('dash-nombre').textContent       = pro.nombre       || '—';
   document.getElementById('dash-especialidad').textContent = pro.especialidad || '—';
   document.getElementById('dash-precio').textContent       = pro.precio ? '$' + Number(pro.precio).toLocaleString('es-AR') : '—';
-  cargarTurnosProfesional(pro.id);
-  cargarDispProfesional(pro.id);
+
+  actualizarBadgeMP(!!pro.tiene_mp);
+  mostrarEstadoMP(!!pro.tiene_mp, pro.mp_email || '');
+
+  // Volver siempre a la pestaña de estadísticas al entrar al dashboard
+  showDashTab('stats', document.getElementById('dash-tab-stats'));
+
+  cargarDatosDashboard(pro.id);
+  cargarDisponibilidad(pro.id);
 }
 
-function showDashTab(name, el) {
-  ['stats','turnos','disp'].forEach(function(n) {
-    document.getElementById('dash-panel-' + n).style.display = (n === name) ? 'block' : 'none';
-    document.getElementById('dash-tab-'   + n).classList.toggle('active', n === name);
+// ── Tabs internas del dashboard ──
+function showDashTab(nombre, el) {
+  ['stats', 'turnos', 'disp', 'mp'].forEach(function(t) {
+    var panel = document.getElementById('dash-panel-' + t);
+    if (panel) panel.style.display = (t === nombre) ? 'block' : 'none';
+    var tabBtn = document.getElementById('dash-tab-' + t);
+    if (tabBtn) tabBtn.classList.toggle('active', t === nombre);
   });
 }
 
-async function cargarTurnosProfesional(profesionalId) {
-  var turnosEl   = document.getElementById('dash-turnos');
-  var statsEl    = document.getElementById('dash-stats');
-  var detalleEl  = document.getElementById('dash-resumen-detalle');
-  var ocupEl     = document.getElementById('dash-ocupacion');
-  var chartEl    = document.getElementById('dash-chart');
-  var ingresosEl = document.getElementById('dash-ingresos');
-
+// ══════════════════════════════════════════════════════════════
+// DASHBOARD — estadísticas, ocupación, próximos turnos e ingresos
+// ══════════════════════════════════════════════════════════════
+async function cargarDatosDashboard(proId) {
   try {
-    var data   = await apiGet('turnos_profesional', { profesional_id: profesionalId });
-    var turnos = data.turnos || [];
-    var precio   = profesionalActual ? Number(profesionalActual.precio) || 0 : 0;
-    var duracion = profesionalActual ? Number(profesionalActual.duracion_min) || 50 : 50;
-    var hoy = hoyISO();
-
-    // Resumen del mes
-    var mesActual   = hoy.substring(0, 7);
-    var confirmados = turnos.filter(function(t) { return t.estado === 'confirmado' && t.fecha.startsWith(mesActual); });
-    var bruto       = confirmados.length * precio;
-    var comision    = Math.round(bruto * 0.03);
-    var neto        = bruto - comision;
-
-    statsEl.innerHTML =
-      '<div class="stat-box"><div class="num">' + confirmados.length + '</div><div class="cap">Confirmados</div></div>' +
-      '<div class="stat-box"><div class="num brand">$' + bruto.toLocaleString('es-AR') + '</div><div class="cap">Facturado</div></div>' +
-      '<div class="stat-box"><div class="num success">$' + neto.toLocaleString('es-AR') + '</div><div class="cap">Recibís en MP</div></div>';
-
-    detalleEl.innerHTML = '<div class="divider"></div><div class="summary-row"><span class="label">Comisión Mi Turno Seguro (3%)</span><span class="value" style="color:var(--danger);">— $' + comision.toLocaleString('es-AR') + '</span></div>';
-
-    // Ocupación (usa slots de disponibilidad si está cargada)
-    var diasSemana = [];
-    for (var i = 0; i < 7; i++) diasSemana.push(sumarDias(hoy, i));
-    var horariosTotalesPorDia = generarCantidadHorarios('09:00', '18:00', duracion);
-    var ocupadosPorDia = {};
-    diasSemana.forEach(function(d) { ocupadosPorDia[d] = 0; });
-    turnos.forEach(function(t) {
-      if ((t.estado === 'confirmado' || t.estado === 'pendiente_pago') && ocupadosPorDia.hasOwnProperty(t.fecha)) {
-        ocupadosPorDia[t.fecha]++;
-      }
-    });
-    var totalOcupados    = diasSemana.reduce(function(acc, d) { return acc + ocupadosPorDia[d]; }, 0);
-    var totalDisponibles = horariosTotalesPorDia * 7;
-    var pctOcupacion     = totalDisponibles > 0 ? Math.round((totalOcupados / totalDisponibles) * 100) : 0;
-    ocupEl.innerHTML = '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:' + pctOcupacion + '%;"></div></div><div class="occupancy-label"><span><strong>' + pctOcupacion + '%</strong> ocupado</span><span>' + totalOcupados + ' de ' + totalDisponibles + ' turnos</span></div>';
-
-    // Gráfico
-    var maxTurnos = Math.max.apply(null, diasSemana.map(function(d) { return ocupadosPorDia[d]; }).concat([1]));
-    chartEl.innerHTML = diasSemana.map(function(d) {
-      var cantidad = ocupadosPorDia[d];
-      var alturaPct = Math.max((cantidad / maxTurnos) * 100, cantidad > 0 ? 14 : 4);
-      return '<div class="chart-bar-col"><div class="chart-bar-value">' + (cantidad > 0 ? cantidad : '') + '</div><div class="chart-bar' + (cantidad > 0 ? ' has-data' : '') + '" style="height:' + alturaPct + '%;"></div><div class="chart-bar-label">' + formatearDiaCorto(d) + '</div></div>';
-    }).join('');
-
-    // Próximos ingresos
-    var futurosTurnos      = turnos.filter(function(t) { return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago'); });
-    var confirmadosFuturos = futurosTurnos.filter(function(t) { return t.estado === 'confirmado'; });
-    var pendientesFuturos  = futurosTurnos.filter(function(t) { return t.estado === 'pendiente_pago'; });
-    var brutoConf   = confirmadosFuturos.length * precio;
-    var brutoPend   = pendientesFuturos.length * precio;
-    var netoConf    = Math.round(brutoConf * 0.97);
-    var netoPend    = Math.round(brutoPend * 0.97);
-    ingresosEl.innerHTML = futurosTurnos.length === 0
-      ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No tenés turnos próximos para proyectar.</div>'
-      : '<div class="summary-row"><span class="label">Confirmados (' + confirmadosFuturos.length + ')</span><span class="value">$' + netoConf.toLocaleString('es-AR') + '</span></div>' +
-        '<div class="summary-row"><span class="label">Pendientes de pago (' + pendientesFuturos.length + ')</span><span class="value">$' + netoPend.toLocaleString('es-AR') + '</span></div>' +
-        '<div class="summary-row total"><span class="label">Total proyectado (neto)</span><span class="value">$' + (netoConf + netoPend).toLocaleString('es-AR') + '</span></div>';
-
-    // Próximos turnos (listado)
-    var proximos = turnos.filter(function(t) { return t.fecha >= hoy && (t.estado === 'confirmado' || t.estado === 'pendiente_pago'); })
-      .sort(function(a, b) { return (a.fecha + a.hora).localeCompare(b.fecha + b.hora); });
-    var estadoBg  = { confirmado: 'var(--success-soft)', pendiente_pago: 'var(--warning-soft)' };
-    var estadoCol = { confirmado: '#166534', pendiente_pago: '#92400E' };
-    turnosEl.innerHTML = proximos.length === 0
-      ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>'
-      : proximos.slice(0, 10).map(function(t) {
-          return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);">' +
-            '<div><div style="font-weight:600;font-size:14px;">' + t.paciente_nombre + '</div><div style="font-size:12px;color:var(--muted);">' + t.fecha + ' · ' + t.hora + '</div></div>' +
-            '<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:' + (estadoBg[t.estado] || '#F3F4F6') + ';color:' + (estadoCol[t.estado] || '#374151') + ';">' + t.estado.replace('_', ' ') + '</span>' +
-          '</div>';
-        }).join('');
-
-  } catch(err) {
-    turnosEl.innerHTML  = '<div style="color:var(--danger);font-size:13px;">Error al cargar turnos.</div>';
-    statsEl.innerHTML   = '';
-    ocupEl.innerHTML    = '<div style="color:var(--danger);font-size:13px;">Error al calcular ocupación.</div>';
-    chartEl.innerHTML   = '';
-    ingresosEl.innerHTML = '<div style="color:var(--danger);font-size:13px;">Error al calcular ingresos.</div>';
-  }
-}
-
-function cerrarSesionPro() {
-  profesionalActual = null;
-  try { sessionStorage.removeItem('pro_actual'); } catch(e) {}
-  document.getElementById('pro-dashboard').style.display   = 'none';
-  document.getElementById('pro-vincular-mp').style.display = 'none';
-  document.getElementById('pro-registro').style.display    = 'block';
-  ['pro-nombre','pro-especialidad','pro-precio','pro-duracion','pro-id-login'].forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.value = '';
-  });
-}
-
-// ─────────────────────────────────────────────────────────────────────────
-// DISPONIBILIDAD — configurador
-// ─────────────────────────────────────────────────────────────────────────
-
-function inicializarDispState() {
-  DIAS.forEach(function(d) { dispState[d.num] = null; });
-}
-
-async function cargarDispProfesional(profesionalId) {
-  try {
-    var data = await apiGet('disponibilidad', { profesional_id: profesionalId });
-    var bloques = data.bloques || [];
-    inicializarDispState();
-    bloques.forEach(function(b) {
-      if (!dispState[b.dia]) dispState[b.dia] = [];
-      dispState[b.dia].push({ inicio: b.inicio, fin: b.fin });
-    });
-    renderDispDays();
+    var data = await apiGet('dashboard', { profesional_id: proId });
+    renderDashStats(data.resumen || {});
+    renderDashOcupacion(data.ocupacion || null);
+    renderDashChart(data.proximos_dias || []);
+    renderDashIngresos(data.proximos_turnos || []);
+    renderDashTurnos(data.proximos_turnos || []);
   } catch(e) {
-    // Si falla, mostramos el configurador vacío igualmente
-    renderDispDays();
+    renderDashStats({});
+    document.getElementById('dash-ocupacion').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No se pudieron cargar los datos.</div>';
+    document.getElementById('dash-chart').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;width:100%;">No se pudieron cargar los datos.</div>';
+    document.getElementById('dash-ingresos').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No se pudieron cargar los datos.</div>';
+    document.getElementById('dash-turnos').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No se pudieron cargar los datos.</div>';
   }
+}
+
+function renderDashStats(resumen) {
+  var confirmados = resumen.confirmados || 0;
+  var facturado   = Number(resumen.facturado) || 0;
+  var comision    = facturado * 0.03;
+  var recibis     = facturado - comision;
+
+  document.getElementById('dash-stats').innerHTML =
+    '<div class="stat-box"><div class="num">' + confirmados + '</div><div class="cap">Confirmados</div></div>' +
+    '<div class="stat-box"><div class="num brand">$' + Math.round(facturado).toLocaleString('es-AR') + '</div><div class="cap">Facturado</div></div>' +
+    '<div class="stat-box"><div class="num success">$' + Math.round(recibis).toLocaleString('es-AR') + '</div><div class="cap">Recibís en MP</div></div>';
+
+  document.getElementById('dash-resumen-detalle').innerHTML = facturado
+    ? '<div class="summary-row" style="margin-top:4px;"><span class="label">Comisión Mi Turno Seguro (3%)</span><span class="value">−$' + Math.round(comision).toLocaleString('es-AR') + '</span></div>'
+    : '';
+}
+
+function renderDashOcupacion(ocupacion) {
+  var el = document.getElementById('dash-ocupacion');
+  if (!ocupacion || !ocupacion.total) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Todavía no hay datos de ocupación para esta semana.</div>';
+    return;
+  }
+  var ocupados = ocupacion.ocupados || 0;
+  var total    = ocupacion.total    || 1;
+  var pct = Math.round((ocupados / total) * 100);
+  el.innerHTML =
+    '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:' + pct + '%;"></div></div>' +
+    '<div class="occupancy-label"><span><strong>' + pct + '%</strong> ocupado</span><span>' + ocupados + ' de ' + total + ' turnos</span></div>';
+}
+
+function renderDashChart(dias) {
+  var el = document.getElementById('dash-chart');
+  if (!dias || !dias.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;width:100%;">Sin datos para mostrar.</div>';
+    return;
+  }
+  var max = Math.max.apply(null, dias.map(function(d) { return Number(d.cantidad) || 0; }));
+  if (max <= 0) max = 1;
+  el.innerHTML = dias.map(function(d) {
+    var cantidad = Number(d.cantidad) || 0;
+    var alturaPx = Math.max(6, Math.round((cantidad / max) * 90));
+    return '<div class="chart-bar-col">' +
+      '<div class="chart-bar-value">' + (cantidad > 0 ? cantidad : '') + '</div>' +
+      '<div class="chart-bar' + (cantidad > 0 ? ' has-data' : '') + '" style="height:' + alturaPx + 'px;"></div>' +
+      '<div class="chart-bar-label">' + formatearFecha(d.fecha, true) + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderDashIngresos(turnos) {
+  var el = document.getElementById('dash-ingresos');
+  var pagados = (turnos || []).filter(function(t) { return !t.estado || t.estado === 'confirmado' || t.estado === 'pagado'; });
+  if (!pagados.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No tenés turnos pagados próximos.</div>';
+    return;
+  }
+  el.innerHTML = pagados.slice(0, 5).map(function(t) {
+    var monto = Number(t.precio) || 0;
+    var neto  = monto * 0.97;
+    return '<div class="summary-row">' +
+      '<span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '</span>' +
+      '<span class="value">$' + Math.round(neto).toLocaleString('es-AR') + '</span>' +
+    '</div>';
+  }).join('');
+}
+
+function renderDashTurnos(turnos) {
+  var el = document.getElementById('dash-turnos');
+  if (!turnos || !turnos.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>';
+    return;
+  }
+  el.innerHTML = turnos.map(function(t) {
+    return '<div class="summary-row">' +
+      '<span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '</span>' +
+      '<span class="value" style="text-align:right;">' + (t.paciente_nombre || 'Paciente') +
+        '<div style="font-size:11px;color:var(--muted);font-weight:400;">' + (t.paciente_email || '') + '</div>' +
+      '</span>' +
+    '</div>';
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// DISPONIBILIDAD
+// ══════════════════════════════════════════════════════════════
+function inicializarDispState() {
+  DIAS.forEach(function(dia) {
+    dispState[dia.num] = { activo: false, bloques: [] };
+  });
 }
 
 function renderDispDays() {
-  var container = document.getElementById('disp-days-container');
-  if (!container) return;
+  var c = document.getElementById('disp-days-container');
+  if (!c) return;
+  c.innerHTML = DIAS.map(function(dia) {
+    var st = dispState[dia.num];
+    var resumen = !st.activo
+      ? 'Cerrado'
+      : (st.bloques.length ? st.bloques.map(function(b) { return b.inicio + '–' + b.fin; }).join(', ') : 'Sin horarios');
 
-  container.innerHTML = DIAS.map(function(d) {
-    var activo  = dispState[d.num] !== null;
-    var bloques = activo ? dispState[d.num] : [];
-
-    var blocksHtml = bloques.map(function(b, idx) {
-      return renderBloque(d.num, idx, b.inicio, b.fin);
+    var bloquesHtml = st.bloques.map(function(b, idx) {
+      return '<div class="disp-block-row">' +
+        '<div><label>Desde</label><input type="time" value="' + b.inicio + '" onchange="updateDispBlock(' + dia.num + ',' + idx + ',\'inicio\',this.value)"></div>' +
+        '<div><label>Hasta</label><input type="time" value="' + b.fin + '" onchange="updateDispBlock(' + dia.num + ',' + idx + ',\'fin\',this.value)"></div>' +
+        '<button class="btn-remove-block" onclick="removeDispBlock(' + dia.num + ',' + idx + ')">✕</button>' +
+      '</div>';
     }).join('');
 
-    var resumen = !activo ? 'No disponible'
-      : bloques.length === 0 ? 'Sin horarios — agregá un bloque'
-      : bloques.map(function(b) { return b.inicio + '–' + b.fin; }).join(', ');
-
-    return '<div class="disp-day-row' + (activo ? ' has-blocks' : '') + '" id="disp-row-' + d.num + '">' +
-      '<div class="disp-day-header" onclick="toggleDia(' + d.num + ')">' +
-        '<div class="disp-day-toggle' + (activo ? ' on' : '') + '" id="toggle-' + d.num + '"></div>' +
-        '<span class="disp-day-name">' + d.nombre + '</span>' +
-        '<span class="disp-day-summary" id="disp-summary-' + d.num + '">' + resumen + '</span>' +
+    return '<div class="disp-day-row' + (st.activo && st.bloques.length ? ' has-blocks' : '') + '">' +
+      '<div class="disp-day-header" onclick="toggleDispDay(' + dia.num + ')">' +
+        '<div class="disp-day-toggle' + (st.activo ? ' on' : '') + '"></div>' +
+        '<div class="disp-day-name">' + dia.nombre + '</div>' +
+        '<div class="disp-day-summary">' + resumen + '</div>' +
       '</div>' +
-      '<div class="disp-day-blocks' + (activo ? ' open' : '') + '" id="disp-blocks-' + d.num + '">' +
-        '<div id="disp-bloques-list-' + d.num + '">' + blocksHtml + '</div>' +
-        '<button class="btn-add-block" onclick="agregarBloque(' + d.num + ')">+ Agregar bloque de horario</button>' +
+      '<div class="disp-day-blocks' + (st.activo ? ' open' : '') + '" id="disp-blocks-' + dia.num + '">' +
+        bloquesHtml +
+        '<button class="btn-add-block" onclick="addDispBlock(' + dia.num + ')">+ Agregar bloque</button>' +
       '</div>' +
     '</div>';
   }).join('');
 }
 
-function renderBloque(dia, idx, inicio, fin) {
-  return '<div class="disp-block-row" id="disp-bloque-' + dia + '-' + idx + '">' +
-    '<div><label>Desde</label><input type="time" value="' + (inicio || '09:00') + '" onchange="actualizarBloque(' + dia + ', ' + idx + ', \'inicio\', this.value)"></div>' +
-    '<div><label>Hasta</label><input type="time" value="' + (fin || '13:00') + '" onchange="actualizarBloque(' + dia + ', ' + idx + ', \'fin\', this.value)"></div>' +
-    '<button class="btn-remove-block" onclick="eliminarBloque(' + dia + ', ' + idx + ')" title="Eliminar bloque">✕</button>' +
-  '</div>';
-}
-
-function toggleDia(dia) {
-  if (dispState[dia] === null) {
-    // Activar con un bloque vacío por defecto
-    dispState[dia] = [{ inicio: '09:00', fin: '13:00' }];
-  } else {
-    dispState[dia] = null;
-  }
+function toggleDispDay(num) {
+  var st = dispState[num];
+  st.activo = !st.activo;
+  if (st.activo && !st.bloques.length) { st.bloques.push({ inicio: '09:00', fin: '13:00' }); }
   renderDispDays();
 }
 
-function agregarBloque(dia) {
-  if (!dispState[dia]) dispState[dia] = [];
-  // Bloque siguiente sugerido basado en el último
-  var ultimo = dispState[dia][dispState[dia].length - 1];
-  var nuevoInicio = ultimo ? ultimo.fin : '09:00';
-  var nuevoFin    = sumarHora(nuevoInicio, 240); // +4h por defecto
-  dispState[dia].push({ inicio: nuevoInicio, fin: nuevoFin });
+function addDispBlock(num) {
+  dispState[num].bloques.push({ inicio: '14:00', fin: '18:00' });
   renderDispDays();
 }
 
-function eliminarBloque(dia, idx) {
-  if (!dispState[dia]) return;
-  dispState[dia].splice(idx, 1);
-  if (dispState[dia].length === 0) {
-    // Mantiene el día activo pero sin bloques (el usuario puede agregar otro)
-  }
+function removeDispBlock(num, idx) {
+  dispState[num].bloques.splice(idx, 1);
   renderDispDays();
 }
 
-function actualizarBloque(dia, idx, campo, valor) {
-  if (!dispState[dia] || !dispState[dia][idx]) return;
-  dispState[dia][idx][campo] = valor;
-  // Actualizar resumen
-  actualizarResumenDia(dia);
+function updateDispBlock(num, idx, campo, valor) {
+  dispState[num].bloques[idx][campo] = valor;
+  renderDispDays();
 }
 
-function actualizarResumenDia(dia) {
-  var el = document.getElementById('disp-summary-' + dia);
-  if (!el) return;
-  var bloques = dispState[dia];
-  if (!bloques || bloques.length === 0) { el.textContent = 'Sin horarios — agregá un bloque'; return; }
-  el.textContent = bloques.map(function(b) { return b.inicio + '–' + b.fin; }).join(', ');
-}
-
-// Presets globales
 function aplicarPresetGlobal(preset) {
-  var presets = {
-    manana:  [{ inicio: '08:00', fin: '13:00' }],
-    tarde:   [{ inicio: '14:00', fin: '19:00' }],
-    completo:[{ inicio: '08:00', fin: '13:00' }, { inicio: '14:00', fin: '19:00' }]
-  };
-  DIAS.forEach(function(d) {
-    if (preset === 'lun-vie') {
+  if (preset === 'lun-vie') {
+    DIAS.forEach(function(d) {
       if (d.num >= 1 && d.num <= 5) {
-        // Mantener horarios existentes o usar completo
-        dispState[d.num] = dispState[d.num] && dispState[d.num].length > 0
-          ? dispState[d.num]
-          : [{ inicio: '09:00', fin: '18:00' }];
+        dispState[d.num].activo = true;
+        if (!dispState[d.num].bloques.length) dispState[d.num].bloques = [{ inicio: '08:00', fin: '19:00' }];
       } else {
-        dispState[d.num] = null;
+        dispState[d.num].activo = false;
       }
-    } else if (dispState[d.num] !== null) {
-      // Solo aplicar a días ya activos
-      dispState[d.num] = presets[preset].map(function(b) { return { inicio: b.inicio, fin: b.fin }; });
-    }
+    });
+    renderDispDays();
+    return;
+  }
+
+  var diasActivos = DIAS.filter(function(d) { return dispState[d.num].activo; }).map(function(d) { return d.num; });
+  var objetivo = diasActivos.length ? diasActivos : DIAS.map(function(d) { return d.num; });
+
+  objetivo.forEach(function(num) {
+    var st = dispState[num];
+    st.activo = true;
+    if (preset === 'manana')   st.bloques = [{ inicio: '08:00', fin: '13:00' }];
+    if (preset === 'tarde')    st.bloques = [{ inicio: '14:00', fin: '19:00' }];
+    if (preset === 'completo') st.bloques = [{ inicio: '08:00', fin: '19:00' }];
   });
+
+  renderDispDays();
+}
+
+async function cargarDisponibilidad(proId) {
+  try {
+    var data = await apiGet('disponibilidad', { profesional_id: proId });
+    if (data && data.disponibilidad && data.disponibilidad.length) {
+      inicializarDispState();
+      data.disponibilidad.forEach(function(d) {
+        if (dispState[d.dia] !== undefined) {
+          dispState[d.dia].activo = true;
+          dispState[d.dia].bloques.push({ inicio: d.inicio, fin: d.fin });
+        }
+      });
+    }
+  } catch(e) { /* se mantiene el estado por defecto (todo cerrado) */ }
   renderDispDays();
 }
 
 async function guardarDisponibilidad() {
-  if (!profesionalActual) { alert('Sesión no encontrada.'); return; }
-
-  var btn      = document.getElementById('btn-guardar-disp');
-  var feedback = document.getElementById('disp-feedback');
-  btn.textContent = 'Guardando...';
-  btn.disabled    = true;
-  feedback.style.display = 'none';
-
-  // Construir lista de bloques
+  var btn = document.getElementById('btn-guardar-disp');
+  var fb  = document.getElementById('disp-feedback');
   var bloques = [];
-  var error   = null;
+
   DIAS.forEach(function(d) {
-    if (!dispState[d.num]) return;
-    (dispState[d.num] || []).forEach(function(b) {
-      if (!b.inicio || !b.fin) { error = 'Completá todos los horarios de inicio y fin.'; return; }
-      if (b.inicio >= b.fin) { error = 'La hora de inicio debe ser anterior a la de fin en ' + d.nombre + '.'; return; }
-      bloques.push({ dia: d.num, inicio: b.inicio, fin: b.fin });
+    var st = dispState[d.num];
+    if (!st.activo) return;
+    st.bloques.forEach(function(b) {
+      if (b.inicio && b.fin && b.inicio < b.fin) bloques.push({ dia: d.num, inicio: b.inicio, fin: b.fin });
     });
   });
 
-  if (error) {
-    feedback.textContent   = error;
-    feedback.className     = 'disp-feedback err';
-    feedback.style.display = 'block';
-    btn.textContent = 'Guardar disponibilidad';
-    btn.disabled    = false;
-    return;
-  }
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Guardando...';
+  fb.style.display = 'none';
 
   try {
-    var data = await apiPost('disponibilidad', {
-      profesional_id: profesionalActual.id,
-      bloques:        bloques
-    });
-
-    if (data.ok) {
-      feedback.textContent   = '✓ Disponibilidad guardada correctamente';
-      feedback.className     = 'disp-feedback ok';
+    var data = await apiPost('disponibilidad', { profesional_id: profesionalActual.id, disponibilidad: bloques });
+    if (data && data.ok) {
+      fb.className = 'disp-feedback ok';
+      fb.textContent = '✅ Disponibilidad guardada correctamente.';
     } else {
-      feedback.textContent   = '✗ ' + (data.error || 'Error al guardar');
-      feedback.className     = 'disp-feedback err';
+      fb.className = 'disp-feedback err';
+      fb.textContent = '❌ ' + ((data && data.error) || 'No se pudo guardar la disponibilidad.');
     }
-    feedback.style.display = 'block';
-    setTimeout(function() { feedback.style.display = 'none'; }, 4000);
-  } catch(err) {
-    feedback.textContent   = '✗ Error de conexión. Intentá de nuevo.';
-    feedback.className     = 'disp-feedback err';
-    feedback.style.display = 'block';
+  } catch(e) {
+    fb.className = 'disp-feedback err';
+    fb.textContent = '❌ Error de conexión. Intentá de nuevo.';
   }
 
-  btn.textContent = 'Guardar disponibilidad';
-  btn.disabled    = false;
+  fb.style.display = 'block';
+  btn.disabled = false;
+  btn.innerHTML = 'Guardar disponibilidad';
+  setTimeout(function() { fb.style.display = 'none'; }, 4000);
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// UI HELPERS
-// ─────────────────────────────────────────────────────────────────────────
-function showTab(name, el) {
-  document.querySelectorAll('.app-section').forEach(function(s) { s.classList.remove('active'); });
-  document.querySelectorAll('.tabs .tab').forEach(function(t) { t.classList.remove('active'); });
-  document.getElementById('tab-' + name).classList.add('active');
-  el.classList.add('active');
+function cerrarSesionPro() {
+  if (!confirm('¿Seguro querés cerrar sesión?')) return;
+  logoutAuth0();
 }
 
-function closeModal() { document.getElementById('payModal').classList.remove('open'); }
-function closeModalOutside(e) { if (e.target === document.getElementById('payModal')) closeModal(); }
-
-// ─────────────────────────────────────────────────────────────────────────
-// UTILIDADES
-// ─────────────────────────────────────────────────────────────────────────
-function hoyISO() { return new Date().toISOString().split('T')[0]; }
-
-function formatearFecha(iso) {
-  var d = new Date(iso + 'T12:00:00');
-  return d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'short' });
-}
-
-function formatearDiaCorto(iso) {
-  var d = new Date(iso + 'T12:00:00');
-  return d.toLocaleDateString('es-AR', { weekday: 'short' }).replace('.', '');
-}
-
-function sumarDias(iso, dias) {
-  var d = new Date(iso + 'T12:00:00');
-  d.setDate(d.getDate() + dias);
-  return d.toISOString().split('T')[0];
-}
-
-function sumarHora(hora, minutos) {
-  var parts = hora.split(':');
-  var h = Number(parts[0]);
-  var m = Number(parts[1]) + minutos;
-  if (m >= 60) { h += Math.floor(m / 60); m = m % 60; }
-  if (h >= 24) h = 23;
-  return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
-}
-
-function generarCantidadHorarios(inicio, fin, duracionMin) {
-  var parts = inicio.split(':'); var h = Number(parts[0]); var m = Number(parts[1]);
-  var pf    = fin.split(':');   var hF = Number(pf[0]);   var mF = Number(pf[1]);
-  var count = 0;
-  while (h < hF || (h === hF && m < mF)) {
-    count++; m += duracionMin;
-    if (m >= 60) { h += Math.floor(m / 60); m = m % 60; }
-  }
-  return count;
-}
-  function showApp(tab) {
+// ══════════════════════════════════════════════════════════════
+// NAVEGACIÓN ENTRE VISTAS Y TABS PRINCIPALES
+// ══════════════════════════════════════════════════════════════
+function showApp(tab) {
   document.getElementById('view-landing').classList.remove('active');
   document.getElementById('view-app').classList.add('active');
+  window.scrollTo(0, 0);
 
-  var labels = {
-    reservar:     'Reservar turno',
-    profesional:  'Panel profesional'
-  };
-  document.getElementById('breadcrumb-label').textContent = labels[tab] || 'La app';
-
-  var tabs = document.querySelectorAll('.tabs .tab');
-  if (tab === 'reservar') {
-    showTab('reservar', tabs[0]);
-  } else if (tab === 'profesional') {
-    showTab('profesional', tabs[1]);
+  if (tab === 'profesional') {
+    showTab('profesional', document.getElementById('tab-btn-profesional'));
+    if (currentUser) cargarPerfilProfesional();
+  } else {
+    showTab('reservar', document.getElementById('tab-btn-reservar'));
   }
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showLanding() {
   document.getElementById('view-app').classList.remove('active');
   document.getElementById('view-landing').classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo(0, 0);
+}
+
+function showTab(nombre, el) {
+  ['reservar', 'profesional'].forEach(function(t) {
+    document.getElementById('tab-' + t).classList.toggle('active', t === nombre);
+    document.getElementById('tab-btn-' + t).classList.toggle('active', t === nombre);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+// UTILIDADES DE FECHA
+// ══════════════════════════════════════════════════════════════
+function hoyISO() {
+  var d = new Date();
+  var mes = String(d.getMonth() + 1).padStart(2, '0');
+  var dia = String(d.getDate()).padStart(2, '0');
+  return d.getFullYear() + '-' + mes + '-' + dia;
+}
+
+function formatearFecha(iso, corto) {
+  if (!iso) return '—';
+  var partes = iso.split('-');
+  var d = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+  var diasCortos = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+  var dias       = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  var meses      = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  if (corto) return diasCortos[d.getDay()] + ' ' + d.getDate();
+  return dias[d.getDay()] + ' ' + d.getDate() + ' ' + meses[d.getMonth()];
+}
+
+// ══════════════════════════════════════════════════════════════
+// MODAL DE PAGO
+// ══════════════════════════════════════════════════════════════
+function closeModal() {
+  document.getElementById('payModal').classList.remove('open');
+  document.getElementById('modal-body').style.display = 'block';
+  document.getElementById('success-screen').style.display = 'none';
+  selectedSlotTime = null;
+  selectedProfesional = null;
+}
+
+function closeModalOutside(event) {
+  if (event.target.id === 'payModal') closeModal();
 }
 </script>
 </body>
