@@ -826,10 +826,11 @@ var CONFIG = {
   API_URL: 'https://script.google.com/macros/s/AKfycbyfCAVC-Kb8Wc2R2JrVKqMPjn5PIE-Thl-z_4FfHw7Ngin1Tht2GwbvQ5YgjVUue2EvbA/exec',
 
   // ── Mercado Pago OAuth (Marketplace / Conectar) ──
-  // 1. Creá una app en https://www.mercadopago.com.ar/developers/panel/app
-  // 2. En "Redirect URIs" registrá la URL de tu sitio (la misma de abajo)
-  // 3. Copiá el APP_ID (client_id) de tu aplicación
-  MP_APP_ID:       'TU_APP_ID_MERCADO_PAGO',         // ej: 123456789
+  // El flujo OAuth de Mercado Pago es manejado enteramente por el BACKEND
+  // (Apps Script), que ya conoce MP_CLIENT_ID / MP_CLIENT_SECRET y el
+  // redirect_uri registrado en MP (la propia URL del Apps Script con
+  // ?path=oauth). El frontend NO necesita construir esa URL: solo pide
+  // "oauth_url" al backend y lo redirige.
   MP_REDIRECT_URI: window.location.origin + window.location.pathname,
 };
 
@@ -913,6 +914,15 @@ function updateNavUser(user) {
 // ══════════════════════════════════════════════════════════════
 // MERCADO PAGO OAUTH
 // ══════════════════════════════════════════════════════════════
+// El backend (Apps Script) tiene su propio endpoint OAuth en
+// "?path=oauth" registrado como redirect_uri en Mercado Pago.
+// Cuando MP redirige ahí, el backend procesa el "code", guarda el
+// access_token del profesional y redirige de vuelta al FRONTEND
+// (CONFIG.FRONTEND_URL del backend) agregando:
+//    ?mp_status=ok&mp_pro=<profesional_id>
+// o  ?mp_status=error&mp_msg=<motivo>
+// Ese es el callback que el frontend debe leer (handleMPReturn),
+// NO un "code"/"state" propio.
 
 function iniciarVinculacionMP() {
   if (!profesionalActual) { alert('No se encontró tu sesión. Intentá cerrar sesión y volver a entrar.'); return; }
@@ -921,36 +931,17 @@ function iniciarVinculacionMP() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Redirigiendo a Mercado Pago...';
 
-  // Intentar obtener la URL del backend primero (más seguro: el state lo genera el server)
   apiGet('oauth_url', { profesional_id: profesionalActual.id })
     .then(function(data) {
       if (data && data.mp_auth_url) {
         window.location.href = data.mp_auth_url;
       } else {
-        // Fallback: construir la URL directamente
-        var url = buildMPAuthURL(profesionalActual.id);
-        if (url) { window.location.href = url; }
-        else { resetVincularBtn('No se pudo obtener la URL de MP. Verificá que MP_APP_ID esté configurado.'); }
+        resetVincularBtn((data && data.error) || 'No se pudo obtener la URL de Mercado Pago. Verificá la configuración del backend (MP_CLIENT_ID, MP_CLIENT_SECRET, SCRIPT_URL).');
       }
     })
     .catch(function() {
-      // Backend sin respuesta: usar URL construida localmente
-      var url = buildMPAuthURL(profesionalActual.id);
-      if (url) { window.location.href = url; }
-      else { resetVincularBtn('Error de conexión. Verificá que API_URL y MP_APP_ID estén configurados.'); }
+      resetVincularBtn('Error de conexión con el servidor. Verificá que API_URL esté configurado correctamente.');
     });
-}
-
-function buildMPAuthURL(proId) {
-  if (!CONFIG.MP_APP_ID || CONFIG.MP_APP_ID === 'TU_APP_ID_MERCADO_PAGO') return null;
-  var state = 'mts_' + proId + '_' + Date.now();
-  try { sessionStorage.setItem('mp_state', state); } catch(e) {}
-  return 'https://auth.mercadopago.com.ar/authorization'
-    + '?client_id='     + encodeURIComponent(CONFIG.MP_APP_ID)
-    + '&response_type=code'
-    + '&platform_id=mp'
-    + '&state='         + encodeURIComponent(state)
-    + '&redirect_uri='  + encodeURIComponent(CONFIG.MP_REDIRECT_URI);
 }
 
 function resetVincularBtn(msg) {
@@ -959,62 +950,40 @@ function resetVincularBtn(msg) {
   if (btn) { btn.disabled = false; btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Vincular mi cuenta →'; }
 }
 
-// Detectar y procesar el callback de MP (code= en la URL luego de autorizar)
-async function handleMPCallback() {
-  var params = new URLSearchParams(window.location.search);
-  var code   = params.get('code');
-  var state  = params.get('state');
-  var error  = params.get('error');
+// Detectar y procesar el retorno de MP desde el backend
+// (?mp_status=ok&mp_pro=ID  ó  ?mp_status=error&mp_msg=...)
+async function handleMPReturn() {
+  var params   = new URLSearchParams(window.location.search);
+  var mpStatus = params.get('mp_status');
+  if (!mpStatus) return false;
 
-  // Solo actuar si parece un callback de MP (state empieza con "mts_" o viene de nuestra app)
-  if (!code && !error) return false;
-  if (!state) return false;
+  var proId = params.get('mp_pro') || '';
+  var msg   = params.get('mp_msg') || '';
 
-  // Si el state no es nuestro (es de Auth0), dejar que Auth0 lo procese
-  var savedState = '';
-  try { savedState = sessionStorage.getItem('mp_state') || ''; } catch(e) {}
-  var isMP = savedState && state === savedState;
-  // Si el state no coincide con el guardado, podría ser callback de Auth0
-  if (!isMP && !state.startsWith('mts_')) return false;
-
-  // Limpiar URL
+  // Limpiar la URL
   window.history.replaceState({}, document.title, window.location.pathname);
-  try { sessionStorage.removeItem('mp_state'); } catch(e) {}
 
-  // Recuperar profesional del state (formato: mts_PROID_TIMESTAMP)
-  var proId = '';
-  var stateMatch = state.match(/^mts_([^_]+)/);
-  if (stateMatch) proId = stateMatch[1];
-  if (!proId && profesionalActual) proId = profesionalActual.id;
-
-  // Ir a la app en la tab de MP
+  // Ir a la app, tab profesional, sub-tab de Mercado Pago
   showApp('profesional');
   await waitForDashboard();
-  showDashTab('mp', document.getElementById('dash-tab-mp'));
 
-  if (error) {
-    toast('❌ MP no pudo vincularse: ' + (params.get('error_description') || error), 'error');
-    return true;
-  }
-
-  if (code && proId) {
-    // Enviar el code al backend para intercambiarlo por access_token
-    apiPost('mp_oauth', {
-      code:           code,
-      profesional_id: proId,
-      redirect_uri:   CONFIG.MP_REDIRECT_URI
-    }).then(function(data) {
-      if (data && data.ok) {
-        if (profesionalActual) { profesionalActual.tiene_mp = true; guardarEstadoProfesional(profesionalActual); }
-        mostrarEstadoMP(true, data.mp_email || '');
-        actualizarBadgeMP(true);
-        toast('✅ ¡Mercado Pago vinculado correctamente!', 'ok');
-      } else {
-        toast('❌ Error al vincular: ' + ((data && data.error) || 'respuesta inválida'), 'error');
-      }
-    }).catch(function() {
-      toast('❌ Error de conexión al procesar el código de MP.', 'error');
-    });
+  if (mpStatus === 'ok') {
+    // Refrescar el perfil del profesional para obtener tiene_mp = true
+    if (currentUser) {
+      await cargarPerfilProfesional();
+    } else if (profesionalActual) {
+      try {
+        var data = await apiGet('profesionales');
+        var pro  = (data.profesionales || []).find(function(p) { return p.id === profesionalActual.id; });
+        if (pro) { guardarEstadoProfesional(pro); mostrarDashboard(pro); }
+      } catch(e) {}
+    }
+    showDashTab('mp', document.getElementById('dash-tab-mp'));
+    toast('✅ ¡Mercado Pago vinculado correctamente!', 'ok');
+  } else {
+    showDashTab('mp', document.getElementById('dash-tab-mp'));
+    resetVincularBtn(null);
+    toast('❌ MP no pudo vincularse' + (msg ? ': ' + msg : '.'), 'error');
   }
   return true;
 }
@@ -1032,6 +1001,7 @@ function mostrarEstadoMP(vinculado, email) {
   document.getElementById('mp-unlinked-state').style.display = vinculado ? 'none' : 'block';
   document.getElementById('mp-linked-state').style.display   = vinculado ? 'block' : 'none';
   if (email) document.getElementById('mp-linked-info').textContent = 'Cuenta: ' + email;
+  else document.getElementById('mp-linked-info').textContent = 'Los pagos llegan directo a tu cuenta.';
 }
 
 function actualizarBadgeMP(vinculado) {
@@ -1048,6 +1018,8 @@ function desvincularMP() {
         mostrarEstadoMP(false, '');
         actualizarBadgeMP(false);
         toast('Cuenta de MP desvinculada.', 'ok');
+      } else {
+        toast('❌ ' + ((data && data.error) || 'No se pudo desvincular.'), 'error');
       }
     })
     .catch(function() { alert('Error al desvincular. Intentá de nuevo.'); });
@@ -1113,19 +1085,19 @@ document.addEventListener('DOMContentLoaded', async function() {
   renderDispDays();
   checkPaymentReturn();
 
-  // 1. Manejar posible callback de MP (debe ir antes de Auth0)
-  var wasMPCallback = await handleMPCallback();
+  // 1. Manejar posible retorno de vinculación de MP (?mp_status=...)
+  var wasMPReturn = await handleMPReturn();
 
-  // 2. Inicializar Auth0 (puede hacer redirect si hay ?code=&state= de Auth0)
-  if (!wasMPCallback) await initAuth0();
+  // 2. Restaurar sesión local del profesional (antes de Auth0, para tenerla disponible)
+  cargarEstadoProfesionalLocal();
 
-  // 3. Si hay usuario logueado y estamos en la tab pro, cargar perfil
-  if (currentUser && document.getElementById('tab-profesional').classList.contains('active')) {
+  // 3. Inicializar Auth0 (puede hacer redirect si hay ?code=&state= de Auth0)
+  if (!wasMPReturn) await initAuth0();
+
+  // 4. Si hay usuario logueado y estamos en la tab pro, cargar perfil
+  if (!wasMPReturn && currentUser && document.getElementById('tab-profesional').classList.contains('active')) {
     cargarPerfilProfesional();
   }
-
-  // 4. Restaurar sesión local del profesional
-  cargarEstadoProfesionalLocal();
 
   // 5. Cargar lista de profesionales
   cargarProfesionales();
