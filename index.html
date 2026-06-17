@@ -209,7 +209,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .btn-app.btn-outline:hover { background: var(--brand-soft); }
 .btn-app:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-/* ── FIX: Duración de sesión — tabs de selección rápida ── */
 .duracion-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
 .duracion-tab {
   flex: 1; min-width: 60px;
@@ -234,7 +233,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 }
 .duracion-label { font-size: 11px; display: block; font-weight: 600; opacity: 0.8; margin-top: 2px; }
 
-/* ── NUEVO: Tabs de precio ── */
 .precio-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
 .precio-tab {
   padding: 10px 4px;
@@ -258,25 +256,21 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 }
 .precio-tab .sub-label { font-size: 10px; display: block; font-weight: 600; opacity: 0.8; margin-top: 2px; }
 
-/* Google login button */
 .btn-google { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 14px 20px; border: 1.5px solid var(--line); border-radius: 999px; background: white; color: var(--ink); font-size: 15px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.18s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .btn-google:hover { border-color: #4285F4; box-shadow: 0 4px 16px rgba(66,133,244,0.15); transform: translateY(-1px); }
 .btn-google:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-/* User chip in nav */
 .user-chip { display: flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; background: var(--brand-soft); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--brand-dark); }
 .user-chip-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--brand); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; overflow: hidden; }
 .user-chip-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .btn-logout { padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--muted); background: none; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer; transition: all 0.15s; font-family: 'Open Sans', sans-serif; }
 .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
 
-/* Auth gate */
 .auth-gate { text-align: center; padding: 40px 20px; }
 .auth-gate .auth-icon { font-size: 48px; margin-bottom: 16px; }
 .auth-gate h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
 .auth-gate p { font-size: 14px; color: var(--muted); margin-bottom: 24px; max-width: 300px; margin-left: auto; margin-right: auto; }
 
-/* Modal */
 .overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
 .overlay.open { display: flex; }
 .modal { background: white; border-radius: 24px 24px 0 0; width: 100%; max-width: 640px; padding: 28px 24px 40px; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
@@ -311,7 +305,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .payment-banner.error   { background: var(--danger-soft);  color: #991B1B; }
 .payment-banner.pending { background: var(--warning-soft); color: #92400E; }
 
-/* Dashboard stats */
 .stats-grid-dash { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
 .stat-box { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 12px; text-align: center; }
 .stat-box .num { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 21px; color: var(--ink); }
@@ -329,7 +322,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .chart-bar-label { font-size: 10.5px; color: var(--muted); margin-top: 6px; font-weight: 600; text-transform: capitalize; }
 .chart-bar-value { font-size: 10px; color: var(--brand-dark); font-weight: 700; margin-bottom: 4px; min-height: 12px; }
 
-/* MP status card */
 .mp-status-card { background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius-sm); padding: 16px 18px; display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
 .mp-status-icon { font-size: 28px; flex-shrink: 0; }
 .mp-status-text { flex: 1; }
@@ -340,7 +332,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 
 .mp-actions-stack { display: flex; flex-direction: column; gap: 12px; }
 
-/* Disponibilidad */
 .disp-grid { display: grid; gap: 10px; }
 .disp-day-row { border: 1.5px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; transition: border-color 0.15s; }
 .disp-day-row.has-blocks { border-color: var(--brand-mid); }
@@ -373,15 +364,12 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .disp-feedback.ok  { background: var(--success-soft); color: #166534; }
 .disp-feedback.err { background: var(--danger-soft);  color: #991B1B; }
 
-/* Spinner */
 .spinner { display: inline-block; width: 16px; height: 16px; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 4px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Views */
 .view { display: none; }
 .view.active { display: block; }
 
-/* App nav */
 .app-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .app-nav-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .app-nav .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
@@ -390,10 +378,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .app-nav-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--brand); cursor: pointer; padding: 8px 14px; border-radius: 999px; transition: background 0.15s; border: none; background: none; font-family: 'Open Sans', sans-serif; }
 .app-nav-back:hover { background: var(--brand-soft); }
 
-/* Info box */
 .info-box { background: var(--brand-soft); border: 1px solid var(--brand-mid); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--brand-dark); margin-bottom: 16px; line-height: 1.5; }
 
-/* Responsive */
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .hero-inner { grid-template-columns: 1fr; gap: 40px; }
@@ -646,7 +632,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     <!-- TAB: PROFESIONAL -->
     <div id="tab-profesional" class="app-section">
 
-      <!-- GATE: requiere login con Google -->
       <div id="pro-auth-gate">
         <div class="card auth-gate">
           <div class="auth-icon">👩‍⚕️</div>
@@ -667,7 +652,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         </div>
       </div>
 
-      <!-- FORMULARIO DE REGISTRO (primer ingreso) -->
       <div id="pro-registro" style="display:none;">
         <p class="section-label">Completá tu perfil</p>
         <div class="card">
@@ -681,43 +665,24 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           <div class="form-group"><label>Nombre completo (como verán los pacientes)</label><input type="text" id="pro-nombre" placeholder="Dra. María García"></div>
           <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica"></div>
           
-          <!-- ── NUEVO: Tabs de precio ── -->
           <div class="form-group">
             <label>Precio por consulta (ARS)</label>
             <div class="precio-tabs" id="precio-tabs">
-              <button type="button" class="precio-tab" data-precio="10000" onclick="seleccionarPrecio(10000, this)">
-                10k<span class="sub-label">$10.000</span>
-              </button>
-              <button type="button" class="precio-tab selected" data-precio="20000" onclick="seleccionarPrecio(20000, this)">
-                20k<span class="sub-label">$20.000</span>
-              </button>
-              <button type="button" class="precio-tab" data-precio="30000" onclick="seleccionarPrecio(30000, this)">
-                30k<span class="sub-label">$30.000</span>
-              </button>
-              <button type="button" class="precio-tab" data-precio="50000" onclick="seleccionarPrecio(50000, this)">
-                50k<span class="sub-label">$50.000</span>
-              </button>
-              <button type="button" class="precio-tab" data-precio="100000" onclick="seleccionarPrecio(100000, this)">
-                100k<span class="sub-label">$100.000</span>
-              </button>
+              <button type="button" class="precio-tab" data-precio="10000" onclick="seleccionarPrecio(10000, this)">10k<span class="sub-label">$10.000</span></button>
+              <button type="button" class="precio-tab selected" data-precio="20000" onclick="seleccionarPrecio(20000, this)">20k<span class="sub-label">$20.000</span></button>
+              <button type="button" class="precio-tab" data-precio="30000" onclick="seleccionarPrecio(30000, this)">30k<span class="sub-label">$30.000</span></button>
+              <button type="button" class="precio-tab" data-precio="50000" onclick="seleccionarPrecio(50000, this)">50k<span class="sub-label">$50.000</span></button>
+              <button type="button" class="precio-tab" data-precio="100000" onclick="seleccionarPrecio(100000, this)">100k<span class="sub-label">$100.000</span></button>
             </div>
           </div>
 
           <div class="form-group">
             <label>Duración de cada turno</label>
             <div class="duracion-tabs" id="duracion-tabs">
-              <button type="button" class="duracion-tab" data-min="15" onclick="seleccionarDuracion(15, this)">
-                15<span class="duracion-label">min</span>
-              </button>
-              <button type="button" class="duracion-tab" data-min="30" onclick="seleccionarDuracion(30, this)">
-                30<span class="duracion-label">min</span>
-              </button>
-              <button type="button" class="duracion-tab selected" data-min="45" onclick="seleccionarDuracion(45, this)">
-                45<span class="duracion-label">min</span>
-              </button>
-              <button type="button" class="duracion-tab" data-min="60" onclick="seleccionarDuracion(60, this)">
-                1<span class="duracion-label">hora</span>
-              </button>
+              <button type="button" class="duracion-tab" data-min="15" onclick="seleccionarDuracion(15, this)">15<span class="duracion-label">min</span></button>
+              <button type="button" class="duracion-tab" data-min="30" onclick="seleccionarDuracion(30, this)">30<span class="duracion-label">min</span></button>
+              <button type="button" class="duracion-tab selected" data-min="45" onclick="seleccionarDuracion(45, this)">45<span class="duracion-label">min</span></button>
+              <button type="button" class="duracion-tab" data-min="60" onclick="seleccionarDuracion(60, this)">1<span class="duracion-label">hora</span></button>
             </div>
           </div>
 
@@ -726,7 +691,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         </div>
       </div>
 
-      <!-- DASHBOARD -->
       <div id="pro-dashboard" style="display:none;">
 
         <div class="card">
@@ -745,7 +709,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
         </div>
 
-        <!-- Tabs del panel -->
         <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;">
           <button class="tab active" id="dash-tab-stats"  onclick="showDashTab('stats',  this)" style="flex:none;padding:9px 18px;">📊 Estadísticas</button>
           <button class="tab"        id="dash-tab-turnos" onclick="showDashTab('turnos', this)" style="flex:none;padding:9px 18px;">🗓️ Turnos</button>
@@ -753,7 +716,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           <button class="tab"        id="dash-tab-mp"     onclick="showDashTab('mp',     this)" style="flex:none;padding:9px 18px;">💳 Mercado Pago</button>
         </div>
 
-        <!-- Stats -->
         <div id="dash-panel-stats">
           <div class="card">
             <div class="section-label">Resumen — este mes</div>
@@ -778,7 +740,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
         </div>
 
-        <!-- Turnos -->
         <div id="dash-panel-turnos" style="display:none;">
           <div class="card">
             <div class="section-label">Próximos turnos</div>
@@ -786,7 +747,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
         </div>
 
-        <!-- Disponibilidad -->
         <div id="dash-panel-disp" style="display:none;">
           <div class="card">
             <div class="section-label" style="margin-bottom:6px;">Configurá cuándo trabajás</div>
@@ -807,12 +767,10 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
         </div>
 
-        <!-- Mercado Pago -->
         <div id="dash-panel-mp" style="display:none;">
           <div class="card">
             <div class="section-label" style="margin-bottom:14px;">Cuenta de Mercado Pago</div>
 
-            <!-- Sin vincular -->
             <div id="mp-unlinked-state">
               <div class="mp-status-card unlinked">
                 <div class="mp-status-icon">⚠️</div>
@@ -826,7 +784,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
                 Cuando un paciente pague su turno, el dinero llega directo a tu Mercado Pago. Mi Turno Seguro descuenta automáticamente el 3% de comisión.<br><br>
                 <strong>Requisito:</strong> Necesitás tener una cuenta de Mercado Pago verificada (con CUIT/CUIL) para recibir pagos como profesional.
               </div>
-              <!-- ── FIX: stack vertical en mobile ── -->
               <div class="mp-actions-stack">
                 <button class="btn-app btn-mp" id="btn-vincular-mp" onclick="iniciarVinculacionMP()">
                   <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
@@ -836,7 +793,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
               </div>
             </div>
 
-            <!-- Vinculado -->
             <div id="mp-linked-state" style="display:none;">
               <div class="mp-status-card linked">
                 <div class="mp-status-icon">✅</div>
@@ -933,11 +889,24 @@ var STORE = {
 };
 
 // ══════════════════════════════════════════════════════════════
-// DURACIÓN Y PRECIO — tabs de selección rápida
+// ESTADO GLOBAL
 // ══════════════════════════════════════════════════════════════
 var duracionSeleccionada = 45;
 var precioSeleccionado = 20000;
+var currentUser = null;
+var selectedSlotTime = null;
+var selectedProfesional = null;
+var fechaSeleccionada = hoyISO();
+var profesionalActual = null;
+var dispState = {};
+var DIAS = [
+  { num: 1, nombre: 'Lunes' }, { num: 2, nombre: 'Martes' }, { num: 3, nombre: 'Miércoles' },
+  { num: 4, nombre: 'Jueves' }, { num: 5, nombre: 'Viernes' }, { num: 6, nombre: 'Sábado' }, { num: 0, nombre: 'Domingo' }
+];
 
+// ══════════════════════════════════════════════════════════════
+// DURACIÓN Y PRECIO — tabs de selección rápida
+// ══════════════════════════════════════════════════════════════
 function seleccionarDuracion(min, el) {
   duracionSeleccionada = min;
   document.querySelectorAll('.duracion-tab').forEach(function(t) { t.classList.remove('selected'); });
@@ -953,8 +922,6 @@ function seleccionarPrecio(precio, el) {
 // ══════════════════════════════════════════════════════════════
 // GOOGLE IDENTITY SERVICES
 // ══════════════════════════════════════════════════════════════
-var currentUser = null;
-
 function loginConGoogle() {
   var btn = document.getElementById('btn-google-login');
   btn.disabled = true;
@@ -1065,6 +1032,41 @@ function updateNavUser(user) {
 }
 
 // ══════════════════════════════════════════════════════════════
+// API HELPERS — JSONP
+// ══════════════════════════════════════════════════════════════
+function apiGet(path, params) {
+  params = params || {};
+  return new Promise(function(resolve, reject) {
+    var cb  = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
+    var qs  = Object.assign({ path: path, callback: cb }, params);
+    var src = CONFIG.API_URL + '?' + Object.keys(qs).map(function(k) {
+      return encodeURIComponent(k) + '=' + encodeURIComponent(qs[k]);
+    }).join('&');
+    var s = document.createElement('script');
+    s.src = src;
+    var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
+    window[cb] = function(d) { cleanup(); resolve(d); };
+    function cleanup() { clearTimeout(t); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
+    s.onerror = function() { cleanup(); reject(new Error('Error de red')); };
+    document.body.appendChild(s);
+  });
+}
+
+function apiPost(path, body) {
+  return new Promise(function(resolve, reject) {
+    var cb  = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
+    var src = CONFIG.API_URL + '?path=' + encodeURIComponent(path) + '&callback=' + encodeURIComponent(cb) + '&_body=' + encodeURIComponent(JSON.stringify(body));
+    var s = document.createElement('script');
+    s.src = src;
+    var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
+    window[cb] = function(d) { cleanup(); resolve(d); };
+    function cleanup() { clearTimeout(t); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
+    s.onerror = function() { cleanup(); reject(new Error('Error de red')); };
+    document.body.appendChild(s);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
 // MERCADO PAGO OAUTH — CORREGIDO
 // ══════════════════════════════════════════════════════════════
 function iniciarVinculacionMP() {
@@ -1077,8 +1079,12 @@ function iniciarVinculacionMP() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Redirigiendo a Mercado Pago...';
 
+  // Guardar en localStorage ANTES del redirect
   STORE.set('mp_pro_id', profesionalActual.id);
   STORE.set('pro_actual', profesionalActual);
+  if (currentUser) {
+    STORE.set('google_user', currentUser);
+  }
 
   apiGet('oauth_url', { profesional_id: profesionalActual.id })
     .then(function(data) {
@@ -1102,18 +1108,20 @@ function resetVincularBtn(msg) {
   }
 }
 
-// FIX: manejo robusto del retorno de MP
+// CORREGIDO: manejo robusto del retorno de MP
 async function handleMPReturn() {
-  var params   = new URLSearchParams(window.location.search);
+  var params = new URLSearchParams(window.location.search);
   var mpStatus = params.get('mp_status');
   if (!mpStatus) return false;
 
   var proId = params.get('mp_pro') || '';
-  var msg   = params.get('mp_msg') || '';
+  var msg = params.get('mp_msg') || '';
 
+  // Limpiar la URL
   window.history.replaceState({}, document.title, window.location.pathname);
 
-  // Restaurar sesión
+  // ─── RESTAURAR SESIÓN ───
+  // Primero intentar desde localStorage
   if (!currentUser) {
     var savedUser = STORE.get('google_user');
     if (savedUser) {
@@ -1126,45 +1134,50 @@ async function handleMPReturn() {
     var savedPro = STORE.get('pro_actual');
     if (savedPro) {
       profesionalActual = savedPro;
-    } else if (proId) {
-      try {
-        var data = await apiGet('profesionales');
-        var found = (data.profesionales || []).find(function(p) { return p.id === proId; });
-        if (found) profesionalActual = found;
-      } catch(e) {}
     }
   }
 
+  // Si no hay profesional, intentar obtenerlo por ID
+  if (!profesionalActual && proId) {
+    try {
+      var data = await apiGet('profesionales');
+      var found = (data.profesionales || []).find(function(p) { return p.id === proId; });
+      if (found) {
+        profesionalActual = found;
+        STORE.set('pro_actual', found);
+      }
+    } catch(e) {}
+  }
+
+  // Si aún no hay profesional pero tenemos currentUser, buscar por email
+  if (!profesionalActual && currentUser) {
+    try {
+      var data = await apiGet('profesionales');
+      var found = (data.profesionales || []).find(function(p) {
+        return p.email && p.email.toLowerCase() === currentUser.email.toLowerCase();
+      });
+      if (found) {
+        profesionalActual = found;
+        STORE.set('pro_actual', found);
+      }
+    } catch(e) {}
+  }
+
+  // Mostrar la app
   showApp('profesional');
 
   if (mpStatus === 'ok') {
-    if (profesionalActual || currentUser) {
-      try {
-        var data = await apiGet('profesionales');
-        var emailBuscar = (profesionalActual && profesionalActual.email) || (currentUser && currentUser.email) || '';
-        var pro = (data.profesionales || []).find(function(p) {
-          return (proId && p.id === proId) ||
-                 (emailBuscar && p.email && p.email.toLowerCase() === emailBuscar.toLowerCase());
-        });
-        if (pro) {
-          pro.tiene_mp = true;
-          guardarEstadoProfesional(pro);
-          mostrarDashboard(pro);
-        } else if (profesionalActual) {
-          profesionalActual.tiene_mp = true;
-          guardarEstadoProfesional(profesionalActual);
-          mostrarDashboard(profesionalActual);
-        }
-      } catch(e) {
-        if (profesionalActual) {
-          profesionalActual.tiene_mp = true;
-          mostrarDashboard(profesionalActual);
-        }
-      }
+    // Si tenemos profesional, actualizar su estado
+    if (profesionalActual) {
+      profesionalActual.tiene_mp = true;
+      guardarEstadoProfesional(profesionalActual);
+      mostrarDashboard(profesionalActual);
+      toast('✅ ¡Mercado Pago vinculado correctamente!', 'ok');
+    } else {
+      toast('⚠️ Sesión restaurada, pero no se encontró tu perfil. Intentá recargar.', 'error');
     }
     setTimeout(function() {
       showDashTab('mp', document.getElementById('dash-tab-mp'));
-      toast('✅ ¡Mercado Pago vinculado correctamente!', 'ok');
     }, 300);
   } else {
     if (profesionalActual) mostrarDashboard(profesionalActual);
@@ -1213,93 +1226,6 @@ function toast(msg, type) {
   el.textContent = msg;
   document.body.appendChild(el);
   setTimeout(function() { el.remove(); }, 5000);
-}
-
-// ══════════════════════════════════════════════════════════════
-// API HELPERS — JSONP
-// ══════════════════════════════════════════════════════════════
-function apiGet(path, params) {
-  params = params || {};
-  return new Promise(function(resolve, reject) {
-    var cb  = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
-    var qs  = Object.assign({ path: path, callback: cb }, params);
-    var src = CONFIG.API_URL + '?' + Object.keys(qs).map(function(k) {
-      return encodeURIComponent(k) + '=' + encodeURIComponent(qs[k]);
-    }).join('&');
-    var s = document.createElement('script');
-    s.src = src;
-    var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
-    window[cb] = function(d) { cleanup(); resolve(d); };
-    function cleanup() { clearTimeout(t); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror = function() { cleanup(); reject(new Error('Error de red')); };
-    document.body.appendChild(s);
-  });
-}
-
-function apiPost(path, body) {
-  return new Promise(function(resolve, reject) {
-    var cb  = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
-    var src = CONFIG.API_URL + '?path=' + encodeURIComponent(path) + '&callback=' + encodeURIComponent(cb) + '&_body=' + encodeURIComponent(JSON.stringify(body));
-    var s = document.createElement('script');
-    s.src = src;
-    var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
-    window[cb] = function(d) { cleanup(); resolve(d); };
-    function cleanup() { clearTimeout(t); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror = function() { cleanup(); reject(new Error('Error de red')); };
-    document.body.appendChild(s);
-  });
-}
-
-// ══════════════════════════════════════════════════════════════
-// ESTADO GLOBAL
-// ══════════════════════════════════════════════════════════════
-var selectedSlotTime = null, selectedProfesional = null;
-var fechaSeleccionada = hoyISO(), profesionalActual = null;
-var dispState = {};
-var DIAS = [
-  { num: 1, nombre: 'Lunes' }, { num: 2, nombre: 'Martes' }, { num: 3, nombre: 'Miércoles' },
-  { num: 4, nombre: 'Jueves' }, { num: 5, nombre: 'Viernes' }, { num: 6, nombre: 'Sábado' }, { num: 0, nombre: 'Domingo' }
-];
-
-// ══════════════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', async function() {
-  inicializarDispState();
-  renderDispDays();
-  checkPaymentReturn();
-
-  var savedUser = STORE.get('google_user');
-  if (savedUser) {
-    currentUser = savedUser;
-    updateNavUser(currentUser);
-  }
-
-  cargarEstadoProfesionalLocal();
-
-  var wasMPReturn = await handleMPReturn();
-
-  cargarProfesionales();
-});
-
-function checkPaymentReturn() {
-  var p = new URLSearchParams(window.location.search);
-  var estado = p.get('estado'), turnoId = p.get('turno_id');
-  if (!estado) return;
-  var msgs  = {
-    confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId || '') + ' está confirmado.',
-    error:      '❌ Hubo un problema con el pago. Intentá de nuevo.',
-    pendiente:  '⏳ El pago está pendiente de acreditación.'
-  };
-  var clses = { confirmado: 'success', error: 'error', pendiente: 'pending' };
-  var b = document.getElementById('payment-banner');
-  if (msgs[estado]) {
-    b.className = 'payment-banner ' + (clses[estado] || '');
-    b.textContent = msgs[estado];
-    b.style.display = 'block';
-  }
-  window.history.replaceState({}, '', window.location.pathname);
-  showApp('reservar');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1846,6 +1772,47 @@ function closeModal() {
 }
 function closeModalOutside(event) {
   if (event.target.id === 'payModal') closeModal();
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async function() {
+  inicializarDispState();
+  renderDispDays();
+  checkPaymentReturn();
+
+  var savedUser = STORE.get('google_user');
+  if (savedUser) {
+    currentUser = savedUser;
+    updateNavUser(currentUser);
+  }
+
+  cargarEstadoProfesionalLocal();
+
+  var wasMPReturn = await handleMPReturn();
+
+  cargarProfesionales();
+});
+
+function checkPaymentReturn() {
+  var p = new URLSearchParams(window.location.search);
+  var estado = p.get('estado'), turnoId = p.get('turno_id');
+  if (!estado) return;
+  var msgs  = {
+    confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId || '') + ' está confirmado.',
+    error:      '❌ Hubo un problema con el pago. Intentá de nuevo.',
+    pendiente:  '⏳ El pago está pendiente de acreditación.'
+  };
+  var clses = { confirmado: 'success', error: 'error', pendiente: 'pending' };
+  var b = document.getElementById('payment-banner');
+  if (msgs[estado]) {
+    b.className = 'payment-banner ' + (clses[estado] || '');
+    b.textContent = msgs[estado];
+    b.style.display = 'block';
+  }
+  window.history.replaceState({}, '', window.location.pathname);
+  showApp('reservar');
 }
 </script>
 </body>
