@@ -234,6 +234,30 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 }
 .duracion-label { font-size: 11px; display: block; font-weight: 600; opacity: 0.8; margin-top: 2px; }
 
+/* ── NUEVO: Tabs de precio ── */
+.precio-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
+.precio-tab {
+  padding: 10px 4px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+.precio-tab:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+.precio-tab.selected {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: white;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+}
+.precio-tab .sub-label { font-size: 10px; display: block; font-weight: 600; opacity: 0.8; margin-top: 2px; }
+
 /* Google login button */
 .btn-google { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 14px 20px; border: 1.5px solid var(--line); border-radius: 999px; background: white; color: var(--ink); font-size: 15px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.18s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .btn-google:hover { border-color: #4285F4; box-shadow: 0 4px 16px rgba(66,133,244,0.15); transform: translateY(-1px); }
@@ -314,7 +338,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .mp-status-card.linked { border-color: var(--success); background: var(--success-soft); }
 .mp-status-card.unlinked { border-color: #FCD34D; background: var(--warning-soft); }
 
-/* ── FIX: MP actions en mobile — columna vertical ── */
 .mp-actions-stack { display: flex; flex-direction: column; gap: 12px; }
 
 /* Disponibilidad */
@@ -386,8 +409,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   .section-header h2 { font-size: 28px; }
   .cta-section { padding: 48px 24px; }
   .cta-section h2 { font-size: 26px; }
-  /* ── FIX mobile: duración tabs en 2 columnas ── */
   .duracion-tabs { display: grid; grid-template-columns: 1fr 1fr; }
+  .precio-tabs { grid-template-columns: repeat(3, 1fr); }
 }
 </style>
 </head>
@@ -657,9 +680,29 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
           <div class="form-group"><label>Nombre completo (como verán los pacientes)</label><input type="text" id="pro-nombre" placeholder="Dra. María García"></div>
           <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica"></div>
-          <div class="form-group"><label>Precio por consulta (ARS)</label><input type="number" id="pro-precio" placeholder="8000"></div>
+          
+          <!-- ── NUEVO: Tabs de precio ── -->
+          <div class="form-group">
+            <label>Precio por consulta (ARS)</label>
+            <div class="precio-tabs" id="precio-tabs">
+              <button type="button" class="precio-tab" data-precio="10000" onclick="seleccionarPrecio(10000, this)">
+                10k<span class="sub-label">$10.000</span>
+              </button>
+              <button type="button" class="precio-tab selected" data-precio="20000" onclick="seleccionarPrecio(20000, this)">
+                20k<span class="sub-label">$20.000</span>
+              </button>
+              <button type="button" class="precio-tab" data-precio="30000" onclick="seleccionarPrecio(30000, this)">
+                30k<span class="sub-label">$30.000</span>
+              </button>
+              <button type="button" class="precio-tab" data-precio="50000" onclick="seleccionarPrecio(50000, this)">
+                50k<span class="sub-label">$50.000</span>
+              </button>
+              <button type="button" class="precio-tab" data-precio="100000" onclick="seleccionarPrecio(100000, this)">
+                100k<span class="sub-label">$100.000</span>
+              </button>
+            </div>
+          </div>
 
-          <!-- ── NUEVO: Tabs de duración de sesión ── -->
           <div class="form-group">
             <label>Duración de cada turno</label>
             <div class="duracion-tabs" id="duracion-tabs">
@@ -805,7 +848,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
               <div class="summary-row"><span class="label">Comisión por turno</span><span class="value">3%</span></div>
               <div class="summary-row"><span class="label">Acreditación</span><span class="value">Inmediata al confirmar pago</span></div>
               <div class="divider"></div>
-              <!-- ── FIX: stack vertical en mobile ── -->
               <div class="mp-actions-stack">
                 <button class="btn-app btn-outline" onclick="desvincularMP()" style="color:var(--danger);border-color:var(--danger);">Desvincular cuenta de MP</button>
               </div>
@@ -876,7 +918,7 @@ var CONFIG = {
 };
 
 // ══════════════════════════════════════════════════════════════
-// STORAGE HELPERS — usa localStorage para sobrevivir redirects de MP
+// STORAGE HELPERS
 // ══════════════════════════════════════════════════════════════
 var STORE = {
   get: function(k) {
@@ -891,13 +933,20 @@ var STORE = {
 };
 
 // ══════════════════════════════════════════════════════════════
-// DURACIÓN DE SESIÓN — tabs de selección rápida
+// DURACIÓN Y PRECIO — tabs de selección rápida
 // ══════════════════════════════════════════════════════════════
-var duracionSeleccionada = 45; // default
+var duracionSeleccionada = 45;
+var precioSeleccionado = 20000;
 
 function seleccionarDuracion(min, el) {
   duracionSeleccionada = min;
   document.querySelectorAll('.duracion-tab').forEach(function(t) { t.classList.remove('selected'); });
+  if (el) el.classList.add('selected');
+}
+
+function seleccionarPrecio(precio, el) {
+  precioSeleccionado = precio;
+  document.querySelectorAll('.precio-tab').forEach(function(t) { t.classList.remove('selected'); });
   if (el) el.classList.add('selected');
 }
 
@@ -984,7 +1033,6 @@ function resetBtnGoogle(msg) {
 
 function handleUsuarioGoogle(user) {
   currentUser = user;
-  // FIX: guardar en localStorage (sobrevive redirect de MP OAuth)
   STORE.set('google_user', user);
   updateNavUser(user);
   cargarPerfilProfesional();
@@ -1017,7 +1065,7 @@ function updateNavUser(user) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// MERCADO PAGO OAUTH
+// MERCADO PAGO OAUTH — CORREGIDO
 // ══════════════════════════════════════════════════════════════
 function iniciarVinculacionMP() {
   if (!profesionalActual) {
@@ -1029,8 +1077,6 @@ function iniciarVinculacionMP() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Redirigiendo a Mercado Pago...';
 
-  // FIX: guardar el ID del profesional en localStorage ANTES del redirect
-  // para que sobreviva el ciclo completo de OAuth
   STORE.set('mp_pro_id', profesionalActual.id);
   STORE.set('pro_actual', profesionalActual);
 
@@ -1056,7 +1102,7 @@ function resetVincularBtn(msg) {
   }
 }
 
-// FIX: manejo robusto del retorno de MP — restaura sesión desde localStorage
+// FIX: manejo robusto del retorno de MP
 async function handleMPReturn() {
   var params   = new URLSearchParams(window.location.search);
   var mpStatus = params.get('mp_status');
@@ -1065,10 +1111,9 @@ async function handleMPReturn() {
   var proId = params.get('mp_pro') || '';
   var msg   = params.get('mp_msg') || '';
 
-  // Limpiar la URL
   window.history.replaceState({}, document.title, window.location.pathname);
 
-  // FIX: restaurar sesión desde localStorage (sobrevive el redirect)
+  // Restaurar sesión
   if (!currentUser) {
     var savedUser = STORE.get('google_user');
     if (savedUser) {
@@ -1082,7 +1127,6 @@ async function handleMPReturn() {
     if (savedPro) {
       profesionalActual = savedPro;
     } else if (proId) {
-      // Fallback: buscar por ID en la API
       try {
         var data = await apiGet('profesionales');
         var found = (data.profesionales || []).find(function(p) { return p.id === proId; });
@@ -1094,7 +1138,6 @@ async function handleMPReturn() {
   showApp('profesional');
 
   if (mpStatus === 'ok') {
-    // Recargar perfil actualizado desde el backend
     if (profesionalActual || currentUser) {
       try {
         var data = await apiGet('profesionales');
@@ -1226,20 +1269,16 @@ document.addEventListener('DOMContentLoaded', async function() {
   renderDispDays();
   checkPaymentReturn();
 
-  // FIX: restaurar sesión de Google desde localStorage (sobrevive redirect de MP)
   var savedUser = STORE.get('google_user');
   if (savedUser) {
     currentUser = savedUser;
     updateNavUser(currentUser);
   }
 
-  // Restaurar sesión del profesional
   cargarEstadoProfesionalLocal();
 
-  // Manejar retorno de Mercado Pago
   var wasMPReturn = await handleMPReturn();
 
-  // Cargar lista de profesionales
   cargarProfesionales();
 });
 
@@ -1412,12 +1451,10 @@ function guardarEstadoProfesional(pro) {
   STORE.set('pro_actual', pro);
 }
 
-// FIX: cargar perfil busca primero en localStorage, luego verifica en API
 async function cargarPerfilProfesional() {
   if (!currentUser) { showProAuthGate(); return; }
   document.getElementById('pro-auth-gate').style.display = 'none';
 
-  // Mostrar dashboard guardado mientras carga (mejor UX)
   var cached = STORE.get('pro_actual');
   if (cached) {
     profesionalActual = cached;
@@ -1433,7 +1470,6 @@ async function cargarPerfilProfesional() {
       guardarEstadoProfesional(pro);
       mostrarDashboard(pro);
     } else if (!cached) {
-      // Solo mostrar el form de registro si no había nada en cache
       mostrarFormularioRegistro();
     }
   } catch(e) {
@@ -1461,12 +1497,11 @@ function mostrarFormularioRegistro() {
 async function registrarProfesional() {
   var nombre       = document.getElementById('pro-nombre').value.trim();
   var especialidad = document.getElementById('pro-especialidad').value.trim();
-  var precio       = document.getElementById('pro-precio').value.trim();
   var errEl        = document.getElementById('pro-registro-error');
   var btn          = document.getElementById('btn-registrar');
 
-  if (!nombre || !especialidad || !precio) {
-    errEl.textContent = 'Completá nombre, especialidad y precio.';
+  if (!nombre || !especialidad) {
+    errEl.textContent = 'Completá nombre y especialidad.';
     errEl.style.display = 'block';
     return;
   }
@@ -1478,8 +1513,8 @@ async function registrarProfesional() {
     var data = await apiPost('profesionales', {
       nombre:       nombre,
       especialidad: especialidad,
-      precio:       Number(precio),
-      duracion_min: duracionSeleccionada,   // FIX: usa la variable de tabs
+      precio:       precioSeleccionado,
+      duracion_min: duracionSeleccionada,
       email:        currentUser ? currentUser.email : '',
       google_sub:   currentUser ? currentUser.sub   : '',
     });
@@ -1494,14 +1529,13 @@ async function registrarProfesional() {
       id:           data.id,
       nombre:       nombre,
       especialidad: especialidad,
-      precio:       Number(precio),
+      precio:       precioSeleccionado,
       duracion_min: duracionSeleccionada,
       tiene_mp:     false,
       email:        currentUser ? currentUser.email : '',
     };
     guardarEstadoProfesional(pro);
     mostrarDashboard(pro);
-    // FIX: abrir directamente el tab de MP para vincular
     setTimeout(function() {
       showDashTab('mp', document.getElementById('dash-tab-mp'));
     }, 400);
