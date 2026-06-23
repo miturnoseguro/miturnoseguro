@@ -334,14 +334,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .info-box { background: var(--brand-soft); border: 1px solid var(--brand-mid); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--brand-dark); margin-bottom: 16px; line-height: 1.5; }
 .warning-box { background: var(--warning-soft); border: 1px solid #FCD34D; border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: #92400E; margin-bottom: 16px; line-height: 1.5; }
 
-/* Suscripción */
-.suscripcion-card { background: linear-gradient(135deg, var(--brand-soft) 0%, #EFF6FF 100%); border: 2px solid var(--brand-mid); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
-.suscripcion-card .precio-grande { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 36px; color: var(--brand); }
-.suscripcion-card .precio-grande span { font-size: 16px; color: var(--muted); font-weight: 600; }
-.suscripcion-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--brand); color: white; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px; margin-bottom: 12px; }
-
-/* Token input */
-.token-field { font-family: monospace; font-size: 13px; letter-spacing: 0.5px; }
+.mp-status-box { border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 16px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.mp-status-box.linked { background: var(--success-soft); color: #166534; border: 1px solid #86EFAC; }
+.mp-status-box.not-linked { background: var(--warning-soft); color: #92400E; border: 1px solid #FCD34D; }
 
 @media (max-width: 900px) {
   .nav-links { display: none; }
@@ -501,7 +496,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <span class="pricing-tag">Para profesionales</span>
         <h3>Plan profesional</h3>
         <div class="pricing-sub">Todo incluido, sin comisión por consulta</div>
-        <div class="pricing-price">$15.000 <span>/ mes</span></div>
+        <div class="pricing-price">$20.000 <span>/ mes</span></div>
         <ul class="pricing-list">
           <li><span class="check">✓</span> Agenda online con disponibilidad personalizable</li>
           <li><span class="check">✓</span> 100% de cada pago directo a tu Mercado Pago</li>
@@ -533,7 +528,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   <div class="container">
     <div class="cta-section">
       <h2>Empezá a cobrar antes de cada consulta</h2>
-      <p>$15.000 por mes. El paciente paga el 100% de la consulta directo a tu Mercado Pago — vos no le debés nada a nadie más.</p>
+      <p>$20.000 por mes. El paciente paga el 100% de la consulta directo a tu Mercado Pago — vos no le debés nada a nadie más.</p>
       <div class="cta-actions">
         <button onclick="showApp('profesional')" class="btn btn-primary btn-lg">Crear mi perfil profesional</button>
         <button onclick="showApp('reservar')" class="btn btn-ghost btn-lg">Reservar un turno</button>
@@ -630,7 +625,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 
       <!-- REGISTRO -->
       <div id="pro-registro" style="display:none;">
-        <p class="section-label">Completá tu perfil y activá tu suscripción</p>
+        <p class="section-label">Completá tu perfil</p>
 
         <div class="card">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:12px;background:var(--brand-soft);border-radius:var(--radius-sm);">
@@ -665,37 +660,13 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
             </div>
           </div>
 
-          <div class="form-group">
-            <label>Tu Access Token de Mercado Pago</label>
-            <input type="text" id="pro-mp-token" class="token-field" placeholder="APP_USR-...">
-            <div class="info-box" style="margin-top:8px;margin-bottom:0;">
-              <strong>¿Cómo obtengo mi Access Token?</strong><br>
-              Andá a <a href="https://www.mercadopago.com.ar/developers/panel" target="_blank" style="color:var(--brand);font-weight:700;">mercadopago.com.ar/developers/panel</a>, creá o entrá a tu app y copiá el <strong>Access Token productivo</strong>. Los pagos de tus pacientes irán directo a esa cuenta.
-            </div>
-          </div>
-
           <div id="pro-registro-error" style="display:none;color:var(--danger);font-size:13px;margin-bottom:12px;margin-top:4px;"></div>
         </div>
 
-        <!-- Suscripción -->
-        <div class="suscripcion-card">
-          <div class="suscripcion-badge">🔒 Activación requerida</div>
-          <div style="font-size:14px;color:var(--muted);margin-bottom:8px;">Para aparecer en la plataforma y recibir reservas</div>
-          <div class="precio-grande">$15.000 <span>/ mes</span></div>
-          <div style="font-size:13px;color:var(--muted);margin-top:8px;margin-bottom:16px;">Tu suscripción se renueva automáticamente cada mes. Cancelás cuando querás.</div>
-          <ul style="list-style:none;font-size:13px;color:var(--muted);">
-            <li style="margin-bottom:6px;">✓ Agenda online visible para todos los pacientes</li>
-            <li style="margin-bottom:6px;">✓ 100% de cada pago directo a tu Mercado Pago</li>
-            <li style="margin-bottom:6px;">✓ Panel de estadísticas e ingresos</li>
-            <li>✓ Soporte prioritario</li>
-          </ul>
-        </div>
-
-        <button class="btn-app btn-mp" id="btn-registrar" onclick="registrarYSuscribir()">
-          <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-          Crear perfil y pagar $15.000 →
+        <button class="btn-app btn-primary" id="btn-registrar" onclick="registrarProfesional()" style="margin-bottom:8px;">
+          ✓ Crear mi perfil
         </button>
-        <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:10px;">Serás redirigido a Mercado Pago para pagar la primera cuota de forma segura.</p>
+        <p style="font-size:12px;color:var(--muted);text-align:center;">Luego activarás tu suscripción y vincularás tu Mercado Pago.</p>
       </div>
 
       <!-- DASHBOARD -->
@@ -707,8 +678,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
             <div>
               <div class="doc-name" id="dash-nombre">—</div>
               <div class="doc-spec" id="dash-especialidad">—</div>
-              <span class="badge badge-green" id="dash-suscripcion-badge" style="display:none;">✓ Suscripción activa</span>
-              <span class="badge badge-orange" id="dash-suscripcion-badge-no" style="display:none;">⚠ Suscripción vencida</span>
+              <span class="badge badge-green" id="dash-mp-linked" style="display:none;">✓ Mercado Pago vinculado</span>
+              <span class="badge badge-orange" id="dash-mp-not-linked" style="display:none;">⚠ Vinculá Mercado Pago</span>
             </div>
             <div class="doc-price">
               <div class="price-amount" id="dash-precio">—</div>
@@ -716,6 +687,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
             </div>
           </div>
         </div>
+
+        <!-- MP LINK STATUS -->
+        <div id="mp-status-container"></div>
 
         <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;">
           <button class="tab active" id="dash-tab-stats"  onclick="showDashTab('stats',  this)" style="flex:none;padding:9px 18px;">📊 Estadísticas</button>
@@ -780,22 +754,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <!-- Configuración -->
         <div id="dash-panel-config" style="display:none;">
           <div class="card">
-            <div class="section-label" style="margin-bottom:14px;">Access Token de Mercado Pago</div>
-            <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Este token permite que los pagos de tus pacientes lleguen a tu cuenta. Si lo cambiás, los nuevos pagos irán al token actualizado.</p>
-            <div class="form-group">
-              <label>Access Token actual</label>
-              <input type="text" id="config-mp-token" class="token-field" placeholder="APP_USR-...">
-            </div>
-            <div class="info-box">Obtené tu token en <a href="https://www.mercadopago.com.ar/developers/panel" target="_blank" style="color:var(--brand);font-weight:700;">mercadopago.com.ar/developers/panel</a> → tu app → Access Token productivo.</div>
-            <button class="btn-app btn-primary" id="btn-guardar-token" onclick="guardarToken()" style="margin-bottom:8px;">Guardar token</button>
-            <div class="disp-feedback" id="token-feedback"></div>
-          </div>
-
-          <div class="card">
-            <div class="section-label" style="margin-bottom:14px;">Suscripción</div>
-            <div id="dash-suscripcion-info">
-              <div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Cargando...</div>
-            </div>
+            <div class="section-label" style="margin-bottom:14px;">Mercado Pago</div>
+            <div id="mp-config-container"></div>
           </div>
 
           <button class="btn-app btn-outline" style="margin-top:8px;" onclick="cerrarSesionGoogle()">Cerrar sesión</button>
@@ -840,6 +800,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 var CONFIG = {
   GOOGLE_CLIENT_ID: '962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com',
   API_URL: 'https://script.google.com/macros/s/AKfycbwAoQVvJLx9xpOozVqFN8iki2SKtq305tWYee8E_7xQiBAfVOZPXzWt2CLYyQoor_JMtw/exec',
+  FRONTEND_URL: 'https://miturnoseguro.com'
 };
 
 // ══════════════════════════════════════════════════════════════
@@ -1168,10 +1129,9 @@ function mostrarFormularioRegistro() {
   }
 }
 
-async function registrarYSuscribir() {
+async function registrarProfesional() {
   var nombre       = document.getElementById('pro-nombre').value.trim();
   var especialidad = document.getElementById('pro-especialidad').value.trim();
-  var mpToken      = document.getElementById('pro-mp-token').value.trim();
   var errEl        = document.getElementById('pro-registro-error');
   var btn          = document.getElementById('btn-registrar');
 
@@ -1179,10 +1139,6 @@ async function registrarYSuscribir() {
 
   if (!nombre || !especialidad) {
     errEl.textContent = 'Completá nombre y especialidad.';
-    errEl.style.display = 'block'; return;
-  }
-  if (!mpToken || !mpToken.startsWith('APP_USR-')) {
-    errEl.textContent = 'Ingresá tu Access Token de Mercado Pago (debe empezar con APP_USR-).';
     errEl.style.display = 'block'; return;
   }
 
@@ -1197,13 +1153,14 @@ async function registrarYSuscribir() {
       duracion_min: duracionSeleccionada,
       email:        currentUser ? currentUser.email : '',
       google_sub:   currentUser ? currentUser.sub   : '',
-      mp_token:     mpToken,
+      acepta_mp:    true,
+      acepta_sinmp: false
     });
 
     if (data.error) {
       errEl.textContent = data.error;
       errEl.style.display = 'block';
-      btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Crear perfil y pagar $15.000 →';
+      btn.innerHTML = '✓ Crear mi perfil';
       btn.disabled = false;
       return;
     }
@@ -1212,20 +1169,18 @@ async function registrarYSuscribir() {
       id: data.id, nombre: nombre, especialidad: especialidad,
       precio: precioSeleccionado, duracion_min: duracionSeleccionada,
       email: currentUser ? currentUser.email : '',
-      mp_token: mpToken, suscripcion_activa: false,
+      mp_access_token: '',
+      mp_user_id: '',
+      acepta_mp: true,
+      acepta_sinmp: false
     };
     guardarEstadoProfesional(pro);
-
-    if (data.suscripcion_url) {
-      window.location.href = data.suscripcion_url;
-    } else {
-      mostrarDashboard(pro);
-      toast('✅ Perfil creado. Activá tu suscripción desde Configuración.', 'ok');
-    }
+    mostrarDashboard(pro);
+    toast('✅ Perfil creado. Ahora vinculá tu Mercado Pago.', 'ok');
   } catch(e) {
     errEl.textContent = 'Error de conexión. Intentá de nuevo.';
     errEl.style.display = 'block';
-    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Crear perfil y pagar $15.000 →';
+    btn.innerHTML = '✓ Crear mi perfil';
     btn.disabled = false;
   }
 }
@@ -1243,72 +1198,102 @@ function mostrarDashboard(pro) {
   document.getElementById('dash-especialidad').textContent = pro.especialidad || '—';
   document.getElementById('dash-precio').textContent       = pro.precio ? '$' + Number(pro.precio).toLocaleString('es-AR') : '—';
 
-  var activa = !!pro.suscripcion_activa;
-  document.getElementById('dash-suscripcion-badge').style.display    = activa ? 'inline-flex' : 'none';
-  document.getElementById('dash-suscripcion-badge-no').style.display = activa ? 'none' : 'inline-flex';
+  var tieneMp = !!(pro.mp_access_token && pro.mp_user_id);
+  document.getElementById('dash-mp-linked').style.display    = tieneMp ? 'inline-flex' : 'none';
+  document.getElementById('dash-mp-not-linked').style.display = tieneMp ? 'none' : 'inline-flex';
 
-  var tokenInput = document.getElementById('config-mp-token');
-  if (tokenInput) tokenInput.value = pro.mp_token || '';
+  renderMPStatus(pro);
+  renderMPConfig(pro);
 
   showDashTab('stats', document.getElementById('dash-tab-stats'));
   cargarDatosDashboard(pro.id);
   cargarDisponibilidad(pro.id);
-  cargarInfoSuscripcion(pro);
 }
 
-function cargarInfoSuscripcion(pro) {
-  var el = document.getElementById('dash-suscripcion-info');
-  if (!el) return;
-  var activa = !!pro.suscripcion_activa;
-  var vence  = pro.suscripcion_vence ? formatearFecha(pro.suscripcion_vence) : '—';
-  el.innerHTML =
-    '<div class="summary-row"><span class="label">Estado</span><span class="value">' + (activa ? '✅ Activa' : '⚠️ Inactiva') + '</span></div>' +
-    '<div class="summary-row"><span class="label">Próximo vencimiento</span><span class="value">' + vence + '</span></div>' +
-    '<div class="summary-row"><span class="label">Cuota mensual</span><span class="value">$15.000</span></div>' +
-    (!activa ? '<button class="btn-app btn-mp" style="margin-top:16px;" onclick="pagarSuscripcion()"><span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Renovar suscripción →</button>' : '');
-}
-
-async function pagarSuscripcion() {
-  if (!profesionalActual) return;
-  try {
-    var data = await apiGet('suscripcion_url', { profesional_id: profesionalActual.id });
-    if (data && data.suscripcion_url) window.location.href = data.suscripcion_url;
-    else toast('❌ No se pudo generar el link de pago.', 'error');
-  } catch(e) { toast('❌ Error de conexión.', 'error'); }
-}
-
-async function guardarToken() {
-  if (!profesionalActual) return;
-  var token = document.getElementById('config-mp-token').value.trim();
-  var fb    = document.getElementById('token-feedback');
-  var btn   = document.getElementById('btn-guardar-token');
-  fb.style.display = 'none';
-  if (!token || !token.startsWith('APP_USR-')) {
-    fb.className = 'disp-feedback err'; fb.textContent = '❌ El token debe empezar con APP_USR-'; fb.style.display = 'block'; return;
+function renderMPStatus(pro) {
+  var tieneMp = !!(pro.mp_access_token && pro.mp_user_id);
+  var html = '';
+  if (!tieneMp) {
+    html = '<div class="mp-status-box not-linked">' +
+      '⚠️ Tu Mercado Pago no está vinculado. ' +
+      'Sin la vinculación, los pacientes no pueden pagar sus turnos.' +
+      '</div>' +
+      '<button class="btn-app btn-mp" onclick="iniciarOAuthMP()" style="margin-bottom:16px;">' +
+        '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> ' +
+        'Conectar mi cuenta →' +
+      '</button>';
+  } else {
+    html = '<div class="mp-status-box linked">' +
+      '✓ Tu cuenta de Mercado Pago está vinculada correctamente. ' +
+      'Los pagos de tus pacientes irán directo a tu cuenta.' +
+      '</div>';
   }
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Guardando...';
-  try {
-    var data = await apiPost('actualizar_token', { profesional_id: profesionalActual.id, mp_token: token });
-    if (data && data.ok) {
-      profesionalActual.mp_token = token;
-      guardarEstadoProfesional(profesionalActual);
-      fb.className = 'disp-feedback ok'; fb.textContent = '✅ Token actualizado correctamente.';
-    } else {
-      fb.className = 'disp-feedback err'; fb.textContent = '❌ ' + ((data && data.error) || 'No se pudo guardar.');
-    }
-  } catch(e) { fb.className = 'disp-feedback err'; fb.textContent = '❌ Error de conexión.'; }
-  fb.style.display = 'block';
-  btn.disabled = false; btn.innerHTML = 'Guardar token';
-  setTimeout(function() { fb.style.display = 'none'; }, 4000);
+  document.getElementById('mp-status-container').innerHTML = html;
 }
 
-function showDashTab(nombre, el) {
-  ['stats', 'turnos', 'disp', 'config'].forEach(function(t) {
-    var panel  = document.getElementById('dash-panel-' + t);
-    var tabBtn = document.getElementById('dash-tab-' + t);
-    if (panel)  panel.style.display = (t === nombre) ? 'block' : 'none';
-    if (tabBtn) tabBtn.classList.toggle('active', t === nombre);
+function renderMPConfig(pro) {
+  var tieneMp = !!(pro.mp_access_token && pro.mp_user_id);
+  var html = '';
+  if (tieneMp) {
+    html = '<div style="margin-bottom:16px;">' +
+      '<div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Cuenta vinculada</div>' +
+      '<div style="padding:12px;background:var(--success-soft);border-radius:var(--radius-sm);color:#166534;font-size:13px;font-weight:600;margin-bottom:12px;">' +
+        '✓ ID: ' + (pro.mp_user_id || '—') +
+      '</div>' +
+      '<button class="btn-app btn-outline" onclick="desvincularMP()">' +
+        'Desvincular Mercado Pago' +
+      '</button>' +
+    '</div>';
+  } else {
+    html = '<div style="padding:12px;background:var(--warning-soft);border-radius:var(--radius-sm);color:#92400E;font-size:13px;margin-bottom:12px;">' +
+      '⚠️ Sin Mercado Pago vinculado, no podrás recibir pagos de tus pacientes.' +
+    '</div>';
+  }
+  document.getElementById('mp-config-container').innerHTML = html;
+}
+
+function iniciarOAuthMP() {
+  if (!profesionalActual) return;
+  var btn = event.target.closest('button');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Redirigiendo...';
+  apiGet('oauth_url', { profesional_id: profesionalActual.id }).then(function(data) {
+    if (data && data.mp_auth_url) {
+      window.location.href = data.mp_auth_url;
+    } else {
+      toast('❌ No se pudo generar el link de autorización.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →';
+    }
+  }).catch(function(e) {
+    toast('❌ Error de conexión.', 'error');
+    btn.disabled = false;
+    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →';
   });
+}
+
+async function desvincularMP() {
+  if (!confirm('¿Seguro querés desvincular tu Mercado Pago? Los pacientes no podrán pagar sus turnos.')) return;
+  if (!profesionalActual) return;
+  var btn = event.target.closest('button');
+  btn.disabled = true;
+  try {
+    var data = await apiPost('mp_desvincular', { profesional_id: profesionalActual.id });
+    if (data && data.ok) {
+      profesionalActual.mp_access_token = '';
+      profesionalActual.mp_user_id = '';
+      guardarEstadoProfesional(profesionalActual);
+      renderMPStatus(profesionalActual);
+      renderMPConfig(profesionalActual);
+      toast('✅ Cuenta de Mercado Pago desvinculada.', 'ok');
+    } else {
+      toast('❌ ' + ((data && data.error) || 'No se pudo desvincular.'), 'error');
+      btn.disabled = false;
+    }
+  } catch(e) {
+    toast('❌ Error de conexión.', 'error');
+    btn.disabled = false;
+  }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1495,6 +1480,15 @@ function showTab(nombre, el) {
   });
 }
 
+function showDashTab(nombre, el) {
+  ['stats', 'turnos', 'disp', 'config'].forEach(function(t) {
+    var panel  = document.getElementById('dash-panel-' + t);
+    var tabBtn = document.getElementById('dash-tab-' + t);
+    if (panel)  panel.style.display = (t === nombre) ? 'block' : 'none';
+    if (tabBtn) tabBtn.classList.toggle('active', t === nombre);
+  });
+}
+
 // ══════════════════════════════════════════════════════════════
 // FECHAS
 // ══════════════════════════════════════════════════════════════
@@ -1526,26 +1520,41 @@ function closeModal() {
 function closeModalOutside(event) { if (event.target.id === 'payModal') closeModal(); }
 
 // ══════════════════════════════════════════════════════════════
-// RETORNO DE PAGO
+// RETORNO DE PAGO Y OAUTH
 // ══════════════════════════════════════════════════════════════
-function checkPaymentReturn() {
+function checkPaymentAndOAuthReturn() {
   var p = new URLSearchParams(window.location.search);
   var estado = p.get('estado'), turnoId = p.get('turno_id'), tipo = p.get('tipo');
+  var mpStatus = p.get('mp_status'), mpPro = p.get('mp_pro'), mpMsg = p.get('mp_msg');
+
+  // Retorno de OAuth
+  if (mpStatus === 'ok' && mpPro) {
+    showApp('profesional');
+    setTimeout(function() {
+      if (profesionalActual && profesionalActual.id === mpPro) {
+        cargarPerfilProfesional();
+      }
+      toast('✅ Mercado Pago vinculado correctamente.', 'ok');
+    }, 500);
+    window.history.replaceState({}, '', window.location.pathname);
+    return;
+  }
+
+  if (mpStatus === 'error') {
+    showApp('profesional');
+    toast('❌ Error en la vinculación: ' + (mpMsg || 'desconocido'), 'error');
+    window.history.replaceState({}, '', window.location.pathname);
+    return;
+  }
+
+  // Retorno de pago
   if (!estado) return;
-  var msgs  = { confirmado: '✅ ¡Pago exitoso! ' + (tipo === 'suscripcion' ? 'Tu suscripción está activa.' : 'Tu turno ' + (turnoId || '') + ' está confirmado.'), error: '❌ Hubo un problema con el pago.', pendiente: '⏳ El pago está pendiente de acreditación.' };
+  var msgs  = { confirmado: '✅ ¡Pago exitoso! Turno ' + (turnoId || '') + ' confirmado.', error: '❌ Hubo un problema con el pago.', pendiente: '⏳ El pago está pendiente de acreditación.' };
   var clses = { confirmado: 'success', error: 'error', pendiente: 'pending' };
   var b = document.getElementById('payment-banner');
   if (msgs[estado]) { b.className = 'payment-banner ' + (clses[estado] || ''); b.textContent = msgs[estado]; b.style.display = 'block'; }
   window.history.replaceState({}, '', window.location.pathname);
-  if (tipo === 'suscripcion') {
-    if (estado === 'confirmado' && profesionalActual) {
-      profesionalActual.suscripcion_activa = true;
-      guardarEstadoProfesional(profesionalActual);
-    }
-    showApp('profesional');
-  } else {
-    showApp('reservar');
-  }
+  showApp('reservar');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1558,7 +1567,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (savedUser) { currentUser = savedUser; updateNavUser(currentUser); }
   var savedPro = STORE.get('pro_actual');
   if (savedPro) profesionalActual = savedPro;
-  checkPaymentReturn();
+  checkPaymentAndOAuthReturn();
   cargarProfesionales();
 });
 </script>
