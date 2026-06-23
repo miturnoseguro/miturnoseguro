@@ -259,8 +259,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .badge-gray   { background: #F1F5F9; color: #475569; }
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
-.form-group input, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; background: white; }
-.form-group input:focus, .form-group textarea:focus { border-color: var(--brand); }
+.form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; background: white; }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--brand); }
 .form-group textarea { resize: vertical; min-height: 80px; }
 .section-label { font-size: 12.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
 .divider { height: 1px; background: var(--line); margin: 20px 0; }
@@ -338,6 +338,27 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .mp-status-box.linked { background: var(--success-soft); color: #166534; border: 1px solid #86EFAC; }
 .mp-status-box.not-linked { background: var(--warning-soft); color: #92400E; border: 1px solid #FCD34D; }
 
+/* ═══════ STEPPER ═══════ */
+.stepper { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 28px; }
+.stepper-step { display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; flex: 1; }
+.stepper-step:not(:last-child)::after { content: ''; position: absolute; top: 18px; left: calc(50% + 18px); right: calc(-50% + 18px); height: 2px; background: var(--line); z-index: 0; }
+.stepper-step.done::after { background: var(--brand); }
+.stepper-dot { width: 36px; height: 36px; border-radius: 50%; border: 2.5px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: var(--muted); font-family: 'Outfit', sans-serif; position: relative; z-index: 1; transition: all 0.25s; }
+.stepper-step.active .stepper-dot { border-color: var(--brand); background: var(--brand); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+.stepper-step.done .stepper-dot { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+.stepper-label { font-size: 10px; font-weight: 700; color: var(--muted); text-align: center; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
+.stepper-step.active .stepper-label { color: var(--brand); }
+.stepper-step.done .stepper-label { color: var(--brand); }
+
+/* Selector de fecha */
+.fecha-selector { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 16px; scrollbar-width: none; }
+.fecha-selector::-webkit-scrollbar { display: none; }
+.fecha-chip { flex-shrink: 0; padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: white; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; text-align: center; font-family: 'Open Sans', sans-serif; }
+.fecha-chip:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+.fecha-chip.selected { border-color: var(--brand); background: var(--brand); color: white; }
+.fecha-chip .dia-nombre { display: block; font-size: 11px; font-weight: 600; opacity: 0.8; }
+.fecha-chip .dia-num { display: block; font-size: 17px; font-weight: 800; font-family: 'Outfit', sans-serif; }
+
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .hero-inner { grid-template-columns: 1fr; gap: 40px; }
@@ -403,10 +424,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           <div class="phone-card-top"><div class="phone-avatar">👩‍⚕️</div><div><div class="phone-doc-name">Dra. Laura Méndez</div><div class="phone-doc-spec">Psicología clínica</div></div><div class="phone-price">$8.000</div></div>
           <div class="phone-slots"><span class="phone-slot">09:00</span><span class="phone-slot active">10:30</span><span class="phone-slot">11:20</span><span class="phone-slot">14:00</span></div>
         </div>
-        <div class="phone-card">
-          <div class="phone-card-top"><div class="phone-avatar">🩺</div><div><div class="phone-doc-name">Dr. Tomás Ibarra</div><div class="phone-doc-spec">Clínica médica</div></div><div class="phone-price">$10.500</div></div>
-          <div class="phone-slots"><span class="phone-slot">08:30</span><span class="phone-slot">09:20</span><span class="phone-slot">15:40</span></div>
-        </div>
       </div>
       <div class="floating-badge badge-1"><div class="icon">✅</div><div class="text"><strong>Turno confirmado</strong>Pago acreditado</div></div>
       <div class="floating-badge badge-2"><div class="icon">💰</div><div class="text"><strong>100% para vos</strong>Directo a tu MP</div></div>
@@ -436,12 +453,12 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <p>El paciente paga al reservar. Vos recibís el 100% en tu Mercado Pago. Solo pagás una suscripción mensual fija.</p>
     </div>
     <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon">💰</div><h3>El 100% va directo a tu cuenta</h3><p>El paciente paga al reservar y el dinero entra en tu Mercado Pago. Ni un peso pasa por nosotros — vos cobrás, punto.</p></div>
-      <div class="feature-card"><div class="feature-icon">📅</div><h3>Agenda en tiempo real</h3><p>Los horarios disponibles se actualizan al instante. Cuando alguien reserva y paga, ese slot desaparece para todos los demás.</p></div>
-      <div class="feature-card"><div class="feature-icon">🔒</div><h3>Fin de las ausencias</h3><p>Si no pagó, no reservó. Sin compromiso económico no hay turno — así de simple. Tu tiempo vale y eso queda claro desde el primer clic.</p></div>
-      <div class="feature-card"><div class="feature-icon">🗓️</div><h3>Tu agenda, tus horarios</h3><p>Configurá los días y bloques en que atendés. Mañana, tarde, solo algunos días — vos decidís y la plataforma muestra exactamente eso.</p></div>
-      <div class="feature-card"><div class="feature-icon">📱</div><h3>Sin apps, sin instalaciones</h3><p>Todo desde el navegador, en cualquier celular o computadora. El paciente reserva y paga en menos de un minuto.</p></div>
-      <div class="feature-card"><div class="feature-icon">📊</div><h3>Panel de estadísticas</h3><p>Cuántos turnos confirmaste, cuánto ingresó a tu MP y cómo está tu ocupación — todo en un vistazo, siempre actualizado.</p></div>
+      <div class="feature-card"><div class="feature-icon">💰</div><h3>El 100% va directo a tu cuenta</h3><p>El paciente paga al reservar y el dinero entra en tu Mercado Pago.</p></div>
+      <div class="feature-card"><div class="feature-icon">📅</div><h3>Agenda en tiempo real</h3><p>Los horarios disponibles se actualizan al instante. Cuando alguien reserva y paga, ese slot desaparece.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔒</div><h3>Fin de las ausencias</h3><p>Si no pagó, no reservó. Sin compromiso económico no hay turno.</p></div>
+      <div class="feature-card"><div class="feature-icon">🗓️</div><h3>Tu agenda, tus horarios</h3><p>Configurá los días y bloques en que atendés — vos decidís.</p></div>
+      <div class="feature-card"><div class="feature-icon">📱</div><h3>Sin apps, sin instalaciones</h3><p>Todo desde el navegador. El paciente reserva y paga en menos de un minuto.</p></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><h3>Panel de estadísticas</h3><p>Turnos confirmados, ingresos y ocupación — siempre actualizado.</p></div>
     </div>
   </div>
 </section>
@@ -451,13 +468,12 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     <div class="section-header">
       <div class="section-eyebrow">Cómo funciona</div>
       <h2>Cuatro pasos, turno confirmado y pagado</h2>
-      <p>El paciente no puede reservar sin pagar. Vos cobrás antes de la consulta.</p>
     </div>
     <div class="steps-grid">
-      <div class="step-card"><div class="step-icon">1</div><h3>Elegí profesional y horario</h3><p>El paciente ve la disponibilidad real — solo aparecen los turnos libres, sin reserva previa.</p></div>
-      <div class="step-card"><div class="step-icon">2</div><h3>Completá los datos</h3><p>Nombre y email para la confirmación. Sin registro ni contraseña — todo en el momento.</p></div>
-      <div class="step-card"><div class="step-icon">3</div><h3>Paga el 100% con Mercado Pago</h3><p>Sin señas ni pagos parciales. El paciente abona el valor completo de la consulta — el dinero va directo al profesional.</p></div>
-      <div class="step-card"><div class="step-icon">4</div><h3>Turno confirmado, pago acreditado</h3><p>El paciente recibe la confirmación por email. El profesional ya tiene el dinero en su cuenta de Mercado Pago.</p></div>
+      <div class="step-card"><div class="step-icon">1</div><h3>Elegí profesional y fecha</h3><p>El paciente ve la disponibilidad real en el día que quiere.</p></div>
+      <div class="step-card"><div class="step-icon">2</div><h3>Completá los datos</h3><p>Nombre y email para la confirmación.</p></div>
+      <div class="step-card"><div class="step-icon">3</div><h3>Paga con Mercado Pago</h3><p>El paciente abona el 100% — el dinero va directo al profesional.</p></div>
+      <div class="step-card"><div class="step-icon">4</div><h3>Confirmación por email</h3><p>El paciente recibe el detalle del turno. El profesional ya cobró.</p></div>
     </div>
   </div>
 </section>
@@ -478,7 +494,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     <div class="section-header">
       <div class="section-eyebrow">Precios</div>
       <h2>Una sola cuota. Sin comisiones por turno.</h2>
-      <p>El paciente paga la consulta directamente al profesional. Vos pagás solo la suscripción mensual y te quedás con el 100% de cada turno.</p>
     </div>
     <div class="pricing-grid">
       <div class="pricing-card">
@@ -486,8 +501,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <div class="pricing-sub">Reservar con pago inmediato por Mercado Pago</div>
         <div class="pricing-price">Gratis</div>
         <ul class="pricing-list">
-          <li><span class="check">✓</span> Ver disponibilidad real de cada profesional</li>
-          <li><span class="check">✓</span> Pagar el 100% de la consulta con Mercado Pago</li>
+          <li><span class="check">✓</span> Ver disponibilidad real</li>
+          <li><span class="check">✓</span> Pagar con Mercado Pago</li>
           <li><span class="check">✓</span> Confirmación por email al instante</li>
         </ul>
         <button onclick="showApp('reservar')" class="btn btn-ghost btn-block" style="border:1.5px solid var(--line);">Buscar turno</button>
@@ -498,10 +513,10 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <div class="pricing-sub">Todo incluido, sin comisión por consulta</div>
         <div class="pricing-price">$20.000 <span>/ mes</span></div>
         <ul class="pricing-list">
-          <li><span class="check">✓</span> Agenda online con disponibilidad personalizable</li>
-          <li><span class="check">✓</span> 100% de cada pago directo a tu Mercado Pago</li>
-          <li><span class="check">✓</span> Panel con estadísticas e ingresos</li>
-          <li><span class="check">✓</span> <strong>Cero comisión por turno</strong> — solo la cuota fija mensual</li>
+          <li><span class="check">✓</span> Agenda online personalizable</li>
+          <li><span class="check">✓</span> 100% directo a tu Mercado Pago</li>
+          <li><span class="check">✓</span> Panel con estadísticas</li>
+          <li><span class="check">✓</span> <strong>Cero comisión por turno</strong></li>
           <li><span class="check">✓</span> Cancelás cuando querés</li>
         </ul>
         <button onclick="showApp('profesional')" class="btn btn-primary btn-block">Crear mi perfil →</button>
@@ -517,9 +532,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <h2>Lo que dicen los que ya cobran con Mi Turno Seguro</h2>
     </div>
     <div class="testimonials-grid">
-      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Mis ausencias bajaron a cero desde el primer mes. Y el 100% de cada consulta entra directo en mi Mercado Pago — sin esperar ni perseguir a nadie."</p><div class="testimonial-author"><div class="testimonial-avatar">👩‍⚕️</div><div><div class="testimonial-name">Dra. Laura Méndez</div><div class="testimonial-role">Psicología clínica</div></div></div></div>
-      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Elegí el horario, pagué con Mercado Pago y en segundos me llegó la confirmación por email. Ni tuve que llamar al consultorio."</p><div class="testimonial-author"><div class="testimonial-avatar">🙋‍♀️</div><div><div class="testimonial-name">Camila Roldán</div><div class="testimonial-role">Paciente</div></div></div></div>
-      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"La suscripción se paga sola con el primer turno del mes. Lo que más valoro es que si no pagaron, no hay turno — nunca más espero que lleguen."</p><div class="testimonial-author"><div class="testimonial-avatar">🩺</div><div><div class="testimonial-name">Dr. Tomás Ibarra</div><div class="testimonial-role">Clínica médica</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Mis ausencias bajaron a cero desde el primer mes."</p><div class="testimonial-author"><div class="testimonial-avatar">👩‍⚕️</div><div><div class="testimonial-name">Dra. Laura Méndez</div><div class="testimonial-role">Psicología clínica</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Elegí el horario, pagué y en segundos llegó la confirmación."</p><div class="testimonial-author"><div class="testimonial-avatar">🙋‍♀️</div><div><div class="testimonial-name">Camila Roldán</div><div class="testimonial-role">Paciente</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Si no pagaron, no hay turno — nunca más espero que lleguen."</p><div class="testimonial-author"><div class="testimonial-avatar">🩺</div><div><div class="testimonial-name">Dr. Tomás Ibarra</div><div class="testimonial-role">Clínica médica</div></div></div></div>
     </div>
   </div>
 </section>
@@ -528,7 +543,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   <div class="container">
     <div class="cta-section">
       <h2>Empezá a cobrar antes de cada consulta</h2>
-      <p>$20.000 por mes. El paciente paga el 100% de la consulta directo a tu Mercado Pago — vos no le debés nada a nadie más.</p>
+      <p>$20.000 por mes. El paciente paga el 100% directo a tu Mercado Pago.</p>
       <div class="cta-actions">
         <button onclick="showApp('profesional')" class="btn btn-primary btn-lg">Crear mi perfil profesional</button>
         <button onclick="showApp('reservar')" class="btn btn-ghost btn-lg">Reservar un turno</button>
@@ -542,24 +557,22 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#" class="brand"><span style="font-size:28px;">🏥</span><span class="brand-name">Mi Turno<span style="color:#60A5FA;">Seguro</span></span></a>
-        <p>Turnos médicos online con pago garantizado. El paciente paga al reservar, el profesional cobra el 100%.</p>
+        <p>Turnos médicos online con pago garantizado.</p>
       </div>
       <div class="footer-col"><h4>Producto</h4><a href="#producto">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#precios">Precios</a></div>
       <div class="footer-col"><h4>Cuenta</h4><a onclick="showApp('reservar')">Reservar turno</a><a onclick="showApp('profesional')">Soy profesional</a></div>
-      <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos y condiciones</a></div>
+      <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos</a></div>
     </div>
     <div class="footer-bottom">
       <div>© 2026 Mi Turno Seguro. Todos los derechos reservados.</div>
-      <div>Pagos 100% procesados con Mercado Pago · El profesional recibe directo en su cuenta</div>
+      <div>Pagos procesados con Mercado Pago</div>
     </div>
   </div>
 </footer>
-</div><!-- /view-landing -->
-
+</div>
 
 <!-- ═══════ APP ═══════ -->
 <div id="view-app" class="view">
-
   <nav class="app-nav">
     <div class="app-nav-inner">
       <div class="brand" onclick="showLanding()">
@@ -578,30 +591,28 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </nav>
 
   <section style="background:var(--paper); padding-top:32px; min-height:80vh;">
-    <div class="container" style="max-width:640px;">
-      <div class="section-header" style="margin-bottom:32px;">
-        <div class="section-eyebrow">La app</div>
-        <h2>Reservá tu turno ahora</h2>
-        <p>Elegí un profesional, un horario y confirmá tu reserva pagando con Mercado Pago.</p>
-      </div>
-    </div>
-
     <div id="payment-banner" style="display:none;"></div>
 
     <div class="tabs-wrap">
       <div class="tabs">
-        <button class="tab active" id="tab-btn-reservar"    onclick="showTab('reservar', this)">🗓️ Reservar turno</button>
-        <button class="tab"        id="tab-btn-profesional" onclick="handleProTab(this)">👩‍⚕️ Soy profesional</button>
+        <button class="tab active" id="tab-btn-reservar" onclick="showTab('reservar', this)">🗓️ Reservar turno</button>
+        <button class="tab" id="tab-btn-profesional" onclick="handleProTab(this)">👩‍⚕️ Soy profesional</button>
       </div>
     </div>
 
     <!-- TAB: RESERVAR -->
     <div id="tab-reservar" class="app-section active">
-      <p class="section-label">Profesionales disponibles hoy</p>
-      <div id="profesionales-container">
-        <div class="card" style="text-align:center;padding:40px 20px;color:var(--muted);">
-          <div style="font-size:32px;margin-bottom:12px;">⏳</div>
-          <div>Cargando profesionales...</div>
+      <p class="section-label" style="padding:0 16px;max-width:640px;margin:0 auto 12px;">Elegí una fecha</p>
+      <div style="padding:0 16px;max-width:640px;margin:0 auto;">
+        <div class="fecha-selector" id="fecha-selector"></div>
+      </div>
+      <div style="padding:0 16px;max-width:640px;margin:0 auto;">
+        <p class="section-label" style="margin-bottom:12px;">Profesionales disponibles</p>
+        <div id="profesionales-container">
+          <div class="card" style="text-align:center;padding:40px 20px;color:var(--muted);">
+            <div style="font-size:32px;margin-bottom:12px;">⏳</div>
+            <div>Cargando profesionales...</div>
+          </div>
         </div>
       </div>
     </div>
@@ -614,208 +625,257 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         <div class="card auth-gate">
           <div class="auth-icon">👩‍⚕️</div>
           <h3>Panel de profesionales</h3>
-          <p>Ingresá con tu cuenta de Google para acceder a tu agenda y estadísticas.</p>
+          <p>Ingresá con tu cuenta de Google para acceder a tu agenda.</p>
           <button class="btn-google" id="btn-google-login" onclick="loginConGoogle()">
-            <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
             Continuar con Google
           </button>
-          <p style="font-size:12px;color:var(--muted);margin-top:16px;margin-bottom:0;">Al ingresar aceptás los <a href="#" style="color:var(--brand);">Términos y condiciones</a></p>
         </div>
       </div>
 
-      <!-- REGISTRO -->
+      <!-- STEPPER REGISTRO -->
       <div id="pro-registro" style="display:none;">
-        <p class="section-label">Completá tu perfil</p>
-
-        <div class="card">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:12px;background:var(--brand-soft);border-radius:var(--radius-sm);">
-            <div id="reg-user-avatar-wrap" style="width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;">?</div>
-            <div>
-              <div style="font-weight:700;font-size:14px;" id="reg-user-name">—</div>
-              <div style="font-size:12px;color:var(--muted);" id="reg-user-email">—</div>
-            </div>
+        <!-- Stepper visual -->
+        <div class="stepper" id="stepper-visual">
+          <div class="stepper-step active" id="step-dot-1">
+            <div class="stepper-dot">1</div>
+            <div class="stepper-label">Datos<br>básicos</div>
           </div>
-
-          <div class="form-group"><label>Nombre completo (como verán los pacientes)</label><input type="text" id="pro-nombre" placeholder="Dra. María García"></div>
-          <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica"></div>
-
-          <div class="form-group">
-            <label>Precio por consulta (ARS)</label>
-            <div class="precio-tabs" id="precio-tabs">
-              <button type="button" class="precio-tab" data-precio="100" onclick="seleccionarPrecio(10000, this)">100<span class="sub-label">$100</span></button>
-              <button type="button" class="precio-tab" data-precio="10000" onclick="seleccionarPrecio(10000, this)">10k<span class="sub-label">$10.000</span></button>
-              <button type="button" class="precio-tab selected" data-precio="20000" onclick="seleccionarPrecio(20000, this)">20k<span class="sub-label">$20.000</span></button>
-              <button type="button" class="precio-tab" data-precio="30000" onclick="seleccionarPrecio(30000, this)">30k<span class="sub-label">$30.000</span></button>
-              <button type="button" class="precio-tab" data-precio="50000" onclick="seleccionarPrecio(50000, this)">50k<span class="sub-label">$50.000</span></button>
-              <button type="button" class="precio-tab" data-precio="100000" onclick="seleccionarPrecio(100000, this)">100k<span class="sub-label">$100.000</span></button>
-            </div>
+          <div class="stepper-step" id="step-dot-2">
+            <div class="stepper-dot">2</div>
+            <div class="stepper-label">Precio y<br>duración</div>
           </div>
-
-          <div class="form-group">
-            <label>Duración de cada turno</label>
-            <div class="duracion-tabs" id="duracion-tabs">
-              <button type="button" class="duracion-tab" data-min="15" onclick="seleccionarDuracion(15, this)">15<span class="duracion-label">min</span></button>
-              <button type="button" class="duracion-tab" data-min="30" onclick="seleccionarDuracion(30, this)">30<span class="duracion-label">min</span></button>
-              <button type="button" class="duracion-tab selected" data-min="45" onclick="seleccionarDuracion(45, this)">45<span class="duracion-label">min</span></button>
-              <button type="button" class="duracion-tab" data-min="60" onclick="seleccionarDuracion(60, this)">1<span class="duracion-label">hora</span></button>
-            </div>
+          <div class="stepper-step" id="step-dot-3">
+            <div class="stepper-dot">3</div>
+            <div class="stepper-label">Horarios<br>de atención</div>
           </div>
-
-          <div id="pro-registro-error" style="display:none;color:var(--danger);font-size:13px;margin-bottom:12px;margin-top:4px;"></div>
+          <div class="stepper-step" id="step-dot-4">
+            <div class="stepper-dot">4</div>
+            <div class="stepper-label">Mercado<br>Pago</div>
+          </div>
         </div>
 
-        <button class="btn-app btn-primary" id="btn-registrar" onclick="registrarProfesional()" style="margin-bottom:8px;">
-          ✓ Crear mi perfil
-        </button>
-        <p style="font-size:12px;color:var(--muted);text-align:center;">Luego activarás tu suscripción y vincularás tu Mercado Pago.</p>
+        <!-- PASO 1: Datos básicos -->
+        <div id="step-panel-1">
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:12px;background:var(--brand-soft);border-radius:var(--radius-sm);">
+              <div id="reg-user-avatar-wrap" style="width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;">?</div>
+              <div>
+                <div style="font-weight:700;font-size:14px;" id="reg-user-name">—</div>
+                <div style="font-size:12px;color:var(--muted);" id="reg-user-email">—</div>
+              </div>
+            </div>
+            <div class="form-group"><label>Nombre completo (como verán los pacientes)</label><input type="text" id="pro-nombre" placeholder="Dra. María García"></div>
+            <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica"></div>
+            <div id="step1-error" style="display:none;color:var(--danger);font-size:13px;margin-bottom:8px;"></div>
+          </div>
+          <button class="btn-app btn-primary" onclick="stepSiguiente(1)">Continuar →</button>
+        </div>
+
+        <!-- PASO 2: Precio y duración -->
+        <div id="step-panel-2" style="display:none;">
+          <div class="card">
+            <div class="form-group">
+              <label>Precio por consulta (ARS)</label>
+              <div class="precio-tabs" id="precio-tabs">
+                <button type="button" class="precio-tab" onclick="seleccionarPrecio(5000,this)">5k<span class="sub-label">$5.000</span></button>
+                <button type="button" class="precio-tab" onclick="seleccionarPrecio(10000,this)">10k<span class="sub-label">$10.000</span></button>
+                <button type="button" class="precio-tab selected" onclick="seleccionarPrecio(20000,this)">20k<span class="sub-label">$20.000</span></button>
+                <button type="button" class="precio-tab" onclick="seleccionarPrecio(30000,this)">30k<span class="sub-label">$30.000</span></button>
+                <button type="button" class="precio-tab" onclick="seleccionarPrecio(50000,this)">50k<span class="sub-label">$50.000</span></button>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+                <label style="font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap;margin-bottom:0;">Otro monto:</label>
+                <input type="number" id="precio-custom" placeholder="Ej: 75000" min="100" style="flex:1;" oninput="seleccionarPrecioCustom(this.value)">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Duración de cada turno</label>
+              <div class="duracion-tabs" id="duracion-tabs">
+                <button type="button" class="duracion-tab" onclick="seleccionarDuracion(15,this)">15<span class="duracion-label">min</span></button>
+                <button type="button" class="duracion-tab" onclick="seleccionarDuracion(30,this)">30<span class="duracion-label">min</span></button>
+                <button type="button" class="duracion-tab selected" onclick="seleccionarDuracion(45,this)">45<span class="duracion-label">min</span></button>
+                <button type="button" class="duracion-tab" onclick="seleccionarDuracion(60,this)">1<span class="duracion-label">hora</span></button>
+              </div>
+            </div>
+            <div class="info-box">💡 El precio se puede actualizar después desde la planilla de Google Sheets.</div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn-app btn-outline" onclick="stepAnterior(2)" style="flex:1;">← Atrás</button>
+            <button class="btn-app btn-primary" onclick="stepSiguiente(2)" style="flex:2;">Continuar →</button>
+          </div>
+        </div>
+
+        <!-- PASO 3: Disponibilidad -->
+        <div id="step-panel-3" style="display:none;">
+          <div class="card">
+            <div class="section-label" style="margin-bottom:6px;">Configurá tus horarios de atención</div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Activá los días que atendés y agregá los bloques de horario.</p>
+            <div class="disp-preset-chips">
+              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('manana')">☀️ Mañana (8–13)</button>
+              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('tarde')">🌇 Tarde (14–19)</button>
+              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('completo')">📅 Día completo</button>
+              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('lun-vie')">💼 Lun a Vie</button>
+            </div>
+            <div class="divider" style="margin:12px 0;"></div>
+            <div class="disp-grid" id="disp-days-container-registro"></div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn-app btn-outline" onclick="stepAnterior(3)" style="flex:1;">← Atrás</button>
+            <button class="btn-app btn-primary" onclick="stepSiguiente(3)" style="flex:2;" id="btn-step3-continuar">Guardar y continuar →</button>
+          </div>
+          <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:8px;">Podés modificar los horarios después desde el dashboard.</p>
+        </div>
+
+        <!-- PASO 4: Mercado Pago -->
+        <div id="step-panel-4" style="display:none;">
+          <div class="card" style="text-align:center;padding:32px 24px;">
+            <div style="font-size:48px;margin-bottom:16px;">🎉</div>
+            <h3 style="font-size:20px;margin-bottom:8px;">¡Perfil creado!</h3>
+            <p id="step4-resumen" style="font-size:13px;color:var(--muted);margin-bottom:24px;"></p>
+            <div style="background:var(--warning-soft);border:1px solid #FCD34D;border-radius:var(--radius-sm);padding:14px;margin-bottom:20px;font-size:13px;color:#92400E;text-align:left;">
+              ⚠️ <strong>Último paso:</strong> Conectá tu Mercado Pago para que los pacientes puedan pagarte. Sin esto, los turnos no se pueden confirmar.
+            </div>
+            <button class="btn-app btn-mp" id="btn-conectar-mp-step4" onclick="iniciarOAuthMP()">
+              <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →
+            </button>
+            <button class="btn-app btn-outline" style="margin-top:10px;" onclick="irAlDashboard()">Conectar más tarde</button>
+          </div>
+        </div>
       </div>
 
       <!-- DASHBOARD -->
       <div id="pro-dashboard" style="display:none;">
-
-        <div class="card">
-          <div class="card-header" style="margin-bottom:0;">
-            <div class="avatar teal" style="font-size:28px;">👩‍⚕️</div>
-            <div>
-              <div class="doc-name" id="dash-nombre">—</div>
-              <div class="doc-spec" id="dash-especialidad">—</div>
-              <span class="badge badge-green" id="dash-mp-linked" style="display:none;">✓ Mercado Pago vinculado</span>
-              <span class="badge badge-orange" id="dash-mp-not-linked" style="display:none;">⚠ Vinculá Mercado Pago</span>
-            </div>
-            <div class="doc-price">
-              <div class="price-amount" id="dash-precio">—</div>
-              <div class="price-label">por sesión</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- MP LINK STATUS -->
-        <div id="mp-status-container"></div>
-
-        <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;">
-          <button class="tab active" id="dash-tab-stats"  onclick="showDashTab('stats',  this)" style="flex:none;padding:9px 18px;">📊 Estadísticas</button>
-          <button class="tab"        id="dash-tab-turnos" onclick="showDashTab('turnos', this)" style="flex:none;padding:9px 18px;">🗓️ Turnos</button>
-          <button class="tab"        id="dash-tab-disp"   onclick="showDashTab('disp',   this)" style="flex:none;padding:9px 18px;">⏰ Disponibilidad</button>
-          <button class="tab"        id="dash-tab-config" onclick="showDashTab('config', this)" style="flex:none;padding:9px 18px;">⚙️ Configuración</button>
-        </div>
-
-        <!-- Stats -->
-        <div id="dash-panel-stats">
+        <div style="padding:0 0 8px;">
           <div class="card">
-            <div class="section-label">Resumen — este mes</div>
-            <div class="stats-grid-dash" id="dash-stats">
-              <div class="stat-box"><div class="num">—</div><div class="cap">Confirmados</div></div>
-              <div class="stat-box"><div class="num brand">—</div><div class="cap">Facturado</div></div>
-              <div class="stat-box"><div class="num success">—</div><div class="cap">Recibiste en MP</div></div>
+            <div class="card-header" style="margin-bottom:0;">
+              <div class="avatar teal" style="font-size:28px;">👩‍⚕️</div>
+              <div>
+                <div class="doc-name" id="dash-nombre">—</div>
+                <div class="doc-spec" id="dash-especialidad">—</div>
+                <span class="badge badge-green" id="dash-mp-linked" style="display:none;">✓ MP vinculado</span>
+                <span class="badge badge-orange" id="dash-mp-not-linked" style="display:none;">⚠ Vinculá MP</span>
+              </div>
+              <div class="doc-price">
+                <div class="price-amount" id="dash-precio">—</div>
+                <div class="price-label">por sesión</div>
+              </div>
             </div>
           </div>
-          <div class="card">
-            <div class="section-label">Ocupación de la semana</div>
-            <div id="dash-ocupacion"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
-          </div>
-          <div class="card">
-            <div class="section-label">Turnos por día — próximos 7 días</div>
-            <div class="chart-wrap" id="dash-chart"></div>
-          </div>
-          <div class="card">
-            <div class="section-label">Próximos ingresos estimados</div>
-            <div id="dash-ingresos"></div>
-          </div>
-        </div>
 
-        <!-- Turnos -->
-        <div id="dash-panel-turnos" style="display:none;">
-          <div class="card">
-            <div class="section-label">Próximos turnos</div>
-            <div id="dash-turnos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Cargando...</div></div>
-          </div>
-        </div>
+          <div id="mp-status-container"></div>
 
-        <!-- Disponibilidad -->
-        <div id="dash-panel-disp" style="display:none;">
-          <div class="card">
-            <div class="section-label" style="margin-bottom:6px;">Configurá cuándo trabajás</div>
-            <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Activá los días que atendés y agregá uno o más bloques de horario.</p>
-            <div class="section-label" style="margin-bottom:8px;">Aplicar preset a días activos</div>
-            <div class="disp-preset-chips">
-              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('manana')">☀️ Solo mañana (8–13)</button>
-              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('tarde')">🌇 Solo tarde (14–19)</button>
-              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('completo')">📅 Día completo (8–19)</button>
-              <button class="disp-preset-chip" onclick="aplicarPresetGlobal('lun-vie')">💼 Lun a Vie</button>
+          <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px;">
+            <button class="tab active" id="dash-tab-stats" onclick="showDashTab('stats',this)" style="flex:none;padding:9px 18px;">📊 Estadísticas</button>
+            <button class="tab" id="dash-tab-turnos" onclick="showDashTab('turnos',this)" style="flex:none;padding:9px 18px;">🗓️ Turnos</button>
+            <button class="tab" id="dash-tab-disp" onclick="showDashTab('disp',this)" style="flex:none;padding:9px 18px;">⏰ Disponibilidad</button>
+            <button class="tab" id="dash-tab-config" onclick="showDashTab('config',this)" style="flex:none;padding:9px 18px;">⚙️ Config</button>
+          </div>
+
+          <!-- Stats -->
+          <div id="dash-panel-stats">
+            <div class="card">
+              <div class="section-label">Resumen — este mes</div>
+              <div class="stats-grid-dash" id="dash-stats">
+                <div class="stat-box"><div class="num">—</div><div class="cap">Confirmados</div></div>
+                <div class="stat-box"><div class="num brand">—</div><div class="cap">Facturado</div></div>
+                <div class="stat-box"><div class="num success">—</div><div class="cap">En MP</div></div>
+              </div>
             </div>
-            <div class="divider" style="margin:14px 0;"></div>
-            <div class="disp-grid" id="disp-days-container"></div>
-            <div class="disp-save-bar">
-              <button class="disp-save-btn" id="btn-guardar-disp" onclick="guardarDisponibilidad()">Guardar disponibilidad</button>
-              <div class="disp-feedback" id="disp-feedback"></div>
+            <div class="card">
+              <div class="section-label">Ocupación próximos 7 días</div>
+              <div id="dash-ocupacion"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
+            </div>
+            <div class="card">
+              <div class="section-label">Turnos por día</div>
+              <div class="chart-wrap" id="dash-chart"></div>
+            </div>
+            <div class="card">
+              <div class="section-label">Próximos ingresos</div>
+              <div id="dash-ingresos"></div>
             </div>
           </div>
-        </div>
 
-        <!-- Configuración -->
-        <div id="dash-panel-config" style="display:none;">
-          <div class="card">
-            <div class="section-label" style="margin-bottom:14px;">Mercado Pago</div>
-            <div id="mp-config-container"></div>
+          <!-- Turnos -->
+          <div id="dash-panel-turnos" style="display:none;">
+            <div class="card">
+              <div class="section-label">Próximos turnos</div>
+              <div id="dash-turnos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Cargando...</div></div>
+            </div>
           </div>
 
-          <button class="btn-app btn-outline" style="margin-top:8px;" onclick="cerrarSesionGoogle()">Cerrar sesión</button>
+          <!-- Disponibilidad -->
+          <div id="dash-panel-disp" style="display:none;">
+            <div class="card">
+              <div class="section-label" style="margin-bottom:6px;">Tus horarios de atención</div>
+              <div class="disp-preset-chips">
+                <button class="disp-preset-chip" onclick="aplicarPresetGlobal('manana')">☀️ Mañana</button>
+                <button class="disp-preset-chip" onclick="aplicarPresetGlobal('tarde')">🌇 Tarde</button>
+                <button class="disp-preset-chip" onclick="aplicarPresetGlobal('completo')">📅 Completo</button>
+                <button class="disp-preset-chip" onclick="aplicarPresetGlobal('lun-vie')">💼 Lun–Vie</button>
+              </div>
+              <div class="divider" style="margin:12px 0;"></div>
+              <div class="disp-grid" id="disp-days-container"></div>
+              <div class="disp-save-bar">
+                <button class="disp-save-btn" id="btn-guardar-disp" onclick="guardarDisponibilidad()">Guardar disponibilidad</button>
+                <div class="disp-feedback" id="disp-feedback"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Config -->
+          <div id="dash-panel-config" style="display:none;">
+            <div class="card">
+              <div class="section-label" style="margin-bottom:14px;">Mercado Pago</div>
+              <div id="mp-config-container"></div>
+            </div>
+            <button class="btn-app btn-outline" style="margin-top:8px;" onclick="cerrarSesionGoogle()">Cerrar sesión</button>
+          </div>
         </div>
+      </div>
+    </div>
 
-      </div><!-- /pro-dashboard -->
-    </div><!-- /tab-profesional -->
-
-    <!-- MODAL DE PAGO PACIENTE -->
+    <!-- MODAL DE PAGO -->
     <div class="overlay" id="payModal" onclick="closeModalOutside(event)">
       <div class="modal">
         <div class="modal-handle"></div>
-        <h2 id="modal-title">Confirmá tu turno</h2>
+        <h2>Confirmá tu turno</h2>
         <p class="subtitle">Pagás el 100% con Mercado Pago — el dinero va directo al profesional</p>
         <div id="modal-body">
           <div class="summary-row"><span class="label">Profesional</span><span class="value" id="modal-doc">—</span></div>
           <div class="summary-row"><span class="label">Fecha</span><span class="value" id="modal-fecha">—</span></div>
           <div class="summary-row"><span class="label">Horario</span><span class="value" id="modal-slot">—</span></div>
-          <div class="summary-row total"><span class="label">Total a pagar</span><span class="value" id="modal-price">—</span></div>
+          <div class="summary-row total"><span class="label">Total</span><span class="value" id="modal-price">—</span></div>
           <div class="form-group" style="margin-top:16px;"><label>Tu nombre</label><input type="text" id="modal-nombre" placeholder="Juan Pérez"></div>
-          <div class="form-group"><label>Email</label><input type="email" id="modal-email" placeholder="juan@email.com"></div>
+          <div class="form-group"><label>Email (te enviamos la confirmación)</label><input type="email" id="modal-email" placeholder="juan@email.com"></div>
           <button class="btn-app btn-mp" id="btn-pagar" onclick="confirmarPago()">
-            <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-            Pagar ahora →
+            <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →
           </button>
         </div>
         <div id="success-screen" class="success-screen">
           <div class="success-icon">✅</div>
           <h2>¡Turno confirmado!</h2>
-          <p>Te enviamos los detalles por email. El profesional ya recibió el pago en su Mercado Pago.</p>
+          <p>Te enviamos los detalles por email. El profesional ya recibió el pago.</p>
           <button class="btn-app btn-outline" onclick="closeModal()">Volver al inicio</button>
         </div>
       </div>
     </div>
   </section>
-</div><!-- /view-app -->
+</div>
 
 <script>
-// ══════════════════════════════════════════════════════════════
-// CONFIGURACIÓN
-// ══════════════════════════════════════════════════════════════
 var CONFIG = {
   GOOGLE_CLIENT_ID: '962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com',
-  API_URL: 'https://script.google.com/macros/s/AKfycbxA_-BJYDpzhYk7xNkyRBBw1YSk-RafysuykkjhCALwB8cI2DCRVllPxy7sz6eKVPhfWw/exec', // <-- CAMBIÁ POR TU URL REAL
+  API_URL: 'https://script.google.com/macros/s/AKfycbxA_-BJYDpzhYk7xNkyRBBw1YSk-RafysuykkjhCALwB8cI2DCRVllPxy7sz6eKVPhfWw/exec',
   FRONTEND_URL: 'https://miturnoseguro.com'
 };
 
-// ══════════════════════════════════════════════════════════════
-// STORAGE
-// ══════════════════════════════════════════════════════════════
 var STORE = {
   get: function(k) { try { return JSON.parse(localStorage.getItem('mts_' + k)); } catch(e) { return null; } },
   set: function(k, v) { try { localStorage.setItem('mts_' + k, JSON.stringify(v)); } catch(e) {} },
   del: function(k) { try { localStorage.removeItem('mts_' + k); } catch(e) {} }
 };
 
-// ══════════════════════════════════════════════════════════════
-// ESTADO GLOBAL
-// ══════════════════════════════════════════════════════════════
 var duracionSeleccionada = 45;
 var precioSeleccionado = 20000;
 var currentUser = null;
@@ -824,14 +884,53 @@ var selectedProfesional = null;
 var fechaSeleccionada = hoyISO();
 var profesionalActual = null;
 var dispState = {};
+var dispStateRegistro = {};
+var stepperPasoActual = 1;
+var proIdCreado = null;
+
 var DIAS = [
   { num: 1, nombre: 'Lunes' }, { num: 2, nombre: 'Martes' }, { num: 3, nombre: 'Miércoles' },
   { num: 4, nombre: 'Jueves' }, { num: 5, nombre: 'Viernes' }, { num: 6, nombre: 'Sábado' }, { num: 0, nombre: 'Domingo' }
 ];
 
-// ══════════════════════════════════════════════════════════════
-// TABS DE SELECCIÓN
-// ══════════════════════════════════════════════════════════════
+// ══════════ FECHA SELECTOR ══════════
+function renderFechaSelector() {
+  var el = document.getElementById('fecha-selector');
+  if (!el) return;
+  var diasC = ['dom','lun','mar','mié','jue','vie','sáb'];
+  var chips = '';
+  for (var i = 0; i < 14; i++) {
+    var d = new Date();
+    d.setDate(d.getDate() + i);
+    var iso = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    var selected = iso === fechaSeleccionada ? ' selected' : '';
+    chips += '<button class="fecha-chip' + selected + '" onclick="seleccionarFecha(\'' + iso + '\', this)">' +
+      '<span class="dia-nombre">' + diasC[d.getDay()] + '</span>' +
+      '<span class="dia-num">' + d.getDate() + '</span>' +
+    '</button>';
+  }
+  el.innerHTML = chips;
+}
+
+function seleccionarFecha(iso, el) {
+  fechaSeleccionada = iso;
+  document.querySelectorAll('.fecha-chip').forEach(function(c) { c.classList.remove('selected'); });
+  el.classList.add('selected');
+  // Recargar horarios para todos los profesionales visibles
+  document.querySelectorAll('[id^="slots-"]').forEach(function(s) {
+    var proId = s.id.replace('slots-', '');
+    s.innerHTML = '<div style="color:var(--muted);font-size:13px;">Cargando...</div>';
+    cargarHorarios(proId);
+  });
+  // Actualizar el label de fecha en cada card
+  document.querySelectorAll('.fecha-label-card').forEach(function(f) {
+    f.textContent = 'Horarios — ' + formatearFecha(fechaSeleccionada);
+  });
+  selectedSlotTime = null;
+  selectedProfesional = null;
+}
+
+// ══════════ TABS SELECCIÓN ══════════
 function seleccionarDuracion(min, el) {
   duracionSeleccionada = min;
   document.querySelectorAll('.duracion-tab').forEach(function(t) { t.classList.remove('selected'); });
@@ -839,13 +938,131 @@ function seleccionarDuracion(min, el) {
 }
 function seleccionarPrecio(precio, el) {
   precioSeleccionado = precio;
+  document.getElementById('precio-custom').value = '';
   document.querySelectorAll('.precio-tab').forEach(function(t) { t.classList.remove('selected'); });
   if (el) el.classList.add('selected');
 }
+function seleccionarPrecioCustom(val) {
+  var n = parseInt(val);
+  if (n > 0) {
+    precioSeleccionado = n;
+    document.querySelectorAll('.precio-tab').forEach(function(t) { t.classList.remove('selected'); });
+  }
+}
 
-// ══════════════════════════════════════════════════════════════
-// GOOGLE LOGIN
-// ══════════════════════════════════════════════════════════════
+// ══════════ STEPPER ══════════
+function actualizarStepperVisual(paso) {
+  for (var i = 1; i <= 4; i++) {
+    var dot = document.getElementById('step-dot-' + i);
+    if (!dot) continue;
+    dot.classList.remove('active', 'done');
+    if (i < paso) dot.classList.add('done');
+    else if (i === paso) dot.classList.add('active');
+  }
+}
+
+function mostrarPaso(paso) {
+  for (var i = 1; i <= 4; i++) {
+    var panel = document.getElementById('step-panel-' + i);
+    if (panel) panel.style.display = (i === paso) ? 'block' : 'none';
+  }
+  actualizarStepperVisual(paso);
+  stepperPasoActual = paso;
+}
+
+function stepSiguiente(pasoActual) {
+  if (pasoActual === 1) {
+    var nombre = document.getElementById('pro-nombre').value.trim();
+    var especialidad = document.getElementById('pro-especialidad').value.trim();
+    var errEl = document.getElementById('step1-error');
+    if (!nombre || !especialidad) {
+      errEl.textContent = 'Completá nombre y especialidad.';
+      errEl.style.display = 'block'; return;
+    }
+    errEl.style.display = 'none';
+    mostrarPaso(2);
+  } else if (pasoActual === 2) {
+    mostrarPaso(3);
+    renderDispDaysRegistro();
+  } else if (pasoActual === 3) {
+    ejecutarRegistroProfesional();
+  }
+}
+
+function stepAnterior(pasoActual) {
+  mostrarPaso(pasoActual - 1);
+}
+
+async function ejecutarRegistroProfesional() {
+  var btn = document.getElementById('btn-step3-continuar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Creando perfil...';
+
+  try {
+    var data = await apiPost('profesionales', {
+      nombre:       document.getElementById('pro-nombre').value.trim(),
+      especialidad: document.getElementById('pro-especialidad').value.trim(),
+      precio:       precioSeleccionado,
+      duracion_min: duracionSeleccionada,
+      email:        currentUser ? currentUser.email : '',
+      google_sub:   currentUser ? currentUser.sub   : '',
+      acepta_mp:    true,
+      acepta_sinmp: false
+    });
+
+    if (data.error) {
+      toast('❌ ' + data.error, 'error');
+      btn.disabled = false;
+      btn.innerHTML = 'Guardar y continuar →';
+      return;
+    }
+
+    proIdCreado = data.id;
+
+    // Guardar disponibilidad del paso 3
+    var bloques = [];
+    DIAS.forEach(function(d) {
+      var st = dispStateRegistro[d.num];
+      if (!st || !st.activo) return;
+      st.bloques.forEach(function(b) {
+        if (b.inicio && b.fin && b.inicio < b.fin) bloques.push({ dia: d.num, inicio: b.inicio, fin: b.fin });
+      });
+    });
+    if (bloques.length > 0) {
+      await apiPost('disponibilidad', { profesional_id: proIdCreado, disponibilidad: bloques });
+    }
+
+    var pro = {
+      id: proIdCreado,
+      nombre: document.getElementById('pro-nombre').value.trim(),
+      especialidad: document.getElementById('pro-especialidad').value.trim(),
+      precio: precioSeleccionado,
+      duracion_min: duracionSeleccionada,
+      email: currentUser ? currentUser.email : '',
+      mp_access_token: '', mp_user_id: '',
+      acepta_mp: true, acepta_sinmp: false
+    };
+    guardarEstadoProfesional(pro);
+
+    document.getElementById('step4-resumen').textContent =
+      'Tu perfil como ' + pro.nombre + ' (' + pro.especialidad + ') quedó listo con ' +
+      bloques.length + ' bloque(s) de disponibilidad configurados.';
+
+    mostrarPaso(4);
+    btn.disabled = false;
+    btn.innerHTML = 'Guardar y continuar →';
+  } catch(e) {
+    toast('❌ Error de conexión. Intentá de nuevo.', 'error');
+    btn.disabled = false;
+    btn.innerHTML = 'Guardar y continuar →';
+  }
+}
+
+function irAlDashboard() {
+  if (profesionalActual) mostrarDashboard(profesionalActual);
+}
+
+// ══════════ GOOGLE LOGIN ══════════
 function loginConGoogle() {
   var btn = document.getElementById('btn-google-login');
   btn.disabled = true;
@@ -872,7 +1089,7 @@ function abrirPopupGoogleOAuth() {
       fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { 'Authorization': 'Bearer ' + resp.access_token } })
         .then(function(r) { return r.json(); })
         .then(function(u) { handleUsuarioGoogle({ email: u.email, name: u.name, picture: u.picture, sub: u.sub }); })
-        .catch(function() { resetBtnGoogle('No se pudo obtener la información de tu cuenta.'); });
+        .catch(function() { resetBtnGoogle('No se pudo obtener la información.'); });
     },
   });
   client.requestAccessToken({ prompt: 'consent' });
@@ -891,7 +1108,7 @@ function resetBtnGoogle(msg) {
   var btn = document.getElementById('btn-google-login');
   if (btn) {
     btn.disabled = false;
-    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continuar con Google';
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continuar con Google';
   }
   if (msg) toast('❌ ' + msg, 'error');
 }
@@ -923,14 +1140,12 @@ function updateNavUser(user) {
   else avatarEl.textContent = (user.name || user.email || '?')[0].toUpperCase();
 }
 
-// ══════════════════════════════════════════════════════════════
-// API HELPERS — JSONP
-// ══════════════════════════════════════════════════════════════
+// ══════════ API HELPERS ══════════
 function apiGet(path, params) {
   params = params || {};
   return new Promise(function(resolve, reject) {
-    var cb  = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
-    var qs  = Object.assign({ path: path, callback: cb }, params);
+    var cb = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
+    var qs = Object.assign({ path: path, callback: cb }, params);
     var src = CONFIG.API_URL + '?' + Object.keys(qs).map(function(k) { return encodeURIComponent(k) + '=' + encodeURIComponent(qs[k]); }).join('&');
     var s = document.createElement('script'); s.src = src;
     var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
@@ -943,7 +1158,7 @@ function apiGet(path, params) {
 
 function apiPost(path, body) {
   return new Promise(function(resolve, reject) {
-    var cb  = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
+    var cb = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
     var src = CONFIG.API_URL + '?path=' + encodeURIComponent(path) + '&callback=' + encodeURIComponent(cb) + '&_body=' + encodeURIComponent(JSON.stringify(body));
     var s = document.createElement('script'); s.src = src;
     var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
@@ -954,9 +1169,6 @@ function apiPost(path, body) {
   });
 }
 
-// ══════════════════════════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════════════════════════
 function toast(msg, type) {
   var el = document.createElement('div');
   el.style.cssText = 'position:fixed;top:76px;left:50%;transform:translateX(-50%);z-index:9999;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.12);white-space:nowrap;max-width:90vw;text-align:center;';
@@ -967,9 +1179,7 @@ function toast(msg, type) {
   setTimeout(function() { el.remove(); }, 5000);
 }
 
-// ══════════════════════════════════════════════════════════════
-// PROFESIONALES — lista paciente
-// ══════════════════════════════════════════════════════════════
+// ══════════ PROFESIONALES ══════════
 async function cargarProfesionales() {
   var c = document.getElementById('profesionales-container');
   try {
@@ -978,25 +1188,18 @@ async function cargarProfesionales() {
       c.innerHTML = '<div class="card" style="text-align:center;padding:40px 20px;color:var(--muted);"><div style="font-size:32px;margin-bottom:12px;">🏥</div><div>No hay profesionales disponibles aún.</div></div>';
       return;
     }
-    var av  = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
+    var av = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
     var col = ['teal','blue','purple','teal','blue'];
     c.innerHTML = data.profesionales.map(function(p, i) {
       return '<div class="card">' +
         '<div class="card-header">' +
-          '<div class="avatar ' + col[i % col.length] + '">' + av[i % av.length] + '</div>' +
-          '<div>' +
-            '<div class="doc-name">' + p.nombre + '</div>' +
-            '<div class="doc-spec">' + p.especialidad + '</div>' +
-            '<span class="badge badge-green">🔒 Pago 100% con MP</span>' +
-          '</div>' +
-          '<div class="doc-price">' +
-            '<div class="price-amount">$' + Number(p.precio).toLocaleString('es-AR') + '</div>' +
-            '<div class="price-label">por sesión</div>' +
-          '</div>' +
+          '<div class="avatar ' + col[i%col.length] + '">' + av[i%av.length] + '</div>' +
+          '<div><div class="doc-name">' + p.nombre + '</div><div class="doc-spec">' + p.especialidad + '</div><span class="badge badge-green">🔒 Pago con MP</span></div>' +
+          '<div class="doc-price"><div class="price-amount">$' + Number(p.precio).toLocaleString('es-AR') + '</div><div class="price-label">por sesión</div></div>' +
         '</div>' +
-        '<div class="section-label" style="margin-bottom:8px;">Horarios — ' + formatearFecha(fechaSeleccionada) + '</div>' +
+        '<div class="section-label fecha-label-card" style="margin-bottom:8px;">Horarios — ' + formatearFecha(fechaSeleccionada) + '</div>' +
         '<div class="slots" id="slots-' + p.id + '"><div style="color:var(--muted);font-size:13px;">Cargando...</div></div>' +
-        '<button class="btn-app btn-mp" onclick="abrirModal(\'' + p.id + '\',\'' + p.nombre.replace(/'/g, "\\'") + '\',' + p.precio + ')">' +
+        '<button class="btn-app btn-mp" onclick="abrirModal(\'' + p.id + '\',\'' + p.nombre.replace(/'/g,"\\'") + '\',' + p.precio + ')">' +
           '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Confirmar y pagar →' +
         '</button>' +
       '</div>';
@@ -1013,13 +1216,13 @@ async function cargarHorarios(proId) {
   try {
     var data = await apiGet('turnos', { profesional_id: proId, fecha: fechaSeleccionada });
     if (!data.horarios || !data.horarios.length) {
-      el.innerHTML = '<div style="color:var(--muted);font-size:13px;">' + (data.sin_disponibilidad ? 'Sin disponibilidad configurada para hoy' : 'Sin horarios disponibles hoy') + '</div>';
+      el.innerHTML = '<div style="color:var(--muted);font-size:13px;">' + (data.sin_disponibilidad ? 'Sin disponibilidad para este día' : 'Sin horarios disponibles') + '</div>';
       return;
     }
     var pro = data.profesional || {};
     el.innerHTML = data.horarios.map(function(h) {
       return h.disponible
-        ? '<button class="slot" onclick="seleccionarSlot(this,\'' + proId + '\',\'' + (pro.nombre || '').replace(/'/g, "\\'") + '\',\'' + h.hora + '\',' + (pro.precio || 0) + ')">' + h.hora + '</button>'
+        ? '<button class="slot" onclick="seleccionarSlot(this,\'' + proId + '\',\'' + (pro.nombre||'').replace(/'/g,"\\'") + '\',\'' + h.hora + '\',' + (pro.precio||0) + ')">' + h.hora + '</button>'
         : '<button class="slot taken" disabled>' + h.hora + '</button>';
     }).join('');
   } catch(e) {
@@ -1048,7 +1251,7 @@ function abrirModal(proId, nombre, precio) {
   btn.className = 'btn-app btn-mp';
   btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
   btn.disabled = false;
-  document.getElementById('modal-body').style.display    = 'block';
+  document.getElementById('modal-body').style.display     = 'block';
   document.getElementById('success-screen').style.display = 'none';
   document.getElementById('payModal').classList.add('open');
 }
@@ -1063,12 +1266,12 @@ async function confirmarPago() {
   btn.disabled = true;
   try {
     var data = await apiPost('turnos', {
-      profesional_id: selectedProfesional.id,
-      fecha: fechaSeleccionada,
-      hora: selectedSlotTime,
+      profesional_id:  selectedProfesional.id,
+      fecha:           fechaSeleccionada,
+      hora:            selectedSlotTime,
       paciente_nombre: nombre,
-      paciente_email: email,
-      metodo: 'mp',
+      paciente_email:  email,
+      metodo:          'mp'
     });
     if (data.init_point) {
       window.location.href = data.init_point;
@@ -1079,16 +1282,14 @@ async function confirmarPago() {
       btn.disabled = false;
     }
   } catch(e) {
-    toast('❌ Error de conexión. Intentá de nuevo.', 'error');
+    toast('❌ Error de conexión.', 'error');
     btn.className = 'btn-app btn-mp';
     btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
     btn.disabled = false;
   }
 }
 
-// ══════════════════════════════════════════════════════════════
-// PANEL PROFESIONAL
-// ══════════════════════════════════════════════════════════════
+// ══════════ PANEL PROFESIONAL ══════════
 function showProAuthGate() {
   document.getElementById('pro-auth-gate').style.display  = 'block';
   document.getElementById('pro-registro').style.display   = 'none';
@@ -1120,6 +1321,8 @@ function mostrarFormularioRegistro() {
   document.getElementById('pro-auth-gate').style.display  = 'none';
   document.getElementById('pro-dashboard').style.display  = 'none';
   document.getElementById('pro-registro').style.display   = 'block';
+  inicializarDispStateRegistro();
+  mostrarPaso(1);
   if (currentUser) {
     document.getElementById('pro-nombre').value = currentUser.name || '';
     document.getElementById('reg-user-name').textContent  = currentUser.name  || '';
@@ -1127,62 +1330,6 @@ function mostrarFormularioRegistro() {
     var wrap = document.getElementById('reg-user-avatar-wrap');
     if (currentUser.picture) wrap.innerHTML = '<img src="' + currentUser.picture + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" referrerpolicy="no-referrer">';
     else wrap.textContent = (currentUser.name || '?')[0].toUpperCase();
-  }
-}
-
-async function registrarProfesional() {
-  var nombre       = document.getElementById('pro-nombre').value.trim();
-  var especialidad = document.getElementById('pro-especialidad').value.trim();
-  var errEl        = document.getElementById('pro-registro-error');
-  var btn          = document.getElementById('btn-registrar');
-
-  errEl.style.display = 'none';
-
-  if (!nombre || !especialidad) {
-    errEl.textContent = 'Completá nombre y especialidad.';
-    errEl.style.display = 'block'; return;
-  }
-
-  btn.innerHTML = '<span class="spinner"></span> Creando perfil...';
-  btn.disabled = true;
-
-  try {
-    var data = await apiPost('profesionales', {
-      nombre:       nombre,
-      especialidad: especialidad,
-      precio:       precioSeleccionado,
-      duracion_min: duracionSeleccionada,
-      email:        currentUser ? currentUser.email : '',
-      google_sub:   currentUser ? currentUser.sub   : '',
-      acepta_mp:    true,
-      acepta_sinmp: false
-    });
-
-    if (data.error) {
-      errEl.textContent = data.error;
-      errEl.style.display = 'block';
-      btn.innerHTML = '✓ Crear mi perfil';
-      btn.disabled = false;
-      return;
-    }
-
-    var pro = {
-      id: data.id, nombre: nombre, especialidad: especialidad,
-      precio: precioSeleccionado, duracion_min: duracionSeleccionada,
-      email: currentUser ? currentUser.email : '',
-      mp_access_token: '',
-      mp_user_id: '',
-      acepta_mp: true,
-      acepta_sinmp: false
-    };
-    guardarEstadoProfesional(pro);
-    mostrarDashboard(pro);
-    toast('✅ Perfil creado. Ahora vinculá tu Mercado Pago.', 'ok');
-  } catch(e) {
-    errEl.textContent = 'Error de conexión. Intentá de nuevo.';
-    errEl.style.display = 'block';
-    btn.innerHTML = '✓ Crear mi perfil';
-    btn.disabled = false;
   }
 }
 
@@ -1198,14 +1345,11 @@ function mostrarDashboard(pro) {
   document.getElementById('dash-nombre').textContent       = pro.nombre       || '—';
   document.getElementById('dash-especialidad').textContent = pro.especialidad || '—';
   document.getElementById('dash-precio').textContent       = pro.precio ? '$' + Number(pro.precio).toLocaleString('es-AR') : '—';
-
   var tieneMp = !!(pro.mp_access_token && pro.mp_user_id);
-  document.getElementById('dash-mp-linked').style.display    = tieneMp ? 'inline-flex' : 'none';
+  document.getElementById('dash-mp-linked').style.display     = tieneMp ? 'inline-flex' : 'none';
   document.getElementById('dash-mp-not-linked').style.display = tieneMp ? 'none' : 'inline-flex';
-
   renderMPStatus(pro);
   renderMPConfig(pro);
-
   showDashTab('stats', document.getElementById('dash-tab-stats'));
   cargarDatosDashboard(pro.id);
   cargarDisponibilidad(pro.id);
@@ -1213,84 +1357,42 @@ function mostrarDashboard(pro) {
 
 function renderMPStatus(pro) {
   var tieneMp = !!(pro.mp_access_token && pro.mp_user_id);
-  var html = '';
-  if (!tieneMp) {
-    html = '<div class="mp-status-box not-linked">' +
-      '⚠️ Tu Mercado Pago no está vinculado. ' +
-      'Sin la vinculación, los pacientes no pueden pagar sus turnos.' +
-      '</div>' +
-      '<button class="btn-app btn-mp" onclick="iniciarOAuthMP()" style="margin-bottom:16px;">' +
-        '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> ' +
-        'Conectar mi cuenta →' +
-      '</button>';
-  } else {
-    html = '<div class="mp-status-box linked">' +
-      '✓ Tu cuenta de Mercado Pago está vinculada correctamente. ' +
-      'Los pagos de tus pacientes irán directo a tu cuenta.' +
-      '</div>';
-  }
+  var html = tieneMp
+    ? '<div class="mp-status-box linked">✓ Mercado Pago vinculado. Los pagos van directo a tu cuenta.</div>'
+    : '<div class="mp-status-box not-linked">⚠️ Tu Mercado Pago no está vinculado. Sin esto los pacientes no pueden pagar.</div>' +
+      '<button class="btn-app btn-mp" onclick="iniciarOAuthMP()" style="margin-bottom:16px;"><span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →</button>';
   document.getElementById('mp-status-container').innerHTML = html;
 }
 
 function renderMPConfig(pro) {
   var tieneMp = !!(pro.mp_access_token && pro.mp_user_id);
-  var html = '';
-  if (tieneMp) {
-    html = '<div style="margin-bottom:16px;">' +
-      '<div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Cuenta vinculada</div>' +
-      '<div style="padding:12px;background:var(--success-soft);border-radius:var(--radius-sm);color:#166534;font-size:13px;font-weight:600;margin-bottom:12px;">' +
-        '✓ ID: ' + (pro.mp_user_id || '—') +
-      '</div>' +
-      '<button class="btn-app btn-outline" onclick="desvincularMP()">' +
-        'Desvincular Mercado Pago' +
-      '</button>' +
-    '</div>';
-  } else {
-    html = '<div style="padding:12px;background:var(--warning-soft);border-radius:var(--radius-sm);color:#92400E;font-size:13px;margin-bottom:12px;">' +
-      '⚠️ Sin Mercado Pago vinculado, no podrás recibir pagos de tus pacientes.' +
-    '</div>';
-  }
+  var html = tieneMp
+    ? '<div style="margin-bottom:16px;"><div style="padding:12px;background:var(--success-soft);border-radius:var(--radius-sm);color:#166534;font-size:13px;font-weight:600;margin-bottom:12px;">✓ ID: ' + (pro.mp_user_id || '—') + '</div><button class="btn-app btn-outline" onclick="desvincularMP()">Desvincular Mercado Pago</button></div>'
+    : '<div style="padding:12px;background:var(--warning-soft);border-radius:var(--radius-sm);color:#92400E;font-size:13px;margin-bottom:12px;">⚠️ Sin Mercado Pago vinculado, no podés recibir pagos.</div>';
   document.getElementById('mp-config-container').innerHTML = html;
 }
 
-// ===================== FUNCIÓN CORREGIDA =====================
 function iniciarOAuthMP() {
-  if (!profesionalActual) {
-    toast('No hay profesional seleccionado.', 'error');
-    return;
-  }
+  if (!profesionalActual) { toast('No hay profesional seleccionado.', 'error'); return; }
   var btn = event.target.closest('button');
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Generando link...';
-  }
-
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generando link...'; }
   apiGet('oauth_url', { profesional_id: profesionalActual.id })
     .then(function(data) {
       if (data && data.mp_auth_url) {
-        // Redirigir a Mercado Pago
         window.location.href = data.mp_auth_url;
       } else {
-        var msg = (data && data.error) ? data.error : 'No se pudo generar el link de autorización.';
-        toast('❌ ' + msg, 'error');
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →';
-        }
+        toast('❌ ' + ((data && data.error) || 'No se pudo generar el link.'), 'error');
+        if (btn) { btn.disabled = false; btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →'; }
       }
     })
     .catch(function(e) {
-      toast('❌ Error de conexión: ' + e.message, 'error');
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →';
-      }
+      toast('❌ ' + e.message, 'error');
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →'; }
     });
 }
-// =============================================================
 
 async function desvincularMP() {
-  if (!confirm('¿Seguro querés desvincular tu Mercado Pago? Los pacientes no podrán pagar sus turnos.')) return;
+  if (!confirm('¿Seguro querés desvincular tu Mercado Pago?')) return;
   if (!profesionalActual) return;
   var btn = event.target.closest('button');
   btn.disabled = true;
@@ -1302,7 +1404,7 @@ async function desvincularMP() {
       guardarEstadoProfesional(profesionalActual);
       renderMPStatus(profesionalActual);
       renderMPConfig(profesionalActual);
-      toast('✅ Cuenta de Mercado Pago desvinculada.', 'ok');
+      toast('✅ Mercado Pago desvinculado.', 'ok');
     } else {
       toast('❌ ' + ((data && data.error) || 'No se pudo desvincular.'), 'error');
       btn.disabled = false;
@@ -1313,9 +1415,7 @@ async function desvincularMP() {
   }
 }
 
-// ══════════════════════════════════════════════════════════════
-// DASHBOARD DATA
-// ══════════════════════════════════════════════════════════════
+// ══════════ DASHBOARD DATA ══════════
 async function cargarDatosDashboard(proId) {
   try {
     var data = await apiGet('dashboard', { profesional_id: proId });
@@ -1324,118 +1424,119 @@ async function cargarDatosDashboard(proId) {
     renderDashChart(data.proximos_dias || []);
     renderDashIngresos(data.proximos_turnos || []);
     renderDashTurnos(data.proximos_turnos || []);
-  } catch(e) {
-    renderDashStats({});
-  }
+  } catch(e) { renderDashStats({}); }
 }
 
 function renderDashStats(resumen) {
   var confirmados = resumen.confirmados || 0;
-  var facturado   = Number(resumen.facturado) || 0;
+  var facturado = Number(resumen.facturado) || 0;
   document.getElementById('dash-stats').innerHTML =
     '<div class="stat-box"><div class="num">' + confirmados + '</div><div class="cap">Confirmados</div></div>' +
     '<div class="stat-box"><div class="num brand">$' + Math.round(facturado).toLocaleString('es-AR') + '</div><div class="cap">Facturado</div></div>' +
-    '<div class="stat-box"><div class="num success">$' + Math.round(facturado).toLocaleString('es-AR') + '</div><div class="cap">Recibiste en MP</div></div>';
+    '<div class="stat-box"><div class="num success">$' + Math.round(facturado).toLocaleString('es-AR') + '</div><div class="cap">En MP</div></div>';
 }
 
 function renderDashOcupacion(ocupacion) {
   var el = document.getElementById('dash-ocupacion');
-  if (!ocupacion || !ocupacion.total) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Todavía no hay datos de ocupación.</div>'; return; }
-  var pct = Math.round(((ocupacion.ocupados || 0) / ocupacion.total) * 100);
+  if (!ocupacion || !ocupacion.total) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Sin datos todavía.</div>'; return; }
+  var pct = Math.round(((ocupacion.ocupados||0)/ocupacion.total)*100);
   el.innerHTML = '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:' + pct + '%;"></div></div>' +
-    '<div class="occupancy-label"><span><strong>' + pct + '%</strong> ocupado</span><span>' + (ocupacion.ocupados || 0) + ' de ' + ocupacion.total + ' turnos</span></div>';
+    '<div class="occupancy-label"><span><strong>' + pct + '%</strong> ocupado</span><span>' + (ocupacion.ocupados||0) + ' de ' + ocupacion.total + '</span></div>';
 }
 
 function renderDashChart(dias) {
   var el = document.getElementById('dash-chart');
-  if (!dias || !dias.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;width:100%;padding:8px 0;">Sin datos.</div>'; return; }
-  var max = Math.max.apply(null, dias.map(function(d) { return Number(d.cantidad) || 0; }));
+  if (!dias || !dias.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;width:100%;">Sin datos.</div>'; return; }
+  var max = Math.max.apply(null, dias.map(function(d) { return Number(d.cantidad)||0; }));
   if (max <= 0) max = 1;
   el.innerHTML = dias.map(function(d) {
-    var cantidad = Number(d.cantidad) || 0;
-    var alturaPx = Math.max(6, Math.round((cantidad / max) * 90));
-    return '<div class="chart-bar-col">' +
-      '<div class="chart-bar-value">' + (cantidad > 0 ? cantidad : '') + '</div>' +
-      '<div class="chart-bar' + (cantidad > 0 ? ' has-data' : '') + '" style="height:' + alturaPx + 'px;"></div>' +
-      '<div class="chart-bar-label">' + formatearFecha(d.fecha, true) + '</div>' +
-    '</div>';
+    var cantidad = Number(d.cantidad)||0;
+    var alturaPx = Math.max(6, Math.round((cantidad/max)*90));
+    return '<div class="chart-bar-col"><div class="chart-bar-value">' + (cantidad>0?cantidad:'') + '</div><div class="chart-bar' + (cantidad>0?' has-data':'') + '" style="height:' + alturaPx + 'px;"></div><div class="chart-bar-label">' + formatearFecha(d.fecha,true) + '</div></div>';
   }).join('');
 }
 
 function renderDashIngresos(turnos) {
   var el = document.getElementById('dash-ingresos');
-  var pagados = (turnos || []).filter(function(t) { return t.estado === 'confirmado'; });
-  if (!pagados.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No tenés turnos confirmados próximos.</div>'; return; }
-  el.innerHTML = pagados.slice(0, 5).map(function(t) {
-    return '<div class="summary-row"><span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '</span><span class="value">$' + Math.round(Number(t.precio) || 0).toLocaleString('es-AR') + '</span></div>';
+  var pagados = (turnos||[]).filter(function(t) { return t.estado==='confirmado'; });
+  if (!pagados.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Sin turnos confirmados próximos.</div>'; return; }
+  el.innerHTML = pagados.slice(0,5).map(function(t) {
+    return '<div class="summary-row"><span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '</span><span class="value">$' + Math.round(Number(t.precio)||0).toLocaleString('es-AR') + '</span></div>';
   }).join('');
 }
 
 function renderDashTurnos(turnos) {
   var el = document.getElementById('dash-turnos');
-  if (!turnos || !turnos.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>'; return; }
+  if (!turnos || !turnos.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Sin turnos próximos.</div>'; return; }
   el.innerHTML = turnos.map(function(t) {
-    var estadoHtml = t.estado === 'confirmado'
-      ? '<span style="color:var(--success);">✓ Pagado</span>'
-      : '<span style="color:#92400E;">⏳ Pendiente pago</span>';
-    return '<div class="summary-row">' +
-      '<span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '<br><span style="font-size:11px;">' + estadoHtml + '</span></span>' +
-      '<span class="value" style="text-align:right;">' + (t.paciente_nombre || 'Paciente') + '<div style="font-size:11px;color:var(--muted);font-weight:400;">' + (t.paciente_email || '') + '</div></span>' +
-    '</div>';
+    var estadoHtml = t.estado==='confirmado' ? '<span style="color:var(--success);">✓ Pagado</span>' : '<span style="color:#92400E;">⏳ Pendiente pago</span>';
+    return '<div class="summary-row"><span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '<br><span style="font-size:11px;">' + estadoHtml + '</span></span><span class="value" style="text-align:right;">' + (t.paciente_nombre||'Paciente') + '<div style="font-size:11px;color:var(--muted);font-weight:400;">' + (t.paciente_email||'') + '</div></span></div>';
   }).join('');
 }
 
-// ══════════════════════════════════════════════════════════════
-// DISPONIBILIDAD
-// ══════════════════════════════════════════════════════════════
+// ══════════ DISPONIBILIDAD (DASHBOARD) ══════════
 function inicializarDispState() {
   DIAS.forEach(function(dia) { dispState[dia.num] = { activo: false, bloques: [] }; });
 }
+function inicializarDispStateRegistro() {
+  DIAS.forEach(function(dia) { dispStateRegistro[dia.num] = { activo: false, bloques: [] }; });
+}
 
-function renderDispDays() {
-  var c = document.getElementById('disp-days-container'); if (!c) return;
+function renderDispDays() { _renderDisp('disp-days-container', dispState, false); }
+function renderDispDaysRegistro() { _renderDisp('disp-days-container-registro', dispStateRegistro, true); }
+
+function _renderDisp(containerId, state, esRegistro) {
+  var c = document.getElementById(containerId); if (!c) return;
   c.innerHTML = DIAS.map(function(dia) {
-    var st = dispState[dia.num];
-    var resumen = !st.activo ? 'Cerrado' : (st.bloques.length ? st.bloques.map(function(b) { return b.inicio + '–' + b.fin; }).join(', ') : 'Sin horarios');
-    var bloquesHtml = st.bloques.map(function(b, idx) {
+    var st = state[dia.num];
+    var resumen = !st.activo ? 'Cerrado' : (st.bloques.length ? st.bloques.map(function(b){return b.inicio+'–'+b.fin;}).join(', ') : 'Sin horarios');
+    var bloquesHtml = st.bloques.map(function(b,idx) {
+      var pfx = esRegistro ? 'R' : '';
       return '<div class="disp-block-row">' +
-        '<div><label>Desde</label><input type="time" value="' + b.inicio + '" onchange="updateDispBlock(' + dia.num + ',' + idx + ',\'inicio\',this.value)"></div>' +
-        '<div><label>Hasta</label><input type="time" value="' + b.fin + '" onchange="updateDispBlock(' + dia.num + ',' + idx + ',\'fin\',this.value)"></div>' +
-        '<button class="btn-remove-block" onclick="removeDispBlock(' + dia.num + ',' + idx + ')">✕</button></div>';
+        '<div><label>Desde</label><input type="time" value="' + b.inicio + '" onchange="_updBloque(\'' + pfx + '\',' + dia.num + ',' + idx + ',\'inicio\',this.value)"></div>' +
+        '<div><label>Hasta</label><input type="time" value="' + b.fin + '" onchange="_updBloque(\'' + pfx + '\',' + dia.num + ',' + idx + ',\'fin\',this.value)"></div>' +
+        '<button class="btn-remove-block" onclick="_remBloque(\'' + pfx + '\',' + dia.num + ',' + idx + ')">✕</button></div>';
     }).join('');
-    return '<div class="disp-day-row' + (st.activo && st.bloques.length ? ' has-blocks' : '') + '">' +
-      '<div class="disp-day-header" onclick="toggleDispDay(' + dia.num + ')">' +
-        '<div class="disp-day-toggle' + (st.activo ? ' on' : '') + '"></div>' +
+    var pfx2 = esRegistro ? 'R' : '';
+    return '<div class="disp-day-row' + (st.activo && st.bloques.length ? ' has-blocks':'') + '">' +
+      '<div class="disp-day-header" onclick="_togDay(\'' + pfx2 + '\',' + dia.num + ')">' +
+        '<div class="disp-day-toggle' + (st.activo?' on':'') + '"></div>' +
         '<div class="disp-day-name">' + dia.nombre + '</div>' +
         '<div class="disp-day-summary">' + resumen + '</div>' +
       '</div>' +
-      '<div class="disp-day-blocks' + (st.activo ? ' open' : '') + '" id="disp-blocks-' + dia.num + '">' +
+      '<div class="disp-day-blocks' + (st.activo?' open':'') + '">' +
         bloquesHtml +
-        '<button class="btn-add-block" onclick="addDispBlock(' + dia.num + ')">+ Agregar bloque</button>' +
+        '<button class="btn-add-block" onclick="_addBloque(\'' + pfx2 + '\',' + dia.num + ')">+ Agregar bloque</button>' +
       '</div></div>';
   }).join('');
 }
 
-function toggleDispDay(num) { var st = dispState[num]; st.activo = !st.activo; if (st.activo && !st.bloques.length) st.bloques.push({ inicio: '09:00', fin: '13:00' }); renderDispDays(); }
-function addDispBlock(num) { dispState[num].bloques.push({ inicio: '14:00', fin: '18:00' }); renderDispDays(); }
-function removeDispBlock(num, idx) { dispState[num].bloques.splice(idx, 1); renderDispDays(); }
-function updateDispBlock(num, idx, campo, valor) { dispState[num].bloques[idx][campo] = valor; renderDispDays(); }
+function _getState(pfx) { return pfx === 'R' ? dispStateRegistro : dispState; }
+function _rerender(pfx) { if (pfx === 'R') renderDispDaysRegistro(); else renderDispDays(); }
+function _togDay(pfx, num) { var st=_getState(pfx)[num]; st.activo=!st.activo; if(st.activo&&!st.bloques.length) st.bloques.push({inicio:'09:00',fin:'13:00'}); _rerender(pfx); }
+function _addBloque(pfx, num) { _getState(pfx)[num].bloques.push({inicio:'14:00',fin:'18:00'}); _rerender(pfx); }
+function _remBloque(pfx, num, idx) { _getState(pfx)[num].bloques.splice(idx,1); _rerender(pfx); }
+function _updBloque(pfx, num, idx, campo, valor) { _getState(pfx)[num].bloques[idx][campo]=valor; _rerender(pfx); }
 
 function aplicarPresetGlobal(preset) {
+  // aplica al estado activo según qué panel está visible
+  var esRegistro = document.getElementById('pro-registro').style.display !== 'none';
+  var state = esRegistro ? dispStateRegistro : dispState;
+  var pfx = esRegistro ? 'R' : '';
   if (preset === 'lun-vie') {
     DIAS.forEach(function(d) {
-      if (d.num >= 1 && d.num <= 5) { dispState[d.num].activo = true; if (!dispState[d.num].bloques.length) dispState[d.num].bloques = [{ inicio: '08:00', fin: '19:00' }]; }
-      else dispState[d.num].activo = false;
-    }); renderDispDays(); return;
+      if (d.num>=1&&d.num<=5) { state[d.num].activo=true; if(!state[d.num].bloques.length) state[d.num].bloques=[{inicio:'08:00',fin:'19:00'}]; }
+      else state[d.num].activo=false;
+    }); _rerender(pfx); return;
   }
-  var objetivo = DIAS.filter(function(d) { return dispState[d.num].activo; }).map(function(d) { return d.num; });
-  if (!objetivo.length) objetivo = DIAS.map(function(d) { return d.num; });
+  var objetivo = DIAS.filter(function(d){return state[d.num].activo;}).map(function(d){return d.num;});
+  if (!objetivo.length) objetivo = DIAS.map(function(d){return d.num;});
   objetivo.forEach(function(num) {
-    var st = dispState[num]; st.activo = true;
-    if (preset === 'manana')   st.bloques = [{ inicio: '08:00', fin: '13:00' }];
-    if (preset === 'tarde')    st.bloques = [{ inicio: '14:00', fin: '19:00' }];
-    if (preset === 'completo') st.bloques = [{ inicio: '08:00', fin: '19:00' }];
-  }); renderDispDays();
+    var st = state[num]; st.activo=true;
+    if (preset==='manana')   st.bloques=[{inicio:'08:00',fin:'13:00'}];
+    if (preset==='tarde')    st.bloques=[{inicio:'14:00',fin:'19:00'}];
+    if (preset==='completo') st.bloques=[{inicio:'08:00',fin:'19:00'}];
+  }); _rerender(pfx);
 }
 
 async function cargarDisponibilidad(proId) {
@@ -1444,7 +1545,7 @@ async function cargarDisponibilidad(proId) {
     if (data && data.disponibilidad && data.disponibilidad.length) {
       inicializarDispState();
       data.disponibilidad.forEach(function(d) {
-        if (dispState[d.dia] !== undefined) { dispState[d.dia].activo = true; dispState[d.dia].bloques.push({ inicio: d.inicio, fin: d.fin }); }
+        if (dispState[d.dia]!==undefined) { dispState[d.dia].activo=true; dispState[d.dia].bloques.push({inicio:d.inicio,fin:d.fin}); }
       });
     }
   } catch(e) {}
@@ -1457,21 +1558,19 @@ async function guardarDisponibilidad() {
   var bloques = [];
   DIAS.forEach(function(d) {
     var st = dispState[d.num]; if (!st.activo) return;
-    st.bloques.forEach(function(b) { if (b.inicio && b.fin && b.inicio < b.fin) bloques.push({ dia: d.num, inicio: b.inicio, fin: b.fin }); });
+    st.bloques.forEach(function(b) { if (b.inicio&&b.fin&&b.inicio<b.fin) bloques.push({dia:d.num,inicio:b.inicio,fin:b.fin}); });
   });
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Guardando...'; fb.style.display = 'none';
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Guardando...'; fb.style.display='none';
   try {
     var data = await apiPost('disponibilidad', { profesional_id: profesionalActual.id, disponibilidad: bloques });
-    fb.className = (data && data.ok) ? 'disp-feedback ok' : 'disp-feedback err';
-    fb.textContent = (data && data.ok) ? '✅ Disponibilidad guardada.' : ('❌ ' + ((data && data.error) || 'No se pudo guardar.'));
-  } catch(e) { fb.className = 'disp-feedback err'; fb.textContent = '❌ Error de conexión.'; }
-  fb.style.display = 'block'; btn.disabled = false; btn.innerHTML = 'Guardar disponibilidad';
-  setTimeout(function() { fb.style.display = 'none'; }, 4000);
+    fb.className = (data&&data.ok) ? 'disp-feedback ok' : 'disp-feedback err';
+    fb.textContent = (data&&data.ok) ? '✅ Disponibilidad guardada correctamente.' : ('❌ ' + ((data&&data.error)||'No se pudo guardar.'));
+  } catch(e) { fb.className='disp-feedback err'; fb.textContent='❌ Error de conexión.'; }
+  fb.style.display='block'; btn.disabled=false; btn.innerHTML='Guardar disponibilidad';
+  setTimeout(function(){ fb.style.display='none'; }, 4000);
 }
 
-// ══════════════════════════════════════════════════════════════
-// NAVEGACIÓN
-// ══════════════════════════════════════════════════════════════
+// ══════════ NAVEGACIÓN ══════════
 function showApp(tab) {
   document.getElementById('view-landing').classList.remove('active');
   document.getElementById('view-app').classList.add('active');
@@ -1491,33 +1590,31 @@ function showLanding() {
 }
 
 function showTab(nombre, el) {
-  ['reservar', 'profesional'].forEach(function(t) {
-    document.getElementById('tab-' + t).classList.toggle('active', t === nombre);
-    document.getElementById('tab-btn-' + t).classList.toggle('active', t === nombre);
+  ['reservar','profesional'].forEach(function(t) {
+    document.getElementById('tab-' + t).classList.toggle('active', t===nombre);
+    document.getElementById('tab-btn-' + t).classList.toggle('active', t===nombre);
   });
 }
 
 function showDashTab(nombre, el) {
-  ['stats', 'turnos', 'disp', 'config'].forEach(function(t) {
+  ['stats','turnos','disp','config'].forEach(function(t) {
     var panel  = document.getElementById('dash-panel-' + t);
     var tabBtn = document.getElementById('dash-tab-' + t);
-    if (panel)  panel.style.display = (t === nombre) ? 'block' : 'none';
-    if (tabBtn) tabBtn.classList.toggle('active', t === nombre);
+    if (panel)  panel.style.display = (t===nombre) ? 'block' : 'none';
+    if (tabBtn) tabBtn.classList.toggle('active', t===nombre);
   });
 }
 
-// ══════════════════════════════════════════════════════════════
-// FECHAS
-// ══════════════════════════════════════════════════════════════
+// ══════════ FECHAS ══════════
 function hoyISO() {
   var d = new Date();
-  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
 
 function formatearFecha(iso, corto) {
   if (!iso) return '—';
   var p = iso.split('-');
-  var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  var d = new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
   var diasC  = ['dom','lun','mar','mié','jue','vie','sáb'];
   var dias   = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   var meses  = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
@@ -1525,32 +1622,25 @@ function formatearFecha(iso, corto) {
   return dias[d.getDay()] + ' ' + d.getDate() + ' ' + meses[d.getMonth()];
 }
 
-// ══════════════════════════════════════════════════════════════
-// MODAL
-// ══════════════════════════════════════════════════════════════
+// ══════════ MODAL ══════════
 function closeModal() {
   document.getElementById('payModal').classList.remove('open');
-  document.getElementById('modal-body').style.display    = 'block';
+  document.getElementById('modal-body').style.display     = 'block';
   document.getElementById('success-screen').style.display = 'none';
   selectedSlotTime = null; selectedProfesional = null;
 }
-function closeModalOutside(event) { if (event.target.id === 'payModal') closeModal(); }
+function closeModalOutside(event) { if (event.target.id==='payModal') closeModal(); }
 
-// ══════════════════════════════════════════════════════════════
-// RETORNO DE PAGO Y OAUTH
-// ══════════════════════════════════════════════════════════════
+// ══════════ RETORNO DE PAGO Y OAUTH ══════════
 function checkPaymentAndOAuthReturn() {
   var p = new URLSearchParams(window.location.search);
-  var estado = p.get('estado'), turnoId = p.get('turno_id'), tipo = p.get('tipo');
+  var estado = p.get('estado'), turnoId = p.get('turno_id');
   var mpStatus = p.get('mp_status'), mpPro = p.get('mp_pro'), mpMsg = p.get('mp_msg');
 
-  // Retorno de OAuth
   if (mpStatus === 'ok' && mpPro) {
     showApp('profesional');
     setTimeout(function() {
-      if (profesionalActual && profesionalActual.id === mpPro) {
-        cargarPerfilProfesional();
-      }
+      if (profesionalActual) cargarPerfilProfesional();
       toast('✅ Mercado Pago vinculado correctamente.', 'ok');
     }, 500);
     window.history.replaceState({}, '', window.location.pathname);
@@ -1564,26 +1654,36 @@ function checkPaymentAndOAuthReturn() {
     return;
   }
 
-  // Retorno de pago
   if (!estado) return;
-  var msgs  = { confirmado: '✅ ¡Pago exitoso! Turno ' + (turnoId || '') + ' confirmado.', error: '❌ Hubo un problema con el pago.', pendiente: '⏳ El pago está pendiente de acreditación.' };
+
+  var msgs  = {
+    confirmado: '✅ ¡Pago exitoso! Turno confirmado. Revisá tu email.',
+    error:      '❌ Hubo un problema con el pago. Intentá de nuevo.',
+    pendiente:  '⏳ El pago está pendiente de acreditación.'
+  };
   var clses = { confirmado: 'success', error: 'error', pendiente: 'pending' };
   var b = document.getElementById('payment-banner');
-  if (msgs[estado]) { b.className = 'payment-banner ' + (clses[estado] || ''); b.textContent = msgs[estado]; b.style.display = 'block'; }
+  if (msgs[estado]) {
+    b.className = 'payment-banner ' + (clses[estado]||'');
+    b.textContent = msgs[estado];
+    b.style.display = 'block';
+  }
   window.history.replaceState({}, '', window.location.pathname);
   showApp('reservar');
 }
 
-// ══════════════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════════════
+// ══════════ INIT ══════════
 document.addEventListener('DOMContentLoaded', function() {
   inicializarDispState();
+  inicializarDispStateRegistro();
   renderDispDays();
+  renderFechaSelector();
+
   var savedUser = STORE.get('google_user');
   if (savedUser) { currentUser = savedUser; updateNavUser(currentUser); }
   var savedPro = STORE.get('pro_actual');
   if (savedPro) profesionalActual = savedPro;
+
   checkPaymentAndOAuthReturn();
   cargarProfesionales();
 });
