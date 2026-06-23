@@ -3,11 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Turno Seguro — Reservá turnos médicos online, sin esperas</title>
-
-<!-- Google Identity Services -->
+<title>Mi Turno Seguro — Reservá turnos médicos online</title>
 <script src="https://accounts.google.com/gsi/client" async></script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap');
 
@@ -143,23 +140,6 @@ a { color: inherit; text-decoration: none; }
 .pricing-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; margin-bottom: 12px; }
 .pricing-list li .check { width: 18px; height: 18px; border-radius: 50%; background: var(--success-soft); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
 
-/* COMPARACIÓN MODOS DE COBRO (landing) */
-.compare-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 860px; margin: 0 auto; }
-.compare-card { background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius); padding: 32px; position: relative; }
-.compare-card.reco { border: 2px solid var(--brand); box-shadow: var(--shadow-lg); }
-.compare-tag { position: absolute; top: -13px; left: 28px; background: var(--brand); color: white; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
-.compare-icon { font-size: 28px; margin-bottom: 12px; }
-.compare-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
-.compare-fee { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 30px; margin: 10px 0 18px; }
-.compare-fee span { font-size: 14px; color: var(--muted); font-weight: 600; }
-.compare-list { list-style: none; margin-bottom: 4px; }
-.compare-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; margin-bottom: 12px; }
-.compare-list li .ico { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
-.compare-list li .ico.yes { background: var(--success-soft); color: var(--success); }
-.compare-list li .ico.no { background: var(--danger-soft); color: var(--danger); }
-.compare-note { font-size: 12.5px; color: var(--muted); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
-.compare-or { text-align: center; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--muted); font-size: 13px; margin: 8px 0 -8px; grid-column: 1 / -1; }
-
 /* TESTIMONIALS */
 .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .testimonial-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
@@ -225,79 +205,19 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .btn-app.btn-outline { background: white; color: var(--brand); border: 1.5px solid var(--brand-mid); }
 .btn-app.btn-outline:hover { background: var(--brand-soft); }
 .btn-app.btn-success { background: var(--success); color: white; box-shadow: 0 6px 16px rgba(22,163,74,0.25); }
-.btn-app.btn-success:hover { background: #128a3e; }
 .btn-app:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
-.btn-app-sm { padding: 10px; font-size: 13px; }
 
 .duracion-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
-.duracion-tab {
-  flex: 1; min-width: 60px;
-  padding: 10px 8px;
-  border-radius: var(--radius-sm);
-  border: 1.5px solid var(--line);
-  background: var(--paper);
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
-  font-family: 'Outfit', sans-serif;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.15s;
-}
+.duracion-tab { flex: 1; min-width: 60px; padding: 10px 8px; border-radius: var(--radius-sm); border: 1.5px solid var(--line); background: var(--paper); color: var(--muted); font-size: 13px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; text-align: center; transition: all 0.15s; }
 .duracion-tab:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
-.duracion-tab.selected {
-  border-color: var(--brand);
-  background: var(--brand);
-  color: white;
-  box-shadow: 0 4px 12px rgba(37,99,235,0.25);
-}
+.duracion-tab.selected { border-color: var(--brand); background: var(--brand); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
 .duracion-label { font-size: 11px; display: block; font-weight: 600; opacity: 0.8; margin-top: 2px; }
 
 .precio-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
-.precio-tab {
-  padding: 10px 4px;
-  border-radius: var(--radius-sm);
-  border: 1.5px solid var(--line);
-  background: var(--paper);
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
-  font-family: 'Outfit', sans-serif;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.15s;
-}
+.precio-tab { padding: 10px 4px; border-radius: var(--radius-sm); border: 1.5px solid var(--line); background: var(--paper); color: var(--muted); font-size: 13px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; text-align: center; transition: all 0.15s; }
 .precio-tab:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
-.precio-tab.selected {
-  border-color: var(--brand);
-  background: var(--brand);
-  color: white;
-  box-shadow: 0 4px 12px rgba(37,99,235,0.25);
-}
+.precio-tab.selected { border-color: var(--brand); background: var(--brand); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
 .precio-tab .sub-label { font-size: 10px; display: block; font-weight: 600; opacity: 0.8; margin-top: 2px; }
-
-/* SELECTOR MODO DE COBRO — registro y dashboard */
-.modo-cobro-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
-.modo-cobro-card {
-  border: 1.5px solid var(--line);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  cursor: pointer;
-  transition: all 0.15s;
-  background: var(--paper);
-  position: relative;
-}
-.modo-cobro-card:hover { border-color: var(--brand-mid); }
-.modo-cobro-card.checked { border-color: var(--brand); background: var(--brand-soft); box-shadow: 0 0 0 1px var(--brand) inset; }
-.modo-cobro-card .mc-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.modo-cobro-card .mc-checkbox { width: 18px; height: 18px; border-radius: 6px; border: 1.5px solid var(--line); background: white; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; flex-shrink: 0; transition: all 0.15s; }
-.modo-cobro-card.checked .mc-checkbox { background: var(--brand); border-color: var(--brand); }
-.modo-cobro-card .mc-icon { font-size: 18px; }
-.modo-cobro-card .mc-title { font-weight: 700; font-size: 13.5px; font-family: 'Outfit', sans-serif; }
-.modo-cobro-card .mc-fee { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 17px; margin-bottom: 2px; }
-.modo-cobro-card .mc-desc { font-size: 11.5px; color: var(--muted); line-height: 1.4; }
-.modo-cobro-warning { font-size: 12px; color: #92400E; background: var(--warning-soft); border: 1px solid #FCD34D; border-radius: 8px; padding: 8px 10px; margin-top: 10px; display: none; }
-.modo-cobro-warning.show { display: block; }
 
 .btn-google { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 14px 20px; border: 1.5px solid var(--line); border-radius: 999px; background: white; color: var(--ink); font-size: 15px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; transition: all 0.18s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .btn-google:hover { border-color: #4285F4; box-shadow: 0 4px 16px rgba(66,133,244,0.15); transform: translateY(-1px); }
@@ -326,7 +246,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .summary-row .label { color: var(--muted); }
 .summary-row .value { font-weight: 600; }
 .summary-row.total .value { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 20px; color: var(--brand); }
-.commission-note { background: var(--brand-soft); border-left: 3px solid var(--brand); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 12px; color: var(--brand-dark); margin: 12px 0 20px; }
 .mp-logo { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; }
 .mp-dot { width: 8px; height: 8px; background: white; border-radius: 50%; }
 .success-screen { display: none; text-align: center; padding: 40px 20px; }
@@ -340,8 +259,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .badge-gray   { background: #F1F5F9; color: #475569; }
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
-.form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; background: white; }
-.form-group input:focus { border-color: var(--brand); }
+.form-group input, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font-size: 15px; font-family: 'Open Sans', sans-serif; outline: none; transition: border-color 0.2s; background: white; }
+.form-group input:focus, .form-group textarea:focus { border-color: var(--brand); }
+.form-group textarea { resize: vertical; min-height: 80px; }
 .section-label { font-size: 12.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
 .divider { height: 1px; background: var(--line); margin: 20px 0; }
 .payment-banner { padding: 16px 20px; border-radius: var(--radius-sm); margin: 16px; font-size: 14px; font-weight: 600; text-align: center; }
@@ -355,10 +275,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .stat-box .num.brand { color: var(--brand); }
 .stat-box .num.success { color: var(--success); }
 .stat-box .cap { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 2px; }
-.occupancy-bar-track { width: 100%; height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 10px 0 6px; }
-.occupancy-bar-fill { height: 100%; background: linear-gradient(90deg, var(--brand) 0%, #60A5FA 100%); border-radius: 999px; transition: width 0.6s ease; }
-.occupancy-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
-.occupancy-label strong { color: var(--ink); }
 .chart-wrap { display: flex; align-items: flex-end; gap: 8px; height: 120px; padding: 0 4px 4px; margin-top: 8px; }
 .chart-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
 .chart-bar { width: 100%; max-width: 28px; background: var(--brand-mid); border-radius: 6px 6px 2px 2px; transition: all 0.4s ease; }
@@ -366,15 +282,10 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 .chart-bar-label { font-size: 10.5px; color: var(--muted); margin-top: 6px; font-weight: 600; text-transform: capitalize; }
 .chart-bar-value { font-size: 10px; color: var(--brand-dark); font-weight: 700; margin-bottom: 4px; min-height: 12px; }
 
-.mp-status-card { background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius-sm); padding: 16px 18px; display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-.mp-status-icon { font-size: 28px; flex-shrink: 0; }
-.mp-status-text { flex: 1; }
-.mp-status-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
-.mp-status-text span { font-size: 12px; color: var(--muted); }
-.mp-status-card.linked { border-color: var(--success); background: var(--success-soft); }
-.mp-status-card.unlinked { border-color: #FCD34D; background: var(--warning-soft); }
-
-.mp-actions-stack { display: flex; flex-direction: column; gap: 12px; }
+.occupancy-bar-track { width: 100%; height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 10px 0 6px; }
+.occupancy-bar-fill { height: 100%; background: linear-gradient(90deg, var(--brand) 0%, #60A5FA 100%); border-radius: 999px; transition: width 0.6s ease; }
+.occupancy-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.occupancy-label strong { color: var(--ink); }
 
 .disp-grid { display: grid; gap: 10px; }
 .disp-day-row { border: 1.5px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; transition: border-color 0.15s; }
@@ -416,24 +327,21 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 
 .app-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .app-nav-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.app-nav .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-.app-nav .brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
-.app-nav .brand-name span { color: var(--brand); }
+.app-nav .brand { cursor: pointer; }
 .app-nav-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--brand); cursor: pointer; padding: 8px 14px; border-radius: 999px; transition: background 0.15s; border: none; background: none; font-family: 'Open Sans', sans-serif; }
 .app-nav-back:hover { background: var(--brand-soft); }
 
 .info-box { background: var(--brand-soft); border: 1px solid var(--brand-mid); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--brand-dark); margin-bottom: 16px; line-height: 1.5; }
+.warning-box { background: var(--warning-soft); border: 1px solid #FCD34D; border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: #92400E; margin-bottom: 16px; line-height: 1.5; }
 
-/* SELECTOR DE MODALIDAD DE RESERVA (paciente) */
-.metodo-toggle { display: flex; gap: 8px; margin-bottom: 16px; }
-.metodo-opt {
-  flex: 1; padding: 12px 10px; border-radius: var(--radius-sm); border: 1.5px solid var(--line);
-  background: var(--paper); cursor: pointer; text-align: center; transition: all 0.15s;
-}
-.metodo-opt:hover { border-color: var(--brand-mid); }
-.metodo-opt.selected { border-color: var(--brand); background: var(--brand-soft); box-shadow: 0 0 0 1px var(--brand) inset; }
-.metodo-opt .mo-title { font-weight: 700; font-size: 13px; font-family: 'Outfit', sans-serif; margin-bottom: 2px; }
-.metodo-opt .mo-sub { font-size: 11px; color: var(--muted); }
+/* Suscripción */
+.suscripcion-card { background: linear-gradient(135deg, var(--brand-soft) 0%, #EFF6FF 100%); border: 2px solid var(--brand-mid); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
+.suscripcion-card .precio-grande { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 36px; color: var(--brand); }
+.suscripcion-card .precio-grande span { font-size: 16px; color: var(--muted); font-weight: 600; }
+.suscripcion-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--brand); color: white; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 999px; margin-bottom: 12px; }
+
+/* Token input */
+.token-field { font-family: monospace; font-size: 13px; letter-spacing: 0.5px; }
 
 @media (max-width: 900px) {
   .nav-links { display: none; }
@@ -445,7 +353,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   .features-grid, .steps-grid, .testimonials-grid { grid-template-columns: 1fr; }
   .stats-band { grid-template-columns: repeat(2, 1fr); padding: 40px 24px; }
   .pricing-grid { grid-template-columns: 1fr; }
-  .compare-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .logos-grid { justify-content: center; }
   .section-header h2 { font-size: 28px; }
@@ -453,7 +360,6 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   .cta-section h2 { font-size: 26px; }
   .duracion-tabs { display: grid; grid-template-columns: 1fr 1fr; }
   .precio-tabs { grid-template-columns: repeat(3, 1fr); }
-  .modo-cobro-options { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -483,9 +389,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
 <header class="hero">
   <div class="container hero-inner">
     <div>
-      <div class="hero-eyebrow"><span class="dot"></span> Reservá con o sin pago online, vos elegís</div>
+      <div class="hero-eyebrow"><span class="dot"></span> Pagos 100% con Mercado Pago — sin efectivo</div>
       <h1>Tu turno, <span class="highlight">confirmado</span> al instante.</h1>
-      <p class="lead">La plataforma para reservar turnos médicos online. Cada profesional elige si pedís el pago al reservar con Mercado Pago, o si preferís reservas directas sin pago anticipado.</p>
+      <p class="lead">La plataforma para reservar turnos médicos online. El paciente paga con Mercado Pago al reservar y el profesional recibe el 100% directo en su cuenta.</p>
       <div class="hero-actions">
         <button onclick="showApp('reservar')" class="btn btn-primary btn-lg">Buscar un turno →</button>
         <button onclick="showApp('profesional')" class="btn btn-ghost btn-lg">Soy profesional de la salud</button>
@@ -508,7 +414,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         </div>
       </div>
       <div class="floating-badge badge-1"><div class="icon">✅</div><div class="text"><strong>Turno confirmado</strong>Pago acreditado</div></div>
-      <div class="floating-badge badge-2"><div class="icon">⚡</div><div class="text"><strong>0% no-shows</strong>Cobro al reservar</div></div>
+      <div class="floating-badge badge-2"><div class="icon">💰</div><div class="text"><strong>100% para vos</strong>Directo a tu MP</div></div>
     </div>
   </div>
 </header>
@@ -532,15 +438,15 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     <div class="section-header">
       <div class="section-eyebrow">Por qué Mi Turno Seguro</div>
       <h2>Todo lo que necesitás para gestionar turnos</h2>
-      <p>Una herramienta simple para pacientes y profesionales, sin instalaciones ni configuraciones complicadas.</p>
+      <p>Simple para pacientes, poderoso para profesionales. Sin instalaciones ni configuraciones complicadas.</p>
     </div>
     <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon">🔒</div><h3>Pago al reservar (opcional)</h3><p>Si activás Mercado Pago, el paciente paga el 100% del turno al reservar y la hora queda garantizada.</p></div>
+      <div class="feature-card"><div class="feature-icon">💰</div><h3>Recibís el 100% del pago</h3><p>El paciente paga con Mercado Pago y el dinero llega directo a tu cuenta. Sin intermediarios que se queden con parte de tus honorarios.</p></div>
       <div class="feature-card"><div class="feature-icon">📅</div><h3>Agenda en tiempo real</h3><p>Los horarios disponibles se actualizan al instante para evitar superposiciones y dobles reservas.</p></div>
-      <div class="feature-card"><div class="feature-icon">💸</div><h3>Cobro directo a tu cuenta</h3><p>Si usás Mercado Pago, el dinero llega directo a tu cuenta con una comisión mínima del 3%. Si no lo usás, no pagás comisión.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔒</div><h3>Cero ausencias</h3><p>Como el paciente paga al reservar, los no-shows prácticamente desaparecen. Tu tiempo tiene valor.</p></div>
       <div class="feature-card"><div class="feature-icon">🗓️</div><h3>Disponibilidad personalizada</h3><p>Configurá exactamente qué días y en qué horarios trabajás. Bloques de mañana, tarde o como prefieras.</p></div>
       <div class="feature-card"><div class="feature-icon">📱</div><h3>100% online</h3><p>Sin apps que instalar. Funciona en cualquier celular o computadora, directo desde el navegador.</p></div>
-      <div class="feature-card"><div class="feature-icon">✅</div><h3>Vos elegís cómo cobrar</h3><p>Aceptá reservas con pago anticipado, sin pago, o ambas modalidades al mismo tiempo. La decisión es siempre tuya.</p></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><h3>Panel de estadísticas</h3><p>Mirá cuántos turnos confirmaste, cuánto facturaste y cómo está tu ocupación semanal, todo en un vistazo.</p></div>
     </div>
   </div>
 </section>
@@ -554,9 +460,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     </div>
     <div class="steps-grid">
       <div class="step-card"><div class="step-icon">1</div><h3>Elegí profesional y horario</h3><p>Mirá la disponibilidad real de cada profesional y elegí el día y hora que te quede mejor.</p></div>
-      <div class="step-card"><div class="step-icon">2</div><h3>Completá tus datos</h3><p>Ingresá tu nombre y email para recibir la confirmación y los detalles del turno.</p></div>
-      <div class="step-card"><div class="step-icon">3</div><h3>Pagá o reservá directo</h3><p>Si el profesional pide pago anticipado, pagás con Mercado Pago. Si no, tu turno se confirma directo.</p></div>
-      <div class="step-card"><div class="step-icon">4</div><h3>Recibí la confirmación</h3><p>Tu turno queda confirmado al instante y, si correspondía pago, el profesional lo recibe en su cuenta.</p></div>
+      <div class="step-card"><div class="step-icon">2</div><h3>Completá tus datos</h3><p>Ingresá tu nombre y email para recibir la confirmación del turno.</p></div>
+      <div class="step-card"><div class="step-icon">3</div><h3>Pagá con Mercado Pago</h3><p>Pagás el 100% del valor de la consulta. El dinero va directo a la cuenta del profesional.</p></div>
+      <div class="step-card"><div class="step-icon">4</div><h3>Recibí la confirmación</h3><p>Tu turno queda confirmado al instante. El profesional recibe el pago en su cuenta de MP.</p></div>
     </div>
   </div>
 </section>
@@ -566,8 +472,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     <div class="stats-band">
       <div><div class="stat-big">+450</div><div class="stat-cap">Profesionales activos</div></div>
       <div><div class="stat-big">+12.000</div><div class="stat-cap">Turnos confirmados</div></div>
-      <div><div class="stat-big">0%</div><div class="stat-cap">Tasa de no-shows con pago anticipado</div></div>
-      <div><div class="stat-big">3%</div><div class="stat-cap">Comisión solo si usás Mercado Pago</div></div>
+      <div><div class="stat-big">0%</div><div class="stat-cap">Tasa de no-shows</div></div>
+      <div><div class="stat-big">100%</div><div class="stat-cap">Del pago va al profesional</div></div>
     </div>
   </div>
 </section>
@@ -576,73 +482,36 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   <div class="container">
     <div class="section-header">
       <div class="section-eyebrow">Precios</div>
-      <h2>Simple, sin costos fijos</h2>
-      <p>Solo pagás comisión cuando elegís cobrar con Mercado Pago. Sin abonos mensuales, sin sorpresas.</p>
+      <h2>Simple y transparente</h2>
+      <p>Los pacientes reservan gratis. Los profesionales pagan una suscripción fija mensual y reciben el 100% de cada consulta.</p>
     </div>
     <div class="pricing-grid">
       <div class="pricing-card">
         <h3>Para pacientes</h3>
-        <div class="pricing-sub">Reservar turnos, con o sin pago online</div>
+        <div class="pricing-sub">Reservar turnos con pago online</div>
         <div class="pricing-price">Gratis</div>
         <ul class="pricing-list">
           <li><span class="check">✓</span> Buscar profesionales y horarios disponibles</li>
-          <li><span class="check">✓</span> Elegir pagar con Mercado Pago o reservar sin pago, según el profesional</li>
-          <li><span class="check">✓</span> Confirmación y recordatorios por email</li>
+          <li><span class="check">✓</span> Pagar con Mercado Pago al confirmar</li>
+          <li><span class="check">✓</span> Confirmación por email al instante</li>
         </ul>
         <button onclick="showApp('reservar')" class="btn btn-ghost btn-block" style="border:1.5px solid var(--line);">Buscar turno</button>
       </div>
       <div class="pricing-card highlight">
-        <span class="pricing-tag">Más elegido</span>
-        <h3>Para profesionales</h3>
-        <div class="pricing-sub">Gestioná tu agenda como quieras</div>
-        <div class="pricing-price">0% o 3% <span>según el modo</span></div>
+        <span class="pricing-tag">Para profesionales</span>
+        <h3>Suscripción mensual</h3>
+        <div class="pricing-sub">Acceso completo a la plataforma</div>
+        <div class="pricing-price">$15.000 <span>/ mes</span></div>
         <ul class="pricing-list">
           <li><span class="check">✓</span> Agenda online con disponibilidad personalizable</li>
-          <li><span class="check">✓</span> Elegís: con Mercado Pago (3%), sin pago (0%), o ambas modalidades</li>
-          <li><span class="check">✓</span> Panel con estadísticas e ingresos proyectados</li>
-          <li><span class="check">✓</span> Reducción de ausencias si pedís pago anticipado</li>
+          <li><span class="check">✓</span> 100% de cada pago directo a tu Mercado Pago</li>
+          <li><span class="check">✓</span> Panel con estadísticas e ingresos</li>
+          <li><span class="check">✓</span> Sin comisión por turno — solo la cuota fija</li>
+          <li><span class="check">✓</span> Cancelás cuando querés</li>
         </ul>
         <button onclick="showApp('profesional')" class="btn btn-primary btn-block">Crear mi perfil →</button>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="section-lp" id="modos-cobro">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-eyebrow">Para profesionales</div>
-      <h2>Elegí cómo querés recibir tus reservas</h2>
-      <p>Podés activar una modalidad, la otra, o las dos al mismo tiempo. La decisión es tuya y la podés cambiar cuando quieras.</p>
-    </div>
-    <div class="compare-grid">
-      <div class="compare-card reco">
-        <span class="compare-tag">Recomendado</span>
-        <div class="compare-icon">🔒</div>
-        <h3>Con Mercado Pago</h3>
-        <div class="compare-fee">3% <span>por turno cobrado</span></div>
-        <ul class="compare-list">
-          <li><span class="ico yes">✓</span> El paciente paga al reservar: tu turno queda garantizado</li>
-          <li><span class="ico yes">✓</span> Casi no hay ausencias ni cancelaciones de último momento</li>
-          <li><span class="ico yes">✓</span> El dinero llega directo a tu cuenta de Mercado Pago</li>
-          <li><span class="ico no">✕</span> Se descuenta una comisión del 3% por turno cobrado</li>
-        </ul>
-        <div class="compare-note">Ideal si te cancelan seguido o querés asegurar el cobro de cada consulta.</div>
-      </div>
-      <div class="compare-card">
-        <div class="compare-icon">🤝</div>
-        <h3>Sin Mercado Pago</h3>
-        <div class="compare-fee">0% <span>de comisión</span></div>
-        <ul class="compare-list">
-          <li><span class="ico yes">✓</span> No pagás ninguna comisión por tus turnos</li>
-          <li><span class="ico yes">✓</span> El paciente reserva directo, sin pasar por una pasarela de pago</li>
-          <li><span class="ico no">✕</span> El pago se arregla por fuera de la plataforma (efectivo, transferencia, etc.)</li>
-          <li><span class="ico no">✕</span> No hay garantía si el paciente cancela o no se presenta</li>
-        </ul>
-        <div class="compare-note">Ideal si ya tenés pacientes de confianza o preferís cobrar por tu cuenta.</div>
-      </div>
-    </div>
-    <p style="text-align:center;font-size:13.5px;color:var(--muted);margin-top:24px;">💡 También podés activar <strong>ambas modalidades a la vez</strong> y dejar que cada paciente elija cómo reservar.</p>
   </div>
 </section>
 
@@ -653,9 +522,9 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <h2>Profesionales y pacientes que ya lo usan</h2>
     </div>
     <div class="testimonials-grid">
-      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Desde que pido el pago al reservar, las ausencias bajaron casi a cero. Mi agenda se ordenó sola."</p><div class="testimonial-author"><div class="testimonial-avatar">👩‍⚕️</div><div><div class="testimonial-name">Dra. Laura Méndez</div><div class="testimonial-role">Psicología clínica</div></div></div></div>
-      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Reservé en menos de un minuto desde el celular y ya tenía la confirmación en mi email. Súper simple."</p><div class="testimonial-author"><div class="testimonial-avatar">🙋‍♀️</div><div><div class="testimonial-name">Camila Roldán</div><div class="testimonial-role">Paciente</div></div></div></div>
-      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Prefiero no usar pasarela de pago todavía, así que activé solo reservas directas. Me sirve igual para ordenar la agenda sin pagar comisión."</p><div class="testimonial-author"><div class="testimonial-avatar">🩺</div><div><div class="testimonial-name">Dr. Tomás Ibarra</div><div class="testimonial-role">Clínica médica</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Desde que uso Mi Turno Seguro, las ausencias bajaron a cero. Y recibo el 100% de cada consulta directo en mi Mercado Pago."</p><div class="testimonial-author"><div class="testimonial-avatar">👩‍⚕️</div><div><div class="testimonial-name">Dra. Laura Méndez</div><div class="testimonial-role">Psicología clínica</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"Reservé en menos de un minuto desde el celular, pagué con MP y ya tenía la confirmación en mi email. Súper simple."</p><div class="testimonial-author"><div class="testimonial-avatar">🙋‍♀️</div><div><div class="testimonial-name">Camila Roldán</div><div class="testimonial-role">Paciente</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p>"La cuota mensual se paga sola con el primer turno del mes. Y saber que no pierdo plata por ausencias no tiene precio."</p><div class="testimonial-author"><div class="testimonial-avatar">🩺</div><div><div class="testimonial-name">Dr. Tomás Ibarra</div><div class="testimonial-role">Clínica médica</div></div></div></div>
     </div>
   </div>
 </section>
@@ -664,7 +533,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   <div class="container">
     <div class="cta-section">
       <h2>Empezá a usar Mi Turno Seguro hoy</h2>
-      <p>Sumate gratis. Creá tu perfil profesional en minutos y elegí si querés cobrar con Mercado Pago, sin pago, o ambas.</p>
+      <p>Suscripción de $15.000/mes. Recibís el 100% de cada consulta en tu Mercado Pago, sin comisiones por turno.</p>
       <div class="cta-actions">
         <button onclick="showApp('profesional')" class="btn btn-primary btn-lg">Crear mi perfil profesional</button>
         <button onclick="showApp('reservar')" class="btn btn-ghost btn-lg">Reservar un turno</button>
@@ -672,6 +541,24 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     </div>
   </div>
 </section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="brand"><span style="font-size:28px;">🏥</span><span class="brand-name">Mi Turno<span style="color:#60A5FA;">Seguro</span></span></a>
+        <p>La forma más simple de reservar y gestionar turnos médicos online, con pagos 100% por Mercado Pago.</p>
+      </div>
+      <div class="footer-col"><h4>Producto</h4><a href="#producto">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#precios">Precios</a></div>
+      <div class="footer-col"><h4>Cuenta</h4><a onclick="showApp('reservar')">Reservar turno</a><a onclick="showApp('profesional')">Soy profesional</a></div>
+      <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos y condiciones</a></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Mi Turno Seguro. Todos los derechos reservados.</div>
+      <div>Pagos procesados con Mercado Pago</div>
+    </div>
+  </div>
+</footer>
 </div><!-- /view-landing -->
 
 
@@ -700,7 +587,7 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
       <div class="section-header" style="margin-bottom:32px;">
         <div class="section-eyebrow">La app</div>
         <h2>Reservá tu turno ahora</h2>
-        <p>Elegí un profesional, un horario y confirmá tu reserva.</p>
+        <p>Elegí un profesional, un horario y confirmá tu reserva con Mercado Pago.</p>
       </div>
     </div>
 
@@ -727,28 +614,25 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
     <!-- TAB: PROFESIONAL -->
     <div id="tab-profesional" class="app-section">
 
+      <!-- AUTH GATE -->
       <div id="pro-auth-gate">
         <div class="card auth-gate">
           <div class="auth-icon">👩‍⚕️</div>
           <h3>Panel de profesionales</h3>
-          <p>Ingresá con tu cuenta de Google para acceder a tu agenda, cobros y disponibilidad.</p>
+          <p>Ingresá con tu cuenta de Google para acceder a tu agenda y estadísticas.</p>
           <button class="btn-google" id="btn-google-login" onclick="loginConGoogle()">
-            <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
             Continuar con Google
           </button>
-          <p style="font-size:12px;color:var(--muted);margin-top:16px;margin-bottom:0;">
-            Al ingresar aceptás los <a href="#" style="color:var(--brand);">Términos y condiciones</a>
-          </p>
+          <p style="font-size:12px;color:var(--muted);margin-top:16px;margin-bottom:0;">Al ingresar aceptás los <a href="#" style="color:var(--brand);">Términos y condiciones</a></p>
         </div>
       </div>
 
+      <!-- REGISTRO -->
       <div id="pro-registro" style="display:none;">
-        <p class="section-label">Completá tu perfil</p>
+        <p class="section-label">Completá tu perfil y activá tu suscripción</p>
+
+        <!-- Info usuario Google -->
         <div class="card">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:12px;background:var(--brand-soft);border-radius:var(--radius-sm);">
             <div id="reg-user-avatar-wrap" style="width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;">?</div>
@@ -757,9 +641,10 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
               <div style="font-size:12px;color:var(--muted);" id="reg-user-email">—</div>
             </div>
           </div>
+
           <div class="form-group"><label>Nombre completo (como verán los pacientes)</label><input type="text" id="pro-nombre" placeholder="Dra. María García"></div>
           <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica"></div>
-          
+
           <div class="form-group">
             <label>Precio por consulta (ARS)</label>
             <div class="precio-tabs" id="precio-tabs">
@@ -782,27 +667,39 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
 
           <div class="form-group">
-            <label>¿Cómo querés recibir tus reservas?</label>
-            <div class="modo-cobro-options" id="modo-cobro-options-registro">
-              <div class="modo-cobro-card checked" id="mc-reg-mp" onclick="toggleModoCobroRegistro('mp')">
-                <div class="mc-top"><div class="mc-checkbox">✓</div><span class="mc-icon">🔒</span><span class="mc-title">Con Mercado Pago</span></div>
-                <div class="mc-fee">3%</div>
-                <div class="mc-desc">El paciente paga al reservar. Turno garantizado, casi sin ausencias.</div>
-              </div>
-              <div class="modo-cobro-card" id="mc-reg-sinmp" onclick="toggleModoCobroRegistro('sinmp')">
-                <div class="mc-top"><div class="mc-checkbox">✓</div><span class="mc-icon">🤝</span><span class="mc-title">Sin Mercado Pago</span></div>
-                <div class="mc-fee">0%</div>
-                <div class="mc-desc">Reserva directa sin pago online. Sin comisión, sin garantía de cobro.</div>
-              </div>
+            <label>Tu Access Token de Mercado Pago</label>
+            <input type="text" id="pro-mp-token" class="token-field" placeholder="APP_USR-...">
+            <div class="info-box" style="margin-top:8px;margin-bottom:0;">
+              <strong>¿Cómo obtengo mi Access Token?</strong><br>
+              Andá a <a href="https://www.mercadopago.com.ar/developers/panel" target="_blank" style="color:var(--brand);font-weight:700;">mercadopago.com.ar/developers/panel</a>, creá o entrá a tu app y copiá el <strong>Access Token productivo</strong>. Los pagos de tus pacientes irán directo a esa cuenta.
             </div>
-            <div class="modo-cobro-warning" id="modo-cobro-warning-registro">⚠️ Si solo aceptás reservas sin Mercado Pago, no hay garantía de cobro: el paciente podría cancelar o no presentarse sin pagar nada.</div>
           </div>
 
-          <div id="pro-registro-error" style="display:none;color:var(--danger);font-size:13px;margin-bottom:12px;margin-top:12px;"></div>
-          <button class="btn-app btn-primary" id="btn-registrar" onclick="registrarProfesional()" style="margin-top:16px;">Crear mi perfil →</button>
+          <div id="pro-registro-error" style="display:none;color:var(--danger);font-size:13px;margin-bottom:12px;margin-top:4px;"></div>
         </div>
+
+        <!-- Suscripción -->
+        <div class="suscripcion-card">
+          <div class="suscripcion-badge">🔒 Activación requerida</div>
+          <div style="font-size:14px;color:var(--muted);margin-bottom:8px;">Para aparecer en la plataforma y recibir reservas</div>
+          <div class="precio-grande">$15.000 <span>/ mes</span></div>
+          <div style="font-size:13px;color:var(--muted);margin-top:8px;margin-bottom:16px;">Tu suscripción se renueva automáticamente cada mes. Cancelás cuando querás.</div>
+          <ul style="list-style:none;font-size:13px;color:var(--muted);">
+            <li style="margin-bottom:6px;">✓ Agenda online visible para todos los pacientes</li>
+            <li style="margin-bottom:6px;">✓ 100% de cada pago directo a tu Mercado Pago</li>
+            <li style="margin-bottom:6px;">✓ Panel de estadísticas e ingresos</li>
+            <li>✓ Soporte prioritario</li>
+          </ul>
+        </div>
+
+        <button class="btn-app btn-mp" id="btn-registrar" onclick="registrarYSuscribir()">
+          <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
+          Crear perfil y pagar $15.000 →
+        </button>
+        <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:10px;">Serás redirigido a Mercado Pago para pagar la primera cuota de forma segura.</p>
       </div>
 
+      <!-- DASHBOARD -->
       <div id="pro-dashboard" style="display:none;">
 
         <div class="card">
@@ -811,9 +708,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
             <div>
               <div class="doc-name" id="dash-nombre">—</div>
               <div class="doc-spec" id="dash-especialidad">—</div>
-              <span class="badge badge-green"  id="dash-mp-badge"    style="display:none;">✓ MP vinculado</span>
-              <span class="badge badge-orange" id="dash-mp-badge-no" style="display:none;">⚠ MP sin vincular</span>
-              <span class="badge badge-gray"   id="dash-sinmp-badge" style="display:none;">🤝 Acepta sin MP</span>
+              <span class="badge badge-green" id="dash-suscripcion-badge" style="display:none;">✓ Suscripción activa</span>
+              <span class="badge badge-orange" id="dash-suscripcion-badge-no" style="display:none;">⚠ Suscripción vencida</span>
             </div>
             <div class="doc-price">
               <div class="price-amount" id="dash-precio">—</div>
@@ -826,18 +722,18 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           <button class="tab active" id="dash-tab-stats"  onclick="showDashTab('stats',  this)" style="flex:none;padding:9px 18px;">📊 Estadísticas</button>
           <button class="tab"        id="dash-tab-turnos" onclick="showDashTab('turnos', this)" style="flex:none;padding:9px 18px;">🗓️ Turnos</button>
           <button class="tab"        id="dash-tab-disp"   onclick="showDashTab('disp',   this)" style="flex:none;padding:9px 18px;">⏰ Disponibilidad</button>
-          <button class="tab"        id="dash-tab-mp"     onclick="showDashTab('mp',     this)" style="flex:none;padding:9px 18px;">💳 Modo de cobro</button>
+          <button class="tab"        id="dash-tab-config" onclick="showDashTab('config', this)" style="flex:none;padding:9px 18px;">⚙️ Configuración</button>
         </div>
 
+        <!-- Stats -->
         <div id="dash-panel-stats">
           <div class="card">
             <div class="section-label">Resumen — este mes</div>
             <div class="stats-grid-dash" id="dash-stats">
               <div class="stat-box"><div class="num">—</div><div class="cap">Confirmados</div></div>
               <div class="stat-box"><div class="num brand">—</div><div class="cap">Facturado</div></div>
-              <div class="stat-box"><div class="num success">—</div><div class="cap">Recibís en MP</div></div>
+              <div class="stat-box"><div class="num success">—</div><div class="cap">Recibiste en MP</div></div>
             </div>
-            <div id="dash-resumen-detalle"></div>
           </div>
           <div class="card">
             <div class="section-label">Ocupación de la semana</div>
@@ -849,10 +745,11 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
           <div class="card">
             <div class="section-label">Próximos ingresos estimados</div>
-            <div id="dash-ingresos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Calculando...</div></div>
+            <div id="dash-ingresos"></div>
           </div>
         </div>
 
+        <!-- Turnos -->
         <div id="dash-panel-turnos" style="display:none;">
           <div class="card">
             <div class="section-label">Próximos turnos</div>
@@ -860,10 +757,11 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
         </div>
 
+        <!-- Disponibilidad -->
         <div id="dash-panel-disp" style="display:none;">
           <div class="card">
             <div class="section-label" style="margin-bottom:6px;">Configurá cuándo trabajás</div>
-            <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Activá los días que atendés y agregá uno o más bloques de horario. Los pacientes solo verán turnos dentro de estos bloques.</p>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Activá los días que atendés y agregá uno o más bloques de horario.</p>
             <div class="section-label" style="margin-bottom:8px;">Aplicar preset a días activos</div>
             <div class="disp-preset-chips">
               <button class="disp-preset-chip" onclick="aplicarPresetGlobal('manana')">☀️ Solo mañana (8–13)</button>
@@ -880,102 +778,45 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
           </div>
         </div>
 
-        <div id="dash-panel-mp" style="display:none;">
+        <!-- Configuración -->
+        <div id="dash-panel-config" style="display:none;">
           <div class="card">
-            <div class="section-label" style="margin-bottom:14px;">¿Cómo querés recibir tus reservas?</div>
-            <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Podés activar una modalidad, la otra, o las dos juntas. Si activás ambas, el paciente elige cómo reservar al momento de confirmar.</p>
-
-            <div class="modo-cobro-options" id="modo-cobro-options-dash">
-              <div class="modo-cobro-card" id="mc-dash-mp" onclick="toggleModoCobroDash('mp')">
-                <div class="mc-top"><div class="mc-checkbox">✓</div><span class="mc-icon">🔒</span><span class="mc-title">Con Mercado Pago</span></div>
-                <div class="mc-fee">3%</div>
-                <div class="mc-desc">Pago al reservar. Turno garantizado.</div>
-              </div>
-              <div class="modo-cobro-card" id="mc-dash-sinmp" onclick="toggleModoCobroDash('sinmp')">
-                <div class="mc-top"><div class="mc-checkbox">✓</div><span class="mc-icon">🤝</span><span class="mc-title">Sin Mercado Pago</span></div>
-                <div class="mc-fee">0%</div>
-                <div class="mc-desc">Reserva directa, sin comisión.</div>
-              </div>
+            <div class="section-label" style="margin-bottom:14px;">Access Token de Mercado Pago</div>
+            <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Este token permite que los pagos de tus pacientes lleguen a tu cuenta. Si lo cambiás, los nuevos pagos irán al token actualizado.</p>
+            <div class="form-group">
+              <label>Access Token actual</label>
+              <input type="text" id="config-mp-token" class="token-field" placeholder="APP_USR-...">
             </div>
-            <div class="modo-cobro-warning" id="modo-cobro-warning-dash">⚠️ Si solo aceptás reservas sin Mercado Pago, no hay garantía de cobro: el paciente podría cancelar o no presentarse sin pagar nada.</div>
-            <button class="btn-app btn-primary" id="btn-guardar-modo-cobro" onclick="guardarModoCobro()" style="margin-top:16px;">Guardar preferencia</button>
-            <div class="disp-feedback" id="modo-cobro-feedback" style="margin-top:10px;"></div>
+            <div class="info-box">Obtené tu token en <a href="https://www.mercadopago.com.ar/developers/panel" target="_blank" style="color:var(--brand);font-weight:700;">mercadopago.com.ar/developers/panel</a> → tu app → Access Token productivo.</div>
+            <button class="btn-app btn-primary" id="btn-guardar-token" onclick="guardarToken()" style="margin-bottom:8px;">Guardar token</button>
+            <div class="disp-feedback" id="token-feedback"></div>
+          </div>
 
-            <div class="divider"></div>
-
-            <div id="mp-unlinked-state">
-              <div class="mp-status-card unlinked">
-                <div class="mp-status-icon">⚠️</div>
-                <div class="mp-status-text">
-                  <strong>Cuenta de Mercado Pago no vinculada</strong>
-                  <span>La necesitás para poder activar la modalidad "Con Mercado Pago" y recibir pagos online.</span>
-                </div>
-              </div>
-              <div class="info-box" style="margin-bottom:20px;">
-                <strong>¿Por qué es necesario?</strong><br>
-                Cuando un paciente pague su turno, el dinero llega directo a tu Mercado Pago. Mi Turno Seguro descuenta automáticamente el 3% de comisión.<br><br>
-                <strong>Requisito:</strong> Necesitás tener una cuenta de Mercado Pago verificada (con CUIT/CUIL) para recibir pagos como profesional.
-              </div>
-              <div class="mp-actions-stack">
-                <button class="btn-app btn-mp" id="btn-vincular-mp" onclick="iniciarVinculacionMP()">
-                  <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
-                  Vincular mi cuenta →
-                </button>
-                <p style="font-size:12px;color:var(--muted);text-align:center;margin:0;">Serás redirigido a Mercado Pago para autorizar la conexión de forma segura.</p>
-              </div>
-            </div>
-
-            <div id="mp-linked-state" style="display:none;">
-              <div class="mp-status-card linked">
-                <div class="mp-status-icon">✅</div>
-                <div class="mp-status-text">
-                  <strong>Cuenta vinculada correctamente</strong>
-                  <span id="mp-linked-info">Los pagos llegan directo a tu cuenta.</span>
-                </div>
-              </div>
-              <div class="summary-row"><span class="label">Comisión por turno</span><span class="value">3%</span></div>
-              <div class="summary-row"><span class="label">Acreditación</span><span class="value">Inmediata al confirmar pago</span></div>
-              <div class="divider"></div>
-              <div class="mp-actions-stack">
-                <button class="btn-app btn-outline" onclick="desvincularMP()" style="color:var(--danger);border-color:var(--danger);">Desvincular cuenta de MP</button>
-              </div>
+          <div class="card">
+            <div class="section-label" style="margin-bottom:14px;">Suscripción</div>
+            <div id="dash-suscripcion-info">
+              <div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">Cargando...</div>
             </div>
           </div>
+
+          <button class="btn-app btn-outline" style="margin-top:8px;" onclick="cerrarSesionGoogle()">Cerrar sesión</button>
         </div>
 
-        <button class="btn-app btn-outline" style="margin-top:8px;max-width:640px;margin-left:auto;margin-right:auto;display:block;" onclick="cerrarSesionGoogle()">Cerrar sesión</button>
-      </div>
+      </div><!-- /pro-dashboard -->
     </div><!-- /tab-profesional -->
 
-    <!-- MODAL DE PAGO / RESERVA -->
+    <!-- MODAL DE PAGO PACIENTE -->
     <div class="overlay" id="payModal" onclick="closeModalOutside(event)">
       <div class="modal">
         <div class="modal-handle"></div>
         <h2 id="modal-title">Confirmá tu turno</h2>
-        <p class="subtitle" id="modal-subtitle">El pago garantiza tu reserva</p>
+        <p class="subtitle">Pagás con Mercado Pago — el dinero va directo al profesional</p>
         <div id="modal-body">
           <div class="summary-row"><span class="label">Profesional</span><span class="value" id="modal-doc">—</span></div>
           <div class="summary-row"><span class="label">Fecha</span><span class="value" id="modal-fecha">—</span></div>
           <div class="summary-row"><span class="label">Horario</span><span class="value" id="modal-slot">—</span></div>
-          <div class="summary-row total"><span class="label" id="modal-price-label">Total a pagar</span><span class="value" id="modal-price">—</span></div>
-
-          <div id="modal-metodo-selector" style="display:none;margin:16px 0;">
-            <div class="section-label" style="margin-bottom:10px;">¿Cómo querés reservar?</div>
-            <div class="metodo-toggle">
-              <div class="metodo-opt selected" id="modal-metodo-mp" onclick="seleccionarMetodoModal('mp')">
-                <div class="mo-title">🔒 Pagar con MP</div>
-                <div class="mo-sub">Turno garantizado</div>
-              </div>
-              <div class="metodo-opt" id="modal-metodo-sinmp" onclick="seleccionarMetodoModal('sinmp')">
-                <div class="mo-title">🤝 Reservar sin pago</div>
-                <div class="mo-sub">Sin pago online</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="commission-note" id="modal-commission-note">Mi Turno Seguro cobra una comisión del 3% al profesional. Vos pagás el precio completo del turno.</div>
-          <div class="info-box" id="modal-sinmp-note" style="display:none;">Esta reserva se confirma directo, sin pago online. Coordiná el pago de la consulta directamente con el profesional.</div>
-          <div class="form-group"><label>Tu nombre</label><input type="text" id="modal-nombre" placeholder="Juan Pérez"></div>
+          <div class="summary-row total"><span class="label">Total a pagar</span><span class="value" id="modal-price">—</span></div>
+          <div class="form-group" style="margin-top:16px;"><label>Tu nombre</label><input type="text" id="modal-nombre" placeholder="Juan Pérez"></div>
           <div class="form-group"><label>Email</label><input type="email" id="modal-email" placeholder="juan@email.com"></div>
           <button class="btn-app btn-mp" id="btn-pagar" onclick="confirmarPago()">
             <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span>
@@ -984,8 +825,8 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
         </div>
         <div id="success-screen" class="success-screen">
           <div class="success-icon">✅</div>
-          <h2 id="success-title">¡Turno confirmado!</h2>
-          <p id="success-text">Te enviamos los detalles por email. El profesional recibió el pago en su cuenta de Mercado Pago.</p>
+          <h2>¡Turno confirmado!</h2>
+          <p>Te enviamos los detalles por email. El profesional recibió el pago en su cuenta de Mercado Pago.</p>
           <button class="btn-app btn-outline" onclick="closeModal()">Volver al inicio</button>
         </div>
       </div>
@@ -993,47 +834,22 @@ footer { background: var(--ink); color: white; padding: 56px 0 28px; }
   </section>
 </div><!-- /view-app -->
 
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="#" class="brand"><span style="font-size:28px;">🏥</span><span class="brand-name">Mi Turno<span style="color:#60A5FA;">Seguro</span></span></a>
-        <p>La forma más simple de reservar y gestionar turnos médicos online, con o sin pago anticipado.</p>
-      </div>
-      <div class="footer-col"><h4>Producto</h4><a href="#producto">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#precios">Precios</a><a href="#modos-cobro">Modos de cobro</a></div>
-      <div class="footer-col"><h4>Cuenta</h4><a onclick="showApp('reservar')">Reservar turno</a><a onclick="showApp('profesional')">Soy profesional</a></div>
-      <div class="footer-col"><h4>Soporte</h4><a href="#">Centro de ayuda</a><a href="#">Contacto</a><a href="#">Términos y condiciones</a></div>
-    </div>
-    <div class="footer-bottom">
-      <div>© 2026 Mi Turno Seguro. Todos los derechos reservados.</div>
-      <div>Pagos procesados con Mercado Pago</div>
-    </div>
-  </div>
-</footer>
-
 <script>
 // ══════════════════════════════════════════════════════════════
-// ⚙️  CONFIGURACIÓN
+// CONFIGURACIÓN
 // ══════════════════════════════════════════════════════════════
 var CONFIG = {
   GOOGLE_CLIENT_ID: '962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com',
   API_URL: 'https://script.google.com/macros/s/AKfycbwAoQVvJLx9xpOozVqFN8iki2SKtq305tWYee8E_7xQiBAfVOZPXzWt2CLYyQoor_JMtw/exec',
-  FRONTEND_URL: window.location.origin + window.location.pathname,
 };
 
 // ══════════════════════════════════════════════════════════════
-// STORAGE HELPERS
+// STORAGE
 // ══════════════════════════════════════════════════════════════
 var STORE = {
-  get: function(k) {
-    try { return JSON.parse(localStorage.getItem('mts_' + k)); } catch(e) { return null; }
-  },
-  set: function(k, v) {
-    try { localStorage.setItem('mts_' + k, JSON.stringify(v)); } catch(e) {}
-  },
-  del: function(k) {
-    try { localStorage.removeItem('mts_' + k); } catch(e) {}
-  }
+  get: function(k) { try { return JSON.parse(localStorage.getItem('mts_' + k)); } catch(e) { return null; } },
+  set: function(k, v) { try { localStorage.setItem('mts_' + k, JSON.stringify(v)); } catch(e) {} },
+  del: function(k) { try { localStorage.removeItem('mts_' + k); } catch(e) {} }
 };
 
 // ══════════════════════════════════════════════════════════════
@@ -1052,22 +868,14 @@ var DIAS = [
   { num: 4, nombre: 'Jueves' }, { num: 5, nombre: 'Viernes' }, { num: 6, nombre: 'Sábado' }, { num: 0, nombre: 'Domingo' }
 ];
 
-// Modo de cobro: objetos { mp: bool, sinmp: bool } para registro y dashboard
-var modoCobroRegistro = { mp: true, sinmp: false };
-var modoCobroDash = { mp: false, sinmp: false };
-
-// Método elegido por el paciente en el modal cuando el profesional acepta ambas modalidades
-var metodoSeleccionadoModal = 'mp';
-
 // ══════════════════════════════════════════════════════════════
-// DURACIÓN Y PRECIO — tabs de selección rápida
+// TABS DE SELECCIÓN
 // ══════════════════════════════════════════════════════════════
 function seleccionarDuracion(min, el) {
   duracionSeleccionada = min;
   document.querySelectorAll('.duracion-tab').forEach(function(t) { t.classList.remove('selected'); });
   if (el) el.classList.add('selected');
 }
-
 function seleccionarPrecio(precio, el) {
   precioSeleccionado = precio;
   document.querySelectorAll('.precio-tab').forEach(function(t) { t.classList.remove('selected'); });
@@ -1075,111 +883,18 @@ function seleccionarPrecio(precio, el) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// MODO DE COBRO — selector de checkboxes (registro y dashboard)
-// ══════════════════════════════════════════════════════════════
-function toggleModoCobroRegistro(tipo) {
-  modoCobroRegistro[tipo] = !modoCobroRegistro[tipo];
-  // Evitar que ambas queden desmarcadas: si se desmarcan las dos, se vuelve a marcar la otra
-  if (!modoCobroRegistro.mp && !modoCobroRegistro.sinmp) {
-    modoCobroRegistro[tipo] = true;
-  }
-  renderModoCobroRegistro();
-}
-
-function renderModoCobroRegistro() {
-  document.getElementById('mc-reg-mp').classList.toggle('checked', modoCobroRegistro.mp);
-  document.getElementById('mc-reg-sinmp').classList.toggle('checked', modoCobroRegistro.sinmp);
-  var warn = document.getElementById('modo-cobro-warning-registro');
-  warn.classList.toggle('show', modoCobroRegistro.sinmp && !modoCobroRegistro.mp);
-}
-
-function toggleModoCobroDash(tipo) {
-  // Si intenta activar "mp" pero no tiene cuenta vinculada, lo dejamos marcar igual:
-  // la activación real de cobros con MP requiere vincular cuenta, pero permitimos
-  // guardar la preferencia (el guardado avisará si falta vincular).
-  modoCobroDash[tipo] = !modoCobroDash[tipo];
-  if (!modoCobroDash.mp && !modoCobroDash.sinmp) {
-    modoCobroDash[tipo] = true;
-  }
-  renderModoCobroDash();
-}
-
-function renderModoCobroDash() {
-  document.getElementById('mc-dash-mp').classList.toggle('checked', modoCobroDash.mp);
-  document.getElementById('mc-dash-sinmp').classList.toggle('checked', modoCobroDash.sinmp);
-  var warn = document.getElementById('modo-cobro-warning-dash');
-  warn.classList.toggle('show', modoCobroDash.sinmp && !modoCobroDash.mp);
-}
-
-async function guardarModoCobro() {
-  if (!profesionalActual) return;
-  var btn = document.getElementById('btn-guardar-modo-cobro');
-  var fb  = document.getElementById('modo-cobro-feedback');
-
-  if (modoCobroDash.mp && !profesionalActual.tiene_mp) {
-    fb.className = 'disp-feedback err';
-    fb.textContent = '❌ Para aceptar reservas con Mercado Pago primero tenés que vincular tu cuenta abajo.';
-    fb.style.display = 'block';
-    setTimeout(function() { fb.style.display = 'none'; }, 5000);
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Guardando...';
-  fb.style.display = 'none';
-  try {
-    var data = await apiPost('modo_cobro', {
-      profesional_id: profesionalActual.id,
-      acepta_mp:    modoCobroDash.mp,
-      acepta_sinmp: modoCobroDash.sinmp,
-    });
-    if (data && data.ok) {
-      profesionalActual.acepta_mp    = modoCobroDash.mp;
-      profesionalActual.acepta_sinmp = modoCobroDash.sinmp;
-      guardarEstadoProfesional(profesionalActual);
-      fb.className = 'disp-feedback ok';
-      fb.textContent = '✅ Preferencia de cobro guardada.';
-      mostrarBadgesModoCobro(profesionalActual);
-    } else {
-      fb.className = 'disp-feedback err';
-      fb.textContent = '❌ ' + ((data && data.error) || 'No se pudo guardar.');
-    }
-  } catch(e) {
-    fb.className = 'disp-feedback err';
-    fb.textContent = '❌ Error de conexión. Intentá de nuevo.';
-  }
-  fb.style.display = 'block';
-  btn.disabled = false;
-  btn.innerHTML = 'Guardar preferencia';
-  setTimeout(function() { fb.style.display = 'none'; }, 4000);
-}
-
-function mostrarBadgesModoCobro(pro) {
-  var bMpOk   = document.getElementById('dash-mp-badge');
-  var bMpNo   = document.getElementById('dash-mp-badge-no');
-  var bSinMp  = document.getElementById('dash-sinmp-badge');
-  var aceptaMp    = !!pro.acepta_mp;
-  var aceptaSinMp = !!pro.acepta_sinmp;
-  bMpOk.style.display  = (aceptaMp && pro.tiene_mp) ? 'inline-flex' : 'none';
-  bMpNo.style.display  = (aceptaMp && !pro.tiene_mp) ? 'inline-flex' : 'none';
-  bSinMp.style.display = aceptaSinMp ? 'inline-flex' : 'none';
-}
-
-// ══════════════════════════════════════════════════════════════
-// GOOGLE IDENTITY SERVICES
+// GOOGLE LOGIN
 // ══════════════════════════════════════════════════════════════
 function loginConGoogle() {
   var btn = document.getElementById('btn-google-login');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner" style="border-top-color:#4285F4;border-color:rgba(0,0,0,0.1);"></span> Conectando...';
-
   google.accounts.id.initialize({
     client_id: CONFIG.GOOGLE_CLIENT_ID,
     callback: handleGoogleCredential,
     auto_select: false,
     cancel_on_tap_outside: true,
   });
-
   google.accounts.id.prompt(function(notification) {
     if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
       abrirPopupGoogleOAuth();
@@ -1192,47 +907,23 @@ function abrirPopupGoogleOAuth() {
     client_id: CONFIG.GOOGLE_CLIENT_ID,
     scope: 'email profile',
     callback: function(resp) {
-      if (resp.error) {
-        resetBtnGoogle('Error al iniciar sesión con Google: ' + resp.error);
-        return;
-      }
-      fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { 'Authorization': 'Bearer ' + resp.access_token }
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(userInfo) {
-        handleUsuarioGoogle({
-          email:   userInfo.email,
-          name:    userInfo.name,
-          picture: userInfo.picture,
-          sub:     userInfo.sub,
-        });
-      })
-      .catch(function() {
-        resetBtnGoogle('No se pudo obtener la información de tu cuenta.');
-      });
+      if (resp.error) { resetBtnGoogle('Error: ' + resp.error); return; }
+      fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { 'Authorization': 'Bearer ' + resp.access_token } })
+        .then(function(r) { return r.json(); })
+        .then(function(u) { handleUsuarioGoogle({ email: u.email, name: u.name, picture: u.picture, sub: u.sub }); })
+        .catch(function() { resetBtnGoogle('No se pudo obtener la información de tu cuenta.'); });
     },
   });
   client.requestAccessToken({ prompt: 'consent' });
 }
 
 function handleGoogleCredential(response) {
-  if (!response || !response.credential) {
-    resetBtnGoogle('No se recibió credencial de Google.');
-    return;
-  }
+  if (!response || !response.credential) { resetBtnGoogle('No se recibió credencial.'); return; }
   try {
     var parts = response.credential.split('.');
     var payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-    handleUsuarioGoogle({
-      email:   payload.email,
-      name:    payload.name,
-      picture: payload.picture,
-      sub:     payload.sub,
-    });
-  } catch(e) {
-    resetBtnGoogle('Error al procesar el inicio de sesión.');
-  }
+    handleUsuarioGoogle({ email: payload.email, name: payload.name, picture: payload.picture, sub: payload.sub });
+  } catch(e) { resetBtnGoogle('Error al procesar el inicio de sesión.'); }
 }
 
 function resetBtnGoogle(msg) {
@@ -1253,11 +944,8 @@ function handleUsuarioGoogle(user) {
 
 function cerrarSesionGoogle() {
   if (!confirm('¿Seguro querés cerrar sesión?')) return;
-  currentUser = null;
-  profesionalActual = null;
-  STORE.del('google_user');
-  STORE.del('pro_actual');
-  STORE.del('mp_pro_id');
+  currentUser = null; profesionalActual = null;
+  STORE.del('google_user'); STORE.del('pro_actual');
   google.accounts.id.disableAutoSelect();
   updateNavUser(null);
   showProAuthGate();
@@ -1270,11 +958,8 @@ function updateNavUser(user) {
   area.style.display = 'flex';
   document.getElementById('nav-user-name').textContent = (user.name || user.email || '').split(' ')[0];
   var avatarEl = document.getElementById('nav-avatar-el');
-  if (user.picture) {
-    avatarEl.innerHTML = '<img src="' + user.picture + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" referrerpolicy="no-referrer">';
-  } else {
-    avatarEl.textContent = (user.name || user.email || '?')[0].toUpperCase();
-  }
+  if (user.picture) avatarEl.innerHTML = '<img src="' + user.picture + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" referrerpolicy="no-referrer">';
+  else avatarEl.textContent = (user.name || user.email || '?')[0].toUpperCase();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1285,11 +970,8 @@ function apiGet(path, params) {
   return new Promise(function(resolve, reject) {
     var cb  = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
     var qs  = Object.assign({ path: path, callback: cb }, params);
-    var src = CONFIG.API_URL + '?' + Object.keys(qs).map(function(k) {
-      return encodeURIComponent(k) + '=' + encodeURIComponent(qs[k]);
-    }).join('&');
-    var s = document.createElement('script');
-    s.src = src;
+    var src = CONFIG.API_URL + '?' + Object.keys(qs).map(function(k) { return encodeURIComponent(k) + '=' + encodeURIComponent(qs[k]); }).join('&');
+    var s = document.createElement('script'); s.src = src;
     var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
     window[cb] = function(d) { cleanup(); resolve(d); };
     function cleanup() { clearTimeout(t); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
@@ -1302,8 +984,7 @@ function apiPost(path, body) {
   return new Promise(function(resolve, reject) {
     var cb  = '_cb_' + Date.now() + '_' + (Math.random() * 1e6 | 0);
     var src = CONFIG.API_URL + '?path=' + encodeURIComponent(path) + '&callback=' + encodeURIComponent(cb) + '&_body=' + encodeURIComponent(JSON.stringify(body));
-    var s = document.createElement('script');
-    s.src = src;
+    var s = document.createElement('script'); s.src = src;
     var t = setTimeout(function() { cleanup(); reject(new Error('Timeout')); }, 15000);
     window[cb] = function(d) { cleanup(); resolve(d); };
     function cleanup() { clearTimeout(t); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
@@ -1313,170 +994,8 @@ function apiPost(path, body) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// MERCADO PAGO OAUTH — CORREGIDO
+// TOAST
 // ══════════════════════════════════════════════════════════════
-function iniciarVinculacionMP() {
-  if (!profesionalActual) {
-    toast('❌ No se encontró tu sesión. Intentá cerrar sesión y volver a entrar.', 'error');
-    return;
-  }
-
-  var btn = document.getElementById('btn-vincular-mp');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Redirigiendo a Mercado Pago...';
-
-  // Guardar en localStorage ANTES del redirect
-  STORE.set('mp_pro_id', profesionalActual.id);
-  STORE.set('pro_actual', profesionalActual);
-  if (currentUser) {
-    STORE.set('google_user', currentUser);
-  }
-
-  apiGet('oauth_url', { profesional_id: profesionalActual.id })
-    .then(function(data) {
-      if (data && data.mp_auth_url) {
-        window.location.href = data.mp_auth_url;
-      } else {
-        resetVincularBtn((data && data.error) || 'No se pudo obtener la URL de Mercado Pago.');
-      }
-    })
-    .catch(function() {
-      resetVincularBtn('Error de conexión con el servidor.');
-    });
-}
-
-function resetVincularBtn(msg) {
-  if (msg) toast('❌ ' + msg, 'error');
-  var btn = document.getElementById('btn-vincular-mp');
-  if (btn) {
-    btn.disabled = false;
-    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Vincular mi cuenta →';
-  }
-}
-
-// CORREGIDO: manejo robusto del retorno de MP
-async function handleMPReturn() {
-  var params = new URLSearchParams(window.location.search);
-  var mpStatus = params.get('mp_status');
-  if (!mpStatus) return false;
-
-  var proId = params.get('mp_pro') || '';
-  var msg = params.get('mp_msg') || '';
-
-  // Limpiar la URL
-  window.history.replaceState({}, document.title, window.location.pathname);
-
-  // ─── RESTAURAR SESIÓN ───
-  // Primero intentar desde localStorage
-  if (!currentUser) {
-    var savedUser = STORE.get('google_user');
-    if (savedUser) {
-      currentUser = savedUser;
-      updateNavUser(currentUser);
-    }
-  }
-
-  if (!profesionalActual) {
-    var savedPro = STORE.get('pro_actual');
-    if (savedPro) {
-      profesionalActual = savedPro;
-    }
-  }
-
-  // Si no hay profesional, intentar obtenerlo por ID
-  if (!profesionalActual && proId) {
-    try {
-      var data = await apiGet('profesionales');
-      var found = (data.profesionales || []).find(function(p) { return p.id === proId; });
-      if (found) {
-        profesionalActual = found;
-        STORE.set('pro_actual', found);
-      }
-    } catch(e) {}
-  }
-
-  // Si aún no hay profesional pero tenemos currentUser, buscar por email
-  if (!profesionalActual && currentUser) {
-    try {
-      var data = await apiGet('profesionales');
-      var found = (data.profesionales || []).find(function(p) {
-        return p.email && p.email.toLowerCase() === currentUser.email.toLowerCase();
-      });
-      if (found) {
-        profesionalActual = found;
-        STORE.set('pro_actual', found);
-      }
-    } catch(e) {}
-  }
-
-  // Mostrar la app
-  showApp('profesional');
-
-  if (mpStatus === 'ok') {
-    // Si tenemos profesional, actualizar su estado
-    if (profesionalActual) {
-      profesionalActual.tiene_mp = true;
-      // Al vincular MP exitosamente, activamos automáticamente el modo "con MP"
-      profesionalActual.acepta_mp = true;
-      guardarEstadoProfesional(profesionalActual);
-      mostrarDashboard(profesionalActual);
-      toast('✅ ¡Mercado Pago vinculado correctamente!', 'ok');
-    } else {
-      toast('⚠️ Sesión restaurada, pero no se encontró tu perfil. Intentá recargar.', 'error');
-    }
-    setTimeout(function() {
-      showDashTab('mp', document.getElementById('dash-tab-mp'));
-    }, 300);
-  } else {
-    if (profesionalActual) mostrarDashboard(profesionalActual);
-    setTimeout(function() {
-      showDashTab('mp', document.getElementById('dash-tab-mp'));
-      resetVincularBtn(null);
-      toast('❌ MP no pudo vincularse' + (msg ? ': ' + decodeURIComponent(msg) : '.'), 'error');
-    }, 300);
-  }
-  return true;
-}
-
-function mostrarEstadoMP(vinculado, email) {
-  document.getElementById('mp-unlinked-state').style.display = vinculado ? 'none'  : 'block';
-  document.getElementById('mp-linked-state').style.display   = vinculado ? 'block' : 'none';
-  if (email) document.getElementById('mp-linked-info').textContent = 'Cuenta: ' + email;
-  else document.getElementById('mp-linked-info').textContent = 'Los pagos llegan directo a tu cuenta.';
-}
-
-function actualizarBadgeMP(vinculado) {
-  // Mantenido por compatibilidad; los badges reales los maneja mostrarBadgesModoCobro()
-  if (!vinculado) {
-    document.getElementById('dash-mp-badge').style.display = 'none';
-  }
-}
-
-function desvincularMP() {
-  if (!confirm('¿Seguro querés desvincular tu Mercado Pago? Los pacientes no podrán pagarte con MP hasta que lo vuelvas a vincular.')) return;
-  apiPost('mp_desvincular', { profesional_id: profesionalActual.id })
-    .then(function(data) {
-      if (data && data.ok) {
-        if (profesionalActual) {
-          profesionalActual.tiene_mp = false;
-          // Si no tiene MP vinculado, no puede aceptar reservas con MP
-          profesionalActual.acepta_mp = false;
-          if (!profesionalActual.acepta_sinmp) profesionalActual.acepta_sinmp = true;
-          guardarEstadoProfesional(profesionalActual);
-        }
-        mostrarEstadoMP(false, '');
-        modoCobroDash.mp = false;
-        if (!modoCobroDash.sinmp) modoCobroDash.sinmp = true;
-        renderModoCobroDash();
-        mostrarBadgesModoCobro(profesionalActual);
-        toast('Cuenta de MP desvinculada.', 'ok');
-      } else {
-        toast('❌ ' + ((data && data.error) || 'No se pudo desvincular.'), 'error');
-      }
-    })
-    .catch(function() { toast('❌ Error al desvincular. Intentá de nuevo.', 'error'); });
-}
-
 function toast(msg, type) {
   var el = document.createElement('div');
   el.style.cssText = 'position:fixed;top:76px;left:50%;transform:translateX(-50%);z-index:9999;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.12);white-space:nowrap;max-width:90vw;text-align:center;';
@@ -1488,7 +1007,7 @@ function toast(msg, type) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// PROFESIONALES — lista y reservas
+// PROFESIONALES — lista paciente
 // ══════════════════════════════════════════════════════════════
 async function cargarProfesionales() {
   var c = document.getElementById('profesionales-container');
@@ -1501,34 +1020,13 @@ async function cargarProfesionales() {
     var av  = ['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
     var col = ['teal','blue','purple','teal','blue'];
     c.innerHTML = data.profesionales.map(function(p, i) {
-      // Compatibilidad: si el backend no manda los campos nuevos, inferimos a partir de tiene_mp
-      var aceptaMp    = (p.acepta_mp !== undefined) ? !!p.acepta_mp : !!p.tiene_mp;
-      var aceptaSinMp = (p.acepta_sinmp !== undefined) ? !!p.acepta_sinmp : false;
-      var puedeReservarConMp    = aceptaMp && p.tiene_mp;
-      var puedeReservarSinMp    = aceptaSinMp;
-      var puedeReservar         = puedeReservarConMp || puedeReservarSinMp;
-
-      var badgesHtml = '';
-      if (puedeReservarConMp) badgesHtml += '<span class="badge badge-green" style="margin-right:4px;">🔒 Pago con MP</span>';
-      if (puedeReservarSinMp) badgesHtml += '<span class="badge badge-gray">🤝 Sin pago online</span>';
-      if (!puedeReservar) badgesHtml = '<span class="badge badge-orange">⚠ Sin modalidad de reserva activa</span>';
-
-      var botonHtml;
-      if (puedeReservar) {
-        botonHtml = '<button class="btn-app btn-primary" onclick="abrirModal(\'' + p.id + '\',\'' + p.nombre.replace(/'/g, "\\'") + '\',' + p.precio + ',' + puedeReservarConMp + ',' + puedeReservarSinMp + ')">' +
-          (puedeReservarConMp && puedeReservarSinMp ? 'Reservar →' : (puedeReservarConMp ? 'Confirmar y pagar →' : 'Reservar sin pago →')) +
-        '</button>';
-      } else {
-        botonHtml = '<button class="btn-app btn-outline" disabled style="opacity:0.5;cursor:not-allowed;">Profesional sin modalidad activa</button>';
-      }
-
       return '<div class="card">' +
         '<div class="card-header">' +
           '<div class="avatar ' + col[i % col.length] + '">' + av[i % av.length] + '</div>' +
           '<div>' +
             '<div class="doc-name">' + p.nombre + '</div>' +
             '<div class="doc-spec">' + p.especialidad + '</div>' +
-            badgesHtml +
+            '<span class="badge badge-green">🔒 Pago con MP</span>' +
           '</div>' +
           '<div class="doc-price">' +
             '<div class="price-amount">$' + Number(p.precio).toLocaleString('es-AR') + '</div>' +
@@ -1537,12 +1035,14 @@ async function cargarProfesionales() {
         '</div>' +
         '<div class="section-label" style="margin-bottom:8px;">Horarios — ' + formatearFecha(fechaSeleccionada) + '</div>' +
         '<div class="slots" id="slots-' + p.id + '"><div style="color:var(--muted);font-size:13px;">Cargando...</div></div>' +
-        botonHtml +
+        '<button class="btn-app btn-mp" onclick="abrirModal(\'' + p.id + '\',\'' + p.nombre.replace(/'/g, "\\'") + '\',' + p.precio + ')">' +
+          '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Confirmar y pagar →' +
+        '</button>' +
       '</div>';
     }).join('');
     data.profesionales.forEach(function(p) { cargarHorarios(p.id); });
   } catch(e) {
-    c.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:700;margin-bottom:8px;">No se pudo conectar con la API</div><div style="font-size:13px;color:var(--muted);">Verificá que API_URL esté configurado: ' + e.message + '</div></div>';
+    c.innerHTML = '<div class="card" style="padding:24px;"><div style="font-weight:700;margin-bottom:8px;">No se pudo conectar</div><div style="font-size:13px;color:var(--muted);">' + e.message + '</div></div>';
   }
 }
 
@@ -1573,106 +1073,55 @@ function seleccionarSlot(el, proId, nombre, hora, precio) {
   selectedProfesional = { id: proId, nombre: nombre, precio: precio };
 }
 
-function abrirModal(proId, nombre, precio, puedeConMp, puedeSinMp) {
+function abrirModal(proId, nombre, precio) {
   if (!selectedProfesional || selectedProfesional.id !== proId || !selectedSlotTime) {
-    toast('Por favor elegí un horario primero.', 'error');
-    return;
+    toast('Por favor elegí un horario primero.', 'error'); return;
   }
-
-  selectedProfesional.puedeConMp = !!puedeConMp;
-  selectedProfesional.puedeSinMp = !!puedeSinMp;
-
-  // Determinar método por defecto y si hay que mostrar selector
-  var mostrarSelector = puedeConMp && puedeSinMp;
-  metodoSeleccionadoModal = puedeConMp ? 'mp' : 'sinmp';
-
-  document.getElementById('modal-metodo-selector').style.display = mostrarSelector ? 'block' : 'none';
-  document.getElementById('modal-metodo-mp').classList.toggle('selected', metodoSeleccionadoModal === 'mp');
-  document.getElementById('modal-metodo-sinmp').classList.toggle('selected', metodoSeleccionadoModal === 'sinmp');
-
   document.getElementById('modal-doc').textContent   = nombre;
   document.getElementById('modal-fecha').textContent = formatearFecha(fechaSeleccionada);
   document.getElementById('modal-slot').textContent  = selectedSlotTime;
+  document.getElementById('modal-price').textContent = '$' + Number(precio).toLocaleString('es-AR');
   document.getElementById('modal-nombre').value = currentUser ? (currentUser.name  || '') : '';
   document.getElementById('modal-email').value  = currentUser ? (currentUser.email || '') : '';
-
-  actualizarVistaModalSegunMetodo(precio);
-
+  var btn = document.getElementById('btn-pagar');
+  btn.className = 'btn-app btn-mp';
+  btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
+  btn.disabled = false;
   document.getElementById('modal-body').style.display    = 'block';
   document.getElementById('success-screen').style.display = 'none';
   document.getElementById('payModal').classList.add('open');
-}
-
-function seleccionarMetodoModal(metodo) {
-  metodoSeleccionadoModal = metodo;
-  document.getElementById('modal-metodo-mp').classList.toggle('selected', metodo === 'mp');
-  document.getElementById('modal-metodo-sinmp').classList.toggle('selected', metodo === 'sinmp');
-  actualizarVistaModalSegunMetodo(selectedProfesional ? selectedProfesional.precio : 0);
-}
-
-function actualizarVistaModalSegunMetodo(precio) {
-  var esMp = metodoSeleccionadoModal === 'mp';
-  document.getElementById('modal-title').textContent = esMp ? 'Confirmá tu turno' : 'Reservá tu turno';
-  document.getElementById('modal-subtitle').textContent = esMp ? 'El pago garantiza tu reserva' : 'Sin pago online — coordinás directo con el profesional';
-  document.getElementById('modal-price-label').textContent = esMp ? 'Total a pagar' : 'Valor de la consulta (referencia)';
-  document.getElementById('modal-price').textContent = '$' + Number(precio).toLocaleString('es-AR');
-  document.getElementById('modal-commission-note').style.display = esMp ? 'block' : 'none';
-  document.getElementById('modal-sinmp-note').style.display = esMp ? 'none' : 'block';
-
-  var btn = document.getElementById('btn-pagar');
-  if (esMp) {
-    btn.className = 'btn-app btn-mp';
-    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
-  } else {
-    btn.className = 'btn-app btn-success';
-    btn.innerHTML = 'Confirmar reserva →';
-  }
-  btn.disabled = false;
 }
 
 async function confirmarPago() {
   var nombre = document.getElementById('modal-nombre').value.trim();
   var email  = document.getElementById('modal-email').value.trim();
   var btn    = document.getElementById('btn-pagar');
-  var esMp   = metodoSeleccionadoModal === 'mp';
-
   if (!nombre || !email) { toast('Completá tu nombre y email.', 'error'); return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Ingresá un email válido.', 'error'); return; }
-
   btn.innerHTML = '<span class="spinner"></span> Procesando...';
   btn.disabled = true;
-
   try {
     var data = await apiPost('turnos', {
       profesional_id: selectedProfesional.id,
-      fecha:          fechaSeleccionada,
-      hora:           selectedSlotTime,
+      fecha: fechaSeleccionada,
+      hora: selectedSlotTime,
       paciente_nombre: nombre,
-      paciente_email:  email,
-      metodo: esMp ? 'mp' : 'sin_mp',
+      paciente_email: email,
+      metodo: 'mp',
     });
-
-    if (esMp) {
-      if (data.init_point) {
-        window.location.href = data.init_point;
-      } else {
-        toast('❌ ' + (data.error || 'No se pudo crear el pago'), 'error');
-        actualizarVistaModalSegunMetodo(selectedProfesional.precio);
-      }
+    if (data.init_point) {
+      window.location.href = data.init_point;
     } else {
-      if (data && (data.ok || data.turno_id || !data.error)) {
-        document.getElementById('success-title').textContent = '¡Turno reservado!';
-        document.getElementById('success-text').textContent = 'Te enviamos los detalles por email. Coordiná el pago de la consulta directamente con el profesional.';
-        document.getElementById('modal-body').style.display = 'none';
-        document.getElementById('success-screen').style.display = 'block';
-      } else {
-        toast('❌ ' + ((data && data.error) || 'No se pudo confirmar la reserva'), 'error');
-        actualizarVistaModalSegunMetodo(selectedProfesional.precio);
-      }
+      toast('❌ ' + (data.error || 'No se pudo crear el pago'), 'error');
+      btn.className = 'btn-app btn-mp';
+      btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
+      btn.disabled = false;
     }
   } catch(e) {
     toast('❌ Error de conexión. Intentá de nuevo.', 'error');
-    actualizarVistaModalSegunMetodo(selectedProfesional ? selectedProfesional.precio : 0);
+    btn.className = 'btn-app btn-mp';
+    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
+    btn.disabled = false;
   }
 }
 
@@ -1687,84 +1136,57 @@ function showProAuthGate() {
 
 function handleProTab(tabEl) {
   showTab('profesional', tabEl);
-  if (currentUser) {
-    cargarPerfilProfesional();
-  } else {
-    showProAuthGate();
-  }
-}
-
-function cargarEstadoProfesionalLocal() {
-  var saved = STORE.get('pro_actual');
-  if (saved) {
-    profesionalActual = saved;
-    if (currentUser) mostrarDashboard(profesionalActual);
-  }
-}
-
-function guardarEstadoProfesional(pro) {
-  profesionalActual = pro;
-  STORE.set('pro_actual', pro);
+  if (currentUser) cargarPerfilProfesional();
+  else showProAuthGate();
 }
 
 async function cargarPerfilProfesional() {
   if (!currentUser) { showProAuthGate(); return; }
   document.getElementById('pro-auth-gate').style.display = 'none';
-
   var cached = STORE.get('pro_actual');
-  if (cached) {
-    profesionalActual = cached;
-    mostrarDashboard(cached);
-  }
-
+  if (cached) { profesionalActual = cached; mostrarDashboard(cached); }
   try {
     var data = await apiGet('profesionales');
     var pro = (data.profesionales || []).find(function(p) {
       return p.email && p.email.toLowerCase() === currentUser.email.toLowerCase();
     });
-    if (pro) {
-      guardarEstadoProfesional(pro);
-      mostrarDashboard(pro);
-    } else if (!cached) {
-      mostrarFormularioRegistro();
-    }
-  } catch(e) {
-    if (!cached) mostrarFormularioRegistro();
-  }
+    if (pro) { guardarEstadoProfesional(pro); mostrarDashboard(pro); }
+    else if (!cached) mostrarFormularioRegistro();
+  } catch(e) { if (!cached) mostrarFormularioRegistro(); }
 }
 
 function mostrarFormularioRegistro() {
   document.getElementById('pro-auth-gate').style.display  = 'none';
   document.getElementById('pro-dashboard').style.display  = 'none';
   document.getElementById('pro-registro').style.display   = 'block';
-  // Reset del selector de modo de cobro a su valor por defecto
-  modoCobroRegistro = { mp: true, sinmp: false };
-  renderModoCobroRegistro();
   if (currentUser) {
     document.getElementById('pro-nombre').value = currentUser.name || '';
     document.getElementById('reg-user-name').textContent  = currentUser.name  || '';
     document.getElementById('reg-user-email').textContent = currentUser.email || '';
     var wrap = document.getElementById('reg-user-avatar-wrap');
-    if (currentUser.picture) {
-      wrap.innerHTML = '<img src="' + currentUser.picture + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" referrerpolicy="no-referrer">';
-    } else {
-      wrap.textContent = (currentUser.name || '?')[0].toUpperCase();
-    }
+    if (currentUser.picture) wrap.innerHTML = '<img src="' + currentUser.picture + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" referrerpolicy="no-referrer">';
+    else wrap.textContent = (currentUser.name || '?')[0].toUpperCase();
   }
 }
 
-async function registrarProfesional() {
+async function registrarYSuscribir() {
   var nombre       = document.getElementById('pro-nombre').value.trim();
   var especialidad = document.getElementById('pro-especialidad').value.trim();
+  var mpToken      = document.getElementById('pro-mp-token').value.trim();
   var errEl        = document.getElementById('pro-registro-error');
   var btn          = document.getElementById('btn-registrar');
 
+  errEl.style.display = 'none';
+
   if (!nombre || !especialidad) {
     errEl.textContent = 'Completá nombre y especialidad.';
-    errEl.style.display = 'block';
-    return;
+    errEl.style.display = 'block'; return;
   }
-  errEl.style.display = 'none';
+  if (!mpToken || !mpToken.startsWith('APP_USR-')) {
+    errEl.textContent = 'Ingresá tu Access Token de Mercado Pago (debe empezar con APP_USR-).';
+    errEl.style.display = 'block'; return;
+  }
+
   btn.innerHTML = '<span class="spinner"></span> Creando perfil...';
   btn.disabled = true;
 
@@ -1776,41 +1198,44 @@ async function registrarProfesional() {
       duracion_min: duracionSeleccionada,
       email:        currentUser ? currentUser.email : '',
       google_sub:   currentUser ? currentUser.sub   : '',
-      acepta_mp:    modoCobroRegistro.mp,
-      acepta_sinmp: modoCobroRegistro.sinmp,
+      mp_token:     mpToken,
     });
+
     if (data.error) {
       errEl.textContent = data.error;
       errEl.style.display = 'block';
-      btn.innerHTML = 'Crear mi perfil →';
+      btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Crear perfil y pagar $15.000 →';
       btn.disabled = false;
       return;
     }
+
+    // Guardar localmente y redirigir a MP para pagar la suscripción
     var pro = {
-      id:           data.id,
-      nombre:       nombre,
-      especialidad: especialidad,
-      precio:       precioSeleccionado,
-      duracion_min: duracionSeleccionada,
-      tiene_mp:     false,
-      email:        currentUser ? currentUser.email : '',
-      acepta_mp:    modoCobroRegistro.mp,
-      acepta_sinmp: modoCobroRegistro.sinmp,
+      id: data.id, nombre: nombre, especialidad: especialidad,
+      precio: precioSeleccionado, duracion_min: duracionSeleccionada,
+      email: currentUser ? currentUser.email : '',
+      mp_token: mpToken, suscripcion_activa: false,
     };
     guardarEstadoProfesional(pro);
-    mostrarDashboard(pro);
-    // Si eligió cobrar con MP, lo llevamos directo a vincular la cuenta
-    if (modoCobroRegistro.mp) {
-      setTimeout(function() {
-        showDashTab('mp', document.getElementById('dash-tab-mp'));
-      }, 400);
+
+    if (data.suscripcion_url) {
+      window.location.href = data.suscripcion_url;
+    } else {
+      // Si el backend no devuelve URL de suscripción, mostrar dashboard igual
+      mostrarDashboard(pro);
+      toast('✅ Perfil creado. Activá tu suscripción desde Configuración.', 'ok');
     }
   } catch(e) {
     errEl.textContent = 'Error de conexión. Intentá de nuevo.';
     errEl.style.display = 'block';
-    btn.innerHTML = 'Crear mi perfil →';
+    btn.innerHTML = '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Crear perfil y pagar $15.000 →';
     btn.disabled = false;
   }
+}
+
+function guardarEstadoProfesional(pro) {
+  profesionalActual = pro;
+  STORE.set('pro_actual', pro);
 }
 
 function mostrarDashboard(pro) {
@@ -1821,20 +1246,68 @@ function mostrarDashboard(pro) {
   document.getElementById('dash-especialidad').textContent = pro.especialidad || '—';
   document.getElementById('dash-precio').textContent       = pro.precio ? '$' + Number(pro.precio).toLocaleString('es-AR') : '—';
 
-  // Inicializar estado del selector de modo de cobro del dashboard según el perfil
-  modoCobroDash.mp    = (pro.acepta_mp !== undefined) ? !!pro.acepta_mp : !!pro.tiene_mp;
-  modoCobroDash.sinmp = !!pro.acepta_sinmp;
-  renderModoCobroDash();
+  var activa = !!pro.suscripcion_activa;
+  document.getElementById('dash-suscripcion-badge').style.display    = activa ? 'inline-flex' : 'none';
+  document.getElementById('dash-suscripcion-badge-no').style.display = activa ? 'none' : 'inline-flex';
 
-  mostrarBadgesModoCobro(pro);
-  mostrarEstadoMP(!!pro.tiene_mp, pro.mp_email || '');
+  // Cargar token en config
+  var tokenInput = document.getElementById('config-mp-token');
+  if (tokenInput) tokenInput.value = pro.mp_token || '';
+
   showDashTab('stats', document.getElementById('dash-tab-stats'));
   cargarDatosDashboard(pro.id);
   cargarDisponibilidad(pro.id);
+  cargarInfoSuscripcion(pro);
+}
+
+function cargarInfoSuscripcion(pro) {
+  var el = document.getElementById('dash-suscripcion-info');
+  if (!el) return;
+  var activa = !!pro.suscripcion_activa;
+  var vence  = pro.suscripcion_vence ? formatearFecha(pro.suscripcion_vence) : '—';
+  el.innerHTML =
+    '<div class="summary-row"><span class="label">Estado</span><span class="value">' + (activa ? '✅ Activa' : '⚠️ Inactiva') + '</span></div>' +
+    '<div class="summary-row"><span class="label">Próximo vencimiento</span><span class="value">' + vence + '</span></div>' +
+    '<div class="summary-row"><span class="label">Cuota mensual</span><span class="value">$15.000</span></div>' +
+    (!activa ? '<button class="btn-app btn-mp" style="margin-top:16px;" onclick="pagarSuscripcion()"><span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Renovar suscripción →</button>' : '');
+}
+
+async function pagarSuscripcion() {
+  if (!profesionalActual) return;
+  try {
+    var data = await apiGet('suscripcion_url', { profesional_id: profesionalActual.id });
+    if (data && data.suscripcion_url) window.location.href = data.suscripcion_url;
+    else toast('❌ No se pudo generar el link de pago.', 'error');
+  } catch(e) { toast('❌ Error de conexión.', 'error'); }
+}
+
+async function guardarToken() {
+  if (!profesionalActual) return;
+  var token = document.getElementById('config-mp-token').value.trim();
+  var fb    = document.getElementById('token-feedback');
+  var btn   = document.getElementById('btn-guardar-token');
+  fb.style.display = 'none';
+  if (!token || !token.startsWith('APP_USR-')) {
+    fb.className = 'disp-feedback err'; fb.textContent = '❌ El token debe empezar con APP_USR-'; fb.style.display = 'block'; return;
+  }
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Guardando...';
+  try {
+    var data = await apiPost('actualizar_token', { profesional_id: profesionalActual.id, mp_token: token });
+    if (data && data.ok) {
+      profesionalActual.mp_token = token;
+      guardarEstadoProfesional(profesionalActual);
+      fb.className = 'disp-feedback ok'; fb.textContent = '✅ Token actualizado correctamente.';
+    } else {
+      fb.className = 'disp-feedback err'; fb.textContent = '❌ ' + ((data && data.error) || 'No se pudo guardar.');
+    }
+  } catch(e) { fb.className = 'disp-feedback err'; fb.textContent = '❌ Error de conexión.'; }
+  fb.style.display = 'block';
+  btn.disabled = false; btn.innerHTML = 'Guardar token';
+  setTimeout(function() { fb.style.display = 'none'; }, 4000);
 }
 
 function showDashTab(nombre, el) {
-  ['stats', 'turnos', 'disp', 'mp'].forEach(function(t) {
+  ['stats', 'turnos', 'disp', 'config'].forEach(function(t) {
     var panel  = document.getElementById('dash-panel-' + t);
     var tabBtn = document.getElementById('dash-tab-' + t);
     if (panel)  panel.style.display = (t === nombre) ? 'block' : 'none';
@@ -1843,7 +1316,7 @@ function showDashTab(nombre, el) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// DASHBOARD
+// DASHBOARD DATA
 // ══════════════════════════════════════════════════════════════
 async function cargarDatosDashboard(proId) {
   try {
@@ -1855,47 +1328,29 @@ async function cargarDatosDashboard(proId) {
     renderDashTurnos(data.proximos_turnos || []);
   } catch(e) {
     renderDashStats({});
-    ['dash-ocupacion', 'dash-chart', 'dash-ingresos', 'dash-turnos'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No se pudieron cargar los datos.</div>';
-    });
   }
 }
 
 function renderDashStats(resumen) {
   var confirmados = resumen.confirmados || 0;
   var facturado   = Number(resumen.facturado) || 0;
-  var comision    = facturado * 0.03;
-  var recibis     = facturado - comision;
   document.getElementById('dash-stats').innerHTML =
     '<div class="stat-box"><div class="num">' + confirmados + '</div><div class="cap">Confirmados</div></div>' +
     '<div class="stat-box"><div class="num brand">$' + Math.round(facturado).toLocaleString('es-AR') + '</div><div class="cap">Facturado</div></div>' +
-    '<div class="stat-box"><div class="num success">$' + Math.round(recibis).toLocaleString('es-AR') + '</div><div class="cap">Recibís en MP</div></div>';
-  document.getElementById('dash-resumen-detalle').innerHTML = facturado
-    ? '<div class="summary-row" style="margin-top:4px;"><span class="label">Comisión Mi Turno Seguro (3%, solo turnos con MP)</span><span class="value">−$' + Math.round(comision).toLocaleString('es-AR') + '</span></div>'
-    : '';
+    '<div class="stat-box"><div class="num success">$' + Math.round(facturado).toLocaleString('es-AR') + '</div><div class="cap">Recibiste en MP</div></div>';
 }
 
 function renderDashOcupacion(ocupacion) {
   var el = document.getElementById('dash-ocupacion');
-  if (!ocupacion || !ocupacion.total) {
-    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Todavía no hay datos de ocupación para esta semana.</div>';
-    return;
-  }
-  var ocupados = ocupacion.ocupados || 0;
-  var total    = ocupacion.total    || 1;
-  var pct = Math.round((ocupados / total) * 100);
-  el.innerHTML =
-    '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:' + pct + '%;"></div></div>' +
-    '<div class="occupancy-label"><span><strong>' + pct + '%</strong> ocupado</span><span>' + ocupados + ' de ' + total + ' turnos</span></div>';
+  if (!ocupacion || !ocupacion.total) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">Todavía no hay datos de ocupación.</div>'; return; }
+  var pct = Math.round(((ocupacion.ocupados || 0) / ocupacion.total) * 100);
+  el.innerHTML = '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:' + pct + '%;"></div></div>' +
+    '<div class="occupancy-label"><span><strong>' + pct + '%</strong> ocupado</span><span>' + (ocupacion.ocupados || 0) + ' de ' + ocupacion.total + ' turnos</span></div>';
 }
 
 function renderDashChart(dias) {
   var el = document.getElementById('dash-chart');
-  if (!dias || !dias.length) {
-    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;width:100%;">Sin datos para mostrar.</div>';
-    return;
-  }
+  if (!dias || !dias.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;width:100%;padding:8px 0;">Sin datos.</div>'; return; }
   var max = Math.max.apply(null, dias.map(function(d) { return Number(d.cantidad) || 0; }));
   if (max <= 0) max = 1;
   el.innerHTML = dias.map(function(d) {
@@ -1911,45 +1366,23 @@ function renderDashChart(dias) {
 
 function renderDashIngresos(turnos) {
   var el = document.getElementById('dash-ingresos');
-  var pagados = (turnos || []).filter(function(t) { return t.estado === 'confirmado' || t.estado === 'pagado'; });
-  if (!pagados.length) {
-    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No tenés turnos confirmados próximos.</div>';
-    return;
-  }
+  var pagados = (turnos || []).filter(function(t) { return t.estado === 'confirmado'; });
+  if (!pagados.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0;">No tenés turnos confirmados próximos.</div>'; return; }
   el.innerHTML = pagados.slice(0, 5).map(function(t) {
-    var monto = Number(t.precio) || 0;
-    var esSinMp = t.metodo === 'sin_mp';
-    var neto  = esSinMp ? monto : Math.round(monto * 0.97);
-    return '<div class="summary-row">' +
-      '<span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + (esSinMp ? ' <span style="font-size:10px;color:var(--muted);">(sin MP)</span>' : '') + '</span>' +
-      '<span class="value">$' + neto.toLocaleString('es-AR') + '</span>' +
-    '</div>';
+    return '<div class="summary-row"><span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '</span><span class="value">$' + Math.round(Number(t.precio) || 0).toLocaleString('es-AR') + '</span></div>';
   }).join('');
 }
 
 function renderDashTurnos(turnos) {
   var el = document.getElementById('dash-turnos');
-  if (!turnos || !turnos.length) {
-    el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>';
-    return;
-  }
+  if (!turnos || !turnos.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">No tenés turnos próximos.</div>'; return; }
   el.innerHTML = turnos.map(function(t) {
-    var esSinMp = t.metodo === 'sin_mp';
-    var estadoHtml;
-    if (esSinMp) {
-      estadoHtml = '<span style="color:var(--brand-dark);">🤝 Reserva sin pago online</span>';
-    } else if (t.estado === 'confirmado') {
-      estadoHtml = '<span style="color:var(--success);">✓ Pagado</span>';
-    } else {
-      estadoHtml = '<span style="color:#92400E;">⏳ Pendiente pago</span>';
-    }
+    var estadoHtml = t.estado === 'confirmado'
+      ? '<span style="color:var(--success);">✓ Pagado</span>'
+      : '<span style="color:#92400E;">⏳ Pendiente pago</span>';
     return '<div class="summary-row">' +
-      '<span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '<br><span style="font-size:11px;">' +
-        estadoHtml +
-      '</span></span>' +
-      '<span class="value" style="text-align:right;">' + (t.paciente_nombre || 'Paciente') +
-        '<div style="font-size:11px;color:var(--muted);font-weight:400;">' + (t.paciente_email || '') + '</div>' +
-      '</span>' +
+      '<span class="label">' + formatearFecha(t.fecha) + ' · ' + t.hora + '<br><span style="font-size:11px;">' + estadoHtml + '</span></span>' +
+      '<span class="value" style="text-align:right;">' + (t.paciente_nombre || 'Paciente') + '<div style="font-size:11px;color:var(--muted);font-weight:400;">' + (t.paciente_email || '') + '</div></span>' +
     '</div>';
   }).join('');
 }
@@ -1962,19 +1395,15 @@ function inicializarDispState() {
 }
 
 function renderDispDays() {
-  var c = document.getElementById('disp-days-container');
-  if (!c) return;
+  var c = document.getElementById('disp-days-container'); if (!c) return;
   c.innerHTML = DIAS.map(function(dia) {
     var st = dispState[dia.num];
-    var resumen = !st.activo
-      ? 'Cerrado'
-      : (st.bloques.length ? st.bloques.map(function(b) { return b.inicio + '–' + b.fin; }).join(', ') : 'Sin horarios');
+    var resumen = !st.activo ? 'Cerrado' : (st.bloques.length ? st.bloques.map(function(b) { return b.inicio + '–' + b.fin; }).join(', ') : 'Sin horarios');
     var bloquesHtml = st.bloques.map(function(b, idx) {
       return '<div class="disp-block-row">' +
         '<div><label>Desde</label><input type="time" value="' + b.inicio + '" onchange="updateDispBlock(' + dia.num + ',' + idx + ',\'inicio\',this.value)"></div>' +
         '<div><label>Hasta</label><input type="time" value="' + b.fin + '" onchange="updateDispBlock(' + dia.num + ',' + idx + ',\'fin\',this.value)"></div>' +
-        '<button class="btn-remove-block" onclick="removeDispBlock(' + dia.num + ',' + idx + ')">✕</button>' +
-      '</div>';
+        '<button class="btn-remove-block" onclick="removeDispBlock(' + dia.num + ',' + idx + ')">✕</button></div>';
     }).join('');
     return '<div class="disp-day-row' + (st.activo && st.bloques.length ? ' has-blocks' : '') + '">' +
       '<div class="disp-day-header" onclick="toggleDispDay(' + dia.num + ')">' +
@@ -1985,17 +1414,11 @@ function renderDispDays() {
       '<div class="disp-day-blocks' + (st.activo ? ' open' : '') + '" id="disp-blocks-' + dia.num + '">' +
         bloquesHtml +
         '<button class="btn-add-block" onclick="addDispBlock(' + dia.num + ')">+ Agregar bloque</button>' +
-      '</div>' +
-    '</div>';
+      '</div></div>';
   }).join('');
 }
 
-function toggleDispDay(num) {
-  var st = dispState[num];
-  st.activo = !st.activo;
-  if (st.activo && !st.bloques.length) st.bloques.push({ inicio: '09:00', fin: '13:00' });
-  renderDispDays();
-}
+function toggleDispDay(num) { var st = dispState[num]; st.activo = !st.activo; if (st.activo && !st.bloques.length) st.bloques.push({ inicio: '09:00', fin: '13:00' }); renderDispDays(); }
 function addDispBlock(num) { dispState[num].bloques.push({ inicio: '14:00', fin: '18:00' }); renderDispDays(); }
 function removeDispBlock(num, idx) { dispState[num].bloques.splice(idx, 1); renderDispDays(); }
 function updateDispBlock(num, idx, campo, valor) { dispState[num].bloques[idx][campo] = valor; renderDispDays(); }
@@ -2005,18 +1428,16 @@ function aplicarPresetGlobal(preset) {
     DIAS.forEach(function(d) {
       if (d.num >= 1 && d.num <= 5) { dispState[d.num].activo = true; if (!dispState[d.num].bloques.length) dispState[d.num].bloques = [{ inicio: '08:00', fin: '19:00' }]; }
       else dispState[d.num].activo = false;
-    });
-    renderDispDays(); return;
+    }); renderDispDays(); return;
   }
-  var diasActivos = DIAS.filter(function(d) { return dispState[d.num].activo; }).map(function(d) { return d.num; });
-  var objetivo = diasActivos.length ? diasActivos : DIAS.map(function(d) { return d.num; });
+  var objetivo = DIAS.filter(function(d) { return dispState[d.num].activo; }).map(function(d) { return d.num; });
+  if (!objetivo.length) objetivo = DIAS.map(function(d) { return d.num; });
   objetivo.forEach(function(num) {
     var st = dispState[num]; st.activo = true;
     if (preset === 'manana')   st.bloques = [{ inicio: '08:00', fin: '13:00' }];
     if (preset === 'tarde')    st.bloques = [{ inicio: '14:00', fin: '19:00' }];
     if (preset === 'completo') st.bloques = [{ inicio: '08:00', fin: '19:00' }];
-  });
-  renderDispDays();
+  }); renderDispDays();
 }
 
 async function cargarDisponibilidad(proId) {
@@ -2025,10 +1446,7 @@ async function cargarDisponibilidad(proId) {
     if (data && data.disponibilidad && data.disponibilidad.length) {
       inicializarDispState();
       data.disponibilidad.forEach(function(d) {
-        if (dispState[d.dia] !== undefined) {
-          dispState[d.dia].activo = true;
-          dispState[d.dia].bloques.push({ inicio: d.inicio, fin: d.fin });
-        }
+        if (dispState[d.dia] !== undefined) { dispState[d.dia].activo = true; dispState[d.dia].bloques.push({ inicio: d.inicio, fin: d.fin }); }
       });
     }
   } catch(e) {}
@@ -2040,31 +1458,16 @@ async function guardarDisponibilidad() {
   var fb  = document.getElementById('disp-feedback');
   var bloques = [];
   DIAS.forEach(function(d) {
-    var st = dispState[d.num];
-    if (!st.activo) return;
-    st.bloques.forEach(function(b) {
-      if (b.inicio && b.fin && b.inicio < b.fin) bloques.push({ dia: d.num, inicio: b.inicio, fin: b.fin });
-    });
+    var st = dispState[d.num]; if (!st.activo) return;
+    st.bloques.forEach(function(b) { if (b.inicio && b.fin && b.inicio < b.fin) bloques.push({ dia: d.num, inicio: b.inicio, fin: b.fin }); });
   });
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Guardando...';
-  fb.style.display = 'none';
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Guardando...'; fb.style.display = 'none';
   try {
     var data = await apiPost('disponibilidad', { profesional_id: profesionalActual.id, disponibilidad: bloques });
-    if (data && data.ok) {
-      fb.className = 'disp-feedback ok';
-      fb.textContent = '✅ Disponibilidad guardada correctamente.';
-    } else {
-      fb.className = 'disp-feedback err';
-      fb.textContent = '❌ ' + ((data && data.error) || 'No se pudo guardar.');
-    }
-  } catch(e) {
-    fb.className = 'disp-feedback err';
-    fb.textContent = '❌ Error de conexión. Intentá de nuevo.';
-  }
-  fb.style.display = 'block';
-  btn.disabled = false;
-  btn.innerHTML = 'Guardar disponibilidad';
+    fb.className = (data && data.ok) ? 'disp-feedback ok' : 'disp-feedback err';
+    fb.textContent = (data && data.ok) ? '✅ Disponibilidad guardada.' : ('❌ ' + ((data && data.error) || 'No se pudo guardar.'));
+  } catch(e) { fb.className = 'disp-feedback err'; fb.textContent = '❌ Error de conexión.'; }
+  fb.style.display = 'block'; btn.disabled = false; btn.innerHTML = 'Guardar disponibilidad';
   setTimeout(function() { fb.style.display = 'none'; }, 4000);
 }
 
@@ -2077,8 +1480,7 @@ function showApp(tab) {
   window.scrollTo(0, 0);
   if (tab === 'profesional') {
     showTab('profesional', document.getElementById('tab-btn-profesional'));
-    if (currentUser) cargarPerfilProfesional();
-    else showProAuthGate();
+    if (currentUser) cargarPerfilProfesional(); else showProAuthGate();
   } else {
     showTab('reservar', document.getElementById('tab-btn-reservar'));
   }
@@ -2098,7 +1500,7 @@ function showTab(nombre, el) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// UTILIDADES DE FECHA
+// FECHAS
 // ══════════════════════════════════════════════════════════════
 function hoyISO() {
   var d = new Date();
@@ -2123,53 +1525,46 @@ function closeModal() {
   document.getElementById('payModal').classList.remove('open');
   document.getElementById('modal-body').style.display    = 'block';
   document.getElementById('success-screen').style.display = 'none';
-  selectedSlotTime = null;
-  selectedProfesional = null;
+  selectedSlotTime = null; selectedProfesional = null;
 }
-function closeModalOutside(event) {
-  if (event.target.id === 'payModal') closeModal();
+function closeModalOutside(event) { if (event.target.id === 'payModal') closeModal(); }
+
+// ══════════════════════════════════════════════════════════════
+// RETORNO DE PAGO (suscripción o turno)
+// ══════════════════════════════════════════════════════════════
+function checkPaymentReturn() {
+  var p = new URLSearchParams(window.location.search);
+  var estado = p.get('estado'), turnoId = p.get('turno_id'), tipo = p.get('tipo');
+  if (!estado) return;
+  var msgs  = { confirmado: '✅ ¡Pago exitoso! ' + (tipo === 'suscripcion' ? 'Tu suscripción está activa.' : 'Tu turno ' + (turnoId || '') + ' está confirmado.'), error: '❌ Hubo un problema con el pago.', pendiente: '⏳ El pago está pendiente de acreditación.' };
+  var clses = { confirmado: 'success', error: 'error', pendiente: 'pending' };
+  var b = document.getElementById('payment-banner');
+  if (msgs[estado]) { b.className = 'payment-banner ' + (clses[estado] || ''); b.textContent = msgs[estado]; b.style.display = 'block'; }
+  window.history.replaceState({}, '', window.location.pathname);
+  if (tipo === 'suscripcion') {
+    if (estado === 'confirmado' && profesionalActual) {
+      profesionalActual.suscripcion_activa = true;
+      guardarEstadoProfesional(profesionalActual);
+    }
+    showApp('profesional');
+  } else {
+    showApp('reservar');
+  }
 }
 
 // ══════════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function() {
   inicializarDispState();
   renderDispDays();
-  checkPaymentReturn();
-
   var savedUser = STORE.get('google_user');
-  if (savedUser) {
-    currentUser = savedUser;
-    updateNavUser(currentUser);
-  }
-
-  cargarEstadoProfesionalLocal();
-
-  var wasMPReturn = await handleMPReturn();
-
+  if (savedUser) { currentUser = savedUser; updateNavUser(currentUser); }
+  var savedPro = STORE.get('pro_actual');
+  if (savedPro) profesionalActual = savedPro;
+  checkPaymentReturn();
   cargarProfesionales();
 });
-
-function checkPaymentReturn() {
-  var p = new URLSearchParams(window.location.search);
-  var estado = p.get('estado'), turnoId = p.get('turno_id');
-  if (!estado) return;
-  var msgs  = {
-    confirmado: '✅ ¡Pago exitoso! Tu turno ' + (turnoId || '') + ' está confirmado.',
-    error:      '❌ Hubo un problema con el pago. Intentá de nuevo.',
-    pendiente:  '⏳ El pago está pendiente de acreditación.'
-  };
-  var clses = { confirmado: 'success', error: 'error', pendiente: 'pending' };
-  var b = document.getElementById('payment-banner');
-  if (msgs[estado]) {
-    b.className = 'payment-banner ' + (clses[estado] || '');
-    b.textContent = msgs[estado];
-    b.style.display = 'block';
-  }
-  window.history.replaceState({}, '', window.location.pathname);
-  showApp('reservar');
-}
 </script>
 </body>
 </html>
