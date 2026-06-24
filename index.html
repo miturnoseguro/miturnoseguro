@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -670,7 +669,7 @@ img{max-width:100%}
 <script>
 var CFG = {
   GOOGLE_CLIENT_ID: '962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com',
-  API: 'https://script.google.com/macros/s/AKfycbyRueHJlgVLjmJtNKWB8kJFq-mMXZ_nf07DG6j_ryLtwZrPVkEMUjk8NK93xhVkCC8bUg/exec',
+  API: 'AQUI_VA_TU_URL', // ⚠️ REEMPLAZAR CON LA URL DE TU SCRIPT DESPUÉS DE DESPLEGAR
   SITE: 'https://miturnoseguro.com'
 };
 
@@ -1143,16 +1142,15 @@ function renderMpConfig(pro){
 
 /* WHATSAPP — solo teléfono, wa.me lo armamos nosotros */
 function buildWaMe(phone){
-  // Normalizar número: quitar espacios y guiones
   var n=(phone||'').replace(/[\s\-\(\)]/g,'');
   if(!n.startsWith('+')) n='+'+n;
   return 'https://wa.me/'+n.replace('+','');
 }
 
+// ✅ CORREGIDA: asegurar que pro.whatsapp_phone sea string
 function renderWaPanel(pro){
   var el = document.getElementById('wa-status-box');
   if (!el) return;
-  // ✅ Corregido: asegurar que pro.whatsapp_phone sea string
   var phone = (pro && pro.whatsapp_phone) ? pro.whatsapp_phone : '';
   var tiene = !!phone;
   el.innerHTML = tiene
@@ -1168,7 +1166,6 @@ async function guardarWhatsapp(){
   if(!phone){ toast('Ingresá tu número de WhatsApp.','error'); return; }
   if(!/^\+?\d{8,15}$/.test(phone.replace(/\s/g,''))){ toast('Número inválido. Usá formato +5491122334455','error'); return; }
   try{
-    // Enviamos solo el teléfono; el backend genera el wa.me internamente
     var data=await apiPost('whatsapp_config',{profesional_id:proActual.id,telefono:phone});
     if(data&&data.ok){
       proActual.whatsapp_phone=phone; proActual.whatsapp_apikey='';
@@ -1186,25 +1183,22 @@ async function cargarCalendario(proId){
   if(!calMes) calMes={year:hoy.getFullYear(),month:hoy.getMonth()+1};
   renderCalendario(proId, true);
 
-  // Cargar datos del mes
   var y=calMes.year, m=calMes.month;
   var diasEnMes=new Date(y,m,0).getDate();
   var dur=proActual?Number(proActual.duracion_min)||45:45;
 
-  // Pre-cargar disponibilidad
   if(!dispCache[proId]){
     try{ var r=await apiGet('disponibilidad',{profesional_id:proId}); dispCache[proId]=(r&&r.disponibilidad)?r.disponibilidad:[]; }
     catch(e){ dispCache[proId]=[]; }
   }
 
-  // Cargar turnos del mes de una sola vez si el backend lo soporta, sino día a día
   var slotsMap={};
   var hoyStr=isoDate(hoy.getFullYear(),hoy.getMonth()+1,hoy.getDate());
 
   var promesas=[];
   for(var dia=1;dia<=diasEnMes;dia++){
     var fecha=isoDate(y,m,dia);
-    if(fecha<hoyStr) continue; // no cargar pasados
+    if(fecha<hoyStr) continue;
     (function(f){
       promesas.push(
         calcularSlots(proId,f,dur).then(function(slots){ slotsMap[f]=slots; })
@@ -1222,8 +1216,7 @@ function renderCalendario(proId, loading){
   var y=calMes.year, m=calMes.month;
   var meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   var diasEnMes=new Date(y,m,0).getDate();
-  var primerDia=new Date(y,m-1,1).getDay(); // 0=dom
-  // Ajustar para semana lunes-domingo
+  var primerDia=new Date(y,m-1,1).getDay();
   var offset=(primerDia===0)?6:primerDia-1;
 
   var slotsMap=calDataCache[proId+'_'+y+'_'+m]||{};
@@ -1241,7 +1234,6 @@ function renderCalendario(proId, loading){
   var dows=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
   dows.forEach(function(d){ html+='<div class="cal-dow">'+d+'</div>'; });
 
-  // Celdas vacías al inicio
   for(var i=0;i<offset;i++) html+='<div class="cal-day empty"></div>';
 
   for(var d=1;d<=diasEnMes;d++){
@@ -1269,7 +1261,6 @@ function renderCalendario(proId, loading){
       var totalSlots2=slots.length;
       var ocupados2=slots.filter(function(s){ return !s.disponible; }).length;
       var libres2=totalSlots2-ocupados2;
-      // Puntitos de slots (máx 6 para no desbordar)
       var maxDots=Math.min(totalSlots2,6);
       var dotsHtml='<div class="cal-slots-mini">';
       for(var si=0;si<maxDots;si++){
@@ -1288,18 +1279,16 @@ function renderCalendario(proId, loading){
     html+='<div class="'+cls+'"'+onclick+'>'+innerHtml+'</div>';
   }
 
-  html+='</div>'; // /cal-grid
+  html+='</div>';
 
-  // Leyenda
   html+='<div class="cal-legend">'+
     '<div class="cal-legend-item"><div class="cal-legend-dot disp"></div>Disponible</div>'+
     '<div class="cal-legend-item"><div class="cal-legend-dot ocup"></div>Ocupado</div>'+
   '</div>';
 
-  html+='</div>'; // /cal-wrap
+  html+='</div>';
   el.innerHTML=html;
 
-  // Si había un día seleccionado, re-renderizar detalle
   if(calDiaDetalle&&slotsMap[calDiaDetalle]) mostrarDetalleDia(calDiaDetalle,proId,true);
 }
 
@@ -1322,7 +1311,6 @@ function mostrarDetalleDia(fecha,proId,noScroll){
   var mm=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   var titulo=dm[d.getDay()]+' '+d.getDate()+' de '+mm[d.getMonth()];
 
-  // Quitar detalle anterior si existe
   var prev=document.getElementById('cal-detail-box');
   if(prev) prev.parentNode.removeChild(prev);
 
@@ -1470,7 +1458,6 @@ async function cargarDispDash(proId){
     }
   }catch(e){}
   renderDispDash();
-  // Una vez cargada la disponibilidad, cargar el calendario
   cargarCalendario(proId);
 }
 
@@ -1486,7 +1473,6 @@ async function guardarDisp(){
       fb.style.cssText='display:block;padding:9px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-align:center;background:var(--success-soft);color:#166534;border:1px solid #86EFAC';
       fb.textContent='✅ Horarios guardados correctamente.';
       toast('✅ Horarios guardados.','ok');
-      // Recargar calendario con nuevos horarios
       calDataCache={};
       cargarCalendario(proActual.id);
     } else {
@@ -1517,7 +1503,7 @@ function showDashPanel(nombre,el){
   });
 }
 
-/* RETORNO DE PAGO Y OAUTH MP */
+// ✅ CORREGIDA: fuerza recarga cuando mp_status=ok
 function checkReturn(){
   var p = new URLSearchParams(window.location.search);
   var estado = p.get('estado'), mpStatus = p.get('mp_status'), mpPro = p.get('mp_pro'), mpMsg = p.get('mp_msg');
@@ -1527,18 +1513,15 @@ function checkReturn(){
   if (mpStatus) {
     showTab('profesional', document.getElementById('tab-btn-profesional'));
     if (mpStatus === 'ok') {
-      // ✅ Actualizar el profesional en localStorage y recargar la página
       var cached = ST.get('pro_actual');
       if (cached && (String(cached.id) === String(mpPro))) {
         cached.mp_access_token = 'vinculado';
         cached.mp_user_id = mpPro;
         guardarPro(cached);
-        // Forzar recarga para que el dashboard muestre el estado actualizado
         setTimeout(function(){
           window.location.reload();
         }, 500);
       } else {
-        // Si no estaba en cache, forzar recarga de perfil
         setTimeout(function(){
           window.location.reload();
         }, 500);
