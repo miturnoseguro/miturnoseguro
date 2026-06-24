@@ -1526,21 +1526,26 @@ function checkReturn(){
     // Redirigir al perfil del médico en miturnoseguro.com después de vincular MP
     var retTab=ST.get('retorno_tab')||'profesional';
     showTab(retTab,document.getElementById('tab-btn-'+retTab));
-    if(mpStatus==='ok'){
-      var cached=ST.get('pro_actual');
-      if(cached&&(cached.id===mpPro||String(cached.id)===String(mpPro))){
-        cached.mp_access_token='vinculado'; cached.mp_user_id=mpPro;
-        guardarPro(cached);
-      }
-      if(currentUser){
-        cargarPerfilPro().then(function(){
-          setTimeout(function(){
-            toast('✅ Mercado Pago vinculado. Ya podés recibir pagos.','ok');
-            // Redirigir al perfil del médico
-            var proId=cached?cached.id:(ST.get('retorno_pro_id')||'');
-            if(proId) window.location.href=CFG.SITE+'/perfil?id='+proId;
-          },300);
-        });
+  if(mpStatus==='ok'){
+  // Actualizar caché local con MP vinculado
+  var cached=ST.get('pro_actual');
+  if(cached && (String(cached.id)===String(mpPro))){
+    cached.mp_access_token='vinculado';
+    cached.mp_user_id=mpPro;
+    guardarPro(cached);
+  }
+  // Mostrar tab profesional y recargar perfil desde el servidor
+  showTab('profesional', document.getElementById('tab-btn-profesional'));
+  setTimeout(function(){
+    toast('✅ Mercado Pago vinculado. Ya podés recibir pagos.','ok');
+    if(currentUser){
+      cargarPerfilPro(); // recarga fresco desde el servidor
+    } else {
+      // Si no hay sesión activa, mostrar auth gate
+      mostrarAuthGate();
+    }
+  }, 300);
+});
       } else {
         setTimeout(function(){
           toast('✅ Mercado Pago vinculado correctamente.','ok');
