@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Mi Turno Seguro — Reservás cuando pagás</title>
 <script src="https://accounts.google.com/gsi/client" async></script>
 <style>
@@ -461,7 +463,467 @@ footer { background:var(--ink); color:white; padding:48px 0 24px; }
 .toast.info  { background:var(--brand-soft); color:var(--brand-dark); border:1.5px solid var(--brand-mid); }
 .toast.leaving { animation:fadeIn 0.3s ease reverse both; }
 
-/* ── RESPONSIVE ── */
+/* ──────────────────────────────────────────────────────────
+   RESPONSIVIDAD MEJORADA - MOBILE & TABLET
+   ────────────────────────────────────────────────────────── */
+
+/* ── MOBILE (máximo 640px) ── */
+@media (max-width: 640px) {
+  /* NAV */
+  .app-nav-inner {
+    padding: 0 8px;
+    height: 54px;
+    gap: 6px;
+  }
+  .brand-name {
+    font-size: 13px;
+  }
+  
+  /* TABS */
+  .tabs-wrap {
+    padding: 12px 8px 0;
+  }
+  .tabs {
+    gap: 2px;
+    padding: 3px;
+  }
+  .tab {
+    padding: 7px 9px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  
+  /* SECTION */
+  .app-section {
+    padding: 14px 12px 48px;
+  }
+  .section-label {
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+  
+  /* CARDS */
+  .card {
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+  }
+  .card-header {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .doc-name {
+    font-size: 13px;
+  }
+  .doc-spec {
+    font-size: 11px;
+  }
+  .price-amount {
+    font-size: 16px;
+  }
+  .price-label {
+    font-size: 10px;
+  }
+  
+  /* BADGES */
+  .badge {
+    padding: 2px 7px;
+    font-size: 10px;
+    margin-top: 2px;
+  }
+  
+  /* SLOTS */
+  .slot-tabs-wrap {
+    padding: 2px;
+    min-height: 40px;
+  }
+  .slot-tab {
+    padding: 5px 10px;
+    font-size: 11px;
+    min-width: 48px;
+  }
+  .slots-section-label {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+  
+  /* BOTONES */
+  .btn-app {
+    padding: 12px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+  .mp-logo {
+    font-size: 12px;
+    gap: 4px;
+  }
+  
+  /* FORMS - CRÍTICO: prevenir zoom iOS */
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 10px 12px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+  
+  /* PICKERS */
+  .picker-grid {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .picker-grid.cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .picker-grid.cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .picker-grid.cols-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .picker-chip {
+    padding: 10px 4px;
+    font-size: 12px;
+  }
+  
+  /* DISPONIBILIDAD */
+  .disp-grid {
+    gap: 6px;
+  }
+  .disp-day-header {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .disp-day-name {
+    font-size: 12px;
+  }
+  .disp-day-summary {
+    font-size: 10px;
+    display: none;
+  }
+  .disp-day-blocks {
+    padding: 8px 12px 10px;
+    gap: 6px;
+  }
+  .disp-block-row {
+    grid-template-columns: 1fr 1fr auto;
+    gap: 6px;
+  }
+  .disp-block-row label {
+    font-size: 9px;
+  }
+  .disp-block-row input[type="time"] {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  .btn-remove-block {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  .btn-add-block {
+    padding: 5px 11px;
+    font-size: 11px;
+    width: 100%;
+  }
+  .disp-preset-chips {
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .disp-preset-chip {
+    padding: 4px 9px;
+    font-size: 11px;
+  }
+  
+  /* STEPPER */
+  .stepper-progress-track {
+    margin-bottom: 16px;
+  }
+  .stepper-dot {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+  .stepper-lbl-text {
+    font-size: 8px;
+    line-height: 1.2;
+  }
+  .step-title {
+    font-size: 16px;
+  }
+  .step-sub {
+    font-size: 12px;
+  }
+  
+  /* MODAL */
+  .modal {
+    border-radius: 16px 16px 0 0;
+    padding: 16px 14px 28px;
+    max-height: 90vh;
+  }
+  .modal h2 {
+    font-size: 18px;
+  }
+  .modal .subtitle {
+    font-size: 12px;
+  }
+  .summary-row {
+    padding: 8px 0;
+    font-size: 13px;
+  }
+  .summary-row.total .value {
+    font-size: 17px;
+  }
+  
+  /* DASHBOARD */
+  .dash-tabs {
+    gap: 2px;
+    padding: 2px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .dash-tab-btn {
+    padding: 7px 12px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .stats-grid-dash {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .stat-box {
+    padding: 10px 8px;
+  }
+  .stat-box .num {
+    font-size: 18px;
+  }
+  .stat-box .cap {
+    font-size: 9px;
+  }
+  .chart-wrap {
+    height: 70px;
+  }
+  .chart-bar-label {
+    font-size: 8px;
+  }
+  .chart-bar-value {
+    font-size: 9px;
+  }
+  .occupancy-label {
+    font-size: 10px;
+  }
+  
+  /* INFO BOXES */
+  .info-box,
+  .warning-box {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+  .mp-status-box {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  
+  /* STEP NAV */
+  .step-nav {
+    gap: 8px;
+    flex-direction: column;
+  }
+  .step-nav .btn-back {
+    width: 100%;
+    padding: 11px;
+    font-size: 13px;
+  }
+  .step-nav .btn-next {
+    width: 100%;
+  }
+  
+  /* PAYMENT BANNER */
+  .payment-banner {
+    padding: 12px 14px;
+    margin: 0 0 12px;
+    font-size: 13px;
+  }
+  
+  /* TOAST */
+  .toast {
+    padding: 10px 18px;
+    font-size: 13px;
+    max-width: 85vw;
+  }
+  
+  /* USER CHIP */
+  .user-chip {
+    padding: 4px 10px 4px 4px;
+    font-size: 12px;
+  }
+  .user-chip-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+  .btn-logout {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+  
+  /* FECHA */
+  .fecha-chip {
+    min-width: 50px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  .fecha-chip .dia-nombre {
+    font-size: 9px;
+  }
+  .fecha-chip .dia-num {
+    font-size: 14px;
+  }
+}
+
+/* ── EXTRA PEQUEÑOS (380px) ── */
+@media (max-width: 380px) {
+  .container {
+    padding: 0 12px;
+  }
+  .app-section {
+    padding: 10px 10px 40px;
+  }
+  
+  .tab {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+  
+  .card {
+    padding: 12px;
+  }
+  
+  .picker-grid.cols-3,
+  .picker-grid.cols-4,
+  .picker-grid.cols-5 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+  
+  .btn-app {
+    padding: 11px;
+    font-size: 12px;
+  }
+  
+  .step-nav .btn-back {
+    font-size: 12px;
+    padding: 10px;
+  }
+  
+  .stats-grid-dash {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal {
+    padding: 14px 12px 24px;
+  }
+}
+
+/* ── TABLET (641px - 1024px) ── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .app-section {
+    padding: 24px 20px 48px;
+  }
+  
+  .card {
+    padding: 18px;
+  }
+  
+  .stats-grid-dash {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .chart-wrap {
+    height: 90px;
+  }
+  
+  .tabs-wrap {
+    padding: 16px 16px 0;
+  }
+  
+  .picker-grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .picker-grid.cols-4,
+  .picker-grid.cols-5 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ── LANDSCAPE ── */
+@media (max-height: 600px) {
+  .app-nav-inner {
+    height: 50px;
+  }
+  
+  .app-section {
+    padding: 12px 16px 40px;
+  }
+  
+  .card {
+    margin-bottom: 8px;
+  }
+  
+  .step-nav {
+    margin-top: 8px;
+  }
+  
+  .btn-app {
+    padding: 10px;
+    font-size: 12px;
+  }
+  
+  .chart-wrap {
+    height: 60px;
+  }
+}
+
+/* ── PORTRAIT ── */
+@media (orientation: portrait) {
+  .app-nav-inner {
+    height: 56px;
+  }
+}
+
+/* ── PAISAJE ── */
+@media (orientation: landscape) {
+  .app-nav-inner {
+    height: 48px;
+  }
+  
+  .modal {
+    max-height: 95vh;
+  }
+}
+
+/* ── iOS FIX ── */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+    border-radius: 8px;
+  }
+  
+  button {
+    -webkit-appearance: none;
+    -webkit-border-radius: 8px;
+  }
+}
+
+/* ── RESPONSIVIDAD DESKTOP ── */
 @media (max-width: 860px) {
   .nav-links { display:none; }
   .hero-inner { grid-template-columns:1fr; gap:32px; }
@@ -478,15 +940,13 @@ footer { background:var(--ink); color:white; padding:48px 0 24px; }
   .cta-section { padding:40px 20px; }
   .cta-section h2 { font-size:24px; }
 }
+
 @media (max-width: 480px) {
   .hero h1 { font-size:30px; }
   .stats-band { grid-template-columns:repeat(2,1fr); gap:16px; }
   .stat-big { font-size:30px; }
-  .stepper-lbl-text { font-size:9px; }
-  .picker-grid.cols-5 { grid-template-columns:repeat(3,1fr); }
-  .step-nav .btn-back { padding:13px 14px; font-size:13px; }
-  .app-nav-inner { padding:0 12px; }
 }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
 }
@@ -992,7 +1452,6 @@ function toast(msg, type) {
 
 /* ══════════════════════════════════════════════
    SLOT GENERATION (CLIENT-SIDE)
-   Genera slots a partir de bloques de disponibilidad + duración
 ══════════════════════════════════════════════ */
 function generarSlotsDeBloque(inicio, fin, duracionMin) {
   var slots = [];
@@ -1009,23 +1468,23 @@ function generarSlotsDeBloque(inicio, fin, duracionMin) {
 }
 
 function getDiaSemana(isoDate) {
-  // returns 0=domingo,1=lunes,...
   var p = isoDate.split('-');
   var d = new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
   return d.getDay();
 }
 
-// Obtiene slots disponibles para un profesional en una fecha determinada
-// Combina disponibilidad (bloques) + turnos ocupados
 async function calcularHorariosDisponibles(proId, fecha, duracionMin) {
   var diaSemana = getDiaSemana(fecha);
+  console.log('🔍 Calculando slots:', {proId, fecha, diaSemana, duracionMin});
   
   // Obtener disponibilidad (con cache)
   if (!dispCache[proId]) {
     try {
       var dataDisp = await apiGet('disponibilidad', { profesional_id: proId });
       dispCache[proId] = (dataDisp && dataDisp.disponibilidad) ? dataDisp.disponibilidad : [];
+      console.log('📅 Disponibilidad obtenida:', dispCache[proId]);
     } catch(e) {
+      console.error('❌ Error obteniendo disponibilidad:', e);
       dispCache[proId] = [];
     }
   }
@@ -1034,32 +1493,37 @@ async function calcularHorariosDisponibles(proId, fecha, duracionMin) {
     return Number(b.dia) === diaSemana;
   });
   
-  if (!bloquesDia.length) return [];
+  console.log('📍 Bloques para día ' + diaSemana + ':', bloquesDia);
+  
+  if (!bloquesDia.length) {
+    console.warn('⚠️ Sin bloques de disponibilidad para este día');
+    return [];
+  }
   
   // Generar todos los slots posibles
   var todosSlots = [];
   bloquesDia.forEach(function(b) {
-    generarSlotsDeBloque(b.inicio, b.fin, duracionMin).forEach(function(s) {
-      todosSlots.push(s);
-    });
+    var slots = generarSlotsDeBloque(b.inicio, b.fin, duracionMin);
+    console.log('⏱️ Slots generados (' + b.inicio + '-' + b.fin + '):', slots);
+    slots.forEach(function(s) { todosSlots.push(s); });
   });
   
-  // Obtener turnos ocupados del backend
+  console.log('✅ Total slots disponibles:', todosSlots.length);
+  
+  // Obtener turnos ocupados
   var ocupados = [];
   try {
     var dataTurnos = await apiGet('turnos', { profesional_id: proId, fecha: fecha });
-    // El backend puede devolver horarios con disponible:false, o una lista de ocupados
     if (dataTurnos && dataTurnos.horarios) {
       dataTurnos.horarios.forEach(function(h) {
         if (!h.disponible) ocupados.push(h.hora);
       });
     }
-    if (dataTurnos && dataTurnos.ocupados) {
-      ocupados = ocupados.concat(dataTurnos.ocupados);
-    }
   } catch(e) {
-    // Si falla, mostramos todos como disponibles
+    console.error('❌ Error obteniendo turnos:', e);
   }
+  
+  console.log('🚫 Horarios ocupados:', ocupados);
   
   return todosSlots.map(function(h) {
     return { hora: h, disponible: ocupados.indexOf(h) === -1 };
@@ -1090,7 +1554,6 @@ function seleccionarFecha(iso, el) {
   document.querySelectorAll('.fecha-chip').forEach(function(c){ c.classList.remove('selected'); });
   el.classList.add('selected');
   selectedSlotTime = null; selectedProfesional = null;
-  // Recargar slots de todos los profesionales visibles
   document.querySelectorAll('[id^="slots-"]').forEach(function(s) {
     var proId = s.id.replace('slots-','');
     var durMin = Number(s.dataset.duracion) || 45;
@@ -1211,7 +1674,6 @@ function loginConGoogle() {
   var btn = document.getElementById('btn-google-login');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner-dark"></span> Conectando...';
-  // Intentar One Tap primero, fallback a popup
   try {
     google.accounts.id.initialize({
       client_id: CONFIG.GOOGLE_CLIENT_ID,
@@ -1329,7 +1791,6 @@ function apiPost(path, body) {
 ══════════════════════════════════════════════ */
 async function cargarProfesionales() {
   var c = document.getElementById('profesionales-container');
-  // Skeleton loading
   c.innerHTML = [1,2].map(function(i){
     return '<div class="card" style="animation-delay:'+(i*0.1)+'s">' +
       '<div class="card-header"><div class="skeleton" style="width:48px;height:48px;border-radius:12px;"></div>' +
@@ -1421,7 +1882,6 @@ function abrirModal(proId, nombre, precio) {
   document.getElementById('modal-price').textContent  = '$' + Number(precio).toLocaleString('es-AR');
   document.getElementById('modal-nombre').value = currentUser ? (currentUser.name || '') : '';
   document.getElementById('modal-email').value  = currentUser ? (currentUser.email || '') : '';
-  // Actualizar precio del profesional seleccionado
   selectedProfesional.nombre = nombre;
   selectedProfesional.precio = precio;
   var btn = document.getElementById('btn-pagar');
@@ -1440,7 +1900,6 @@ async function confirmarPago() {
   if (!nombre || !email) { toast('Completá tu nombre y email.', 'error'); return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Ingresá un email válido.', 'error'); return; }
   btn.innerHTML = '<span class="spinner"></span> Procesando...'; btn.disabled = true;
-  // Guardar tab actual para retorno
   STORE.set('retorno_tab', 'reservar');
   try {
     var data = await apiPost('turnos', {
@@ -1485,7 +1944,6 @@ function handleProTab(tabEl) {
 async function cargarPerfilProfesional() {
   if (!currentUser) { showProAuthGate(); return; }
   document.getElementById('pro-auth-gate').style.display = 'none';
-  // Mostrar dashboard cacheado mientras cargamos
   var cached = STORE.get('pro_actual');
   if (cached) { profesionalActual = cached; mostrarDashboard(cached); }
   try {
@@ -1501,7 +1959,6 @@ async function cargarPerfilProfesional() {
     }
   } catch(e) {
     if (!cached) mostrarFormularioRegistro();
-    // Si hay cache, lo dejamos mostrando el dashboard
   }
 }
 
@@ -1560,7 +2017,6 @@ function iniciarOAuthMP() {
   if (!profesionalActual) { toast('No hay profesional seleccionado.', 'error'); return; }
   var btn = event && event.target ? event.target.closest('button') : null;
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generando link...'; }
-  // Guardar tab actual para retorno después del OAuth
   STORE.set('retorno_tab', 'profesional');
   STORE.set('retorno_pro_id', profesionalActual.id);
   apiGet('oauth_url', { profesional_id: profesionalActual.id })
@@ -1630,7 +2086,6 @@ function renderDashOcupacion(ocupacion) {
   var pct = Math.round(((ocupacion.ocupados||0)/ocupacion.total)*100);
   el.innerHTML = '<div class="occupancy-bar-track"><div class="occupancy-bar-fill" style="width:0%;"></div></div>' +
     '<div class="occupancy-label"><span><strong>'+pct+'%</strong> ocupado</span><span>'+(ocupacion.ocupados||0)+' de '+ocupacion.total+'</span></div>';
-  // Animate bar
   setTimeout(function() {
     var fill = el.querySelector('.occupancy-bar-fill');
     if (fill) fill.style.width = pct + '%';
@@ -1758,7 +2213,6 @@ async function cargarDisponibilidad(proId) {
           dispState[d.dia].bloques.push({inicio:d.inicio,fin:d.fin});
         }
       });
-      // También actualizar cache para slots
       dispCache[proId] = data.disponibilidad;
     }
   } catch(e) {}
@@ -1778,7 +2232,6 @@ async function guardarDisponibilidad() {
     var data = await apiPost('disponibilidad', { profesional_id: profesionalActual.id, disponibilidad: bloques });
     fb.className = (data && data.ok) ? 'disp-feedback ok' : 'disp-feedback err';
     fb.textContent = (data && data.ok) ? '✅ Disponibilidad guardada.' : ('❌ ' + ((data && data.error) || 'No se pudo guardar.'));
-    // Invalidar cache de slots
     if (data && data.ok) {
       dispCache[profesionalActual.id] = bloques;
       toast('✅ Horarios guardados correctamente.', 'ok');
@@ -1864,7 +2317,7 @@ function closeModal() {
 function closeModalOutside(event) { if (event.target.id === 'payModal') closeModal(); }
 
 /* ══════════════════════════════════════════════
-   RETORNO DE PAGO Y OAUTH MP — FIX PRINCIPAL
+   RETORNO DE PAGO Y OAUTH MP
 ══════════════════════════════════════════════ */
 function checkPaymentAndOAuthReturn() {
   var p = new URLSearchParams(window.location.search);
@@ -1881,14 +2334,12 @@ function checkPaymentAndOAuthReturn() {
     showApp(retornoTab);
 
     if (mpStatus === 'ok' && mpPro) {
-      // Actualizar el profesional en cache con MP vinculado
       var cached = STORE.get('pro_actual');
       if (cached && (cached.id === mpPro || String(cached.id) === String(mpPro))) {
         cached.mp_user_id = mpPro;
-        cached.mp_access_token = 'vinculado'; // el token real está en backend
+        cached.mp_access_token = 'vinculado';
         guardarEstadoProfesional(cached);
       }
-      // Recargar perfil desde backend para tener datos frescos
       if (currentUser) {
         cargarPerfilProfesional().then(function() {
           setTimeout(function() { toast('✅ ¡Mercado Pago vinculado correctamente! Ya podés recibir pagos.', 'ok'); }, 300);
@@ -1923,18 +2374,15 @@ function checkPaymentAndOAuthReturn() {
     b.textContent = msgs[estado] || '⚠️ Estado desconocido.';
     b.style.display = 'block';
 
-    // Toast también
     setTimeout(function() {
       toast(msgs[estado] || estado, estado === 'confirmado' ? 'ok' : (estado === 'error' ? 'error' : 'info'));
     }, 300);
 
-    // Scroll al banner
     setTimeout(function() {
       var banner = document.getElementById('payment-banner');
       if (banner) banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 400);
 
-    // Auto-ocultar el banner exitoso
     if (estado === 'confirmado') {
       setTimeout(function() {
         var banner = document.getElementById('payment-banner');
@@ -1952,7 +2400,6 @@ document.addEventListener('DOMContentLoaded', function() {
   inicializarDispStateRegistro();
   renderFechaSelector();
 
-  // Restaurar sesión guardada (sin re-auth con Google, solo UI)
   var savedUser = STORE.get('google_user');
   if (savedUser) {
     currentUser = savedUser;
@@ -1961,18 +2408,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var savedPro = STORE.get('pro_actual');
   if (savedPro) profesionalActual = savedPro;
 
-  // Procesar retorno de MP / Pago PRIMERO (antes de cargar)
   checkPaymentAndOAuthReturn();
 
-  // Cargar profesionales para la vista paciente
   cargarProfesionales();
-
-  // Si estamos volviendo del OAuth de MP y hay sesión, recargar perfil
-  var p = new URLSearchParams(window.location.search);
-  if (!p.get('mp_status') && !p.get('estado') && savedUser && savedPro) {
-    // Sesión activa: recargar datos frescos en background (sin cambiar pantalla)
-    // Solo si la app está mostrando la vista profesional
-  }
 });
 </script>
 </body>
