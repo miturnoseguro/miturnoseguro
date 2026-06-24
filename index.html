@@ -1517,21 +1517,16 @@ function checkReturn(){
 
   if (!estado && !mpStatus) return;
 
-  // Limpiar la URL
   window.history.replaceState({}, '', window.location.pathname);
 
-  // MANEJO DE MP
   if (mpStatus) {
-    console.log('MP Status:', mpStatus, 'Pro:', mpPro);
-    
     showTab('profesional', document.getElementById('tab-btn-profesional'));
 
     if (mpStatus === 'ok') {
-      // Forzar recarga del perfil del servidor
+      ST.del('pro_actual');
       setTimeout(function(){
         cargarPerfilPro();
       }, 500);
-      
       toast('✅ Mercado Pago vinculado correctamente!', 'ok');
       return;
     } else {
@@ -1540,7 +1535,6 @@ function checkReturn(){
     }
   }
 
-  // MANEJO DE PAGO
   if (estado) {
     var retTab2 = ST.get('retorno_tab') || 'reservar';
     showTab(retTab2, document.getElementById('tab-btn-' + retTab2));
@@ -1567,7 +1561,6 @@ function checkReturn(){
     }
   }
 }
-
 /* HELPERS */
 function hoyISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function fmtFecha(iso,corto){
