@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -29,21 +30,16 @@ h1,h2,h3,h4{font-family:'Outfit',sans-serif;line-height:1.2}
 a{color:inherit;text-decoration:none}
 img{max-width:100%}
 
-/* ── ANIMATIONS ── */
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes bounceIn{0%{transform:scale(0.7);opacity:0}60%{transform:scale(1.05)}80%{transform:scale(0.97)}100%{transform:scale(1);opacity:1}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
 @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
 
 .anim-fade{animation:fadeIn 0.3s ease both}
 .anim-bounce{animation:bounceIn 0.45s ease both}
-
-/* skeleton */
 .sk{background:linear-gradient(90deg,#f0f4f8 25%,#e2e8f0 50%,#f0f4f8 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:8px}
 
-/* ── NAV ── */
 .app-nav{
   position:sticky;top:0;z-index:100;
   background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
@@ -66,29 +62,24 @@ img{max-width:100%}
 .btn-logout:hover{border-color:var(--danger);color:var(--danger)}
 .btn-landing{padding:6px 14px;font-size:12px;font-weight:700;color:var(--brand);background:var(--brand-soft);border:none;border-radius:999px;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap}
 
-/* ── TABS ── */
 .tabs-wrap{padding:12px 16px 0;max-width:680px;margin:0 auto;width:100%}
 .tabs{display:flex;gap:4px;background:white;border:1px solid var(--line);border-radius:999px;padding:4px;box-shadow:var(--shadow)}
 .tab{flex:1;padding:10px 8px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;color:var(--muted);cursor:pointer;border:none;background:none;border-radius:999px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
 .tab.active{color:white;background:var(--brand);box-shadow:0 3px 10px rgba(37,99,235,0.28)}
 .tab:not(.active):hover{background:var(--brand-soft);color:var(--ink)}
 
-/* ── SECTIONS ── */
 .app-section{display:none;padding:16px 16px 80px;max-width:680px;margin:0 auto;width:100%}
 .app-section.active{display:block;animation:fadeIn 0.25s ease}
 
-/* ── PAYMENT BANNER ── */
 #payment-banner{display:none;max-width:680px;margin:0 auto;padding:0 16px;width:100%}
 .pay-banner{padding:12px 16px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;text-align:center;margin-bottom:8px}
 .pay-banner.success{background:var(--success-soft);color:#166534;border:1px solid #86EFAC}
 .pay-banner.error{background:var(--danger-soft);color:#991B1B;border:1px solid #FCA5A5}
 .pay-banner.pending{background:var(--warning-soft);color:#92400E;border:1px solid #FCD34D}
 
-/* ── CARDS ── */
 .card{background:white;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
 .card-sm{background:white;border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px}
 
-/* ── BOTONES ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:999px;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;border:none;transition:all 0.2s;white-space:nowrap;width:100%}
 .btn-primary{background:var(--brand);color:white;box-shadow:0 4px 14px rgba(37,99,235,0.25)}
 .btn-primary:hover{background:var(--brand-dark);transform:translateY(-1px)}
@@ -106,7 +97,6 @@ img{max-width:100%}
 .mp-logo{display:inline-flex;align-items:center;gap:5px;font-weight:700}
 .mp-dot{width:6px;height:6px;background:white;border-radius:50%}
 
-/* ── FORMS ── */
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px}
 .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s,box-shadow 0.2s;background:white;-webkit-appearance:none;appearance:none;color:var(--ink)}
@@ -115,37 +105,29 @@ img{max-width:100%}
 .form-hint{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4}
 .form-hint.success{color:var(--success)}
 
-/* ── LABELS ── */
 .section-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;display:block}
 .divider{height:1px;background:var(--line);margin:16px 0}
 
-/* ── BADGES ── */
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
 .badge-green{background:var(--success-soft);color:#166534}
 .badge-blue{background:var(--brand-soft);color:var(--brand-dark)}
 .badge-orange{background:#FFF7ED;color:#C2410C}
 .badge-gray{background:#F1F5F9;color:#475569}
 
-/* ── INFO BOXES ── */
 .info-box{background:var(--brand-soft);border:1px solid var(--brand-mid);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:var(--brand-dark);margin-bottom:14px;line-height:1.5}
 .warning-box{background:var(--warning-soft);border:1px solid #FCD34D;border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:#92400E;margin-bottom:14px;line-height:1.5}
 .success-box{background:var(--success-soft);border:1px solid #86EFAC;border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:#166534;margin-bottom:14px;line-height:1.5}
 
-/* ── TOAST ── */
 .toast-container{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;width:calc(100% - 32px);max-width:400px}
 .toast{padding:11px 20px;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.12);text-align:center;animation:fadeIn 0.3s ease both;pointer-events:none;width:100%}
 .toast.ok{background:#DCFCE7;color:#166534;border:1.5px solid #86EFAC}
 .toast.error{background:#FEE2E2;color:#991B1B;border:1.5px solid #FCA5A5}
 .toast.info{background:var(--brand-soft);color:var(--brand-dark);border:1.5px solid var(--brand-mid)}
 
-/* ── SPINNER ── */
 .spinner{display:inline-block;width:14px;height:14px;border:2.5px solid rgba(255,255,255,0.35);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle}
 .spinner-dark{display:inline-block;width:14px;height:14px;border:2.5px solid rgba(0,0,0,0.1);border-top-color:var(--brand);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle}
 
-/* ──────────────────────────────────────
-   RESERVAR TAB
-────────────────────────────────────── */
-/* fecha */
+/* RESERVAR */
 .fecha-selector{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:14px}
 .fecha-selector::-webkit-scrollbar{display:none}
 .fecha-chip{flex-shrink:0;min-width:52px;padding:8px 10px;border-radius:12px;border:1.5px solid var(--line);background:white;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.18s;text-align:center;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
@@ -153,7 +135,6 @@ img{max-width:100%}
 .fecha-chip .dn{display:block;font-size:10px;opacity:0.75}
 .fecha-chip .dd{display:block;font-size:17px;font-weight:800;font-family:'Outfit',sans-serif;line-height:1.1}
 
-/* pro card */
 .pro-card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);animation:fadeIn 0.3s ease both}
 .pro-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
 .pro-avatar{width:46px;height:46px;border-radius:12px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
@@ -163,7 +144,6 @@ img{max-width:100%}
 .pro-price{font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;color:var(--brand);text-align:right;flex-shrink:0}
 .pro-price small{display:block;font-size:10px;color:var(--muted);font-weight:600}
 
-/* slots */
 .slots-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px}
 .slots-wrap{display:flex;gap:6px;flex-wrap:wrap;min-height:38px;margin-bottom:12px}
 .slot-btn{padding:7px 12px;border-radius:8px;border:1.5px solid var(--line);background:white;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
@@ -172,9 +152,7 @@ img{max-width:100%}
 .slot-btn.taken{color:#CBD5E1;cursor:not-allowed;text-decoration:line-through;border-color:transparent;background:var(--paper)}
 .slot-loading{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;padding:8px 0}
 
-/* ──────────────────────────────────────
-   MODAL
-────────────────────────────────────── */
+/* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:200;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 .overlay.open{display:flex;animation:fadeIn 0.2s ease}
 .modal{background:white;border-radius:20px 20px 0 0;width:100%;max-width:680px;padding:20px 16px calc(28px + var(--safe-bottom));animation:slideUp 0.3s cubic-bezier(.34,1.2,.64,1);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -189,9 +167,7 @@ img{max-width:100%}
 .success-screen{display:none;text-align:center;padding:28px 12px;animation:bounceIn 0.45s ease both}
 .success-icon{width:60px;height:60px;background:var(--success-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px}
 
-/* ──────────────────────────────────────
-   AUTH GATE
-────────────────────────────────────── */
+/* AUTH GATE */
 .auth-gate{text-align:center;padding:36px 16px}
 .auth-gate .icon{font-size:48px;display:block;margin-bottom:14px;animation:bounceIn 0.5s ease both}
 .auth-gate h3{font-size:21px;font-weight:800;margin-bottom:6px}
@@ -200,9 +176,7 @@ img{max-width:100%}
 .btn-google:hover{border-color:#4285F4;box-shadow:0 4px 14px rgba(66,133,244,0.15);transform:translateY(-1px)}
 .btn-google:disabled{opacity:0.6;cursor:not-allowed;transform:none}
 
-/* ──────────────────────────────────────
-   STEPPER (registro)
-────────────────────────────────────── */
+/* STEPPER */
 .stepper-track{height:4px;background:var(--line);border-radius:999px;margin-bottom:20px;overflow:hidden}
 .stepper-fill{height:100%;background:linear-gradient(90deg,var(--brand),#60A5FA);border-radius:999px;transition:width 0.5s ease}
 .stepper-dots{display:flex;margin-bottom:20px}
@@ -227,7 +201,6 @@ img{max-width:100%}
 .btn-next:hover{background:var(--brand-dark);transform:translateY(-1px)}
 .btn-next:disabled{opacity:0.6;cursor:not-allowed;transform:none}
 
-/* pickers */
 .picker-grid{display:grid;gap:8px;margin-bottom:12px}
 .pg-3{grid-template-columns:repeat(3,1fr)}
 .pg-4{grid-template-columns:repeat(4,1fr)}
@@ -237,9 +210,7 @@ img{max-width:100%}
 .picker-chip.selected{border-color:var(--brand);background:var(--brand);color:white}
 .picker-chip .sub{font-size:10px;display:block;font-weight:600;opacity:0.8;margin-top:2px}
 
-/* ──────────────────────────────────────
-   DISPONIBILIDAD
-────────────────────────────────────── */
+/* DISPONIBILIDAD */
 .disp-row{border:1.5px solid var(--line);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;transition:border-color 0.2s}
 .disp-row.on{border-color:var(--brand-mid)}
 .disp-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -263,10 +234,7 @@ img{max-width:100%}
 .preset-chip{padding:5px 11px;border-radius:999px;border:1.5px solid var(--line);background:none;font-size:12px;font-weight:600;color:var(--muted);font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
 .preset-chip:hover,.preset-chip:active{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
 
-/* ──────────────────────────────────────
-   DASHBOARD PROFESIONAL
-────────────────────────────────────── */
-/* header card */
+/* DASHBOARD */
 .dash-header-card{background:linear-gradient(135deg,var(--brand-dark) 0%,var(--brand) 100%);border-radius:var(--radius);padding:20px;margin-bottom:12px;color:white;position:relative;overflow:hidden}
 .dash-header-card::after{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none}
 .dash-pro-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:20px;margin-bottom:2px}
@@ -274,9 +242,8 @@ img{max-width:100%}
 .dash-header-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .dash-price-badge{background:rgba(255,255,255,0.18);border-radius:999px;padding:5px 14px;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px}
 .dash-mp-badge{background:rgba(255,255,255,0.18);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
-.dash-mp-badge.linked{background:rgba(22,163,74,0.35)}
+.dash-mp-badge.linked{background:rgba(22,163,74,0.45);color:#fff}
 
-/* quick stats */
 .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
 .stat-card{background:white;border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 12px;text-align:center}
 .stat-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;color:var(--ink);margin-bottom:2px}
@@ -284,7 +251,6 @@ img{max-width:100%}
 .stat-num.success{color:var(--success)}
 .stat-lbl{font-size:11px;color:var(--muted);font-weight:600}
 
-/* dash nav */
 .dash-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
 .dash-nav-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:white;cursor:pointer;font-size:11px;font-weight:700;color:var(--muted);font-family:'Outfit',sans-serif;transition:all 0.18s;-webkit-tap-highlight-color:transparent}
 .dash-nav-btn .ico{font-size:20px;line-height:1}
@@ -293,13 +259,17 @@ img{max-width:100%}
 .dash-panel{display:none}
 .dash-panel.active{display:block;animation:fadeIn 0.25s ease}
 
-/* alerta MP */
+/* MP ALERT — solo se muestra si no está vinculado */
 .mp-alert{background:var(--warning-soft);border:1px solid #FCD34D;border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#92400E}
 .mp-alert .ico{font-size:20px;flex-shrink:0;margin-top:-1px}
 .mp-alert-body{flex:1}
 .mp-alert-body b{display:block;font-weight:700;margin-bottom:4px}
 
-/* turno row */
+/* MP VINCULADO BADGE EN DASH */
+.mp-linked-banner{background:var(--success-soft);border:1px solid #86EFAC;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:#166534;font-weight:600}
+.mp-linked-banner .check{font-size:18px}
+
+/* TURNO ROW */
 .turno-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
 .turno-row:last-child{border:none}
 .turno-fecha-block{text-align:center;background:var(--brand-soft);border-radius:10px;padding:8px 10px;min-width:52px;flex-shrink:0}
@@ -311,31 +281,70 @@ img{max-width:100%}
 .turno-email{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .turno-status{margin-top:4px}
 
-/* ocupacion bar */
+/* ── CALENDARIO MENSUAL ── */
+.cal-wrap{animation:fadeIn 0.3s ease both}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-title{font-family:'Outfit',sans-serif;font-weight:800;font-size:16px;color:var(--ink);text-transform:capitalize}
+.cal-nav-btn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);background:white;color:var(--muted);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.cal-nav-btn:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-dow{text-align:center;font-size:10px;font-weight:700;color:var(--muted);padding:4px 0;text-transform:uppercase;letter-spacing:0.4px}
+.cal-day{min-height:54px;border-radius:10px;border:1.5px solid transparent;padding:5px 4px 3px;position:relative;transition:all 0.15s;cursor:default}
+.cal-day.empty{background:transparent}
+.cal-day.past{background:var(--paper);opacity:0.5}
+.cal-day.today{border-color:var(--brand) !important;box-shadow:0 0 0 2px rgba(37,99,235,0.12)}
+.cal-day.sin-disponibilidad{background:var(--paper)}
+.cal-day.disponible{background:#EFF6FF;border-color:#BFDBFE;cursor:pointer}
+.cal-day.disponible:hover{background:#DBEAFE;border-color:var(--brand);transform:translateY(-1px);box-shadow:0 3px 10px rgba(37,99,235,0.12)}
+.cal-day.lleno{background:#ECFDF5;border-color:#86EFAC}
+.cal-day.parcial{background:#F0FDF4;border-color:#BBF7D0}
+.cal-day-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:13px;line-height:1;margin-bottom:3px}
+.cal-day.empty .cal-day-num,.cal-day.past .cal-day-num,.cal-day.sin-disponibilidad .cal-day-num{color:var(--muted)}
+.cal-day.disponible .cal-day-num{color:#1D4ED8}
+.cal-day.lleno .cal-day-num,.cal-day.parcial .cal-day-num{color:#166534}
+.cal-slots-mini{display:flex;flex-wrap:wrap;gap:2px}
+.cal-slot-dot{width:5px;height:5px;border-radius:50%}
+.cal-slot-dot.disp{background:#93C5FD}
+.cal-slot-dot.ocup{background:#34D399}
+.cal-day-count{font-size:9px;font-weight:700;margin-top:2px}
+.cal-day.disponible .cal-day-count{color:#3B82F6}
+.cal-day.lleno .cal-day-count,.cal-day.parcial .cal-day-count{color:#16A34A}
+
+/* LEYENDA */
+.cal-legend{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap}
+.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:600}
+.cal-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.cal-legend-dot.disp{background:#BFDBFE;border:1px solid #93C5FD}
+.cal-legend-dot.ocup{background:#86EFAC;border:1px solid #4ADE80}
+
+/* DETALLE DIA POPUP */
+.cal-detail{margin-top:12px;background:white;border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;animation:fadeIn 0.2s ease}
+.cal-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-detail-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--ink);text-transform:capitalize}
+.cal-detail-close{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:white;color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cal-detail-slots{display:flex;flex-wrap:wrap;gap:6px}
+.cal-slot-pill{padding:5px 10px;border-radius:7px;font-size:12px;font-weight:700;font-family:'Inter',sans-serif}
+.cal-slot-pill.disp{background:#EFF6FF;color:#1D4ED8;border:1.5px solid #BFDBFE}
+.cal-slot-pill.ocup{background:#ECFDF5;color:#166534;border:1.5px solid #86EFAC}
+
 .occ-track{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin:8px 0 4px}
 .occ-fill{height:100%;background:linear-gradient(90deg,var(--brand),#60A5FA);border-radius:999px;transition:width 0.8s ease}
 .occ-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
 .occ-meta b{color:var(--ink)}
 
-/* config section */
 .config-item{background:white;border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px}
 .config-item-title{font-weight:700;font-size:14px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .config-item-sub{font-size:12px;color:var(--muted);margin-bottom:12px}
 
-/* mp step 4 */
 .mp-connect-card{text-align:center;padding:24px 16px}
 .mp-connect-card .big-ico{font-size:52px;display:block;margin-bottom:12px}
 .mp-connect-card h3{font-size:20px;font-weight:800;margin-bottom:6px}
 .mp-connect-card p{font-size:13px;color:var(--muted);margin-bottom:20px}
 
-/* empty state */
 .empty{padding:28px 16px;text-align:center;color:var(--muted)}
 .empty .ico{font-size:36px;margin-bottom:8px}
 .empty p{font-size:14px}
 
-/* ──────────────────────────────────────
-   RESPONSIVE
-────────────────────────────────────── */
 @media(max-width:400px){
   .app-nav-inner{padding:0 12px}
   .tabs-wrap{padding:10px 12px 0}
@@ -345,13 +354,13 @@ img{max-width:100%}
   .dash-nav{grid-template-columns:repeat(4,1fr);gap:4px}
   .dash-nav-btn{padding:8px 2px;font-size:10px}
   .dash-nav-btn .ico{font-size:18px}
+  .cal-day{min-height:46px;padding:4px 2px 2px}
+  .cal-day-num{font-size:11px}
 }
 @media(min-width:681px){
   .app-nav-inner,.tabs-wrap,.app-section,#payment-banner{max-width:680px;margin-left:auto;margin-right:auto}
   .app-section{padding:20px 0 80px}
 }
-
-/* iOS input zoom fix */
 @supports(-webkit-touch-callout:none){
   input,textarea,select{font-size:16px!important}
 }
@@ -370,14 +379,13 @@ img{max-width:100%}
       <span class="brand-name">Mi Turno<span>Seguro</span></span>
     </a>
     <div class="nav-right">
-      <div id="nav-user-area" style="display:none;align-items:center;gap:6px;display:none">
+      <div id="nav-user-area" style="display:none;align-items:center;gap:6px">
         <div class="user-chip">
           <div class="user-chip-avatar" id="nav-avatar"></div>
           <span id="nav-user-name" style="max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
         </div>
         <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
       </div>
-      <a href="landing.html" class="btn-landing">← Inicio</a>
     </div>
   </div>
 </nav>
@@ -392,7 +400,7 @@ img{max-width:100%}
     </div>
   </div>
 
-  <!-- ── TAB RESERVAR ── -->
+  <!-- TAB RESERVAR -->
   <div id="tab-reservar" class="app-section active">
     <span class="section-lbl">Elegí una fecha</span>
     <div class="fecha-selector" id="fecha-selector"></div>
@@ -400,7 +408,7 @@ img{max-width:100%}
     <div id="profesionales-container"></div>
   </div>
 
-  <!-- ── TAB PROFESIONAL ── -->
+  <!-- TAB PROFESIONAL -->
   <div id="tab-profesional" class="app-section">
 
     <!-- AUTH GATE -->
@@ -427,7 +435,7 @@ img{max-width:100%}
         <div class="sdot-wrap" id="sdot-5"><div class="sdot">5</div><div class="sdot-lbl">Cobros</div></div>
       </div>
 
-      <!-- PASO 1 — datos -->
+      <!-- PASO 1 -->
       <div class="step-panel active" id="sp-1">
         <div class="card">
           <p class="step-title">Tu información</p>
@@ -443,7 +451,7 @@ img{max-width:100%}
         <div class="step-nav"><button class="btn-next" onclick="stepNext(1)">Continuar →</button></div>
       </div>
 
-      <!-- PASO 2 — precio y duración -->
+      <!-- PASO 2 -->
       <div class="step-panel" id="sp-2">
         <div class="card">
           <p class="step-title">Precio y duración</p>
@@ -474,34 +482,26 @@ img{max-width:100%}
         <div class="step-nav"><button class="btn-back" onclick="stepBack(2)">← Atrás</button><button class="btn-next" onclick="stepNext(2)">Continuar →</button></div>
       </div>
 
-      <!-- PASO 3 — whatsapp -->
+      <!-- PASO 3 — WhatsApp (solo teléfono) -->
       <div class="step-panel" id="sp-3">
         <div class="card">
           <p class="step-title">📲 WhatsApp para avisos</p>
           <p class="step-sub">Recibí un mensaje cada vez que un paciente reserva y paga.</p>
           <div class="success-box" style="margin-bottom:16px">
             <strong>¿Por qué completar esto?</strong><br>
-            Cada vez que se confirme un turno (con pago incluido), vas a recibir un WhatsApp con el nombre del paciente, fecha, hora y el precio cobrado. Sin este paso, no recibirás notificaciones.
+            Cada vez que se confirme un turno (con pago incluido), te vamos a enviar un WhatsApp con el nombre del paciente, fecha, hora y precio cobrado.
           </div>
           <div class="form-group">
-            <label>Teléfono con código de país</label>
+            <label>Tu número de WhatsApp</label>
             <input type="tel" id="reg-wa-phone" placeholder="+5491122334455" autocomplete="tel">
-            <p class="form-hint">Incluí el + y el código de país. Ej: +5491122334455</p>
+            <p class="form-hint">Incluí el + y el código de país. Ej: +5491122334455 (Argentina)</p>
           </div>
-          <div class="form-group">
-            <label>API Key de CallMeBot</label>
-            <input type="text" id="reg-wa-apikey" placeholder="Tu apikey de CallMeBot" autocomplete="off">
-            <p class="form-hint">
-              Gratis y en 1 minuto: enviá <strong>"I allow callmebot to send me messages"</strong> al número <strong>+34 644 79 56 23</strong> por WhatsApp. Te responden con tu apikey.
-              <a href="https://www.callmebot.com/blog/free-api-whatsapp-messages/" target="_blank" style="color:var(--brand);font-weight:600"> Ver instrucciones →</a>
-            </p>
-          </div>
-          <p class="form-hint" style="margin-top:4px">Podés completar esto después desde el dashboard.</p>
+          <p class="form-hint" style="margin-top:4px">Podés completar o cambiar esto después desde el dashboard.</p>
         </div>
         <div class="step-nav"><button class="btn-back" onclick="stepBack(3)">← Atrás</button><button class="btn-next" onclick="stepNext(3)">Continuar →</button></div>
       </div>
 
-      <!-- PASO 4 — horarios -->
+      <!-- PASO 4 -->
       <div class="step-panel" id="sp-4">
         <div class="card">
           <p class="step-title">Horarios de atención</p>
@@ -537,7 +537,6 @@ img{max-width:100%}
 
     <!-- DASHBOARD -->
     <div id="pro-dashboard" style="display:none">
-      <!-- Header -->
       <div class="dash-header-card" id="dash-header">
         <div class="dash-pro-name" id="dash-nombre">—</div>
         <div class="dash-pro-spec" id="dash-spec">—</div>
@@ -547,7 +546,7 @@ img{max-width:100%}
         </div>
       </div>
 
-      <!-- Alerta MP si no está vinculado -->
+      <!-- MP alert (solo si NO vinculado) -->
       <div id="dash-mp-alert" style="display:none">
         <div class="mp-alert">
           <span class="ico">⚠️</span>
@@ -561,13 +560,19 @@ img{max-width:100%}
         </div>
       </div>
 
-      <!-- Stats rápidas -->
+      <!-- MP banner verde (cuando SÍ está vinculado) -->
+      <div id="dash-mp-linked" style="display:none">
+        <div class="mp-linked-banner">
+          <span class="check">✅</span>
+          <span>Mercado Pago vinculado — ya podés recibir pagos directamente en tu cuenta.</span>
+        </div>
+      </div>
+
       <div class="stats-row" id="dash-stats">
         <div class="stat-card"><div class="sk" style="height:26px;width:50%;margin:0 auto 4px"></div><div class="stat-lbl">Confirmados</div></div>
         <div class="stat-card"><div class="sk" style="height:26px;width:70%;margin:0 auto 4px"></div><div class="stat-lbl">Facturado</div></div>
       </div>
 
-      <!-- Nav -->
       <div class="dash-nav">
         <button class="dash-nav-btn active" id="dnav-agenda" onclick="showDashPanel('agenda',this)"><span class="ico">🗓️</span>Agenda</button>
         <button class="dash-nav-btn" id="dnav-horarios" onclick="showDashPanel('horarios',this)"><span class="ico">⏰</span>Horarios</button>
@@ -578,8 +583,8 @@ img{max-width:100%}
       <!-- Panel agenda -->
       <div class="dash-panel active" id="dp-agenda">
         <div class="card">
-          <span class="section-lbl" style="margin-bottom:10px">Ocupación próximos 7 días</span>
-          <div id="dash-ocupacion"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0">Calculando...</div></div>
+          <span class="section-lbl" style="margin-bottom:10px">Calendario del mes</span>
+          <div id="dash-calendario"><div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0"><span class="spinner-dark"></span> Cargando calendario...</div></div>
         </div>
         <div class="card">
           <span class="section-lbl" style="margin-bottom:10px">Próximos turnos</span>
@@ -604,25 +609,18 @@ img{max-width:100%}
         </div>
       </div>
 
-      <!-- Panel whatsapp -->
+      <!-- Panel whatsapp (solo teléfono) -->
       <div class="dash-panel" id="dp-whatsapp">
         <div class="card">
           <div class="config-item-title">📲 Notificaciones por WhatsApp</div>
           <div class="config-item-sub">Recibí un mensaje cada vez que se confirme un turno.</div>
           <div id="wa-status-box" style="margin-bottom:14px"></div>
           <div class="form-group">
-            <label>Teléfono con código de país</label>
+            <label>Tu número de WhatsApp</label>
             <input type="tel" id="wa-phone" placeholder="+5491122334455" autocomplete="tel">
+            <p class="form-hint">Incluí el + y el código de país. Ej: +5491122334455</p>
           </div>
-          <div class="form-group">
-            <label>API Key de CallMeBot</label>
-            <input type="text" id="wa-apikey" placeholder="Tu apikey" autocomplete="off">
-            <p class="form-hint">
-              Gratis en 1 min: mandá <strong>"I allow callmebot to send me messages"</strong> al <strong>+34 644 79 56 23</strong> por WhatsApp y te responden con tu apikey.
-              <a href="https://www.callmebot.com/blog/free-api-whatsapp-messages/" target="_blank" style="color:var(--brand);font-weight:600"> Ver instrucciones →</a>
-            </p>
-          </div>
-          <button class="btn btn-primary" onclick="guardarWhatsapp()">Guardar configuración</button>
+          <button class="btn btn-primary" onclick="guardarWhatsapp()">Guardar número</button>
         </div>
       </div>
 
@@ -641,8 +639,8 @@ img{max-width:100%}
       </div>
     </div>
 
-  </div><!-- /tab-profesional -->
-</div><!-- /bg -->
+  </div>
+</div>
 
 <!-- MODAL PAGO -->
 <div class="overlay" id="payModal" onclick="closeModalOut(event)">
@@ -671,92 +669,62 @@ img{max-width:100%}
 </div>
 
 <script>
-/* ════════════════════════════════════
-   CONFIG
-════════════════════════════════════ */
 var CFG = {
   GOOGLE_CLIENT_ID: '962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com',
-  API: 'https://script.google.com/macros/s/AKfycbyg3fDsna_dvLqDOvpLWhbcEUr5dOikNXE0kFczHIicRhFeYpon3WLn3TWOUihuFzpOWQ/exec'
+  API: 'https://script.google.com/macros/s/AKfycbyg3fDsna_dvLqDOvpLWhbcEUr5dOikNXE0kFczHIicRhFeYpon3WLn3TWOUihuFzpOWQ/exec',
+  SITE: 'https://miturnoseguro.com'
 };
 
-/* ════════════════════════════════════
-   STORAGE (con fallback a memoria)
-════════════════════════════════════ */
 var MEM = {};
 var ST = {
-  get: function(k){
-    try{ var v=localStorage.getItem('mts_'+k); return v?JSON.parse(v):null; }
-    catch(e){ return MEM['mts_'+k]||null; }
-  },
-  set: function(k,v){
-    try{ localStorage.setItem('mts_'+k,JSON.stringify(v)); }
-    catch(e){ MEM['mts_'+k]=v; }
-  },
-  del: function(k){
-    try{ localStorage.removeItem('mts_'+k); }
-    catch(e){ delete MEM['mts_'+k]; }
-  }
+  get: function(k){ try{ var v=localStorage.getItem('mts_'+k); return v?JSON.parse(v):null; }catch(e){ return MEM['mts_'+k]||null; } },
+  set: function(k,v){ try{ localStorage.setItem('mts_'+k,JSON.stringify(v)); }catch(e){ MEM['mts_'+k]=v; } },
+  del: function(k){ try{ localStorage.removeItem('mts_'+k); }catch(e){ delete MEM['mts_'+k]; } }
 };
 
-/* ════════════════════════════════════
-   STATE
-════════════════════════════════════ */
-var currentUser    = null;
-var proActual      = null;
-var proIdCreado    = null;
-var fechaSel       = hoyISO();
-var slotSel        = null;
-var proSel         = null;
-var durSel         = 45;
-var precioSel      = 20000;
-var dispCache      = {};
-var dispState      = {};   // dashboard
-var dispStateReg   = {};   // registro
-var STEP_TOTAL     = 5;
+var currentUser  = null;
+var proActual    = null;
+var proIdCreado  = null;
+var fechaSel     = hoyISO();
+var slotSel      = null;
+var proSel       = null;
+var durSel       = 45;
+var precioSel    = 20000;
+var dispCache    = {};
+var dispState    = {};
+var dispStateReg = {};
+var STEP_TOTAL   = 5;
+
+// Calendario state
+var calMes       = null; // {year, month} del mes activo en el dashboard
+var calDataCache = {};   // proId -> array de {fecha, slots:[{hora,disp}]}
+var calDiaDetalle= null; // fecha ISO seleccionada para mostrar detalle
 
 var DIAS = [
   {num:1,n:'Lunes'},{num:2,n:'Martes'},{num:3,n:'Miércoles'},
   {num:4,n:'Jueves'},{num:5,n:'Viernes'},{num:6,n:'Sábado'},{num:0,n:'Domingo'}
 ];
 
-/* ════════════════════════════════════
-   TOAST
-════════════════════════════════════ */
+/* TOAST */
 function toast(msg,type){
   var c=document.getElementById('toast-container');
-  var el=document.createElement('div');
-  el.className='toast '+(type||'info');
-  el.textContent=msg;
+  var el=document.createElement('div'); el.className='toast '+(type||'info'); el.textContent=msg;
   c.appendChild(el);
-  setTimeout(function(){
-    el.style.opacity='0'; el.style.transition='opacity 0.3s';
-    setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },300);
-  },4000);
+  setTimeout(function(){ el.style.opacity='0'; el.style.transition='opacity 0.3s'; setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },300); },4000);
 }
 
-/* ════════════════════════════════════
-   API (JSONP con retry)
-════════════════════════════════════ */
+/* API */
 function apiGet(path,params,retries){
-  retries=retries||0;
-  params=params||{};
+  retries=retries||0; params=params||{};
   return new Promise(function(resolve,reject){
     var cb='_cb_'+Date.now()+'_'+(Math.random()*1e6|0);
     var qs=Object.assign({path:path,callback:cb},params);
-    var src=CFG.API+'?'+Object.keys(qs).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(qs[k]);}).join('&');
+    var src=CFG.API+'?'+Object.keys(qs).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(qs[k]); }).join('&');
     var s=document.createElement('script'); s.src=src;
-    var t=setTimeout(function(){
-      cleanup();
-      if(retries<2) resolve(apiGet(path,params,retries+1));
-      else reject(new Error('Timeout'));
-    },12000);
+    var t=setTimeout(function(){ cleanup(); if(retries<2) resolve(apiGet(path,params,retries+1)); else reject(new Error('Timeout')); },12000);
     window[cb]=function(d){ cleanup(); resolve(d); };
     function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror=function(){
-      cleanup();
-      if(retries<2) resolve(apiGet(path,params,retries+1));
-      else reject(new Error('Error de red'));
-    };
+    s.onerror=function(){ cleanup(); if(retries<2) resolve(apiGet(path,params,retries+1)); else reject(new Error('Error de red')); };
     document.body.appendChild(s);
   });
 }
@@ -767,32 +735,19 @@ function apiPost(path,body,retries){
     var cb='_cb_'+Date.now()+'_'+(Math.random()*1e6|0);
     var src=CFG.API+'?path='+encodeURIComponent(path)+'&callback='+encodeURIComponent(cb)+'&_body='+encodeURIComponent(JSON.stringify(body));
     var s=document.createElement('script'); s.src=src;
-    var t=setTimeout(function(){
-      cleanup();
-      if(retries<2) resolve(apiPost(path,body,retries+1));
-      else reject(new Error('Timeout'));
-    },12000);
+    var t=setTimeout(function(){ cleanup(); if(retries<2) resolve(apiPost(path,body,retries+1)); else reject(new Error('Timeout')); },12000);
     window[cb]=function(d){ cleanup(); resolve(d); };
     function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror=function(){
-      cleanup();
-      if(retries<1) resolve(apiPost(path,body,retries+1));
-      else reject(new Error('Error de red'));
-    };
+    s.onerror=function(){ cleanup(); if(retries<1) resolve(apiPost(path,body,retries+1)); else reject(new Error('Error de red')); };
     document.body.appendChild(s);
   });
 }
 
-/* ════════════════════════════════════
-   SLOT GENERATION (client-side)
-════════════════════════════════════ */
+/* SLOTS */
 function genSlots(inicio,fin,durMin){
   var slots=[],pi=inicio.split(':').map(Number),pf=fin.split(':').map(Number);
   var mi=pi[0]*60+pi[1], mf=pf[0]*60+pf[1];
-  for(var t=mi;t+durMin<=mf;t+=durMin){
-    var h=Math.floor(t/60),m=t%60;
-    slots.push(String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'));
-  }
+  for(var t=mi;t+durMin<=mf;t+=durMin){ var h=Math.floor(t/60),m=t%60; slots.push(String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')); }
   return slots;
 }
 
@@ -801,29 +756,20 @@ function getDia(iso){ var p=iso.split('-'); return new Date(+p[0],+p[1]-1,+p[2])
 async function calcularSlots(proId,fecha,durMin){
   var dia=getDia(fecha);
   if(!dispCache[proId]){
-    try{
-      var r=await apiGet('disponibilidad',{profesional_id:proId});
-      dispCache[proId]=(r&&r.disponibilidad)?r.disponibilidad:[];
-    }catch(e){ dispCache[proId]=[]; }
+    try{ var r=await apiGet('disponibilidad',{profesional_id:proId}); dispCache[proId]=(r&&r.disponibilidad)?r.disponibilidad:[]; }
+    catch(e){ dispCache[proId]=[]; }
   }
   var bloques=(dispCache[proId]||[]).filter(function(b){ return Number(b.dia)===dia; });
   if(!bloques.length) return [];
   var todos=[];
-  bloques.forEach(function(b){
-    genSlots(b.inicio,b.fin,durMin).forEach(function(s){ if(todos.indexOf(s)===-1) todos.push(s); });
-  });
+  bloques.forEach(function(b){ genSlots(b.inicio,b.fin,durMin).forEach(function(s){ if(todos.indexOf(s)===-1) todos.push(s); }); });
   todos.sort();
   var ocupados=[];
-  try{
-    var rt=await apiGet('turnos',{profesional_id:proId,fecha:fecha});
-    if(rt&&rt.horarios) rt.horarios.forEach(function(h){ if(!h.disponible) ocupados.push(h.hora); });
-  }catch(e){}
+  try{ var rt=await apiGet('turnos',{profesional_id:proId,fecha:fecha}); if(rt&&rt.horarios) rt.horarios.forEach(function(h){ if(!h.disponible) ocupados.push(h.hora); }); }catch(e){}
   return todos.map(function(h){ return {hora:h,disponible:ocupados.indexOf(h)===-1}; });
 }
 
-/* ════════════════════════════════════
-   FECHA SELECTOR
-════════════════════════════════════ */
+/* FECHAS RESERVAR */
 function renderFechas(){
   var el=document.getElementById('fecha-selector'); if(!el) return;
   var dias=['dom','lun','mar','mié','jue','vie','sáb'];
@@ -832,9 +778,7 @@ function renderFechas(){
     var d=new Date(); d.setDate(d.getDate()+i);
     var iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     html+='<button class="fecha-chip'+(iso===fechaSel?' selected':'')+'" onclick="selFecha(\''+iso+'\',this)">'+
-      '<span class="dn">'+dias[d.getDay()]+'</span>'+
-      '<span class="dd">'+d.getDate()+'</span>'+
-    '</button>';
+      '<span class="dn">'+dias[d.getDay()]+'</span><span class="dd">'+d.getDate()+'</span></button>';
   }
   el.innerHTML=html;
 }
@@ -851,17 +795,13 @@ function selFecha(iso,el){
   });
 }
 
-/* ════════════════════════════════════
-   PROFESIONALES (paciente)
-════════════════════════════════════ */
+/* PROFESIONALES (paciente) */
 async function cargarPros(){
   var c=document.getElementById('profesionales-container');
   c.innerHTML='<div class="pro-card"><div class="sk" style="height:46px;width:46px;border-radius:12px;float:left;margin-right:12px"></div><div class="sk" style="height:14px;width:55%;margin-bottom:8px"></div><div class="sk" style="height:12px;width:40%"></div><div style="clear:both"></div><div class="sk" style="height:38px;margin-top:14px;border-radius:999px"></div></div>'.repeat(2);
   try{
     var data=await apiGet('profesionales');
-    if(!data.profesionales||!data.profesionales.length){
-      c.innerHTML='<div class="empty"><div class="ico">🏥</div><p>No hay profesionales disponibles aún.</p></div>'; return;
-    }
+    if(!data.profesionales||!data.profesionales.length){ c.innerHTML='<div class="empty"><div class="ico">🏥</div><p>No hay profesionales disponibles aún.</p></div>'; return; }
     var avs=['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
     c.innerHTML=data.profesionales.map(function(p,i){
       var dur=Number(p.duracion_min)||45;
@@ -888,9 +828,7 @@ async function cargarPros(){
       if(wrap) renderSlotsEl(p.id,dur,wrap.querySelector('.slots-wrap'));
     });
   }catch(e){
-    c.innerHTML='<div class="card" style="text-align:center;padding:20px">'+
-      '<div style="font-size:14px;margin-bottom:8px">No se pudo conectar</div>'+
-      '<button class="btn btn-outline" onclick="cargarPros()" style="max-width:180px;margin:0 auto">Reintentar</button></div>';
+    c.innerHTML='<div class="card" style="text-align:center;padding:20px"><div style="font-size:14px;margin-bottom:8px">No se pudo conectar</div><button class="btn btn-outline" onclick="cargarPros()" style="max-width:180px;margin:0 auto">Reintentar</button></div>';
   }
 }
 
@@ -898,9 +836,7 @@ async function renderSlotsEl(proId,durMin,el){
   if(!el) return;
   el.innerHTML='<div class="slot-loading"><span class="spinner-dark"></span> Calculando horarios...</div>';
   var horarios=await calcularSlots(proId,fechaSel,durMin);
-  if(!horarios.length){
-    el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:6px 0">Sin horarios disponibles este día.</div>'; return;
-  }
+  if(!horarios.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:6px 0">Sin horarios disponibles este día.</div>'; return; }
   el.innerHTML=horarios.map(function(h){
     if(h.disponible) return '<button class="slot-btn" onclick="selSlot(this,\''+proId+'\',\''+h.hora+'\')">'+h.hora+'</button>';
     return '<button class="slot-btn taken" disabled>'+h.hora+'</button>';
@@ -913,9 +849,7 @@ function selSlot(el,proId,hora){
   slotSel=hora; proSel={id:proId};
 }
 
-/* ════════════════════════════════════
-   MODAL
-════════════════════════════════════ */
+/* MODAL */
 function abrirModal(proId,nombre,precio){
   if(!proSel||proSel.id!==proId||!slotSel){ toast('Elegí un horario primero.','error'); return; }
   document.getElementById('m-doc').textContent   = nombre;
@@ -948,29 +882,23 @@ async function confirmarPago(){
     });
     if(data.init_point){ window.location.href=data.init_point; return; }
     toast('❌ '+(data.error||'No se pudo crear el pago.'),'error');
-    btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
-    btn.disabled=false;
+    btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →'; btn.disabled=false;
   }catch(e){
     toast('❌ Error de conexión.','error');
-    btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
-    btn.disabled=false;
+    btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →'; btn.disabled=false;
   }
 }
 
 function closeModal(){ document.getElementById('payModal').classList.remove('open'); slotSel=null; proSel=null; }
 function closeModalOut(e){ if(e.target.id==='payModal') closeModal(); }
 
-/* ════════════════════════════════════
-   GOOGLE AUTH
-════════════════════════════════════ */
+/* GOOGLE AUTH */
 function loginConGoogle(){
   var btn=document.getElementById('btn-google');
   btn.disabled=true; btn.innerHTML='<span class="spinner-dark"></span> Conectando...';
   try{
     google.accounts.id.initialize({ client_id:CFG.GOOGLE_CLIENT_ID, callback:onGoogleCred, auto_select:false });
-    google.accounts.id.prompt(function(n){
-      if(n.isNotDisplayed()||n.isSkippedMoment()) abrirOAuthPopup();
-    });
+    google.accounts.id.prompt(function(n){ if(n.isNotDisplayed()||n.isSkippedMoment()) abrirOAuthPopup(); });
   }catch(e){ abrirOAuthPopup(); }
 }
 
@@ -1000,10 +928,8 @@ function onGoogleCred(resp){
 }
 
 function handleUser(user){
-  currentUser=user;
-  ST.set('google_user',user);
-  updateNavUser(user);
-  cargarPerfilPro();
+  currentUser=user; ST.set('google_user',user);
+  updateNavUser(user); cargarPerfilPro();
 }
 
 function resetBtnGoogle(msg){
@@ -1017,9 +943,7 @@ function cerrarSesion(){
   currentUser=null; proActual=null;
   ST.del('google_user'); ST.del('pro_actual'); ST.del('pro_disp');
   try{ google.accounts.id.disableAutoSelect(); }catch(e){}
-  updateNavUser(null);
-  mostrarAuthGate();
-  resetBtnGoogle(null);
+  updateNavUser(null); mostrarAuthGate(); resetBtnGoogle(null);
   toast('Sesión cerrada.','info');
 }
 
@@ -1033,9 +957,7 @@ function updateNavUser(user){
   else av.textContent=(user.name||user.email||'?')[0].toUpperCase();
 }
 
-/* ════════════════════════════════════
-   PERFIL PROFESIONAL
-════════════════════════════════════ */
+/* PERFIL PROFESIONAL */
 function mostrarAuthGate(){
   document.getElementById('pro-auth-gate').style.display='block';
   document.getElementById('pro-registro').style.display='none';
@@ -1046,8 +968,7 @@ function mostrarRegistro(){
   document.getElementById('pro-auth-gate').style.display='none';
   document.getElementById('pro-registro').style.display='block';
   document.getElementById('pro-dashboard').style.display='none';
-  inicDispReg();
-  goStep(1);
+  inicDispReg(); goStep(1);
   if(currentUser){
     document.getElementById('reg-name').textContent=currentUser.name||'';
     document.getElementById('reg-email').textContent=currentUser.email||'';
@@ -1066,9 +987,11 @@ function mostrarDashboard(pro){
   document.getElementById('dash-precio').textContent='$'+Number(pro.precio).toLocaleString('es-AR')+' / sesión';
   var tieneMp=!!(pro.mp_access_token&&pro.mp_user_id);
   var mpBadge=document.getElementById('dash-mp-badge');
-  mpBadge.textContent=tieneMp?'✓ MP vinculado':'⏳ Sin MP';
+  mpBadge.textContent=tieneMp?'✅ MP vinculado':'⏳ Sin MP';
   mpBadge.className='dash-mp-badge'+(tieneMp?' linked':'');
+  // Mostrar/ocultar alertas MP
   document.getElementById('dash-mp-alert').style.display=tieneMp?'none':'block';
+  document.getElementById('dash-mp-linked').style.display=tieneMp?'block':'none';
   renderMpConfig(pro);
   renderWaPanel(pro);
   document.getElementById('config-user-email').textContent=currentUser?currentUser.email:'—';
@@ -1080,39 +1003,26 @@ function mostrarDashboard(pro){
 async function cargarPerfilPro(){
   if(!currentUser){ mostrarAuthGate(); return; }
   document.getElementById('pro-auth-gate').style.display='none';
-  // 1. mostrar desde cache rápido
   var cached=ST.get('pro_actual');
   if(cached){ proActual=cached; mostrarDashboard(cached); }
-  // 2. verificar contra API
   try{
     var data=await apiGet('profesionales');
-    var pro=(data.profesionales||[]).find(function(p){
-      return (p.email||'').toLowerCase()===(currentUser.email||'').toLowerCase();
-    });
+    var pro=(data.profesionales||[]).find(function(p){ return (p.email||'').toLowerCase()===(currentUser.email||'').toLowerCase(); });
     if(pro){ guardarPro(pro); mostrarDashboard(pro); }
     else if(!cached){ mostrarRegistro(); }
-  }catch(e){
-    if(!cached) mostrarRegistro();
-  }
+  }catch(e){ if(!cached) mostrarRegistro(); }
 }
 
 function guardarPro(pro){ proActual=pro; ST.set('pro_actual',pro); }
+function handleProTab(tabEl){ showTab('profesional',tabEl); if(currentUser) cargarPerfilPro(); else mostrarAuthGate(); }
 
-function handleProTab(tabEl){
-  showTab('profesional',tabEl);
-  if(currentUser) cargarPerfilPro(); else mostrarAuthGate();
-}
-
-/* ════════════════════════════════════
-   STEPPER REGISTRO
-════════════════════════════════════ */
+/* STEPPER */
 var stepActual=1;
 
 function goStep(n){
   document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
   var sp=document.getElementById('sp-'+n); if(sp) sp.classList.add('active');
-  var pct=((n-1)/(STEP_TOTAL-1)*100);
-  document.getElementById('step-bar').style.width=pct+'%';
+  document.getElementById('step-bar').style.width=((n-1)/(STEP_TOTAL-1)*100)+'%';
   for(var i=1;i<=STEP_TOTAL;i++){
     var d=document.getElementById('sdot-'+i); if(!d) continue;
     d.className='sdot-wrap'+(i<n?' done':i===n?' active':'');
@@ -1129,36 +1039,21 @@ function stepNext(n){
     var err=document.getElementById('err-1');
     if(!nombre||!esp){ err.textContent='Completá nombre y especialidad.'; err.style.display='block'; return; }
     err.style.display='none'; goStep(2);
-  } else if(n===2){
-    goStep(3);
-  } else if(n===3){
-    goStep(4); renderDispReg();
-  } else if(n===4){
-    crearPerfil();
-  }
+  } else if(n===2){ goStep(3);
+  } else if(n===3){ goStep(4); renderDispReg();
+  } else if(n===4){ crearPerfil(); }
 }
-
 function stepBack(n){ goStep(n-1); }
 
-function setPrecio(v,el){
-  precioSel=v;
-  document.getElementById('precio-custom').value='';
-  document.querySelectorAll('#sp-2 .pg-3 .picker-chip').forEach(function(c){ c.classList.remove('selected'); });
-  if(el) el.classList.add('selected');
-}
+function setPrecio(v,el){ precioSel=v; document.getElementById('precio-custom').value=''; document.querySelectorAll('#sp-2 .pg-3 .picker-chip').forEach(function(c){ c.classList.remove('selected'); }); if(el) el.classList.add('selected'); }
 function setPrecioCustom(v){ var n=parseInt(v); if(n>0){ precioSel=n; document.querySelectorAll('#sp-2 .pg-3 .picker-chip').forEach(function(c){ c.classList.remove('selected'); }); } }
-function setDuracion(v,el){
-  durSel=v;
-  document.querySelectorAll('#sp-2 .pg-4 .picker-chip').forEach(function(c){ c.classList.remove('selected'); });
-  if(el) el.classList.add('selected');
-}
+function setDuracion(v,el){ durSel=v; document.querySelectorAll('#sp-2 .pg-4 .picker-chip').forEach(function(c){ c.classList.remove('selected'); }); if(el) el.classList.add('selected'); }
 
 async function crearPerfil(){
   var btn=document.getElementById('btn-crear');
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Creando...';
   try{
     var waPhone=(document.getElementById('reg-wa-phone').value||'').trim();
-    var waApikey=(document.getElementById('reg-wa-apikey').value||'').trim();
     var data=await apiPost('profesionales',{
       nombre:document.getElementById('pro-nombre').value.trim(),
       especialidad:document.getElementById('pro-especialidad').value.trim(),
@@ -1169,13 +1064,12 @@ async function crearPerfil(){
     if(data.error){ toast('❌ '+data.error,'error'); btn.disabled=false; btn.innerHTML='Crear perfil →'; return; }
     proIdCreado=data.id;
 
-    // WhatsApp
-    if(waPhone&&waApikey){
-      try{ await apiPost('whatsapp_config',{profesional_id:proIdCreado,telefono:waPhone,apikey:waApikey}); }
+    // WhatsApp — solo guardamos el teléfono, el backend genera el wa.me
+    if(waPhone){
+      try{ await apiPost('whatsapp_config',{profesional_id:proIdCreado,telefono:waPhone}); }
       catch(e){ console.warn('WA config error',e); }
     }
 
-    // Disponibilidad
     var bloques=buildBloques(dispStateReg);
     if(bloques.length){ try{ await apiPost('disponibilidad',{profesional_id:proIdCreado,disponibilidad:bloques}); }catch(e){} }
 
@@ -1186,7 +1080,7 @@ async function crearPerfil(){
       precio:precioSel, duracion_min:durSel,
       email:currentUser?currentUser.email:'',
       mp_access_token:'', mp_user_id:'',
-      whatsapp_phone:waPhone, whatsapp_apikey:waApikey
+      whatsapp_phone:waPhone, whatsapp_apikey:''
     };
     guardarPro(pro);
     document.getElementById('reg-resumen').textContent=
@@ -1201,9 +1095,7 @@ async function crearPerfil(){
 
 function irDashboard(){ if(proActual) mostrarDashboard(proActual); }
 
-/* ════════════════════════════════════
-   OAUTH MP
-════════════════════════════════════ */
+/* OAUTH MP */
 function iniciarOAuth(){
   if(!proActual){ toast('Sin profesional activo.','error'); return; }
   var btn=event&&event.target?event.target.closest('button'):null;
@@ -1242,7 +1134,7 @@ function renderMpConfig(pro){
   var tieneMp=!!(pro.mp_access_token&&pro.mp_user_id);
   var el=document.getElementById('mp-config-body'); if(!el) return;
   if(tieneMp){
-    el.innerHTML='<div class="success-box" style="margin-bottom:12px">✓ Cuenta vinculada. ID: '+(pro.mp_user_id||'—')+'</div>'+
+    el.innerHTML='<div class="success-box" style="margin-bottom:12px">✅ Cuenta vinculada. ID: '+(pro.mp_user_id||'—')+'</div>'+
       '<button class="btn btn-danger-outline" onclick="desvincularMP()" style="max-width:220px">Desvincular MP</button>';
   } else {
     el.innerHTML='<div class="warning-box" style="margin-bottom:12px">Sin Mercado Pago vinculado no podés recibir pagos.</div>'+
@@ -1250,63 +1142,230 @@ function renderMpConfig(pro){
   }
 }
 
-/* ════════════════════════════════════
-   WHATSAPP
-════════════════════════════════════ */
+/* WHATSAPP — solo teléfono, wa.me lo armamos nosotros */
+function buildWaMe(phone){
+  // Normalizar número: quitar espacios y guiones
+  var n=(phone||'').replace(/[\s\-\(\)]/g,'');
+  if(!n.startsWith('+')) n='+'+n;
+  return 'https://wa.me/'+n.replace('+','');
+}
+
 function renderWaPanel(pro){
   var el=document.getElementById('wa-status-box'); if(!el) return;
-  var tiene=!!(pro.whatsapp_phone&&pro.whatsapp_apikey);
+  var tiene=!!(pro.whatsapp_phone);
   el.innerHTML=tiene
     ? '<div class="success-box" style="margin-bottom:0">✅ WhatsApp configurado: '+esc(pro.whatsapp_phone)+'</div>'
-    : '<div class="warning-box" style="margin-bottom:0">⚠️ Sin WhatsApp configurado — no recibirás avisos de nuevos turnos.</div>';
-  var ph=document.getElementById('wa-phone'), ak=document.getElementById('wa-apikey');
+    : '<div class="warning-box" style="margin-bottom:0">⚠️ Sin WhatsApp — no recibirás avisos de nuevos turnos.</div>';
+  var ph=document.getElementById('wa-phone');
   if(ph) ph.value=pro.whatsapp_phone||'';
-  if(ak) ak.value=pro.whatsapp_apikey||'';
 }
 
 async function guardarWhatsapp(){
   if(!proActual) return;
   var phone=(document.getElementById('wa-phone').value||'').trim();
-  var apikey=(document.getElementById('wa-apikey').value||'').trim();
-  if(!phone&&!apikey){ toast('Completá teléfono y apikey para activar WhatsApp.','error'); return; }
-  if(phone&&!/^\+?\d{8,15}$/.test(phone.replace(/\s/g,''))){ toast('Teléfono inválido. Usá formato +5491122334455','error'); return; }
+  if(!phone){ toast('Ingresá tu número de WhatsApp.','error'); return; }
+  if(!/^\+?\d{8,15}$/.test(phone.replace(/\s/g,''))){ toast('Número inválido. Usá formato +5491122334455','error'); return; }
   try{
-    var data=await apiPost('whatsapp_config',{profesional_id:proActual.id,telefono:phone,apikey:apikey});
+    // Enviamos solo el teléfono; el backend genera el wa.me internamente
+    var data=await apiPost('whatsapp_config',{profesional_id:proActual.id,telefono:phone});
     if(data&&data.ok){
-      proActual.whatsapp_phone=phone; proActual.whatsapp_apikey=apikey;
+      proActual.whatsapp_phone=phone; proActual.whatsapp_apikey='';
       guardarPro(proActual); renderWaPanel(proActual);
-      toast('✅ WhatsApp guardado. Vas a recibir avisos de cada turno.','ok');
+      toast('✅ WhatsApp guardado.','ok');
     } else { toast('❌ '+(data&&data.error||'Error al guardar.'),'error'); }
   }catch(e){ toast('❌ Error de conexión.','error'); }
 }
 
-/* ════════════════════════════════════
-   DASHBOARD DATA
-════════════════════════════════════ */
+/* ── CALENDARIO MENSUAL ── */
+function isoDate(y,m,d){ return y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'); }
+
+async function cargarCalendario(proId){
+  var hoy=new Date();
+  if(!calMes) calMes={year:hoy.getFullYear(),month:hoy.getMonth()+1};
+  renderCalendario(proId, true);
+
+  // Cargar datos del mes
+  var y=calMes.year, m=calMes.month;
+  var diasEnMes=new Date(y,m,0).getDate();
+  var dur=proActual?Number(proActual.duracion_min)||45:45;
+
+  // Pre-cargar disponibilidad
+  if(!dispCache[proId]){
+    try{ var r=await apiGet('disponibilidad',{profesional_id:proId}); dispCache[proId]=(r&&r.disponibilidad)?r.disponibilidad:[]; }
+    catch(e){ dispCache[proId]=[]; }
+  }
+
+  // Cargar turnos del mes de una sola vez si el backend lo soporta, sino día a día
+  var slotsMap={};
+  var hoyStr=isoDate(hoy.getFullYear(),hoy.getMonth()+1,hoy.getDate());
+
+  var promesas=[];
+  for(var dia=1;dia<=diasEnMes;dia++){
+    var fecha=isoDate(y,m,dia);
+    if(fecha<hoyStr) continue; // no cargar pasados
+    (function(f){
+      promesas.push(
+        calcularSlots(proId,f,dur).then(function(slots){ slotsMap[f]=slots; })
+      );
+    })(fecha);
+  }
+  await Promise.all(promesas);
+
+  calDataCache[proId+'_'+y+'_'+m]=slotsMap;
+  renderCalendario(proId, false);
+}
+
+function renderCalendario(proId, loading){
+  var el=document.getElementById('dash-calendario'); if(!el) return;
+  var y=calMes.year, m=calMes.month;
+  var meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var diasEnMes=new Date(y,m,0).getDate();
+  var primerDia=new Date(y,m-1,1).getDay(); // 0=dom
+  // Ajustar para semana lunes-domingo
+  var offset=(primerDia===0)?6:primerDia-1;
+
+  var slotsMap=calDataCache[proId+'_'+y+'_'+m]||{};
+  var hoy=new Date();
+  var hoyStr=isoDate(hoy.getFullYear(),hoy.getMonth()+1,hoy.getDate());
+
+  var html='<div class="cal-wrap">';
+  html+='<div class="cal-header">'+
+    '<button class="cal-nav-btn" onclick="calNavMes(-1,\''+proId+'\')">‹</button>'+
+    '<div class="cal-title">'+meses[m-1]+' '+y+'</div>'+
+    '<button class="cal-nav-btn" onclick="calNavMes(1,\''+proId+'\')">›</button>'+
+  '</div>';
+
+  html+='<div class="cal-grid">';
+  var dows=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  dows.forEach(function(d){ html+='<div class="cal-dow">'+d+'</div>'; });
+
+  // Celdas vacías al inicio
+  for(var i=0;i<offset;i++) html+='<div class="cal-day empty"></div>';
+
+  for(var d=1;d<=diasEnMes;d++){
+    var fecha=isoDate(y,m,d);
+    var esPasado=fecha<hoyStr;
+    var esHoy=fecha===hoyStr;
+    var slots=slotsMap[fecha]||null;
+
+    var cls='cal-day';
+    if(esPasado){ cls+=' past'; }
+    else if(loading||slots===null){ cls+=' sin-disponibilidad'; }
+    else if(!slots.length){ cls+=' sin-disponibilidad'; }
+    else {
+      var totalSlots=slots.length;
+      var ocupados=slots.filter(function(s){ return !s.disponible; }).length;
+      var libres=totalSlots-ocupados;
+      if(libres===0) cls+=' lleno';
+      else if(ocupados>0) cls+=' parcial';
+      else cls+=' disponible';
+    }
+    if(esHoy) cls+=' today';
+
+    var innerHtml='<div class="cal-day-num">'+d+'</div>';
+    if(!esPasado&&slots&&slots.length){
+      var totalSlots2=slots.length;
+      var ocupados2=slots.filter(function(s){ return !s.disponible; }).length;
+      var libres2=totalSlots2-ocupados2;
+      // Puntitos de slots (máx 6 para no desbordar)
+      var maxDots=Math.min(totalSlots2,6);
+      var dotsHtml='<div class="cal-slots-mini">';
+      for(var si=0;si<maxDots;si++){
+        var disp2=si<libres2;
+        dotsHtml+='<div class="cal-slot-dot '+(disp2?'disp':'ocup')+'"></div>';
+      }
+      dotsHtml+='</div>';
+      innerHtml+=dotsHtml;
+      if(libres2===0) innerHtml+='<div class="cal-day-count">Lleno</div>';
+      else innerHtml+='<div class="cal-day-count">'+libres2+' libre'+(libres2===1?'':'s')+'</div>';
+    } else if(loading&&!esPasado){
+      innerHtml+='<div class="sk" style="height:5px;margin-top:4px;border-radius:3px"></div>';
+    }
+
+    var onclick=(!esPasado&&slots&&slots.length)?' onclick="mostrarDetalleDia(\''+fecha+'\',\''+proId+'\')"':'';
+    html+='<div class="'+cls+'"'+onclick+'>'+innerHtml+'</div>';
+  }
+
+  html+='</div>'; // /cal-grid
+
+  // Leyenda
+  html+='<div class="cal-legend">'+
+    '<div class="cal-legend-item"><div class="cal-legend-dot disp"></div>Disponible</div>'+
+    '<div class="cal-legend-item"><div class="cal-legend-dot ocup"></div>Ocupado</div>'+
+  '</div>';
+
+  html+='</div>'; // /cal-wrap
+  el.innerHTML=html;
+
+  // Si había un día seleccionado, re-renderizar detalle
+  if(calDiaDetalle&&slotsMap[calDiaDetalle]) mostrarDetalleDia(calDiaDetalle,proId,true);
+}
+
+function calNavMes(delta,proId){
+  calMes.month+=delta;
+  if(calMes.month>12){ calMes.month=1; calMes.year++; }
+  if(calMes.month<1){ calMes.month=12; calMes.year--; }
+  calDiaDetalle=null;
+  cargarCalendario(proId);
+}
+
+function mostrarDetalleDia(fecha,proId,noScroll){
+  calDiaDetalle=fecha;
+  var y=calMes.year, m=calMes.month;
+  var slotsMap=calDataCache[proId+'_'+y+'_'+m]||{};
+  var slots=slotsMap[fecha]||[];
+
+  var p=fecha.split('-'); var d=new Date(+p[0],+p[1]-1,+p[2]);
+  var dm=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  var mm=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var titulo=dm[d.getDay()]+' '+d.getDate()+' de '+mm[d.getMonth()];
+
+  // Quitar detalle anterior si existe
+  var prev=document.getElementById('cal-detail-box');
+  if(prev) prev.parentNode.removeChild(prev);
+
+  var box=document.createElement('div');
+  box.id='cal-detail-box'; box.className='cal-detail';
+
+  var libres=slots.filter(function(s){ return s.disponible; });
+  var ocupados=slots.filter(function(s){ return !s.disponible; });
+
+  var pillsHtml='';
+  libres.forEach(function(s){ pillsHtml+='<div class="cal-slot-pill disp">'+s.hora+'</div>'; });
+  ocupados.forEach(function(s){ pillsHtml+='<div class="cal-slot-pill ocup">'+s.hora+' ✓</div>'; });
+
+  box.innerHTML='<div class="cal-detail-header">'+
+    '<div class="cal-detail-title">'+titulo+'</div>'+
+    '<button class="cal-detail-close" onclick="cerrarDetalleDia()">✕</button>'+
+  '</div>'+
+  '<div class="cal-detail-slots">'+pillsHtml+'</div>';
+
+  var calWrap=document.querySelector('.cal-wrap');
+  if(calWrap) calWrap.appendChild(box);
+
+  if(!noScroll) box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function cerrarDetalleDia(){
+  calDiaDetalle=null;
+  var prev=document.getElementById('cal-detail-box');
+  if(prev) prev.parentNode.removeChild(prev);
+}
+
+/* DASHBOARD DATA */
 async function cargarDashData(proId){
   try{
     var data=await apiGet('dashboard',{profesional_id:proId});
     renderStats(data.resumen||{});
-    renderOcupacion(data.ocupacion||null);
     renderTurnos(data.proximos_turnos||[]);
   }catch(e){ renderStats({}); }
 }
 
 function renderStats(res){
-  var c=Number(res.confirmados)||0;
-  var f=Number(res.facturado)||0;
+  var c=Number(res.confirmados)||0, f=Number(res.facturado)||0;
   document.getElementById('dash-stats').innerHTML=
     '<div class="stat-card"><div class="stat-num brand">'+c+'</div><div class="stat-lbl">Confirmados este mes</div></div>'+
     '<div class="stat-card"><div class="stat-num success">$'+Math.round(f).toLocaleString('es-AR')+'</div><div class="stat-lbl">Facturado este mes</div></div>';
-}
-
-function renderOcupacion(occ){
-  var el=document.getElementById('dash-ocupacion');
-  if(!occ||!occ.total){ el.innerHTML='<div style="color:var(--muted);font-size:13px">Sin datos aún.</div>'; return; }
-  var pct=Math.round(((occ.ocupados||0)/occ.total)*100);
-  el.innerHTML='<div class="occ-track"><div class="occ-fill" style="width:0%"></div></div>'+
-    '<div class="occ-meta"><span><b>'+pct+'%</b> ocupado</span><span>'+(occ.ocupados||0)+' de '+occ.total+' turnos</span></div>';
-  setTimeout(function(){ var f=el.querySelector('.occ-fill'); if(f) f.style.width=pct+'%'; },100);
 }
 
 function renderTurnos(turnos){
@@ -1331,9 +1390,7 @@ function renderTurnos(turnos){
   }).join('');
 }
 
-/* ════════════════════════════════════
-   DISPONIBILIDAD
-════════════════════════════════════ */
+/* DISPONIBILIDAD */
 function inicDisp(){ DIAS.forEach(function(d){ dispState[d.num]={activo:false,bloques:[]}; }); }
 function inicDispReg(){ DIAS.forEach(function(d){ dispStateReg[d.num]={activo:false,bloques:[]}; }); }
 
@@ -1368,8 +1425,7 @@ function renderDisp(cid,state){
         '<div class="disp-day-sum">'+sum+'</div>'+
       '</div>'+
       '<div class="disp-blocks'+(st.activo?' open':'')+'">'+
-        blocksHtml+
-        '<button class="btn-add-block" onclick="addBloque(\''+pfx+'\','+dia.num+')">+ Agregar bloque</button>'+
+        blocksHtml+'<button class="btn-add-block" onclick="addBloque(\''+pfx+'\','+dia.num+')">+ Agregar bloque</button>'+
       '</div>'+
     '</div>';
   }).join('');
@@ -1412,6 +1468,8 @@ async function cargarDispDash(proId){
     }
   }catch(e){}
   renderDispDash();
+  // Una vez cargada la disponibilidad, cargar el calendario
+  cargarCalendario(proId);
 }
 
 async function guardarDisp(){
@@ -1423,10 +1481,12 @@ async function guardarDisp(){
     var data=await apiPost('disponibilidad',{profesional_id:proActual.id,disponibilidad:bloques});
     if(data&&data.ok){
       dispCache[proActual.id]=bloques;
-      fb.className=''; fb.style.background=document.createRange().createContextualFragment('<div>').className; // reset
       fb.style.cssText='display:block;padding:9px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-align:center;background:var(--success-soft);color:#166534;border:1px solid #86EFAC';
       fb.textContent='✅ Horarios guardados correctamente.';
       toast('✅ Horarios guardados.','ok');
+      // Recargar calendario con nuevos horarios
+      calDataCache={};
+      cargarCalendario(proActual.id);
     } else {
       fb.style.cssText='display:block;padding:9px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-align:center;background:var(--danger-soft);color:#991B1B';
       fb.textContent='❌ '+(data&&data.error||'Error al guardar.');
@@ -1439,9 +1499,7 @@ async function guardarDisp(){
   setTimeout(function(){ fb.style.display='none'; },5000);
 }
 
-/* ════════════════════════════════════
-   NAVEGACIÓN
-════════════════════════════════════ */
+/* NAVEGACIÓN */
 function showTab(nombre,el){
   ['reservar','profesional'].forEach(function(t){
     document.getElementById('tab-'+t).classList.toggle('active',t===nombre);
@@ -1457,9 +1515,7 @@ function showDashPanel(nombre,el){
   });
 }
 
-/* ════════════════════════════════════
-   RETORNO DE PAGO Y OAUTH MP
-════════════════════════════════════ */
+/* RETORNO DE PAGO Y OAUTH MP */
 function checkReturn(){
   var p=new URLSearchParams(window.location.search);
   var estado=p.get('estado'), mpStatus=p.get('mp_status'), mpPro=p.get('mp_pro'), mpMsg=p.get('mp_msg');
@@ -1467,6 +1523,7 @@ function checkReturn(){
   window.history.replaceState({},'',window.location.pathname);
 
   if(mpStatus){
+    // Redirigir al perfil del médico en miturnoseguro.com después de vincular MP
     var retTab=ST.get('retorno_tab')||'profesional';
     showTab(retTab,document.getElementById('tab-btn-'+retTab));
     if(mpStatus==='ok'){
@@ -1476,9 +1533,20 @@ function checkReturn(){
         guardarPro(cached);
       }
       if(currentUser){
-        cargarPerfilPro().then(function(){ setTimeout(function(){ toast('✅ Mercado Pago vinculado. Ya podés recibir pagos.','ok'); },300); });
+        cargarPerfilPro().then(function(){
+          setTimeout(function(){
+            toast('✅ Mercado Pago vinculado. Ya podés recibir pagos.','ok');
+            // Redirigir al perfil del médico
+            var proId=cached?cached.id:(ST.get('retorno_pro_id')||'');
+            if(proId) window.location.href=CFG.SITE+'/perfil?id='+proId;
+          },300);
+        });
       } else {
-        setTimeout(function(){ toast('✅ Mercado Pago vinculado correctamente.','ok'); },300);
+        setTimeout(function(){
+          toast('✅ Mercado Pago vinculado correctamente.','ok');
+          var proId=ST.get('retorno_pro_id')||'';
+          if(proId) window.location.href=CFG.SITE+'/perfil?id='+proId;
+        },300);
       }
     } else {
       setTimeout(function(){ toast('❌ Error al vincular MP: '+(mpMsg||'intentá de nuevo'),'error'); },300);
@@ -1499,9 +1567,7 @@ function checkReturn(){
   }
 }
 
-/* ════════════════════════════════════
-   HELPERS
-════════════════════════════════════ */
+/* HELPERS */
 function hoyISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function fmtFecha(iso,corto){
   if(!iso) return '—';
@@ -1514,21 +1580,15 @@ function fmtFecha(iso,corto){
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function escA(s){ return (s||'').replace(/'/g,"\\'"); }
 
-/* ════════════════════════════════════
-   INIT
-════════════════════════════════════ */
+/* INIT */
 document.addEventListener('DOMContentLoaded',function(){
   inicDisp(); inicDispReg(); renderFechas();
-  // Restaurar sesión
   var savedUser=ST.get('google_user');
   if(savedUser){ currentUser=savedUser; updateNavUser(savedUser); }
   var savedPro=ST.get('pro_actual');
   if(savedPro) proActual=savedPro;
-  // Check URL params
   checkReturn();
-  // Cargar profesionales
   cargarPros();
-  // Cargar pestaña profesional si estaba activa
   var retTab=ST.get('retorno_tab');
   if(retTab==='profesional'){
     showTab('profesional',document.getElementById('tab-btn-profesional'));
