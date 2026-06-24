@@ -1150,13 +1150,16 @@ function buildWaMe(phone){
 }
 
 function renderWaPanel(pro){
-  var el=document.getElementById('wa-status-box'); if(!el) return;
-  var tiene=!!(pro.whatsapp_phone);
-  el.innerHTML=tiene
-    ? '<div class="success-box" style="margin-bottom:0">✅ WhatsApp configurado: '+esc(pro.whatsapp_phone)+'</div>'
+  var el = document.getElementById('wa-status-box');
+  if (!el) return;
+  // ✅ Corregido: asegurar que pro.whatsapp_phone sea string
+  var phone = (pro && pro.whatsapp_phone) ? pro.whatsapp_phone : '';
+  var tiene = !!phone;
+  el.innerHTML = tiene
+    ? '<div class="success-box" style="margin-bottom:0">✅ WhatsApp configurado: ' + esc(phone) + '</div>'
     : '<div class="warning-box" style="margin-bottom:0">⚠️ Sin WhatsApp — no recibirás avisos de nuevos turnos.</div>';
-  var ph=document.getElementById('wa-phone');
-  if(ph) ph.value=pro.whatsapp_phone||'';
+  var ph = document.getElementById('wa-phone');
+  if (ph) ph.value = phone;
 }
 
 async function guardarWhatsapp(){
@@ -1516,45 +1519,58 @@ function showDashPanel(nombre,el){
 
 /* RETORNO DE PAGO Y OAUTH MP */
 function checkReturn(){
-  var p=new URLSearchParams(window.location.search);
-  var estado=p.get('estado'), mpStatus=p.get('mp_status'), mpPro=p.get('mp_pro'), mpMsg=p.get('mp_msg');
-  if(!estado&&!mpStatus) return;
-  window.history.replaceState({},'',window.location.pathname);
+  var p = new URLSearchParams(window.location.search);
+  var estado = p.get('estado'), mpStatus = p.get('mp_status'), mpPro = p.get('mp_pro'), mpMsg = p.get('mp_msg');
+  if (!estado && !mpStatus) return;
+  window.history.replaceState({}, '', window.location.pathname);
 
-  if(mpStatus){
-    showTab('profesional',document.getElementById('tab-btn-profesional'));
-    if(mpStatus==='ok'){
-      var cached=ST.get('pro_actual');
-      if(cached&&(String(cached.id)===String(mpPro))){
-        cached.mp_access_token='vinculado';
-        cached.mp_user_id=mpPro;
+  if (mpStatus) {
+    showTab('profesional', document.getElementById('tab-btn-profesional'));
+    if (mpStatus === 'ok') {
+      // ✅ Actualizar el profesional en localStorage y recargar la página
+      var cached = ST.get('pro_actual');
+      if (cached && (String(cached.id) === String(mpPro))) {
+        cached.mp_access_token = 'vinculado';
+        cached.mp_user_id = mpPro;
         guardarPro(cached);
+        // Forzar recarga para que el dashboard muestre el estado actualizado
+        setTimeout(function(){
+          window.location.reload();
+        }, 500);
+      } else {
+        // Si no estaba en cache, forzar recarga de perfil
+        setTimeout(function(){
+          window.location.reload();
+        }, 500);
       }
-      setTimeout(function(){
-        toast('✅ Mercado Pago vinculado. Ya podés recibir pagos.','ok');
-        if(currentUser){ cargarPerfilPro(); }
-        else { mostrarAuthGate(); }
-      },300);
     } else {
-      setTimeout(function(){ toast('❌ Error al vincular MP: '+(mpMsg||'intentá de nuevo'),'error'); },300);
+      setTimeout(function(){
+        toast('❌ Error al vincular MP: ' + (mpMsg || 'intentá de nuevo'), 'error');
+      }, 300);
     }
     return;
   }
 
-  if(estado){
-    var retTab2=ST.get('retorno_tab')||'reservar';
-    showTab(retTab2,document.getElementById('tab-btn-'+retTab2));
-    var cfg={
-      confirmado:{cls:'success',msg:'✅ ¡Pago exitoso! Tu turno está confirmado. Revisá tu email.'},
-      error:{cls:'error',msg:'❌ Hubo un problema con el pago. Intentá de nuevo.'},
-      pendiente:{cls:'pending',msg:'⏳ El pago está pendiente de acreditación.'}
+  if (estado) {
+    var retTab2 = ST.get('retorno_tab') || 'reservar';
+    showTab(retTab2, document.getElementById('tab-btn-' + retTab2));
+    var cfg = {
+      confirmado: {cls:'success', msg:'✅ ¡Pago exitoso! Tu turno está confirmado. Revisá tu email.'},
+      error:      {cls:'error', msg:'❌ Hubo un problema con el pago. Intentá de nuevo.'},
+      pendiente:  {cls:'pending', msg:'⏳ El pago está pendiente de acreditación.'}
     };
-    var c=cfg[estado]||{cls:'info',msg:'Estado: '+estado};
-    var b=document.getElementById('payment-banner');
-    b.innerHTML='<div class="pay-banner '+c.cls+'">'+c.msg+'</div>';
-    b.style.display='block';
-    setTimeout(function(){ toast(c.msg,estado==='confirmado'?'ok':estado==='error'?'error':'info'); },300);
-    if(estado==='confirmado') setTimeout(function(){ b.style.opacity='0'; b.style.transition='opacity 0.5s'; setTimeout(function(){ b.style.display='none'; b.style.opacity=''; },500); },8000);
+    var c = cfg[estado] || {cls:'info', msg:'Estado: '+estado};
+    var b = document.getElementById('payment-banner');
+    b.innerHTML = '<div class="pay-banner ' + c.cls + '">' + c.msg + '</div>';
+    b.style.display = 'block';
+    setTimeout(function(){ toast(c.msg, estado==='confirmado'?'ok':estado==='error'?'error':'info'); }, 300);
+    if (estado === 'confirmado') {
+      setTimeout(function(){
+        b.style.opacity = '0';
+        b.style.transition = 'opacity 0.5s';
+        setTimeout(function(){ b.style.display = 'none'; b.style.opacity = ''; }, 500);
+      }, 8000);
+    }
   }
 }
 /* HELPERS */
