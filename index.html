@@ -6,6 +6,136 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#2563EB">
+  <!-- ================================================================
+     MI TURNO SEGURO — PWA: fragmentos para agregar a index.html
+     ================================================================ -->
+
+
+<!-- ── 1. PEGAR EN EL <head>, después de la línea <meta name="theme-color"> ── -->
+
+<link rel="manifest" href="/miturnoseguro/manifest.json">
+<link rel="apple-touch-icon" href="/miturnoseguro/icons/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="MiTurno">
+<meta name="mobile-web-app-capable" content="yes">
+<!-- theme-color ya lo tenés, no duplicar -->
+
+
+<!-- ── 2. PEGAR AL FINAL DEL <body>, antes del </body> ────────────────────── -->
+
+<script>
+// ── Registro del Service Worker ──────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/miturnoseguro/sw.js', { scope: '/miturnoseguro/' })
+      .then(function(reg) {
+        console.log('[PWA] SW registrado:', reg.scope);
+
+        // Detectar nueva versión disponible
+        reg.addEventListener('updatefound', function() {
+          var newWorker = reg.installing;
+          newWorker.addEventListener('statechange', function() {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // Hay update disponible — mostrar toast
+              toast('🔄 Nueva versión disponible. Recargá para actualizar.', 'info');
+            }
+          });
+        });
+      })
+      .catch(function(err) {
+        console.warn('[PWA] SW no registrado:', err);
+      });
+  });
+}
+
+// ── Banner "Instalá la app" (solo en móvil, solo una vez) ────────────────────
+var deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // No mostrar si ya lo instaló o ya lo rechazó antes
+  if (localStorage.getItem('pwa_dismissed')) return;
+
+  // Mostrar banner después de 8 segundos de uso
+  setTimeout(mostrarBannerInstalar, 8000);
+});
+
+function mostrarBannerInstalar() {
+  if (!deferredPrompt) return;
+  var banner = document.getElementById('pwa-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'pwa-banner';
+    banner.style.cssText =
+      'position:fixed;bottom:0;left:0;right:0;z-index:9000;' +
+      'background:white;border-top:1px solid #E6EAF0;' +
+      'padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));' +
+      'display:flex;align-items:center;gap:12px;' +
+      'box-shadow:0 -4px 20px rgba(15,23,42,0.10);' +
+      'animation:slideUp 0.3s ease;';
+    banner.innerHTML =
+      '<div style="width:44px;height:44px;border-radius:12px;background:#EFF4FF;' +
+      'display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📅</div>' +
+      '<div style="flex:1;min-width:0">' +
+      '<div style="font-family:\'Outfit\',sans-serif;font-weight:700;font-size:14px">Instalá Mi Turno Seguro</div>' +
+      '<div style="font-size:12px;color:#64748B">Accedé rápido desde tu pantalla de inicio</div>' +
+      '</div>' +
+      '<button onclick="instalarPWA()" style="' +
+      'padding:9px 16px;border-radius:999px;border:none;background:#2563EB;' +
+      'color:white;font-size:13px;font-weight:700;font-family:\'Outfit\',sans-serif;cursor:pointer;white-space:nowrap">' +
+      'Instalar</button>' +
+      '<button onclick="cerrarBannerPWA()" style="' +
+      'width:32px;height:32px;border-radius:50%;border:1.5px solid #E6EAF0;' +
+      'background:white;color:#64748B;font-size:14px;cursor:pointer;flex-shrink:0;' +
+      'display:flex;align-items:center;justify-content:center">✕</button>';
+    document.body.appendChild(banner);
+  }
+}
+
+function instalarPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function(result) {
+    if (result.outcome === 'accepted') {
+      toast('✅ ¡App instalada! Ya podés abrirla desde tu pantalla de inicio.', 'ok');
+    }
+    deferredPrompt = null;
+    cerrarBannerPWA();
+  });
+}
+
+function cerrarBannerPWA() {
+  var banner = document.getElementById('pwa-banner');
+  if (banner) banner.remove();
+  localStorage.setItem('pwa_dismissed', '1');
+}
+
+// Limpiar el flag de dismissed cada 30 días
+(function() {
+  var dismissed = localStorage.getItem('pwa_dismissed_at');
+  var now = Date.now();
+  if (!dismissed) {
+    localStorage.setItem('pwa_dismissed_at', now);
+  } else if (now - Number(dismissed) > 30 * 24 * 60 * 60 * 1000) {
+    localStorage.removeItem('pwa_dismissed');
+    localStorage.removeItem('pwa_dismissed_at');
+    localStorage.setItem('pwa_dismissed_at', now);
+  }
+})();
+
+// Manejar shortcuts del manifest (?tab=reservar o ?tab=profesional)
+(function() {
+  var p = new URLSearchParams(window.location.search);
+  var tab = p.get('tab');
+  if (tab === 'reservar' || tab === 'profesional') {
+    window.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('tab-btn-' + tab);
+      if (btn) btn.click();
+    });
+  }
+})();
+</script>
 <title>Mi Turno Seguro</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
