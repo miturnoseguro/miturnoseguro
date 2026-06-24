@@ -1431,27 +1431,26 @@ function checkReturn(){
   var p = new URLSearchParams(window.location.search);
   var estado    = p.get('estado');
   var mpStatus  = p.get('mp_status');
-  var mpPro     = p.get('mp_pro');
 
   if (!estado && !mpStatus) return;
 
   window.history.replaceState({}, '', window.location.pathname);
 
   if (mpStatus) {
+    // Asegurarse que la tab profesional esté activa Y visible
     showTab('profesional', document.getElementById('tab-btn-profesional'));
 
     if (mpStatus === 'ok') {
       ST.del('pro_actual');
-      setTimeout(function(){
-        toast('✅ Mercado Pago vinculado correctamente.', 'ok');
-      }, 400);
       var savedUser = ST.get('google_user');
       if (savedUser) {
         currentUser = savedUser;
         updateNavUser(savedUser);
+        // Dar tiempo al DOM para renderizar la tab antes de cargar datos
         setTimeout(function(){
+          toast('✅ Mercado Pago vinculado correctamente.', 'ok');
           cargarPerfilPro(true);
-        }, 600);
+        }, 300);
       } else {
         mostrarAuthGate();
         toast('✅ MP vinculado. Volvé a ingresar con Google.', 'ok');
@@ -1461,9 +1460,6 @@ function checkReturn(){
 
     if (mpStatus === 'error') {
       var mpMsg = p.get('mp_msg') || 'Error desconocido';
-      setTimeout(function(){
-        toast('❌ Error al vincular MP: ' + mpMsg, 'error');
-      }, 300);
       var savedUser2 = ST.get('google_user');
       if (savedUser2) {
         currentUser = savedUser2;
@@ -1474,6 +1470,9 @@ function checkReturn(){
       } else {
         mostrarAuthGate();
       }
+      setTimeout(function(){
+        toast('❌ Error al vincular MP: ' + mpMsg, 'error');
+      }, 300);
       return;
     }
   }
@@ -1482,8 +1481,8 @@ function checkReturn(){
     var retTab = ST.get('retorno_tab') || 'reservar';
     showTab(retTab, document.getElementById('tab-btn-' + retTab));
     var cfg = {
-      confirmado: {cls:'success', msg:'✅ ¡Pago exitoso! Tu turno está confirmado. Revisá tu email.'},
-      error:      {cls:'error',   msg:'❌ Hubo un problema con el pago. Intentá de nuevo.'},
+      confirmado: {cls:'success', msg:'✅ ¡Pago exitoso! Tu turno está confirmado.'},
+      error:      {cls:'error',   msg:'❌ Hubo un problema con el pago.'},
       pendiente:  {cls:'pending', msg:'⏳ El pago está pendiente de acreditación.'}
     };
     var c = cfg[estado] || {cls:'info', msg:'Estado: '+estado};
@@ -1493,9 +1492,8 @@ function checkReturn(){
     setTimeout(function(){ toast(c.msg, estado==='confirmado'?'ok':estado==='error'?'error':'info'); }, 300);
     if (estado === 'confirmado') {
       setTimeout(function(){
-        b.style.opacity = '0';
-        b.style.transition = 'opacity 0.5s';
-        setTimeout(function(){ b.style.display = 'none'; b.style.opacity = ''; }, 500);
+        b.style.opacity='0'; b.style.transition='opacity 0.5s';
+        setTimeout(function(){ b.style.display='none'; b.style.opacity=''; }, 500);
       }, 8000);
     }
   }
