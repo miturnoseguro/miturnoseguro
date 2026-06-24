@@ -1523,36 +1523,19 @@ function checkReturn(){
   window.history.replaceState({},'',window.location.pathname);
 
   if(mpStatus){
-    // Redirigir al perfil del médico en miturnoseguro.com después de vincular MP
-    var retTab=ST.get('retorno_tab')||'profesional';
-    showTab(retTab,document.getElementById('tab-btn-'+retTab));
-  if(mpStatus==='ok'){
-  // Actualizar caché local con MP vinculado
-  var cached=ST.get('pro_actual');
-  if(cached && (String(cached.id)===String(mpPro))){
-    cached.mp_access_token='vinculado';
-    cached.mp_user_id=mpPro;
-    guardarPro(cached);
-  }
-  // Mostrar tab profesional y recargar perfil desde el servidor
-  showTab('profesional', document.getElementById('tab-btn-profesional'));
-  setTimeout(function(){
-    toast('✅ Mercado Pago vinculado. Ya podés recibir pagos.','ok');
-    if(currentUser){
-      cargarPerfilPro(); // recarga fresco desde el servidor
-    } else {
-      // Si no hay sesión activa, mostrar auth gate
-      mostrarAuthGate();
-    }
-  }, 300);
-});
-      } else {
-        setTimeout(function(){
-          toast('✅ Mercado Pago vinculado correctamente.','ok');
-          var proId=ST.get('retorno_pro_id')||'';
-          if(proId) window.location.href=CFG.SITE+'/perfil?id='+proId;
-        },300);
+    showTab('profesional',document.getElementById('tab-btn-profesional'));
+    if(mpStatus==='ok'){
+      var cached=ST.get('pro_actual');
+      if(cached&&(String(cached.id)===String(mpPro))){
+        cached.mp_access_token='vinculado';
+        cached.mp_user_id=mpPro;
+        guardarPro(cached);
       }
+      setTimeout(function(){
+        toast('✅ Mercado Pago vinculado. Ya podés recibir pagos.','ok');
+        if(currentUser){ cargarPerfilPro(); }
+        else { mostrarAuthGate(); }
+      },300);
     } else {
       setTimeout(function(){ toast('❌ Error al vincular MP: '+(mpMsg||'intentá de nuevo'),'error'); },300);
     }
@@ -1562,7 +1545,11 @@ function checkReturn(){
   if(estado){
     var retTab2=ST.get('retorno_tab')||'reservar';
     showTab(retTab2,document.getElementById('tab-btn-'+retTab2));
-    var cfg={confirmado:{cls:'success',msg:'✅ ¡Pago exitoso! Tu turno está confirmado. Revisá tu email.'},error:{cls:'error',msg:'❌ Hubo un problema con el pago. Intentá de nuevo.'},pendiente:{cls:'pending',msg:'⏳ El pago está pendiente de acreditación.'}};
+    var cfg={
+      confirmado:{cls:'success',msg:'✅ ¡Pago exitoso! Tu turno está confirmado. Revisá tu email.'},
+      error:{cls:'error',msg:'❌ Hubo un problema con el pago. Intentá de nuevo.'},
+      pendiente:{cls:'pending',msg:'⏳ El pago está pendiente de acreditación.'}
+    };
     var c=cfg[estado]||{cls:'info',msg:'Estado: '+estado};
     var b=document.getElementById('payment-banner');
     b.innerHTML='<div class="pay-banner '+c.cls+'">'+c.msg+'</div>';
@@ -1571,7 +1558,6 @@ function checkReturn(){
     if(estado==='confirmado') setTimeout(function(){ b.style.opacity='0'; b.style.transition='opacity 0.5s'; setTimeout(function(){ b.style.display='none'; b.style.opacity=''; },500); },8000);
   }
 }
-
 /* HELPERS */
 function hoyISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function fmtFecha(iso,corto){
