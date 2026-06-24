@@ -1126,8 +1126,7 @@ async function desvincularMP(){
 }
 
 function renderMpConfig(pro){
-  var tieneMp = !!(pro.mp_access_token && pro.mp_access_token !== 'vinculado' && pro.mp_user_id) || 
-                (pro.mp_access_token === 'vinculado' && pro.mp_user_id);
+  var tieneMp = !!(pro.mp_access_token && pro.mp_user_id);
   
   var el = document.getElementById('mp-config-body'); 
   if (!el) return;
