@@ -1407,7 +1407,7 @@ async function cargarDashData(proId){
 function renderStats(res){
   var c=Number(res.confirmados)||0, f=Number(res.facturado)||0;
   document.getElementById('dash-stats').innerHTML=
-    '<div class="stat-card"><div class="stat-num brand">'+c+'</div><div class="stat-lbl">Confirmados este mes</div></div>'+
+    '<div class="stat-card"><div class="stat-num">'+c+'</div><div class="stat-lbl">Confirmados este mes</div></div>'+
     '<div class="stat-card"><div class="stat-num success">$'+Math.round(f).toLocaleString('es-AR')+'</div><div class="stat-lbl">Facturado este mes</div></div>';
 }
 
