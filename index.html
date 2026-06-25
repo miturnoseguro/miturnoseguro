@@ -6,36 +6,22 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#2563EB">
-  <!-- ================================================================
-     MI TURNO SEGURO — PWA: fragmentos para agregar a index.html
-     ================================================================ -->
-
-
-<!-- ── 1. PEGAR EN EL <head>, después de la línea <meta name="theme-color"> ── -->
 
 <link rel="manifest" href="/miturnoseguro/manifest.json">
 <link rel="apple-touch-icon" href="/miturnoseguro/icons/icon-192.png">
 <meta name="apple-mobile-web-app-title" content="MiTurno">
 <meta name="mobile-web-app-capable" content="yes">
-<!-- theme-color ya lo tenés, no duplicar -->
-
-
-<!-- ── 2. PEGAR AL FINAL DEL <body>, antes del </body> ────────────────────── -->
 
 <script>
-// ── Registro del Service Worker ──────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('/miturnoseguro/sw.js', { scope: '/miturnoseguro/' })
       .then(function(reg) {
         console.log('[PWA] SW registrado:', reg.scope);
-
-        // Detectar nueva versión disponible
         reg.addEventListener('updatefound', function() {
           var newWorker = reg.installing;
           newWorker.addEventListener('statechange', function() {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // Hay update disponible — mostrar toast
               toast('🔄 Nueva versión disponible. Recargá para actualizar.', 'info');
             }
           });
@@ -47,17 +33,12 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// ── Banner "Instalá la app" (solo en móvil, solo una vez) ────────────────────
 var deferredPrompt = null;
 
 window.addEventListener('beforeinstallprompt', function(e) {
   e.preventDefault();
   deferredPrompt = e;
-
-  // No mostrar si ya lo instaló o ya lo rechazó antes
   if (localStorage.getItem('pwa_dismissed')) return;
-
-  // Mostrar banner después de 8 segundos de uso
   setTimeout(mostrarBannerInstalar, 8000);
 });
 
@@ -111,7 +92,6 @@ function cerrarBannerPWA() {
   localStorage.setItem('pwa_dismissed', '1');
 }
 
-// Limpiar el flag de dismissed cada 30 días
 (function() {
   var dismissed = localStorage.getItem('pwa_dismissed_at');
   var now = Date.now();
@@ -124,7 +104,6 @@ function cerrarBannerPWA() {
   }
 })();
 
-// Manejar shortcuts del manifest (?tab=reservar o ?tab=profesional)
 (function() {
   var p = new URLSearchParams(window.location.search);
   var tab = p.get('tab');
@@ -139,7 +118,6 @@ function cerrarBannerPWA() {
 <title>Mi Turno Seguro</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
-/* ========== ESTILOS COMPACTOS (los mismos que tenías) ========== */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -239,7 +217,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
 .spinner{display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,0.35);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle}
 .spinner-dark{display:inline-block;width:16px;height:16px;border:2.5px solid rgba(0,0,0,0.1);border-top-color:var(--brand);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle}
 
-/* RESERVAR */
 .fecha-selector{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:14px}
 .fecha-selector::-webkit-scrollbar{display:none}
 .fecha-chip{flex-shrink:0;min-width:52px;padding:8px 10px;border-radius:12px;border:1.5px solid var(--line);background:white;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.18s;text-align:center;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent;min-height:56px}
@@ -262,7 +239,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
 .slot-btn.taken{color:#CBD5E1;cursor:not-allowed;text-decoration:line-through;border-color:transparent;background:var(--paper)}
 .slot-loading{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;padding:8px 0}
 
-/* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:200;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 .overlay.open{display:flex;animation:fadeIn 0.2s ease}
 .modal{background:white;border-radius:20px 20px 0 0;width:100%;max-width:680px;padding:20px 16px calc(28px + var(--safe-bottom));animation:slideUp 0.3s cubic-bezier(.34,1.2,.64,1);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -277,7 +253,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
 .success-screen{display:none;text-align:center;padding:28px 12px;animation:bounceIn 0.45s ease both}
 .success-icon{width:60px;height:60px;background:var(--success-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px}
 
-/* AUTH GATE */
 .auth-gate{text-align:center;padding:36px 16px}
 .auth-gate .icon{font-size:44px;display:block;margin-bottom:14px;animation:bounceIn 0.5s ease both}
 .auth-gate h3{font-size:20px;font-weight:800;margin-bottom:6px}
@@ -286,7 +261,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
 .btn-google:hover{border-color:#4285F4;box-shadow:0 4px 14px rgba(66,133,244,0.15);transform:translateY(-1px)}
 .btn-google:disabled{opacity:0.6;cursor:not-allowed;transform:none}
 
-/* STEPPER */
 .stepper-track{height:4px;background:var(--line);border-radius:999px;margin-bottom:18px;overflow:hidden}
 .stepper-fill{height:100%;background:linear-gradient(90deg,var(--brand),#60A5FA);border-radius:999px;transition:width 0.5s ease}
 .stepper-dots{display:flex;margin-bottom:18px}
@@ -319,7 +293,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
 .picker-chip.selected{border-color:var(--brand);background:var(--brand);color:white}
 .picker-chip .sub{font-size:10px;display:block;font-weight:600;opacity:0.8;margin-top:2px}
 
-/* DISPONIBILIDAD */
 .disp-row{border:1.5px solid var(--line);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;transition:border-color 0.2s}
 .disp-row.on{border-color:var(--brand-mid)}
 .disp-header{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:52px}
@@ -343,7 +316,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
 .preset-chip{padding:7px 12px;border-radius:999px;border:1.5px solid var(--line);background:none;font-size:12px;font-weight:600;color:var(--muted);font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent;min-height:38px}
 .preset-chip:hover,.preset-chip:active{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
 
-/* DASHBOARD */
 .dash-header-card{background:linear-gradient(135deg,var(--brand-dark) 0%,var(--brand) 100%);border-radius:var(--radius);padding:18px;margin-bottom:12px;color:white;position:relative;overflow:hidden}
 .dash-header-card::after{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none}
 .dash-pro-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;margin-bottom:2px}
@@ -469,7 +441,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
     </div>
   </div>
 
-  <!-- TAB RESERVAR -->
   <div id="tab-reservar" class="app-section active">
     <span class="section-lbl">Elegí una fecha</span>
     <div class="fecha-selector" id="fecha-selector"></div>
@@ -477,10 +448,8 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
     <div id="profesionales-container"></div>
   </div>
 
-  <!-- TAB PROFESIONAL -->
   <div id="tab-profesional" class="app-section">
 
-    <!-- AUTH GATE -->
     <div id="pro-auth-gate">
       <div class="card auth-gate">
         <span class="icon">👩‍⚕️</span>
@@ -493,7 +462,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
       </div>
     </div>
 
-    <!-- REGISTRO STEPPER (igual que antes) -->
     <div id="pro-registro" style="display:none">
       <div class="stepper-track"><div class="stepper-fill" id="step-bar" style="width:20%"></div></div>
       <div class="stepper-dots" id="step-dots">
@@ -503,7 +471,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         <div class="sdot-wrap" id="sdot-4"><div class="sdot">4</div><div class="sdot-lbl">Horarios</div></div>
         <div class="sdot-wrap" id="sdot-5"><div class="sdot">5</div><div class="sdot-lbl">Cobros</div></div>
       </div>
-      <!-- PASO 1 -->
       <div class="step-panel active" id="sp-1">
         <div class="card">
           <p class="step-title">Tu información</p>
@@ -518,7 +485,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
         <div class="step-nav"><button class="btn-next" onclick="stepNext(1)">Continuar →</button></div>
       </div>
-      <!-- PASO 2 -->
       <div class="step-panel" id="sp-2">
         <div class="card">
           <p class="step-title">Precio y duración</p>
@@ -548,7 +514,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
         <div class="step-nav"><button class="btn-back" onclick="stepBack(2)">← Atrás</button><button class="btn-next" onclick="stepNext(2)">Continuar →</button></div>
       </div>
-      <!-- PASO 3 -->
       <div class="step-panel" id="sp-3">
         <div class="card">
           <p class="step-title">📲 WhatsApp para avisos</p>
@@ -566,7 +531,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
         <div class="step-nav"><button class="btn-back" onclick="stepBack(3)">← Atrás</button><button class="btn-next" onclick="stepNext(3)">Continuar →</button></div>
       </div>
-      <!-- PASO 4 -->
       <div class="step-panel" id="sp-4">
         <div class="card">
           <p class="step-title">Horarios de atención</p>
@@ -582,7 +546,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
         <div class="step-nav"><button class="btn-back" onclick="stepBack(4)">← Atrás</button><button class="btn-next" id="btn-crear" onclick="crearPerfil()">Crear perfil →</button></div>
       </div>
-      <!-- PASO 5 -->
       <div class="step-panel" id="sp-5">
         <div class="card mp-connect-card">
           <span class="big-ico">🎉</span>
@@ -599,7 +562,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
       </div>
     </div>
 
-    <!-- DASHBOARD -->
     <div id="pro-dashboard" style="display:none">
       <div class="dash-header-card" id="dash-header">
         <div class="dash-pro-name" id="dash-nombre">—</div>
@@ -610,7 +572,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
       </div>
 
-      <!-- MP alert -->
       <div id="dash-mp-alert" style="display:none">
         <div class="mp-alert">
           <span class="ico">⚠️</span>
@@ -624,7 +585,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
       </div>
 
-      <!-- MP banner verde -->
       <div id="dash-mp-linked" style="display:none">
         <div class="mp-linked-banner">
           <span class="check">✅</span>
@@ -644,7 +604,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         <button class="dash-nav-btn" id="dnav-config" onclick="showDashPanel('config',this)"><span class="ico">⚙️</span>Config</button>
       </div>
 
-      <!-- Panel agenda -->
       <div class="dash-panel active" id="dp-agenda">
         <div class="card">
           <span class="section-lbl" style="margin-bottom:10px">Calendario del mes</span>
@@ -656,7 +615,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
       </div>
 
-      <!-- Panel horarios -->
       <div class="dash-panel" id="dp-horarios">
         <div class="card">
           <span class="section-lbl" style="margin-bottom:8px">Horarios de atención</span>
@@ -673,7 +631,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
       </div>
 
-      <!-- Panel whatsapp -->
       <div class="dash-panel" id="dp-whatsapp">
         <div class="card">
           <div class="config-item-title">📲 Notificaciones por WhatsApp</div>
@@ -688,7 +645,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
         </div>
       </div>
 
-      <!-- Panel config -->
       <div class="dash-panel" id="dp-config">
         <div class="config-item">
           <div class="config-item-title">💳 Mercado Pago</div>
@@ -706,7 +662,6 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
   </div>
 </div>
 
-<!-- MODAL PAGO -->
 <div class="overlay" id="payModal" onclick="closeModalOut(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -735,7 +690,7 @@ input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;ap
 <script>
 var CFG = {
   GOOGLE_CLIENT_ID: '962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com',
-  API: 'https://script.google.com/macros/s/AKfycbw_58rgKt4lmKbgSxXqIJcFpbCipYOrD6_lcbweBs-FVJqoo8lczobCbP8mBxkHXVc65g/exec',  // ⚠️ REEMPLAZAR CON LA URL DE TU SCRIPT (termina en /exec)
+  API: 'https://script.google.com/macros/s/AKfycbw_58rgKt4lmKbgSxXqIJcFpbCipYOrD6_lcbweBs-FVJqoo8lczobCbP8mBxkHXVc65g/exec',
   SITE: 'https://miturnoseguro.com'
 };
 
@@ -768,7 +723,6 @@ var DIAS = [
   {num:4,n:'Jueves'},{num:5,n:'Viernes'},{num:6,n:'Sábado'},{num:0,n:'Domingo'}
 ];
 
-/* ── TOAST ── */
 function toast(msg,type){
   var c=document.getElementById('toast-container');
   var el=document.createElement('div'); el.className='toast '+(type||'info'); el.textContent=msg;
@@ -776,7 +730,6 @@ function toast(msg,type){
   setTimeout(function(){ el.style.opacity='0'; el.style.transition='opacity 0.3s'; setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },300); },4000);
 }
 
-/* ── API ── */
 function apiGet(path,params,retries){
   retries=retries||0; params=params||{};
   return new Promise(function(resolve,reject){
@@ -806,7 +759,6 @@ function apiPost(path,body,retries){
   });
 }
 
-/* ── SLOTS ── */
 function genSlots(inicio,fin,durMin){
   var slots=[],pi=inicio.split(':').map(Number),pf=fin.split(':').map(Number);
   var mi=pi[0]*60+pi[1], mf=pf[0]*60+pf[1];
@@ -832,7 +784,6 @@ async function calcularSlots(proId,fecha,durMin){
   return todos.map(function(h){ return {hora:h,disponible:ocupados.indexOf(h)===-1}; });
 }
 
-/* ── FECHAS RESERVAR ── */
 function renderFechas(){
   var el=document.getElementById('fecha-selector'); if(!el) return;
   var dias=['dom','lun','mar','mié','jue','vie','sáb'];
@@ -858,7 +809,6 @@ function selFecha(iso,el){
   });
 }
 
-/* ── PROFESIONALES (paciente) ── */
 async function cargarPros(){
   var c=document.getElementById('profesionales-container');
   c.innerHTML='<div class="pro-card"><div class="sk" style="height:44px;width:44px;border-radius:12px;float:left;margin-right:12px"></div><div class="sk" style="height:14px;width:55%;margin-bottom:8px"></div><div class="sk" style="height:12px;width:40%"></div><div style="clear:both"></div><div class="sk" style="height:44px;margin-top:14px;border-radius:999px"></div></div>'.repeat(2);
@@ -912,7 +862,6 @@ function selSlot(el,proId,hora){
   slotSel=hora; proSel={id:proId};
 }
 
-/* ── MODAL ── */
 function abrirModal(proId,nombre,precio){
   if(!proSel||proSel.id!==proId||!slotSel){ toast('Elegí un horario primero.','error'); return; }
   document.getElementById('m-doc').textContent   = nombre;
@@ -955,7 +904,6 @@ async function confirmarPago(){
 function closeModal(){ document.getElementById('payModal').classList.remove('open'); slotSel=null; proSel=null; }
 function closeModalOut(e){ if(e.target.id==='payModal') closeModal(); }
 
-/* ── GOOGLE AUTH ── */
 function loginConGoogle(){
   var btn=document.getElementById('btn-google');
   btn.disabled=true; btn.innerHTML='<span class="spinner-dark"></span> Conectando...';
@@ -1020,7 +968,6 @@ function updateNavUser(user){
   else av.textContent=(user.name||user.email||'?')[0].toUpperCase();
 }
 
-/* ── PERFIL PROFESIONAL ── */
 function mostrarAuthGate(){
   document.getElementById('pro-auth-gate').style.display='block';
   document.getElementById('pro-registro').style.display='none';
@@ -1048,7 +995,8 @@ function mostrarDashboard(pro){
   document.getElementById('dash-nombre').textContent=pro.nombre||'—';
   document.getElementById('dash-spec').textContent=pro.especialidad||'—';
   document.getElementById('dash-precio').textContent='$'+Number(pro.precio).toLocaleString('es-AR')+' / sesión';
-  var tieneMp=!!(pro.mp_access_token&&pro.mp_user_id);
+  // FIX 2a: usar tiene_mp como fuente de verdad para mostrar estado
+  var tieneMp=!!(pro.tiene_mp||(pro.mp_access_token&&pro.mp_user_id));
   var mpBadge=document.getElementById('dash-mp-badge');
   mpBadge.textContent=tieneMp?'✅ MP vinculado':'⏳ Sin MP';
   mpBadge.className='dash-mp-badge'+(tieneMp?' linked':'');
@@ -1062,7 +1010,7 @@ function mostrarDashboard(pro){
   cargarDispDash(pro.id);
 }
 
-/* ── CARGA DE PERFIL: siempre busca en API, caché solo como fallback ── */
+// ── FIX 1: cargarPerfilPro — usar tiene_mp del server como fuente de verdad ──
 async function cargarPerfilPro(forzarRecarga){
   if(!currentUser){ mostrarAuthGate(); return; }
   document.getElementById('pro-auth-gate').style.display='none';
@@ -1080,13 +1028,15 @@ async function cargarPerfilPro(forzarRecarga){
     });
     if(pro){
       var proCompleto=Object.assign({},cached||{},pro);
-      if(pro.tiene_mp && cached && cached.mp_access_token){
-        proCompleto.mp_access_token=cached.mp_access_token;
-        proCompleto.mp_user_id=cached.mp_user_id;
-      }
-      if(forzarRecarga && pro.tiene_mp){
-        proCompleto.mp_access_token=proCompleto.mp_access_token||'vinculado';
-        proCompleto.mp_user_id=proCompleto.mp_user_id||pro.mp_email||'vinculado';
+      // FIX: usar tiene_mp del server como fuente de verdad, no el token local
+      if(pro.tiene_mp){
+        proCompleto.mp_access_token=(cached&&cached.mp_access_token)||'vinculado';
+        proCompleto.mp_user_id=(cached&&cached.mp_user_id)||pro.mp_email||'vinculado';
+        proCompleto.tiene_mp=true;
+      } else {
+        proCompleto.mp_access_token='';
+        proCompleto.mp_user_id='';
+        proCompleto.tiene_mp=false;
       }
       guardarPro(proCompleto);
       mostrarDashboard(proCompleto);
@@ -1101,7 +1051,6 @@ async function cargarPerfilPro(forzarRecarga){
 function guardarPro(pro){ proActual=pro; ST.set('pro_actual',pro); }
 function handleProTab(tabEl){ showTab('profesional',tabEl); if(currentUser) cargarPerfilPro(); else mostrarAuthGate(); }
 
-/* ── STEPPER ── */
 var stepActual=1;
 
 function goStep(n){
@@ -1163,7 +1112,7 @@ async function crearPerfil(){
       especialidad:document.getElementById('pro-especialidad').value.trim(),
       precio:precioSel, duracion_min:durSel,
       email:currentUser?currentUser.email:'',
-      mp_access_token:'', mp_user_id:'',
+      mp_access_token:'', mp_user_id:'', tiene_mp:false,
       whatsapp_phone:waPhone, whatsapp_apikey:''
     };
     guardarPro(pro);
@@ -1179,7 +1128,6 @@ async function crearPerfil(){
 
 function irDashboard(){ if(proActual) mostrarDashboard(proActual); }
 
-/* ── OAUTH MP ── */
 function iniciarOAuth(){
   if(!proActual){ toast('Sin profesional activo.','error'); return; }
   var btn=event&&event.target?event.target.closest('button'):null;
@@ -1208,7 +1156,7 @@ async function desvincularMP(){
   try{
     var data=await apiPost('mp_desvincular',{profesional_id:proActual.id});
     if(data&&data.ok){
-      proActual.mp_access_token=''; proActual.mp_user_id='';
+      proActual.mp_access_token=''; proActual.mp_user_id=''; proActual.tiene_mp=false;
       guardarPro(proActual); mostrarDashboard(proActual);
       toast('✅ Mercado Pago desvinculado.','ok');
     }else{ toast('❌ '+(data&&data.error||'Error al desvincular.'),'error'); btn.disabled=false; }
@@ -1216,7 +1164,8 @@ async function desvincularMP(){
 }
 
 function renderMpConfig(pro){
-  var tieneMp = !!(pro.mp_access_token && pro.mp_user_id) || !!(pro.tiene_mp);
+  // FIX 2b: usar tiene_mp como fuente de verdad
+  var tieneMp = !!(pro.tiene_mp||(pro.mp_access_token&&pro.mp_user_id));
   var el = document.getElementById('mp-config-body');
   if (!el) return;
   if (tieneMp) {
@@ -1255,7 +1204,6 @@ async function guardarWhatsapp(){
   }catch(e){ toast('❌ Error de conexión.','error'); }
 }
 
-/* ── CALENDARIO MENSUAL ── */
 function isoDate(y,m,d){ return y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'); }
 
 async function cargarCalendario(proId){
@@ -1395,7 +1343,6 @@ function cerrarDetalleDia(){
   if(prev) prev.parentNode.removeChild(prev);
 }
 
-/* ── DASHBOARD DATA ── */
 async function cargarDashData(proId){
   try{
     var data=await apiGet('dashboard',{profesional_id:proId});
@@ -1433,7 +1380,6 @@ function renderTurnos(turnos){
   }).join('');
 }
 
-/* ── DISPONIBILIDAD ── */
 function inicDisp(){ DIAS.forEach(function(d){ dispState[d.num]={activo:false,bloques:[]}; }); }
 function inicDispReg(){ DIAS.forEach(function(d){ dispStateReg[d.num]={activo:false,bloques:[]}; }); }
 
@@ -1540,7 +1486,6 @@ async function guardarDisp(){
   setTimeout(function(){ fb.style.display='none'; },5000);
 }
 
-/* ── NAVEGACIÓN ── */
 function showTab(nombre,el){
   ['reservar','profesional'].forEach(function(t){
     document.getElementById('tab-'+t).classList.toggle('active',t===nombre);
@@ -1556,7 +1501,7 @@ function showDashPanel(nombre,el){
   });
 }
 
-/* ── checkReturn CORREGIDO ── */
+// ── FIX 3: checkReturn — limpiar caché y forzar recarga al volver de MP ──
 function checkReturn(){
   var p = new URLSearchParams(window.location.search);
   var estado    = p.get('estado');
@@ -1567,20 +1512,20 @@ function checkReturn(){
   window.history.replaceState({}, '', window.location.pathname);
 
   if (mpStatus) {
-    // Asegurarse que la tab profesional esté activa Y visible
     showTab('profesional', document.getElementById('tab-btn-profesional'));
 
     if (mpStatus === 'ok') {
+      // FIX: limpiar caché completo y forzar recarga desde server
       ST.del('pro_actual');
+      ST.del('mp_pending_pro_id');
       var savedUser = ST.get('google_user');
       if (savedUser) {
         currentUser = savedUser;
         updateNavUser(savedUser);
-        // Dar tiempo al DOM para renderizar la tab antes de cargar datos
         setTimeout(function(){
           toast('✅ Mercado Pago vinculado correctamente.', 'ok');
           cargarPerfilPro(true);
-        }, 300);
+        }, 600);
       } else {
         mostrarAuthGate();
         toast('✅ MP vinculado. Volvé a ingresar con Google.', 'ok');
@@ -1629,7 +1574,6 @@ function checkReturn(){
   }
 }
 
-/* ── HELPERS ── */
 function hoyISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function fmtFecha(iso,corto){
   if(!iso) return '—';
@@ -1642,7 +1586,6 @@ function fmtFecha(iso,corto){
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function escA(s){ return (s||'').replace(/'/g,"\\'"); }
 
-/* ── INIT ── */
 document.addEventListener('DOMContentLoaded',function(){
   inicDisp(); inicDispReg(); renderFechas();
   var savedUser=ST.get('google_user');
