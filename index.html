@@ -741,21 +741,21 @@ function apiGet(path,params,retries){
     window[cb]=function(d){ cleanup(); resolve(d); };
     function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
     s.onerror=function(){ cleanup(); if(retries<2) resolve(apiGet(path,params,retries+1)); else reject(new Error('Error de red')); };
-    document.body.appendChild(s);
+    document..appendChild(s);
   });
 }
 
-function apiPost(path,body,retries){
+function apiPost(path,,retries){
   retries=retries||0;
   return new Promise(function(resolve,reject){
     var cb='_cb_'+Date.now()+'_'+(Math.random()*1e6|0);
-    var src=CFG.API+'?path='+encodeURIComponent(path)+'&callback='+encodeURIComponent(cb)+'&_body='+encodeURIComponent(JSON.stringify(body));
+    var src=CFG.API+'?path='+encodeURIComponent(path)+'&callback='+encodeURIComponent(cb)+'&_='+encodeURIComponent(JSON.stringify());
     var s=document.createElement('script'); s.src=src;
-    var t=setTimeout(function(){ cleanup(); if(retries<2) resolve(apiPost(path,body,retries+1)); else reject(new Error('Timeout')); },12000);
+    var t=setTimeout(function(){ cleanup(); if(retries<2) resolve(apiPost(path,,retries+1)); else reject(new Error('Timeout')); },12000);
     window[cb]=function(d){ cleanup(); resolve(d); };
     function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror=function(){ cleanup(); if(retries<1) resolve(apiPost(path,body,retries+1)); else reject(new Error('Error de red')); };
-    document.body.appendChild(s);
+    s.onerror=function(){ cleanup(); if(retries<1) resolve(apiPost(path,,retries+1)); else reject(new Error('Error de red')); };
+    document..appendChild(s);
   });
 }
 
@@ -874,7 +874,7 @@ function abrirModal(proId,nombre,precio){
   var btn=document.getElementById('btn-pagar');
   btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
   btn.disabled=false;
-  document.getElementById('modal-body').style.display='block';
+  document.getElementById('modal-').style.display='block';
   document.getElementById('modal-success').style.display='none';
   document.getElementById('payModal').classList.add('open');
 }
@@ -1166,7 +1166,7 @@ async function desvincularMP(){
 function renderMpConfig(pro){
   // FIX 2b: usar tiene_mp como fuente de verdad
   var tieneMp = !!(pro.tiene_mp||(pro.mp_access_token&&pro.mp_user_id));
-  var el = document.getElementById('mp-config-body');
+  var el = document.getElementById('mp-config-');
   if (!el) return;
   if (tieneMp) {
     el.innerHTML = '<div class="success-box" style="margin-bottom:12px">✅ Mercado Pago vinculado correctamente.</div>'+
@@ -1606,6 +1606,222 @@ document.addEventListener('DOMContentLoaded',function(){
     else mostrarAuthGate();
   }
 });
+</script>
+  <!-- ═════════════════════════════════════════════════════════════════════
+     WIDGET DE CHAT — Mi Turno Seguro
+     Pegar este bloque completo justo ANTES de </body> en tu index.html
+     (después del <script> principal que define CFG, apiPost, ST, esc, etc.
+     Si tu <script> principal va después, este widget igual funciona porque
+     sólo se ejecuta cuando el usuario interactúa — pero para más prolijidad
+     ponelo después del script principal).
+     ═════════════════════════════════════════════════════════════════════ -->
+<style>
+#chat-fab{
+  position:fixed;bottom:calc(20px + var(--safe-bottom,0px));right:16px;z-index:300;
+  width:58px;height:58px;border-radius:50%;background:var(--brand);color:white;
+  border:none;box-shadow:0 6px 20px rgba(37,99,235,0.35);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+#chat-fab:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(37,99,235,0.45)}
+#chat-fab .dot{position:absolute;top:6px;right:6px;width:11px;height:11px;border-radius:50%;background:#22C55E;border:2px solid white;display:none}
+#chat-fab .dot.show{display:block}
+
+#chat-panel{
+  position:fixed;bottom:calc(88px + var(--safe-bottom,0px));right:16px;z-index:300;
+  width:min(360px,calc(100vw - 32px));height:min(520px,calc(100vh - 160px));
+  background:white;border-radius:20px;box-shadow:0 12px 40px rgba(15,23,42,0.22);
+  display:none;flex-direction:column;overflow:hidden;border:1px solid var(--line);
+  animation:slideUp 0.25s cubic-bezier(.34,1.2,.64,1);
+}
+#chat-panel.open{display:flex}
+#chat-header{
+  background:linear-gradient(135deg,var(--brand-dark) 0%,var(--brand) 100%);
+  color:white;padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0
+}
+#chat-header .ico{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+#chat-header .txt{flex:1;min-width:0}
+#chat-header .txt b{display:block;font-family:'Outfit',sans-serif;font-size:14px}
+#chat-header .txt span{font-size:11px;opacity:0.85;display:flex;align-items:center;gap:4px}
+#chat-header .txt span::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ADE80;display:inline-block}
+#chat-close{width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);
+  color:white;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#chat-close:hover{background:rgba(255,255,255,0.28)}
+
+#chat-messages{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 12px;
+  display:flex;flex-direction:column;gap:10px;background:var(--paper)}
+.chat-bubble{max-width:82%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.45;
+  white-space:pre-wrap;word-wrap:break-word;animation:fadeIn 0.2s ease both}
+.chat-bubble.user{align-self:flex-end;background:var(--brand);color:white;border-bottom-right-radius:4px}
+.chat-bubble.bot{align-self:flex-start;background:white;color:var(--ink);border:1px solid var(--line);border-bottom-left-radius:4px}
+.chat-bubble.bot a{color:var(--brand);font-weight:700;text-decoration:underline}
+.chat-bubble.error{align-self:flex-start;background:var(--danger-soft);color:#991B1B;border:1px solid #FCA5A5;border-bottom-left-radius:4px}
+.chat-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:white;
+  border:1px solid var(--line);border-radius:14px;border-bottom-left-radius:4px}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);opacity:0.5;animation:chatTyping 1s infinite}
+.chat-typing span:nth-child(2){animation-delay:0.15s}
+.chat-typing span:nth-child(3){animation-delay:0.3s}
+@keyframes chatTyping{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+#chat-input-row{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:white;flex-shrink:0}
+#chat-input{flex:1;border:1.5px solid var(--line);border-radius:999px;padding:10px 15px;
+  font-size:15px!important;outline:none;font-family:'Inter',sans-serif;resize:none;max-height:80px;line-height:1.3}
+#chat-input:focus{border-color:var(--brand)}
+#chat-send{width:40px;height:40px;border-radius:50%;border:none;background:var(--brand);color:white;
+  font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.15s}
+#chat-send:hover{background:var(--brand-dark)}
+#chat-send:disabled{opacity:0.5;cursor:not-allowed}
+
+@media(max-width:400px){
+  #chat-panel{right:8px;bottom:calc(80px + var(--safe-bottom,0px));width:calc(100vw - 16px)}
+  #chat-fab{right:8px}
+}
+</style>
+
+<button id="chat-fab" onclick="toggleChat()" aria-label="Abrir chat">
+  💬<span class="dot" id="chat-dot"></span>
+</button>
+
+<div id="chat-panel">
+  <div id="chat-header">
+    <div class="ico">🤖</div>
+    <div class="txt">
+      <b>Asistente Mi Turno Seguro</b>
+      <span>En línea</span>
+    </div>
+    <button id="chat-close" onclick="toggleChat(false)">✕</button>
+  </div>
+  <div id="chat-messages"></div>
+  <div id="chat-input-row">
+    <textarea id="chat-input" rows="1" placeholder="Escribí tu consulta..." onkeydown="chatKeydown(event)" oninput="chatAutoGrow(this)"></textarea>
+    <button id="chat-send" onclick="enviarChat()">➤</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var CHAT_SALUDO = '¡Hola! 👋 Soy el asistente de Mi Turno Seguro. Te puedo ayudar a reservar un turno, resolver dudas, o si sos profesional, a gestionar tu agenda. ¿En qué te ayudo?';
+  var chatAbierto = false;
+  var chatEnviando = false;
+  var chatSessionId = null;
+
+  window.toggleChat = function(force){
+    var panel = document.getElementById('chat-panel');
+    chatAbierto = (force !== undefined) ? force : !chatAbierto;
+    panel.classList.toggle('open', chatAbierto);
+    if(chatAbierto){
+      document.getElementById('chat-dot').classList.remove('show');
+      if(!panel.dataset.iniciado){
+        panel.dataset.iniciado = '1';
+        chatAppend('bot', CHAT_SALUDO);
+      }
+      setTimeout(function(){ document.getElementById('chat-input').focus(); },150);
+      chatScrollBottom();
+    }
+  };
+
+  window.chatKeydown = function(e){
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      enviarChat();
+    }
+  };
+
+  window.chatAutoGrow = function(el){
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+  };
+
+  function chatScrollBottom(){
+    var box = document.getElementById('chat-messages');
+    box.scrollTop = box.scrollHeight;
+  }
+
+  // Conversión básica de **negrita** y links a HTML seguro (escapa todo lo demás)
+  function chatFormat(texto){
+    var out = esc(texto);
+    out = out.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+    out = out.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    return out;
+  }
+
+  function chatAppend(tipo, texto){
+    var box = document.getElementById('chat-messages');
+    var b = document.createElement('div');
+    b.className = 'chat-bubble ' + tipo;
+    b.innerHTML = chatFormat(texto);
+    box.appendChild(b);
+    chatScrollBottom();
+    return b;
+  }
+
+  function chatTypingShow(){
+    var box = document.getElementById('chat-messages');
+    var t = document.createElement('div');
+    t.className = 'chat-typing';
+    t.id = 'chat-typing-ind';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    box.appendChild(t);
+    chatScrollBottom();
+  }
+  function chatTypingHide(){
+    var t = document.getElementById('chat-typing-ind');
+    if(t) t.remove();
+  }
+
+  window.enviarChat = function(){
+    if(chatEnviando) return;
+    var input = document.getElementById('chat-input');
+    var msg = input.value.trim();
+    if(!msg) return;
+
+    if(!chatSessionId){
+      chatSessionId = ST.get('chat_session_id');
+      if(!chatSessionId){
+        chatSessionId = 'WEB-' + Date.now().toString(36) + '-' + (Math.random()*1e6|0).toString(36);
+        ST.set('chat_session_id', chatSessionId);
+      }
+    }
+
+    chatAppend('user', msg);
+    input.value = '';
+    input.style.height = 'auto';
+    chatEnviando = true;
+    document.getElementById('chat-send').disabled = true;
+    chatTypingShow();
+
+    apiPost('agente_chat', { mensaje: msg, session_id: chatSessionId })
+      .then(function(data){
+        chatTypingHide();
+        chatEnviando = false;
+        document.getElementById('chat-send').disabled = false;
+        if(data && data.error){
+          chatAppend('error', '⚠️ ' + data.error);
+          return;
+        }
+        if(data && data.session_id) chatSessionId = data.session_id;
+        chatAppend('bot', (data && data.respuesta) || 'No pude generar una respuesta, ¿podés reformular?');
+      })
+      .catch(function(){
+        chatTypingHide();
+        chatEnviando = false;
+        document.getElementById('chat-send').disabled = false;
+        chatAppend('error', '⚠️ No se pudo conectar. Probá de nuevo en un momento.');
+      });
+  };
+
+  // Mostrar el puntito verde de "novedad" la primera vez que carga la página
+  document.addEventListener('DOMContentLoaded', function(){
+    if(!ST.get('chat_visto')){
+      setTimeout(function(){
+        var dot = document.getElementById('chat-dot');
+        if(dot && !chatAbierto) dot.classList.add('show');
+      }, 2500);
+      ST.set('chat_visto','1');
+    }
+  });
+})();
 </script>
 </body>
 </html>
