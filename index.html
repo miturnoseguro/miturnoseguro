@@ -741,21 +741,21 @@ function apiGet(path,params,retries){
     window[cb]=function(d){ cleanup(); resolve(d); };
     function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
     s.onerror=function(){ cleanup(); if(retries<2) resolve(apiGet(path,params,retries+1)); else reject(new Error('Error de red')); };
-    document..appendChild(s);
+    document.body.appendChild(s);
   });
 }
 
-function apiPost(path,,retries){
-  retries=retries||0;
+function apiPost(path,body,retries){
+  retries=retries||0; body=body||{};
   return new Promise(function(resolve,reject){
     var cb='_cb_'+Date.now()+'_'+(Math.random()*1e6|0);
-    var src=CFG.API+'?path='+encodeURIComponent(path)+'&callback='+encodeURIComponent(cb)+'&_='+encodeURIComponent(JSON.stringify());
+    var src=CFG.API+'?path='+encodeURIComponent(path)+'&callback='+encodeURIComponent(cb)+'&_body='+encodeURIComponent(JSON.stringify(body));
     var s=document.createElement('script'); s.src=src;
-    var t=setTimeout(function(){ cleanup(); if(retries<2) resolve(apiPost(path,,retries+1)); else reject(new Error('Timeout')); },12000);
+    var t=setTimeout(function(){ cleanup(); if(retries<2) resolve(apiPost(path,body,retries+1)); else reject(new Error('Timeout')); },12000);
     window[cb]=function(d){ cleanup(); resolve(d); };
     function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror=function(){ cleanup(); if(retries<1) resolve(apiPost(path,,retries+1)); else reject(new Error('Error de red')); };
-    document..appendChild(s);
+    s.onerror=function(){ cleanup(); if(retries<1) resolve(apiPost(path,body,retries+1)); else reject(new Error('Error de red')); };
+    document.body.appendChild(s);
   });
 }
 
