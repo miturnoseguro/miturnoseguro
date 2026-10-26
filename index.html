@@ -149,9 +149,6 @@ input,textarea,select{width:100%;font:inherit;font-size:16px;padding:14px 16px;b
 <div id="layer"></div>
 
 <script>
-  GOOGLE_CLIENT_ID: '962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com',
-  API: 'https://script.google.com/macros/s/AKfycbw_58rgKt4lmKbgSxXqIJcFpbCipYOrD6_lcbweBs-FVJqoo8lczobCbP8mBxkHXVc65g/exec',
-  SITE: 'https://miturnoseguro.com'
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const P={search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',back:'<path d="m15 18-6-6 6-6"/>',star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',heart:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>',share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4m0-11-6.8 4"/>',check:'<path d="M20 6 9 17l-5-5"/>',user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',pen:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'};
@@ -184,11 +181,15 @@ const rr=()=>{const y=scrollY;render();scrollTo(0,y)};
 // Login con Google (Google Identity Services + Supabase signInWithIdToken)
 const NONCE=btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))));let GREADY=false;
 const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)))].map(x=>x.toString(16).padStart(2,'0')).join('');
-async function onGoogle(r){if(SB_URL.includes('TU-PROYECTO'))return toast('Falta configurar SB_URL y SB_KEY');const {error}=await sb.auth.signInWithIdToken({provider:'google',token:r.credential,nonce:NONCE});if(error)toast('No se pudo ingresar: '+error.message)}
+function demo(jwt){try{const p=JSON.parse(decodeURIComponent(escape(atob(jwt.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')))));
+ U={id:p.sub,email:p.email,user_metadata:{full_name:p.name}};ME={id:p.sub,name:p.name,avatar_url:p.picture,refs:0,rating:0};
+ PEOPLE=[['María González','Colaboradora confiable',4.9,127],['Lucía Fernández','Como amiga, siempre presente',5,42],['Valentina Ruiz','Excelente líder',4.9,95],['Carlos Ramírez','Profesional responsable',4.5,63]].map((x,i)=>({id:'demo'+i,name:x[0],trait:x[1],rating:x[2],refs:x[3],verified:i!==3}));
+ FAVS=new Set();READY=true;toast('Modo demo: falta conectar Supabase');render()}catch(e){toast('No se pudo leer tu cuenta de Google')}}
+async function onGoogle(r){if(SB_URL.includes('TU-PROYECTO'))return demo(r.credential);const {error}=await sb.auth.signInWithIdToken({provider:'google',token:r.credential,nonce:NONCE});if(error)toast('No se pudo ingresar: '+error.message)}
 async function mountGoogle(){const el=document.getElementById('gbox');if(!el)return;if(!(window.google&&google.accounts&&google.accounts.id))return setTimeout(mountGoogle,300);
  if(!GREADY){google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogle,nonce:await sha(NONCE),auto_select:false});GREADY=true}
  google.accounts.id.renderButton(el,{theme:'outline',size:'large',text:'continue_with',locale:'es',width:320})}
-const logout=()=>{try{google.accounts.id.disableAutoSelect()}catch(e){}return sb.auth.signOut()};
+const logout=async()=>{try{google.accounts.id.disableAutoSelect()}catch(e){}try{await sb.auth.signOut()}catch(e){}boot(null)};
 async function refresh(){const a=await sb.from('person_stats').select('*').order('rating',{ascending:false});if(a.error)return toast('Error al cargar datos');const all=(a.data||[]).map(norm);PEOPLE=all.filter(p=>p.id!==U.id);ME=all.find(p=>p.id===U.id)||{id:U.id,name:(U.user_metadata&&U.user_metadata.full_name)||'Yo',refs:0,rating:0}}
 async function loadAll(){await refresh();const f=await sb.from('favorites').select('person_id');FAVS=new Set((f.data||[]).map(x=>x.person_id))}
 async function boot(s){
