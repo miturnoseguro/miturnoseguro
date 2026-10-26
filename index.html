@@ -1,1827 +1,275 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#2563EB">
-
-<link rel="manifest" href="/manifest.json">
-<link rel="apple-touch-icon" href="/icons/icon-192.png">
-<meta name="apple-mobile-web-app-title" content="MiTurno">
-<meta name="mobile-web-app-capable" content="yes">
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then(function(reg) {
-        console.log('[PWA] SW registrado:', reg.scope);
-        reg.addEventListener('updatefound', function() {
-          var newWorker = reg.installing;
-          newWorker.addEventListener('statechange', function() {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              toast('🔄 Nueva versión disponible. Recargá para actualizar.', 'info');
-            }
-          });
-        });
-      })
-      .catch(function(err) {
-        console.warn('[PWA] SW no registrado:', err);
-      });
-  });
-}
-
-var deferredPrompt = null;
-
-window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (localStorage.getItem('pwa_dismissed')) return;
-  setTimeout(mostrarBannerInstalar, 8000);
-});
-
-function mostrarBannerInstalar() {
-  if (!deferredPrompt) return;
-  var banner = document.getElementById('pwa-banner');
-  if (!banner) {
-    banner = document.createElement('div');
-    banner.id = 'pwa-banner';
-    banner.style.cssText =
-      'position:fixed;bottom:0;left:0;right:0;z-index:9000;' +
-      'background:white;border-top:1px solid #E6EAF0;' +
-      'padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));' +
-      'display:flex;align-items:center;gap:12px;' +
-      'box-shadow:0 -4px 20px rgba(15,23,42,0.10);' +
-      'animation:slideUp 0.3s ease;';
-    banner.innerHTML =
-      '<div style="width:44px;height:44px;border-radius:12px;background:#EFF4FF;' +
-      'display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">📅</div>' +
-      '<div style="flex:1;min-width:0">' +
-      '<div style="font-family:\'Outfit\',sans-serif;font-weight:700;font-size:14px">Instalá Mi Turno Seguro</div>' +
-      '<div style="font-size:12px;color:#64748B">Accedé rápido desde tu pantalla de inicio</div>' +
-      '</div>' +
-      '<button onclick="instalarPWA()" style="' +
-      'padding:9px 16px;border-radius:999px;border:none;background:#2563EB;' +
-      'color:white;font-size:13px;font-weight:700;font-family:\'Outfit\',sans-serif;cursor:pointer;white-space:nowrap">' +
-      'Instalar</button>' +
-      '<button onclick="cerrarBannerPWA()" style="' +
-      'width:32px;height:32px;border-radius:50%;border:1.5px solid #E6EAF0;' +
-      'background:white;color:#64748B;font-size:14px;cursor:pointer;flex-shrink:0;' +
-      'display:flex;align-items:center;justify-content:center">✕</button>';
-    document.body.appendChild(banner);
-  }
-}
-
-function instalarPWA() {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(function(result) {
-    if (result.outcome === 'accepted') {
-      toast('✅ ¡App instalada! Ya podés abrirla desde tu pantalla de inicio.', 'ok');
-    }
-    deferredPrompt = null;
-    cerrarBannerPWA();
-  });
-}
-
-function cerrarBannerPWA() {
-  var banner = document.getElementById('pwa-banner');
-  if (banner) banner.remove();
-  localStorage.setItem('pwa_dismissed', '1');
-}
-
-(function() {
-  var dismissed = localStorage.getItem('pwa_dismissed_at');
-  var now = Date.now();
-  if (!dismissed) {
-    localStorage.setItem('pwa_dismissed_at', now);
-  } else if (now - Number(dismissed) > 30 * 24 * 60 * 60 * 1000) {
-    localStorage.removeItem('pwa_dismissed');
-    localStorage.removeItem('pwa_dismissed_at');
-    localStorage.setItem('pwa_dismissed_at', now);
-  }
-})();
-
-(function() {
-  var p = new URLSearchParams(window.location.search);
-  var tab = p.get('tab');
-  if (tab === 'reservar' || tab === 'profesional') {
-    window.addEventListener('DOMContentLoaded', function() {
-      var btn = document.getElementById('tab-btn-' + tab);
-      if (btn) btn.click();
-    });
-  }
-})();
-</script>
-<title>Mi Turno Seguro</title>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Referencias · Tu reputación, contada por quienes te conocen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --brand:#2563EB;--brand-dark:#1E3A8A;--brand-soft:#EFF4FF;--brand-mid:#DBEAFE;
-  --ink:#0F172A;--muted:#64748B;--line:#E6EAF0;--paper:#F7F9FC;--surface:#FFFFFF;
-  --success:#16A34A;--success-soft:#E9F8EE;--warning-soft:#FFFBEB;
-  --danger:#DC2626;--danger-soft:#FEF2F2;
-  --radius:16px;--radius-sm:10px;
-  --shadow:0 2px 12px rgba(15,23,42,0.08);--shadow-lg:0 8px 32px rgba(37,99,235,0.15);
-  --mp:#009EE3;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-}
-html{-webkit-text-size-adjust:100%;height:100%;font-size:16px}
-body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;font-size:16px;min-height:100%;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{font-family:'Outfit',sans-serif;line-height:1.2}
+:root{--bg:#ffffff;--card:#ffffff;--ink:#000000;--mut:#5a6466;--line:#e4e9ea;--pri:#0b5563;--pri2:#084550;--soft:#e2eff1;--acc:#0b5563;--ok:#0b5563;--oks:#e2eff1;--warn:#000000;--sh:0 6px 24px rgba(0,0,0,.07);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#000000;--card:#0d1112;--ink:#ffffff;--mut:#9aa5a8;--line:#222b2d;--pri:#17808e;--pri2:#1f98a8;--soft:#0a2327;--acc:#17808e;--ok:#17808e;--oks:#0a2327;--warn:#ffffff;--sh:0 6px 24px rgba(0,0,0,.5);}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#000000;--card:#0d1112;--ink:#ffffff;--mut:#9aa5a8;--line:#222b2d;--pri:#17808e;--pri2:#1f98a8;--soft:#0a2327;--acc:#17808e;--ok:#17808e;--oks:#0a2327;--warn:#ffffff;--sh:0 6px 24px rgba(0,0,0,.5);}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:60}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 a{color:inherit;text-decoration:none}
-img{max-width:100%}
-input,textarea,select,button{font-size:16px!important;-webkit-appearance:none;appearance:none}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes bounceIn{0%{transform:scale(0.7);opacity:0}60%{transform:scale(1.05)}80%{transform:scale(0.97)}100%{transform:scale(1);opacity:1}}
-@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
-.anim-fade{animation:fadeIn 0.3s ease both}
-.anim-bounce{animation:bounceIn 0.45s ease both}
-.sk{background:linear-gradient(90deg,#f0f4f8 25%,#e2e8f0 50%,#f0f4f8 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:8px}
-
-.app-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding-top:var(--safe-top)}
-.app-nav-inner{width:100%;max-width:680px;margin:0 auto;height:52px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.brand{display:flex;align-items:center;gap:8px;flex-shrink:0;cursor:pointer;text-decoration:none}
-.brand-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;color:var(--ink)}
-.brand-name span{color:var(--brand)}
-.nav-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.user-chip{display:flex;align-items:center;gap:5px;padding:3px 8px 3px 3px;background:var(--brand-soft);border-radius:999px;font-size:11px;font-weight:600;color:var(--brand-dark);cursor:default;max-width:140px}
-.user-chip-avatar{width:24px;height:24px;border-radius:50%;background:var(--brand);color:white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;overflow:hidden;flex-shrink:0}
-.user-chip-avatar img{width:100%;height:100%;object-fit:cover}
-.user-chip-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btn-logout{padding:5px 10px;font-size:11px;font-weight:600;color:var(--muted);background:white;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;white-space:nowrap}
-.btn-logout:hover{border-color:var(--danger);color:var(--danger)}
-.tabs-wrap{padding:10px 14px 0;max-width:680px;margin:0 auto;width:100%}
-.tabs{display:flex;gap:4px;background:white;border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
-.tab{flex:1;padding:9px 6px;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;color:var(--muted);cursor:pointer;border:none;background:none;border-radius:999px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap}
-.tab.active{color:white;background:var(--brand);box-shadow:0 3px 10px rgba(37,99,235,0.28)}
-.tab:not(.active):hover{background:var(--brand-soft);color:var(--ink)}
-.app-section{display:none;padding:14px 14px 90px;max-width:680px;margin:0 auto;width:100%}
-.app-section.active{display:block;animation:fadeIn 0.25s ease}
-#payment-banner{display:none;max-width:680px;margin:0 auto;padding:0 14px;width:100%}
-.pay-banner{padding:12px 16px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;text-align:center;margin-bottom:8px}
-.pay-banner.success{background:var(--success-soft);color:#166534;border:1px solid #86EFAC}
-.pay-banner.error{background:var(--danger-soft);color:#991B1B;border:1px solid #FCA5A5}
-.pay-banner.pending{background:var(--warning-soft);color:#92400E;border:1px solid #FCD34D}
-.card{background:white;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
-.card-sm{background:white;border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:999px;font-size:15px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;border:none;transition:all 0.2s;white-space:nowrap;width:100%;min-height:48px}
-.btn-primary{background:var(--brand);color:white;box-shadow:0 4px 14px rgba(37,99,235,0.25)}
-.btn-primary:hover{background:var(--brand-dark);transform:translateY(-1px)}
-.btn-primary:active{transform:translateY(0);box-shadow:none}
-.btn-mp{background:var(--mp);color:white}
-.btn-mp:hover{background:#0085C2;transform:translateY(-1px)}
-.btn-mp:disabled{opacity:0.55;cursor:not-allowed;transform:none}
-.btn-outline{background:white;color:var(--brand);border:1.5px solid var(--brand-mid)}
-.btn-outline:hover{background:var(--brand-soft)}
-.btn-danger-outline{background:white;color:var(--danger);border:1.5px solid #FECACA}
-.btn-danger-outline:hover{background:var(--danger-soft)}
-.btn-ghost-sm{display:inline-flex;align-items:center;gap:4px;padding:7px 12px;border-radius:999px;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;border:1.5px solid var(--line);background:white;color:var(--muted);transition:all 0.15s;min-height:40px}
-.btn-ghost-sm:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
-.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important}
-.mp-logo{display:inline-flex;align-items:center;gap:5px;font-weight:700}
-.mp-dot{width:6px;height:6px;background:white;border-radius:50%}
-
-.form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:16px!important;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s,box-shadow 0.2s;background:white;-webkit-appearance:none;appearance:none;color:var(--ink);min-height:48px}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
-.form-group textarea{resize:vertical;min-height:80px}
-.form-hint{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
-.section-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;display:block}
-.divider{height:1px;background:var(--line);margin:14px 0}
-
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
-.badge-green{background:var(--success-soft);color:#166534}
-.badge-blue{background:var(--brand-soft);color:var(--brand-dark)}
-.badge-orange{background:#FFF7ED;color:#C2410C}
-.badge-gray{background:#F1F5F9;color:#475569}
-
-.info-box{background:var(--brand-soft);border:1px solid var(--brand-mid);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:var(--brand-dark);margin-bottom:14px;line-height:1.5}
-.warning-box{background:var(--warning-soft);border:1px solid #FCD34D;border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:#92400E;margin-bottom:14px;line-height:1.5}
-.success-box{background:var(--success-soft);border:1px solid #86EFAC;border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:#166534;margin-bottom:14px;line-height:1.5}
-
-.toast-container{position:fixed;top:62px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;width:calc(100% - 28px);max-width:400px}
-.toast{padding:11px 20px;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.12);text-align:center;animation:fadeIn 0.3s ease both;pointer-events:none;width:100%}
-.toast.ok{background:#DCFCE7;color:#166534;border:1.5px solid #86EFAC}
-.toast.error{background:#FEE2E2;color:#991B1B;border:1.5px solid #FCA5A5}
-.toast.info{background:var(--brand-soft);color:var(--brand-dark);border:1.5px solid var(--brand-mid)}
-
-.spinner{display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,0.35);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle}
-.spinner-dark{display:inline-block;width:16px;height:16px;border:2.5px solid rgba(0,0,0,0.1);border-top-color:var(--brand);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle}
-
-.fecha-selector{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:14px}
-.fecha-selector::-webkit-scrollbar{display:none}
-.fecha-chip{flex-shrink:0;min-width:52px;padding:8px 10px;border-radius:12px;border:1.5px solid var(--line);background:white;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.18s;text-align:center;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent;min-height:56px}
-.fecha-chip.selected{border-color:var(--brand);background:var(--brand);color:white}
-.fecha-chip .dn{display:block;font-size:10px;opacity:0.75}
-.fecha-chip .dd{display:block;font-size:17px;font-weight:800;font-family:'Outfit',sans-serif;line-height:1.1}
-.pro-card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);animation:fadeIn 0.3s ease both}
-.pro-card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
-.pro-avatar{width:44px;height:44px;border-radius:12px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.pro-info{flex:1;min-width:0}
-.pro-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;margin-bottom:2px}
-.pro-spec{font-size:12px;color:var(--muted)}
-.pro-price{font-family:'Outfit',sans-serif;font-weight:800;font-size:17px;color:var(--brand);text-align:right;flex-shrink:0}
-.pro-price small{display:block;font-size:10px;color:var(--muted);font-weight:600}
-.slots-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px}
-.slots-wrap{display:flex;gap:6px;flex-wrap:wrap;min-height:38px;margin-bottom:12px}
-.slot-btn{padding:9px 13px;border-radius:8px;border:1.5px solid var(--line);background:white;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent;min-height:42px}
-.slot-btn:not(.taken):hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
-.slot-btn.active{background:var(--brand);color:white;border-color:var(--brand)}
-.slot-btn.taken{color:#CBD5E1;cursor:not-allowed;text-decoration:line-through;border-color:transparent;background:var(--paper)}
-.slot-loading{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;padding:8px 0}
-
-.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:200;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
-.overlay.open{display:flex;animation:fadeIn 0.2s ease}
-.modal{background:white;border-radius:20px 20px 0 0;width:100%;max-width:680px;padding:20px 16px calc(28px + var(--safe-bottom));animation:slideUp 0.3s cubic-bezier(.34,1.2,.64,1);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.modal-handle{width:32px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 16px}
-.modal h2{font-size:19px;margin-bottom:4px}
-.modal .sub{font-size:13px;color:var(--muted);margin-bottom:16px}
-.sum-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
-.sum-row:last-of-type{border:none}
-.sum-row .lbl{color:var(--muted)}
-.sum-row.total{border-top:2px solid var(--line);margin-top:4px;padding-top:12px}
-.sum-row.total .val{font-family:'Outfit',sans-serif;font-weight:800;font-size:20px;color:var(--brand)}
-.success-screen{display:none;text-align:center;padding:28px 12px;animation:bounceIn 0.45s ease both}
-.success-icon{width:60px;height:60px;background:var(--success-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px}
-
-.auth-gate{text-align:center;padding:36px 16px}
-.auth-gate .icon{font-size:44px;display:block;margin-bottom:14px;animation:bounceIn 0.5s ease both}
-.auth-gate h3{font-size:20px;font-weight:800;margin-bottom:6px}
-.auth-gate p{font-size:14px;color:var(--muted);margin-bottom:22px;max-width:280px;margin-left:auto;margin-right:auto}
-.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 18px;border:1.5px solid var(--line);border-radius:999px;background:white;color:var(--ink);font-size:15px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.05);min-height:52px}
-.btn-google:hover{border-color:#4285F4;box-shadow:0 4px 14px rgba(66,133,244,0.15);transform:translateY(-1px)}
-.btn-google:disabled{opacity:0.6;cursor:not-allowed;transform:none}
-
-.stepper-track{height:4px;background:var(--line);border-radius:999px;margin-bottom:18px;overflow:hidden}
-.stepper-fill{height:100%;background:linear-gradient(90deg,var(--brand),#60A5FA);border-radius:999px;transition:width 0.5s ease}
-.stepper-dots{display:flex;margin-bottom:18px}
-.sdot-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
-.sdot-wrap::before{content:'';position:absolute;left:calc(-50% + 16px);right:calc(50% + 16px);top:14px;height:2px;background:var(--line);transition:background 0.4s}
-.sdot-wrap:first-child::before{display:none}
-.sdot-wrap.done::before{background:var(--brand)}
-.sdot{width:28px;height:28px;border-radius:50%;border:2.5px solid var(--line);background:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted);font-family:'Outfit',sans-serif;z-index:1;transition:all 0.3s}
-.sdot-wrap.active .sdot{border-color:var(--brand);background:var(--brand);color:white;box-shadow:0 2px 8px rgba(37,99,235,0.3)}
-.sdot-wrap.done .sdot{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
-.sdot-lbl{font-size:9px;font-weight:700;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:0.3px}
-.sdot-wrap.active .sdot-lbl,.sdot-wrap.done .sdot-lbl{color:var(--brand)}
-.step-panel{display:none}
-.step-panel.active{display:block;animation:fadeIn 0.25s ease}
-.step-title{font-size:18px;font-weight:800;margin-bottom:3px}
-.step-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
-.step-nav{display:flex;gap:10px;margin-top:8px}
-.btn-back{flex:0 0 auto;padding:13px 18px;border-radius:999px;border:1.5px solid var(--line);background:white;color:var(--ink);font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.18s;min-height:48px}
-.btn-back:hover{border-color:var(--brand);color:var(--brand)}
-.btn-next{flex:1;padding:13px;border-radius:999px;border:none;background:var(--brand);color:white;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,0.22);transition:all 0.2s;min-height:48px}
-.btn-next:hover{background:var(--brand-dark);transform:translateY(-1px)}
-.btn-next:disabled{opacity:0.6;cursor:not-allowed;transform:none}
-
-.picker-grid{display:grid;gap:8px;margin-bottom:12px}
-.pg-3{grid-template-columns:repeat(3,1fr)}
-.pg-4{grid-template-columns:repeat(2,1fr)}
-.pg-2{grid-template-columns:repeat(2,1fr)}
-.picker-chip{padding:13px 6px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--muted);font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;text-align:center;transition:all 0.18s;-webkit-tap-highlight-color:transparent;min-height:48px}
-.picker-chip:hover,.picker-chip:active{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
-.picker-chip.selected{border-color:var(--brand);background:var(--brand);color:white}
-.picker-chip .sub{font-size:10px;display:block;font-weight:600;opacity:0.8;margin-top:2px}
-
-.disp-row{border:1.5px solid var(--line);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;transition:border-color 0.2s}
-.disp-row.on{border-color:var(--brand-mid)}
-.disp-header{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:52px}
-.disp-toggle{width:40px;height:22px;background:var(--line);border-radius:999px;position:relative;flex-shrink:0;transition:background 0.25s}
-.disp-toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:white;transition:left 0.25s;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
-.disp-toggle.on{background:var(--brand)}
-.disp-toggle.on::after{left:21px}
-.disp-day-name{font-weight:700;font-size:14px;flex:1}
-.disp-day-sum{font-size:11px;color:var(--muted)}
-.disp-blocks{display:none;padding:10px 14px 14px;border-top:1px solid var(--line);background:white;flex-direction:column;gap:8px}
-.disp-blocks.open{display:flex;animation:fadeIn 0.2s ease}
-.block-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
-.block-row label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;display:block;margin-bottom:3px}
-.block-row input[type="time"]{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;font-size:15px!important;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;-webkit-appearance:none;appearance:none;background:white;color:var(--ink);min-height:44px}
-.block-row input[type="time"]:focus{border-color:var(--brand)}
-.btn-rm{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--line);background:white;color:var(--muted);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;margin-bottom:1px}
-.btn-rm:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-soft)}
-.btn-add-block{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:999px;border:1.5px dashed var(--brand-mid);background:var(--brand-soft);color:var(--brand);font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;transition:all 0.15s;width:fit-content;min-height:40px}
-.btn-add-block:hover{border-color:var(--brand)}
-.preset-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.preset-chip{padding:7px 12px;border-radius:999px;border:1.5px solid var(--line);background:none;font-size:12px;font-weight:600;color:var(--muted);font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent;min-height:38px}
-.preset-chip:hover,.preset-chip:active{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
-
-.dash-header-card{background:linear-gradient(135deg,var(--brand-dark) 0%,var(--brand) 100%);border-radius:var(--radius);padding:18px;margin-bottom:12px;color:white;position:relative;overflow:hidden}
-.dash-header-card::after{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none}
-.dash-pro-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;margin-bottom:2px}
-.dash-pro-spec{font-size:13px;opacity:0.85;margin-bottom:10px}
-.dash-header-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.dash-price-badge{background:rgba(255,255,255,0.18);border-radius:999px;padding:5px 14px;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px}
-.dash-mp-badge{background:rgba(255,255,255,0.18);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
-.dash-mp-badge.linked{background:rgba(22,163,74,0.45);color:#fff}
-.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
-.stat-card{background:white;border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 12px;text-align:center}
-.stat-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;color:var(--ink);margin-bottom:2px}
-.stat-num.brand{color:var(--brand)}
-.stat-num.success{color:var(--success)}
-.stat-lbl{font-size:11px;color:var(--muted);font-weight:600}
-.dash-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
-.dash-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:white;cursor:pointer;font-size:10px;font-weight:700;color:var(--muted);font-family:'Outfit',sans-serif;transition:all 0.18s;-webkit-tap-highlight-color:transparent;min-height:56px}
-.dash-nav-btn .ico{font-size:18px;line-height:1}
-.dash-nav-btn.active{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
-.dash-nav-btn:hover:not(.active){border-color:var(--brand-mid);background:var(--brand-soft);color:var(--ink)}
-.dash-panel{display:none}
-.dash-panel.active{display:block;animation:fadeIn 0.25s ease}
-.mp-alert{background:var(--warning-soft);border:1px solid #FCD34D;border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#92400E}
-.mp-alert .ico{font-size:20px;flex-shrink:0;margin-top:-1px}
-.mp-alert-body{flex:1}
-.mp-alert-body b{display:block;font-weight:700;margin-bottom:4px}
-.mp-linked-banner{background:var(--success-soft);border:1px solid #86EFAC;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:#166534;font-weight:600}
-.mp-linked-banner .check{font-size:18px}
-
-.turno-row{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
-.turno-row:last-child{border:none}
-.turno-fecha-block{text-align:center;background:var(--brand-soft);border-radius:10px;padding:8px 10px;min-width:50px;flex-shrink:0}
-.turno-fecha-dia{font-size:10px;font-weight:700;color:var(--brand);text-transform:uppercase}
-.turno-fecha-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:20px;color:var(--brand-dark);line-height:1}
-.turno-fecha-hora{font-size:11px;font-weight:700;color:var(--muted);margin-top:2px}
-.turno-info{flex:1;min-width:0}
-.turno-nombre{font-weight:700;font-size:14px;margin-bottom:2px}
-.turno-email{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.turno-status{margin-top:4px}
-
-.cal-wrap{animation:fadeIn 0.3s ease both}
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.cal-title{font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;color:var(--ink);text-transform:capitalize}
-.cal-nav-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:white;color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
-.cal-nav-btn:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-dow{text-align:center;font-size:9px;font-weight:700;color:var(--muted);padding:4px 0;text-transform:uppercase;letter-spacing:0.3px}
-.cal-day{min-height:48px;border-radius:8px;border:1.5px solid transparent;padding:4px 2px 2px;position:relative;transition:all 0.15s;cursor:default}
-.cal-day.empty{background:transparent}
-.cal-day.past{background:var(--paper);opacity:0.5}
-.cal-day.today{border-color:var(--brand) !important;box-shadow:0 0 0 2px rgba(37,99,235,0.12)}
-.cal-day.sin-disponibilidad{background:var(--paper)}
-.cal-day.disponible{background:#EFF6FF;border-color:#BFDBFE;cursor:pointer}
-.cal-day.disponible:hover{background:#DBEAFE;border-color:var(--brand);transform:translateY(-1px);box-shadow:0 3px 10px rgba(37,99,235,0.12)}
-.cal-day.lleno{background:#ECFDF5;border-color:#86EFAC}
-.cal-day.parcial{background:#F0FDF4;border-color:#BBF7D0}
-.cal-day-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:12px;line-height:1;margin-bottom:2px}
-.cal-day.empty .cal-day-num,.cal-day.past .cal-day-num,.cal-day.sin-disponibilidad .cal-day-num{color:var(--muted)}
-.cal-day.disponible .cal-day-num{color:#1D4ED8}
-.cal-day.lleno .cal-day-num,.cal-day.parcial .cal-day-num{color:#166534}
-.cal-slots-mini{display:flex;flex-wrap:wrap;gap:2px}
-.cal-slot-dot{width:4px;height:4px;border-radius:50%}
-.cal-slot-dot.disp{background:#93C5FD}
-.cal-slot-dot.ocup{background:#34D399}
-.cal-day-count{font-size:8px;font-weight:700;margin-top:2px}
-.cal-day.disponible .cal-day-count{color:#3B82F6}
-.cal-day.lleno .cal-day-count,.cal-day.parcial .cal-day-count{color:#16A34A}
-.cal-legend{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
-.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:600}
-.cal-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
-.cal-legend-dot.disp{background:#BFDBFE;border:1px solid #93C5FD}
-.cal-legend-dot.ocup{background:#86EFAC;border:1px solid #4ADE80}
-.cal-detail{margin-top:12px;background:white;border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;animation:fadeIn 0.2s ease}
-.cal-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.cal-detail-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--ink);text-transform:capitalize}
-.cal-detail-close{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);background:white;color:var(--muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.cal-detail-slots{display:flex;flex-wrap:wrap;gap:6px}
-.cal-slot-pill{padding:5px 10px;border-radius:7px;font-size:12px;font-weight:700;font-family:'Inter',sans-serif}
-.cal-slot-pill.disp{background:#EFF6FF;color:#1D4ED8;border:1.5px solid #BFDBFE}
-.cal-slot-pill.ocup{background:#ECFDF5;color:#166534;border:1.5px solid #86EFAC}
-.config-item{background:white;border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px}
-.config-item-title{font-weight:700;font-size:14px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
-.config-item-sub{font-size:12px;color:var(--muted);margin-bottom:12px}
-.mp-connect-card{text-align:center;padding:20px 16px}
-.mp-connect-card .big-ico{font-size:48px;display:block;margin-bottom:12px}
-.mp-connect-card h3{font-size:20px;font-weight:800;margin-bottom:6px}
-.mp-connect-card p{font-size:13px;color:var(--muted);margin-bottom:18px}
-.empty{padding:28px 16px;text-align:center;color:var(--muted)}
-.empty .ico{font-size:36px;margin-bottom:8px}
-.empty p{font-size:14px}
-
-@media(min-width:540px){.pg-4{grid-template-columns:repeat(4,1fr)}.pg-3{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:681px){.app-nav-inner,.tabs-wrap,.app-section,#payment-banner{max-width:680px;margin-left:auto;margin-right:auto}.app-section{padding:20px 0 90px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:14px;font-weight:700;font-size:15px;background:var(--pri);color:#fff;transition:transform .15s,background .2s;width:100%}
+.btn:active{transform:scale(.97)}.btn:hover{background:var(--pri2)}
+.btn.alt{background:var(--soft);color:var(--pri)}.btn.line{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn.auto{width:auto}
+.hide{display:none!important}
+/* ---------- LANDING ---------- */
+#land{overflow-x:hidden}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.3px}
+.logo i{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--pri),var(--pri2));display:grid;place-items:center;color:#fff}
+.hero{display:grid;gap:36px;padding:24px 0 56px;align-items:center}
+.pill{display:inline-flex;gap:6px;align-items:center;background:var(--soft);color:var(--pri);font-weight:700;font-size:13px;padding:6px 12px;border-radius:99px}
+h1{font-size:clamp(34px,9vw,58px);line-height:1.05;letter-spacing:-1.5px;font-weight:800;margin:16px 0}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--pri),var(--ink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mut);font-size:17px;max-width:520px}
+.ctas{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}.ctas .btn{width:auto;flex:1 1 180px}
+.mock{justify-self:center;width:min(300px,100%);background:var(--card);border:8px solid var(--ink);border-radius:36px;padding:16px;box-shadow:0 30px 60px rgba(11,85,99,.3);transform:rotate(2deg)}
+.mrow{display:flex;gap:10px;align-items:center;padding:10px;border-radius:14px;background:var(--bg);margin-top:8px;font-size:13px}
+.mrow b{display:block;font-size:14px}.mrow small{color:var(--mut)}
+.sec{padding:48px 0}.sec h2{font-size:clamp(26px,6vw,38px);letter-spacing:-1px;line-height:1.1;margin-bottom:10px}
+.grid{display:grid;gap:14px;margin-top:26px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--sh)}
+.box .n{width:40px;height:40px;border-radius:12px;background:var(--soft);color:var(--pri);display:grid;place-items:center;font-weight:800;margin-bottom:12px}
+.box h3{font-size:17px;margin-bottom:4px}.box p{color:var(--mut);font-size:14.5px}
+.band{background:var(--ink);color:#fff;border-radius:28px;padding:40px 24px;text-align:center;margin:20px 0 48px}
+.band{background:#000}:root[data-theme="dark"] .band{background:var(--card);border:1px solid var(--line)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .band{background:var(--card);border:1px solid var(--line)}}
+.band h2{margin-bottom:8px}.band p{opacity:.75;margin-bottom:22px}.band .btn{max-width:320px;background:#fff;color:#000}
+.foot{color:var(--mut);font-size:13px;padding:0 0 32px;text-align:center}
+@media(min-width:820px){.hero{grid-template-columns:1.2fr .8fr}.grid.g3{grid-template-columns:repeat(3,1fr)}}
+/* ---------- APP ---------- */
+#app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--bg);display:flex;align-items:center;gap:10px;padding:12px 18px}
+.top h2{flex:1;font-size:18px;letter-spacing:-.3px}
+.round{width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center}
+main{flex:1;padding:4px 18px 110px;display:flex;flex-direction:column;gap:14px}
+.tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(480px,100%);display:flex;background:var(--card);border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));z-index:50}
+.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--mut);padding:6px}
+.tabs button.on{color:var(--pri)}
+.search{position:relative}.search .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--mut)}
+input,textarea,select{width:100%;font:inherit;font-size:16px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);outline:none}
+.search input{padding-left:44px}input:focus,textarea:focus{border-color:var(--pri)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.chip{white-space:nowrap;padding:9px 15px;border-radius:99px;background:var(--card);border:1.5px solid var(--line);font-weight:600;font-size:13.5px;transition:.15s}
+.chip.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.chip.sel{background:var(--soft);border-color:var(--pri);color:var(--pri)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--sh)}
+.person{display:flex;gap:14px;align-items:center;text-align:left;width:100%}
+.av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px;flex-shrink:0;position:relative}
+.av.lg{width:84px;height:84px;font-size:28px}
+.av s{position:absolute;right:-2px;bottom:-2px;width:20px;height:20px;border-radius:50%;background:var(--ok);border:2px solid var(--card);display:grid;place-items:center;text-decoration:none}
+.av s .ic{width:11px;height:11px;stroke-width:3.5;color:#fff}
+.pi{flex:1;min-width:0}.pi b{display:block;font-size:16px}.pi span{display:block;color:var(--mut);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rt{display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--mut);margin-top:3px}.rt b{display:inline;color:var(--ink);font-size:13px}
+.star{color:var(--pri);fill:var(--pri);width:14px;height:14px}
+.fav{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--mut)}.fav.on{color:var(--acc)}.fav.on .ic{fill:var(--acc)}
+.hdr{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0}
+.hdr h3{font-size:24px;letter-spacing:-.5px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stats b{display:block;font-size:20px}.stats span{font-size:12px;color:var(--mut)}
+.bars{display:grid;gap:8px}.bar{display:grid;grid-template-columns:90px 1fr 28px;gap:10px;align-items:center;font-size:13px}
+.bar div{height:8px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pri),var(--ink));border-radius:9px}
+.rev p{font-size:14.5px;margin:6px 0}.rev small{color:var(--mut);font-size:12px}
+.lab{font-size:13px;font-weight:800;margin-bottom:8px;display:flex;justify-content:space-between}.lab span{color:var(--mut);font-weight:600}
+.stars{display:flex;justify-content:center;gap:6px}.stars button{padding:2px}.stars .ic{width:40px;height:40px;color:var(--line)}.stars .on .ic{color:var(--pri);fill:var(--pri)}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.opt{width:100%;text-align:left;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);font-size:14px;margin-bottom:8px}.opt.on{border-color:var(--pri);background:var(--soft)}
+.sw{display:flex;align-items:center;justify-content:space-between;gap:12px}.sw small{color:var(--mut);display:block;font-size:12.5px}
+.tg{width:48px;height:28px;border-radius:99px;background:var(--line);position:relative;flex-shrink:0;transition:.2s}.tg::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}.tg.on{background:var(--pri)}.tg.on::after{left:23px}
+.stick{position:sticky;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:40}
+.sheet{position:fixed;inset:0;background:rgba(10,8,30,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center}
+.sheet>div{background:var(--card);width:min(480px,100%);border-radius:28px 28px 0 0;padding:26px 22px calc(26px + env(safe-area-inset-bottom,0px));display:grid;gap:12px;animation:up .25s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:99px;font-size:14px;font-weight:600;z-index:200;animation:up .25s}
+.empty{text-align:center;color:var(--mut);padding:40px 10px}
+.seal{display:inline-flex;gap:6px;align-items:center;background:var(--oks);color:var(--ok);font-weight:700;font-size:12.5px;padding:5px 11px;border-radius:99px}
+.gbtn{background:#fff;color:#1f1f1f;border:1.5px solid #dadce0}.gbtn:hover{background:#f6f6f6}
 </style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 </head>
 <body>
-<div class="toast-container" id="toast-container"></div>
 
-<nav class="app-nav">
-  <div class="app-nav-inner">
-    <a href="index.html" class="brand">
-      <span class="brand-name">Mi Turno<span>Seguro</span></span>
-    </a>
-    <div class="nav-right">
-      <div id="nav-user-area" style="display:none;align-items:center;gap:6px">
-        <div class="user-chip">
-          <div class="user-chip-avatar" id="nav-avatar"></div>
-          <span class="user-chip-name" id="nav-user-name"></span>
-        </div>
-        <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<div style="background:var(--paper);min-height:calc(100vh - 52px)">
-  <div id="payment-banner"></div>
-
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <button class="tab active" id="tab-btn-reservar" onclick="showTab('reservar',this)">🗓️ Reservar turno</button>
-      <button class="tab" id="tab-btn-profesional" onclick="handleProTab(this)">👩‍⚕️ Soy profesional</button>
-    </div>
-  </div>
-
-  <div id="tab-reservar" class="app-section active">
-    <span class="section-lbl">Elegí una fecha</span>
-    <div class="fecha-selector" id="fecha-selector"></div>
-    <span class="section-lbl">Profesionales disponibles</span>
-    <div id="profesionales-container"></div>
-  </div>
-
-  <div id="tab-profesional" class="app-section">
-
-    <div id="pro-auth-gate">
-      <div class="card auth-gate">
-        <span class="icon">👩‍⚕️</span>
-        <h3>Panel profesional</h3>
-        <p>Ingresá con tu cuenta de Google para gestionar tu agenda y ver tus pagos.</p>
-        <button class="btn-google" id="btn-google" onclick="loginConGoogle()">
-          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          Continuar con Google
-        </button>
-      </div>
-    </div>
-
-    <div id="pro-registro" style="display:none">
-      <div class="stepper-track"><div class="stepper-fill" id="step-bar" style="width:20%"></div></div>
-      <div class="stepper-dots" id="step-dots">
-        <div class="sdot-wrap active" id="sdot-1"><div class="sdot">1</div><div class="sdot-lbl">Datos</div></div>
-        <div class="sdot-wrap" id="sdot-2"><div class="sdot">2</div><div class="sdot-lbl">Precio</div></div>
-        <div class="sdot-wrap" id="sdot-3"><div class="sdot">3</div><div class="sdot-lbl">WhatsApp</div></div>
-        <div class="sdot-wrap" id="sdot-4"><div class="sdot">4</div><div class="sdot-lbl">Horarios</div></div>
-        <div class="sdot-wrap" id="sdot-5"><div class="sdot">5</div><div class="sdot-lbl">Cobros</div></div>
-      </div>
-      <div class="step-panel active" id="sp-1">
-        <div class="card">
-          <p class="step-title">Tu información</p>
-          <p class="step-sub">Así te van a ver los pacientes.</p>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 12px;background:var(--brand-soft);border-radius:var(--radius-sm)">
-            <div id="reg-avatar" style="width:38px;height:38px;border-radius:50%;overflow:hidden;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:15px;color:white;font-weight:700;flex-shrink:0"></div>
-            <div><div style="font-weight:700;font-size:13px" id="reg-name">—</div><div style="font-size:12px;color:var(--muted)" id="reg-email">—</div></div>
-          </div>
-          <div class="form-group"><label>Nombre completo</label><input type="text" id="pro-nombre" placeholder="Dra. María García" autocomplete="name"></div>
-          <div class="form-group"><label>Especialidad</label><input type="text" id="pro-especialidad" placeholder="Ej: Psicología clínica" autocomplete="off"></div>
-          <div id="err-1" style="display:none;color:var(--danger);font-size:13px;margin-top:-8px"></div>
-        </div>
-        <div class="step-nav"><button class="btn-next" onclick="stepNext(1)">Continuar →</button></div>
-      </div>
-      <div class="step-panel" id="sp-2">
-        <div class="card">
-          <p class="step-title">Precio y duración</p>
-          <p class="step-sub">¿Cuánto cobrás y cuánto dura cada consulta?</p>
-          <div class="form-group">
-            <label>Precio por consulta (ARS)</label>
-            <div class="picker-grid pg-3" style="margin-top:8px">
-              <button type="button" class="picker-chip" onclick="setPrecio(5000,this)">$5.000</button>
-              <button type="button" class="picker-chip" onclick="setPrecio(8000,this)">$8.000</button>
-              <button type="button" class="picker-chip" onclick="setPrecio(10000,this)">$10.000</button>
-              <button type="button" class="picker-chip" onclick="setPrecio(15000,this)">$15.000</button>
-              <button type="button" class="picker-chip selected" onclick="setPrecio(20000,this)">$20.000</button>
-              <button type="button" class="picker-chip" onclick="setPrecio(30000,this)">$30.000</button>
-            </div>
-          </div>
-          <div class="form-group"><label>Otro monto</label><input type="number" id="precio-custom" placeholder="Ej: 25.000" min="100" oninput="setPrecioCustom(this.value)" style="max-width:200px"></div>
-          <div class="divider"></div>
-          <div class="form-group" style="margin-bottom:0">
-            <label>Duración de cada turno</label>
-            <div class="picker-grid pg-4" style="margin-top:8px">
-              <button type="button" class="picker-chip" onclick="setDuracion(15,this)">15 min</button>
-              <button type="button" class="picker-chip" onclick="setDuracion(30,this)">30 min</button>
-              <button type="button" class="picker-chip selected" onclick="setDuracion(45,this)">45 min</button>
-              <button type="button" class="picker-chip" onclick="setDuracion(60,this)">1 hora</button>
-            </div>
-          </div>
-        </div>
-        <div class="step-nav"><button class="btn-back" onclick="stepBack(2)">← Atrás</button><button class="btn-next" onclick="stepNext(2)">Continuar →</button></div>
-      </div>
-      <div class="step-panel" id="sp-3">
-        <div class="card">
-          <p class="step-title">📲 WhatsApp para avisos</p>
-          <p class="step-sub">Recibí un mensaje cada vez que un paciente reserva y paga.</p>
-          <div class="success-box" style="margin-bottom:16px">
-            <strong>¿Por qué completar esto?</strong><br>
-            Cada vez que se confirme un turno, te enviamos un WhatsApp con el nombre del paciente, fecha, hora y precio cobrado.
-          </div>
-          <div class="form-group">
-            <label>Tu número de WhatsApp</label>
-            <input type="tel" id="reg-wa-phone" placeholder="+5491122334455" autocomplete="tel">
-            <p class="form-hint">Incluí el + y el código de país. Ej: +5491122334455 (Argentina)</p>
-          </div>
-          <p class="form-hint" style="margin-top:4px">Podés completar o cambiar esto después desde el dashboard.</p>
-        </div>
-        <div class="step-nav"><button class="btn-back" onclick="stepBack(3)">← Atrás</button><button class="btn-next" onclick="stepNext(3)">Continuar →</button></div>
-      </div>
-      <div class="step-panel" id="sp-4">
-        <div class="card">
-          <p class="step-title">Horarios de atención</p>
-          <p class="step-sub">Activá los días y agregá tus bloques horarios.</p>
-          <div class="preset-chips">
-            <button class="preset-chip" onclick="applyPreset('manana','R')">☀️ Mañana</button>
-            <button class="preset-chip" onclick="applyPreset('tarde','R')">🌇 Tarde</button>
-            <button class="preset-chip" onclick="applyPreset('completo','R')">📅 Completo</button>
-            <button class="preset-chip" onclick="applyPreset('lun-vie','R')">💼 Lun–Vie</button>
-          </div>
-          <div class="divider" style="margin:8px 0"></div>
-          <div id="disp-reg"></div>
-        </div>
-        <div class="step-nav"><button class="btn-back" onclick="stepBack(4)">← Atrás</button><button class="btn-next" id="btn-crear" onclick="crearPerfil()">Crear perfil →</button></div>
-      </div>
-      <div class="step-panel" id="sp-5">
-        <div class="card mp-connect-card">
-          <span class="big-ico">🎉</span>
-          <h3>¡Perfil creado!</h3>
-          <p id="reg-resumen">Tu perfil ya está listo en Mi Turno Seguro.</p>
-          <div class="warning-box" style="text-align:left;margin-bottom:20px">
-            ⚠️ <strong>Último paso:</strong> Conectá tu Mercado Pago para recibir los pagos directamente en tu cuenta.
-          </div>
-          <button class="btn btn-mp" id="btn-mp-step5" onclick="iniciarOAuth()" style="margin-bottom:10px">
-            <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →
-          </button>
-          <button class="btn btn-outline" onclick="irDashboard()">Conectar más tarde</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="pro-dashboard" style="display:none">
-      <div class="dash-header-card" id="dash-header">
-        <div class="dash-pro-name" id="dash-nombre">—</div>
-        <div class="dash-pro-spec" id="dash-spec">—</div>
-        <div class="dash-header-meta">
-          <div class="dash-price-badge" id="dash-precio">—</div>
-          <div class="dash-mp-badge" id="dash-mp-badge">⏳ Sin MP</div>
-        </div>
-      </div>
-
-      <div id="dash-mp-alert" style="display:none">
-        <div class="mp-alert">
-          <span class="ico">⚠️</span>
-          <div class="mp-alert-body">
-            <b>Conectá tu Mercado Pago</b>
-            Sin esto los pacientes no pueden pagarte online.
-            <button class="btn btn-mp" onclick="iniciarOAuth()" style="margin-top:10px">
-              <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar ahora →
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div id="dash-mp-linked" style="display:none">
-        <div class="mp-linked-banner">
-          <span class="check">✅</span>
-          <span>Mercado Pago vinculado — ya podés recibir pagos directamente en tu cuenta.</span>
-        </div>
-      </div>
-
-      <div class="stats-row" id="dash-stats">
-        <div class="stat-card"><div class="sk" style="height:26px;width:50%;margin:0 auto 4px"></div><div class="stat-lbl">Confirmados</div></div>
-        <div class="stat-card"><div class="sk" style="height:26px;width:70%;margin:0 auto 4px"></div><div class="stat-lbl">Facturado</div></div>
-      </div>
-
-      <div class="dash-nav">
-        <button class="dash-nav-btn active" id="dnav-agenda" onclick="showDashPanel('agenda',this)"><span class="ico">🗓️</span>Agenda</button>
-        <button class="dash-nav-btn" id="dnav-horarios" onclick="showDashPanel('horarios',this)"><span class="ico">⏰</span>Horarios</button>
-        <button class="dash-nav-btn" id="dnav-whatsapp" onclick="showDashPanel('whatsapp',this)"><span class="ico">📲</span>WhatsApp</button>
-        <button class="dash-nav-btn" id="dnav-config" onclick="showDashPanel('config',this)"><span class="ico">⚙️</span>Config</button>
-      </div>
-
-      <div class="dash-panel active" id="dp-agenda">
-        <div class="card">
-          <span class="section-lbl" style="margin-bottom:10px">Calendario del mes</span>
-          <div id="dash-calendario"><div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0"><span class="spinner-dark"></span> Cargando calendario...</div></div>
-        </div>
-        <div class="card">
-          <span class="section-lbl" style="margin-bottom:10px">Próximos turnos</span>
-          <div id="dash-turnos"><div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0">Cargando...</div></div>
-        </div>
-      </div>
-
-      <div class="dash-panel" id="dp-horarios">
-        <div class="card">
-          <span class="section-lbl" style="margin-bottom:8px">Horarios de atención</span>
-          <div class="preset-chips">
-            <button class="preset-chip" onclick="applyPreset('manana','D')">☀️ Mañana</button>
-            <button class="preset-chip" onclick="applyPreset('tarde','D')">🌇 Tarde</button>
-            <button class="preset-chip" onclick="applyPreset('completo','D')">📅 Completo</button>
-            <button class="preset-chip" onclick="applyPreset('lun-vie','D')">💼 Lun–Vie</button>
-          </div>
-          <div class="divider" style="margin:10px 0"></div>
-          <div id="disp-dash"></div>
-          <button class="btn btn-primary" id="btn-save-disp" onclick="guardarDisp()" style="margin-top:12px">Guardar horarios</button>
-          <div id="disp-fb" style="display:none;margin-top:8px;padding:9px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-align:center"></div>
-        </div>
-      </div>
-
-      <div class="dash-panel" id="dp-whatsapp">
-        <div class="card">
-          <div class="config-item-title">📲 Notificaciones por WhatsApp</div>
-          <div class="config-item-sub">Recibí un mensaje cada vez que se confirme un turno.</div>
-          <div id="wa-status-box" style="margin-bottom:14px"></div>
-          <div class="form-group">
-            <label>Tu número de WhatsApp</label>
-            <input type="tel" id="wa-phone" placeholder="+5491122334455" autocomplete="tel">
-            <p class="form-hint">Incluí el + y el código de país. Ej: +5491122334455</p>
-          </div>
-          <button class="btn btn-primary" onclick="guardarWhatsapp()">Guardar número</button>
-        </div>
-      </div>
-
-      <div class="dash-panel" id="dp-config">
-        <div class="config-item">
-          <div class="config-item-title">💳 Mercado Pago</div>
-          <div class="config-item-sub">Conectá tu cuenta para recibir los pagos.</div>
-          <div id="mp-config-body"></div>
-        </div>
-        <div class="config-item" style="margin-top:0">
-          <div class="config-item-title">🚪 Sesión</div>
-          <div class="config-item-sub" id="config-user-email">—</div>
-          <button class="btn btn-danger-outline" onclick="cerrarSesion()" style="max-width:200px">Cerrar sesión</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
+<!-- ===================== LANDING ===================== -->
+<div id="land">
+ <div class="wrap">
+  <div class="nav"><div class="logo"><i><svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></i>Referencias</div><a class="btn alt auto" style="padding:10px 18px" href="#app">Abrir app</a></div>
+  <section class="hero">
+   <div>
+    <span class="pill">✦ Gratis · Entrás con Google</span>
+    <h1>Tu reputación, <em>contada por quienes te conocen.</em></h1>
+    <p class="lead">Pedí y dá referencias reales de trabajo, amistad o pareja. Armá un perfil de confianza y compartilo con un solo enlace.</p>
+    <div class="ctas"><a class="btn" href="#app">Empezar ahora</a><button class="btn line" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">Cómo funciona</button></div>
+   </div>
+   <div class="mock" aria-hidden="true">
+    <div class="logo" style="font-size:15px;margin-bottom:6px">Buscar personas</div>
+    <div class="mrow"><span class="av" style="background:#0b5563;width:40px;height:40px;font-size:14px">MG</span><div><b>María González</b><small>★ 4.9 · 127 referencias</small></div></div>
+    <div class="mrow"><span class="av" style="background:#111;width:40px;height:40px;font-size:14px">LF</span><div><b>Lucía Fernández</b><small>★ 5.0 · 42 referencias</small></div></div>
+    <div class="mrow"><span class="av" style="background:#14808f;width:40px;height:40px;font-size:14px">VR</span><div><b>Valentina Ruiz</b><small>★ 4.9 · 95 referencias</small></div></div>
+    <div class="mrow" style="background:var(--soft)"><div><b>“Cumplió con todos los plazos.”</b><small>Trabajo · Anónimo</small></div></div>
+   </div>
+  </section>
+  <section class="sec" id="how">
+   <h2>Tres pasos, cero fricción</h2><p class="lead">Pensado para usar desde el celular, en un minuto.</p>
+   <div class="grid g3">
+    <div class="box"><div class="n">1</div><h3>Creá tu perfil</h3><p>Entrá con tu cuenta de Google. Tu perfil se crea solo y queda listo para recibir referencias.</p></div>
+    <div class="box"><div class="n">2</div><h3>Calificá o pedí referencias</h3><p>Estrellas, etiquetas y un comentario sugerido o propio. Podés hacerlo de forma anónima.</p></div>
+    <div class="box"><div class="n">3</div><h3>Compartí tu enlace</h3><p>Mandá tu perfil por WhatsApp y que cualquiera vea quién sos en pocos segundos.</p></div>
+   </div>
+  </section>
+  <section class="sec">
+   <h2>Todo lo que necesitás</h2>
+   <div class="grid g3">
+    <div class="box"><h3>Contexto que importa</h3><p>Referencias por tipo de relación: trabajo, amistad, pareja o familia.</p></div>
+    <div class="box"><h3>Anónimo si querés</h3><p>Decí lo que pensás sin exponerte. Vos elegís en cada calificación.</p></div>
+    <div class="box"><h3>Guardá favoritos</h3><p>Seguí a las personas que te interesan y volvé a ellas rápido.</p></div>
+   </div>
+  </section>
+  <div class="band"><h2>Armá tu primera referencia hoy</h2><p>Es gratis y toma menos de un minuto.</p><a class="btn" href="#app">Abrir Referencias</a></div>
+  <div class="foot">© 2026 Referencias · Hecho con cariño</div>
+ </div>
 </div>
 
-<div class="overlay" id="payModal" onclick="closeModalOut(event)">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div id="modal-body">
-      <h2>Confirmá tu turno</h2>
-      <p class="sub">El 100% del pago va directo al profesional vía Mercado Pago.</p>
-      <div class="sum-row"><span class="lbl">Profesional</span><span class="val" id="m-doc">—</span></div>
-      <div class="sum-row"><span class="lbl">Fecha</span><span class="val" id="m-fecha">—</span></div>
-      <div class="sum-row"><span class="lbl">Horario</span><span class="val" id="m-hora">—</span></div>
-      <div class="sum-row total"><span class="lbl">Total</span><span class="val" id="m-precio">—</span></div>
-      <div class="form-group" style="margin-top:14px"><label>Tu nombre</label><input type="text" id="m-nombre" placeholder="Juan Pérez" autocomplete="name"></div>
-      <div class="form-group"><label>Email de confirmación</label><input type="email" id="m-email" placeholder="juan@email.com" autocomplete="email"></div>
-      <button class="btn btn-mp" id="btn-pagar" onclick="confirmarPago()" style="margin-top:4px">
-        <span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →
-      </button>
-    </div>
-    <div id="modal-success" class="success-screen">
-      <div class="success-icon">✅</div>
-      <h2>¡Turno confirmado!</h2>
-      <p style="color:var(--muted);font-size:14px;margin-bottom:20px">Te enviamos los detalles a tu email. El profesional ya recibió el pago.</p>
-      <button class="btn btn-outline" onclick="closeModal()" style="max-width:240px;margin:0 auto">Volver al inicio</button>
-    </div>
-  </div>
+<!-- ===================== APP ===================== -->
+<div id="app" class="hide">
+ <div class="top" id="top"></div>
+ <main id="main"></main>
+ <nav class="tabs" id="tabs"></nav>
 </div>
+<div id="layer"></div>
 
 <script>
-var CFG = {
-  GOOGLE_CLIENT_ID: '962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com',
-  API: 'https://script.google.com/macros/s/AKfycbw_58rgKt4lmKbgSxXqIJcFpbCipYOrD6_lcbweBs-FVJqoo8lczobCbP8mBxkHXVc65g/exec',
-  SITE: 'https://miturnoseguro.com'
-};
 
-var MEM = {};
-var ST = {
-  get: function(k){ try{ var v=localStorage.getItem('mts_'+k); return v?JSON.parse(v):null; }catch(e){ return MEM['mts_'+k]||null; } },
-  set: function(k,v){ try{ localStorage.setItem('mts_'+k,JSON.stringify(v)); }catch(e){ MEM['mts_'+k]=v; } },
-  del: function(k){ try{ localStorage.removeItem('mts_'+k); }catch(e){ delete MEM['mts_'+k]; } }
-};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const P={search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',back:'<path d="m15 18-6-6 6-6"/>',star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',heart:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>',share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4m0-11-6.8 4"/>',check:'<path d="M20 6 9 17l-5-5"/>',user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',pen:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'};
+const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24">${P[n]}</svg>`;
+const COL=['#0b5563','#111111','#14808f','#083a44','#3a4446','#0f6b78'];
+const REL={trabajo:'Trabajo',amistad:'Amistad',pareja:'Pareja',familia:'Familia'};
+const CM=[['trabajo','Excelente profesional. Cumplió con todos los plazos y superó las expectativas. Lo recomiendo sin dudarlo.'],['trabajo','Muy proactivo y resolutivo. Encontró soluciones creativas a los problemas que surgieron.'],['trabajo','La comunicación fue fluida y clara en todo momento. Supo adaptarse a los cambios.'],['trabajo','Excelente compañero de equipo. Aportó ideas valiosas en cada reunión.'],['trabajo','Cumplió en tiempo y forma. Buena calidad, con pequeños detalles a mejorar.'],['trabajo','No cumplió con los plazos y la comunicación fue deficiente. No volvería a trabajar juntos.'],['amistad','Como amigo es de los que están siempre. Leal, generoso y con un corazón enorme.'],['amistad','Divertido y buena onda, aunque en momentos difíciles no siempre estuvo presente.'],['amistad','Buena persona, pero a veces le cuesta cumplir con los tiempos. Mejorable en puntualidad.'],['pareja','Atento, cariñoso y muy compañero. Sabe escuchar y está en los momentos importantes.'],['pareja','Cariñoso, pero con dificultades para comunicarse y resolver conflictos.'],['familia','Siempre presente para la familia. Responsable, cariñoso y de confianza.']];
+const TAGS={Profesional:['Responsable','Puntual','Comprometido','Organizado','Detallista'],Comunicación:['Claro','Rápido en responder','Empático','Asertivo'],Habilidades:['Experto','Resolutivo','Creativo','Proactivo'],Actitud:['Positivo','Colaborativo','Flexible','Honesto'],Personal:['Leal','Generoso','Divertido','De confianza'],Resultados:['Cumplió plazos','Superó expectativas','Calidad excelente','Volvería a trabajar']};
+const LIM={Profesional:5,Comunicación:4,Habilidades:4,Actitud:4,Personal:4,Resultados:4};
+// ====== CONFIG: completá con los datos de tu proyecto Supabase ======
+const SB_URL='https://TU-PROYECTO.supabase.co',SB_KEY='TU_CLAVE_PUBLICA';
+const GOOGLE_CLIENT_ID='962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com';
+const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{flowType:'pkce'}});
+let U=null,ME=null,PEOPLE=[],FAVS=new Set(),READY=false,BUSY=false,S={view:'search',pid:null,filter:'all',q:'',data:null,mine:null},R=null;
+const hc=id=>COL[[...String(id)].reduce((a,c)=>a+c.charCodeAt(0),0)%6];
+const ini=n=>(n||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const norm=p=>({...p,refs:+p.refs,rating:+p.rating});
+const find=id=>PEOPLE.find(p=>p.id===id);
+const av=(p,c='')=>`<span class="av ${c}" style="background:${hc(p.id)}">${p.avatar_url?`<img src="${esc(p.avatar_url)}" referrerpolicy="no-referrer" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`:ini(p.name)}${p.verified?`<s>${ic('check')}</s>`:''}</span>`;
+const back=to=>`<button class="round" onclick="go('${to}')" aria-label="Volver">${ic('back')}</button>`;
+const tbtn=`<button class="round" onclick="theme()" aria-label="Modo oscuro">${ic('moon')}</button>`;
 
-var currentUser  = null;
-var proActual    = null;
-var proIdCreado  = null;
-var fechaSel     = hoyISO();
-var slotSel      = null;
-var proSel       = null;
-var durSel       = 45;
-var precioSel    = 20000;
-var dispCache    = {};
-var dispState    = {};
-var dispStateReg = {};
-var STEP_TOTAL   = 5;
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2400)}
+function theme(){const h=document.documentElement,d=h.dataset.theme==='dark'||(!h.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches),n=d?'light':'dark';h.dataset.theme=n;try{localStorage.setItem('ref_theme',n)}catch(e){}}
+function route(){const a=location.hash==='#app';$('#land').classList.toggle('hide',a);$('#app').classList.toggle('hide',!a);scrollTo(0,0);if(a)render()}
+function go(v){S.view=v;scrollTo(0,0);render()}
+const rr=()=>{const y=scrollY;render();scrollTo(0,y)};
 
-var calMes       = null;
-var calDataCache = {};
-var calDiaDetalle= null;
+// ---------- AUTH ----------
+// Login con Google (Google Identity Services + Supabase signInWithIdToken)
+const NONCE=btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))));let GREADY=false;
+const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)))].map(x=>x.toString(16).padStart(2,'0')).join('');
+async function onGoogle(r){if(SB_URL.includes('TU-PROYECTO'))return toast('Falta configurar SB_URL y SB_KEY');const {error}=await sb.auth.signInWithIdToken({provider:'google',token:r.credential,nonce:NONCE});if(error)toast('No se pudo ingresar: '+error.message)}
+async function mountGoogle(){const el=document.getElementById('gbox');if(!el)return;if(!(window.google&&google.accounts&&google.accounts.id))return setTimeout(mountGoogle,300);
+ if(!GREADY){google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogle,nonce:await sha(NONCE),auto_select:false});GREADY=true}
+ google.accounts.id.renderButton(el,{theme:'outline',size:'large',text:'continue_with',locale:'es',width:320})}
+const logout=()=>{try{google.accounts.id.disableAutoSelect()}catch(e){}return sb.auth.signOut()};
+async function refresh(){const a=await sb.from('person_stats').select('*').order('rating',{ascending:false});if(a.error)return toast('Error al cargar datos');const all=(a.data||[]).map(norm);PEOPLE=all.filter(p=>p.id!==U.id);ME=all.find(p=>p.id===U.id)||{id:U.id,name:(U.user_metadata&&U.user_metadata.full_name)||'Yo',refs:0,rating:0}}
+async function loadAll(){await refresh();const f=await sb.from('favorites').select('person_id');FAVS=new Set((f.data||[]).map(x=>x.person_id))}
+async function boot(s){
+ if(s&&s.user){if(!U||U.id!==s.user.id){U=s.user;if(location.search)history.replaceState(null,'',location.pathname+'#app');await loadAll()}}
+ else{U=ME=null;PEOPLE=[];FAVS=new Set();S.view='search';S.mine=null}
+ READY=true;render()}
+sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0)); // setTimeout evita bloqueos de supabase-js
 
-var DIAS = [
-  {num:1,n:'Lunes'},{num:2,n:'Martes'},{num:3,n:'Miércoles'},
-  {num:4,n:'Jueves'},{num:5,n:'Viernes'},{num:6,n:'Sábado'},{num:0,n:'Domingo'}
-];
-
-function toast(msg,type){
-  var c=document.getElementById('toast-container');
-  var el=document.createElement('div'); el.className='toast '+(type||'info'); el.textContent=msg;
-  c.appendChild(el);
-  setTimeout(function(){ el.style.opacity='0'; el.style.transition='opacity 0.3s'; setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },300); },4000);
+// ---------- RENDER ----------
+function render(){
+ const top=$('#top'),m=$('#main'),tb=$('#tabs'),v=S.view;
+ if(!READY){top.innerHTML=tb.innerHTML='';m.innerHTML='<div class="empty">Cargando…</div>';return}
+ if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo" style="font-size:24px"><i>${ic('star')}</i>Referencias</div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div><div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div><p class="empty" style="padding:6px;font-size:12.5px">Al continuar aceptás los términos y la política de privacidad.</p>`;mountGoogle();return}
+ const T=[['search','search','Buscar'],['favs','heart','Guardados'],['me','user','Mi perfil']];
+ tb.innerHTML=T.map(t=>`<button class="${(v===t[0]||(['person','rate'].includes(v)&&t[0]==='search'))?'on':''}" onclick="go('${t[0]}')">${ic(t[1])}${t[2]}</button>`).join('');
+ if(v==='search'){top.innerHTML=`<h2>Buscar personas</h2>${tbtn}`;m.innerHTML=`<div class="search">${ic('search')}<input id="q" placeholder="Buscá por nombre o frase" value="${esc(S.q)}" oninput="S.q=this.value;list()"></div><div class="chips" id="chips"></div><div id="list" style="display:grid;gap:12px"></div>`;chips();list()}
+ if(v==='favs'){top.innerHTML=`<h2>Guardados</h2>${tbtn}`;const f=PEOPLE.filter(p=>FAVS.has(p.id));m.innerHTML=f.length?f.map(card).join(''):`<div class="empty">Todavía no guardaste a nadie.<br>Tocá el corazón en cualquier perfil.</div>`}
+ if(v==='me')me();if(v==='person')person();if(v==='rate')rate();
 }
-
-function apiGet(path,params,retries){
-  retries=retries||0; params=params||{};
-  return new Promise(function(resolve,reject){
-    var cb='_cb_'+Date.now()+'_'+(Math.random()*1e6|0);
-    var qs=Object.assign({path:path,callback:cb},params);
-    var src=CFG.API+'?'+Object.keys(qs).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(qs[k]); }).join('&');
-    var s=document.createElement('script'); s.src=src;
-    var t=setTimeout(function(){ cleanup(); if(retries<2) resolve(apiGet(path,params,retries+1)); else reject(new Error('Timeout')); },12000);
-    window[cb]=function(d){ cleanup(); resolve(d); };
-    function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror=function(){ cleanup(); if(retries<2) resolve(apiGet(path,params,retries+1)); else reject(new Error('Error de red')); };
-    document.body.appendChild(s);
-  });
-}
-
-function apiPost(path,body,retries){
-  retries=retries||0; body=body||{};
-  return new Promise(function(resolve,reject){
-    var cb='_cb_'+Date.now()+'_'+(Math.random()*1e6|0);
-    var src=CFG.API+'?path='+encodeURIComponent(path)+'&callback='+encodeURIComponent(cb)+'&_body='+encodeURIComponent(JSON.stringify(body));
-    var s=document.createElement('script'); s.src=src;
-    var t=setTimeout(function(){ cleanup(); if(retries<2) resolve(apiPost(path,body,retries+1)); else reject(new Error('Timeout')); },12000);
-    window[cb]=function(d){ cleanup(); resolve(d); };
-    function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror=function(){ cleanup(); if(retries<1) resolve(apiPost(path,body,retries+1)); else reject(new Error('Error de red')); };
-    document.body.appendChild(s);
-  });
-}
-
-function genSlots(inicio,fin,durMin){
-  var slots=[],pi=inicio.split(':').map(Number),pf=fin.split(':').map(Number);
-  var mi=pi[0]*60+pi[1], mf=pf[0]*60+pf[1];
-  for(var t=mi;t+durMin<=mf;t+=durMin){ var h=Math.floor(t/60),m=t%60; slots.push(String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')); }
-  return slots;
-}
-
-function getDia(iso){ var p=iso.split('-'); return new Date(+p[0],+p[1]-1,+p[2]).getDay(); }
-
-async function calcularSlots(proId,fecha,durMin){
-  var dia=getDia(fecha);
-  if(!dispCache[proId]){
-    try{ var r=await apiGet('disponibilidad',{profesional_id:proId}); dispCache[proId]=(r&&r.disponibilidad)?r.disponibilidad:[]; }
-    catch(e){ dispCache[proId]=[]; }
-  }
-  var bloques=(dispCache[proId]||[]).filter(function(b){ return Number(b.dia)===dia; });
-  if(!bloques.length) return [];
-  var todos=[];
-  bloques.forEach(function(b){ genSlots(b.inicio,b.fin,durMin).forEach(function(s){ if(todos.indexOf(s)===-1) todos.push(s); }); });
-  todos.sort();
-  var ocupados=[];
-  try{ var rt=await apiGet('turnos',{profesional_id:proId,fecha:fecha}); if(rt&&rt.horarios) rt.horarios.forEach(function(h){ if(!h.disponible) ocupados.push(h.hora); }); }catch(e){}
-  return todos.map(function(h){ return {hora:h,disponible:ocupados.indexOf(h)===-1}; });
-}
-
-function renderFechas(){
-  var el=document.getElementById('fecha-selector'); if(!el) return;
-  var dias=['dom','lun','mar','mié','jue','vie','sáb'];
-  var html='';
-  for(var i=0;i<14;i++){
-    var d=new Date(); d.setDate(d.getDate()+i);
-    var iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-    html+='<button class="fecha-chip'+(iso===fechaSel?' selected':'')+'" onclick="selFecha(\''+iso+'\',this)">'+
-      '<span class="dn">'+dias[d.getDay()]+'</span><span class="dd">'+d.getDate()+'</span></button>';
-  }
-  el.innerHTML=html;
-}
-
-function selFecha(iso,el){
-  fechaSel=iso; slotSel=null; proSel=null;
-  document.querySelectorAll('.fecha-chip').forEach(function(c){ c.classList.remove('selected'); });
-  el.classList.add('selected');
-  document.querySelectorAll('[data-pro-id]').forEach(function(wrap){
-    var pid=wrap.dataset.proId, dur=Number(wrap.dataset.dur)||45;
-    renderSlotsEl(pid,dur,wrap.querySelector('.slots-wrap'));
-    var lbl=wrap.querySelector('.slots-fecha-lbl');
-    if(lbl) lbl.textContent='Horarios — '+fmtFecha(fechaSel);
-  });
-}
-
-async function cargarPros(){
-  var c=document.getElementById('profesionales-container');
-  c.innerHTML='<div class="pro-card"><div class="sk" style="height:44px;width:44px;border-radius:12px;float:left;margin-right:12px"></div><div class="sk" style="height:14px;width:55%;margin-bottom:8px"></div><div class="sk" style="height:12px;width:40%"></div><div style="clear:both"></div><div class="sk" style="height:44px;margin-top:14px;border-radius:999px"></div></div>'.repeat(2);
-  try{
-    var data=await apiGet('profesionales');
-    if(!data.profesionales||!data.profesionales.length){ c.innerHTML='<div class="empty"><div class="ico">🏥</div><p>No hay profesionales disponibles aún.</p></div>'; return; }
-    var avs=['👩‍⚕️','🩺','🧬','👨‍⚕️','🧑‍⚕️'];
-    c.innerHTML=data.profesionales.map(function(p,i){
-      var dur=Number(p.duracion_min)||45;
-      return '<div class="pro-card" data-pro-id="'+p.id+'" data-dur="'+dur+'">'+
-        '<div class="pro-card-top">'+
-          '<div class="pro-avatar">'+avs[i%avs.length]+'</div>'+
-          '<div class="pro-info">'+
-            '<div class="pro-name">'+esc(p.nombre)+'</div>'+
-            '<div class="pro-spec">'+esc(p.especialidad)+'</div>'+
-            '<span class="badge badge-green" style="margin-top:4px">🔒 Pago con MP</span>'+
-          '</div>'+
-          '<div class="pro-price">$'+Number(p.precio).toLocaleString('es-AR')+'<small>por sesión</small></div>'+
-        '</div>'+
-        '<p class="slots-label slots-fecha-lbl">Horarios — '+fmtFecha(fechaSel)+'</p>'+
-        '<div class="slots-wrap" id="slots-'+p.id+'"><div class="slot-loading"><span class="spinner-dark"></span> Cargando...</div></div>'+
-        '<button class="btn btn-mp" onclick="abrirModal(\''+p.id+'\',\''+escA(p.nombre)+'\','+p.precio+')" style="margin-top:2px">'+
-          '<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Confirmar y pagar →'+
-        '</button>'+
-      '</div>';
-    }).join('');
-    data.profesionales.forEach(function(p){
-      var dur=Number(p.duracion_min)||45;
-      var wrap=document.querySelector('[data-pro-id="'+p.id+'"]');
-      if(wrap) renderSlotsEl(p.id,dur,wrap.querySelector('.slots-wrap'));
-    });
-  }catch(e){
-    c.innerHTML='<div class="card" style="text-align:center;padding:20px"><div style="font-size:14px;margin-bottom:8px">No se pudo conectar</div><button class="btn btn-outline" onclick="cargarPros()" style="max-width:180px;margin:0 auto">Reintentar</button></div>';
-  }
-}
-
-async function renderSlotsEl(proId,durMin,el){
-  if(!el) return;
-  el.innerHTML='<div class="slot-loading"><span class="spinner-dark"></span> Calculando horarios...</div>';
-  var horarios=await calcularSlots(proId,fechaSel,durMin);
-  if(!horarios.length){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:6px 0">Sin horarios disponibles este día.</div>'; return; }
-  el.innerHTML=horarios.map(function(h){
-    if(h.disponible) return '<button class="slot-btn" onclick="selSlot(this,\''+proId+'\',\''+h.hora+'\')">'+h.hora+'</button>';
-    return '<button class="slot-btn taken" disabled>'+h.hora+'</button>';
-  }).join('');
-}
-
-function selSlot(el,proId,hora){
-  document.getElementById('slots-'+proId).querySelectorAll('.slot-btn').forEach(function(s){ s.classList.remove('active'); });
-  el.classList.add('active');
-  slotSel=hora; proSel={id:proId};
-}
-
-function abrirModal(proId,nombre,precio){
-  if(!proSel||proSel.id!==proId||!slotSel){ toast('Elegí un horario primero.','error'); return; }
-  document.getElementById('m-doc').textContent   = nombre;
-  document.getElementById('m-fecha').textContent = fmtFecha(fechaSel);
-  document.getElementById('m-hora').textContent  = slotSel;
-  document.getElementById('m-precio').textContent= '$'+Number(precio).toLocaleString('es-AR');
-  document.getElementById('m-nombre').value = currentUser?(currentUser.name||''):'';
-  document.getElementById('m-email').value  = currentUser?(currentUser.email||''):'';
-  proSel.nombre=nombre; proSel.precio=precio;
-  var btn=document.getElementById('btn-pagar');
-  btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →';
-  btn.disabled=false;
-  document.getElementById('modal-').style.display='block';
-  document.getElementById('modal-success').style.display='none';
-  document.getElementById('payModal').classList.add('open');
-}
-
-async function confirmarPago(){
-  var nombre=document.getElementById('m-nombre').value.trim();
-  var email=document.getElementById('m-email').value.trim();
-  if(!nombre||!email){ toast('Completá nombre y email.','error'); return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Email inválido.','error'); return; }
-  var btn=document.getElementById('btn-pagar');
-  btn.innerHTML='<span class="spinner"></span> Procesando...'; btn.disabled=true;
-  ST.set('retorno_tab','reservar');
-  try{
-    var data=await apiPost('turnos',{
-      profesional_id:proSel.id,fecha:fechaSel,hora:slotSel,
-      paciente_nombre:nombre,paciente_email:email,metodo:'mp'
-    });
-    if(data.init_point){ window.location.href=data.init_point; return; }
-    toast('❌ '+(data.error||'No se pudo crear el pago.'),'error');
-    btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →'; btn.disabled=false;
-  }catch(e){
-    toast('❌ Error de conexión.','error');
-    btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Pagar ahora →'; btn.disabled=false;
-  }
-}
-
-function closeModal(){ document.getElementById('payModal').classList.remove('open'); slotSel=null; proSel=null; }
-function closeModalOut(e){ if(e.target.id==='payModal') closeModal(); }
-
-function loginConGoogle(){
-  var btn=document.getElementById('btn-google');
-  btn.disabled=true; btn.innerHTML='<span class="spinner-dark"></span> Conectando...';
-  try{
-    google.accounts.id.initialize({ client_id:CFG.GOOGLE_CLIENT_ID, callback:onGoogleCred, auto_select:false });
-    google.accounts.id.prompt(function(n){ if(n.isNotDisplayed()||n.isSkippedMoment()) abrirOAuthPopup(); });
-  }catch(e){ abrirOAuthPopup(); }
-}
-
-function abrirOAuthPopup(){
-  try{
-    var client=google.accounts.oauth2.initTokenClient({
-      client_id:CFG.GOOGLE_CLIENT_ID, scope:'email profile',
-      callback:function(resp){
-        if(resp.error){ resetBtnGoogle('Error: '+resp.error); return; }
-        fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+resp.access_token}})
-          .then(function(r){ return r.json(); })
-          .then(function(u){ handleUser({email:u.email,name:u.name,picture:u.picture,sub:u.sub}); })
-          .catch(function(){ resetBtnGoogle('No se pudo obtener tu información.'); });
-      }
-    });
-    client.requestAccessToken({prompt:'consent'});
-  }catch(e){ resetBtnGoogle('Error al conectar con Google.'); }
-}
-
-function onGoogleCred(resp){
-  if(!resp||!resp.credential){ resetBtnGoogle('No se recibió credencial.'); return; }
-  try{
-    var p=resp.credential.split('.');
-    var pl=JSON.parse(atob(p[1].replace(/-/g,'+').replace(/_/g,'/')));
-    handleUser({email:pl.email,name:pl.name,picture:pl.picture,sub:pl.sub});
-  }catch(e){ resetBtnGoogle('Error al procesar sesión.'); }
-}
-
-function handleUser(user){
-  currentUser=user; ST.set('google_user',user);
-  updateNavUser(user); cargarPerfilPro();
-}
-
-function resetBtnGoogle(msg){
-  var btn=document.getElementById('btn-google');
-  if(btn){ btn.disabled=false; btn.innerHTML='<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continuar con Google'; }
-  if(msg) toast('❌ '+msg,'error');
-}
-
-function cerrarSesion(){
-  if(!confirm('¿Cerrar sesión?')) return;
-  currentUser=null; proActual=null;
-  ST.del('google_user'); ST.del('pro_actual'); ST.del('pro_disp');
-  try{ google.accounts.id.disableAutoSelect(); }catch(e){}
-  updateNavUser(null); mostrarAuthGate(); resetBtnGoogle(null);
-  toast('Sesión cerrada.','info');
-}
-
-function updateNavUser(user){
-  var area=document.getElementById('nav-user-area');
-  if(!user){ area.style.display='none'; return; }
-  area.style.display='flex';
-  document.getElementById('nav-user-name').textContent=(user.name||user.email||'').split(' ')[0];
-  var av=document.getElementById('nav-avatar');
-  if(user.picture) av.innerHTML='<img src="'+user.picture+'" referrerpolicy="no-referrer">';
-  else av.textContent=(user.name||user.email||'?')[0].toUpperCase();
-}
-
-function mostrarAuthGate(){
-  document.getElementById('pro-auth-gate').style.display='block';
-  document.getElementById('pro-registro').style.display='none';
-  document.getElementById('pro-dashboard').style.display='none';
-}
-
-function mostrarRegistro(){
-  document.getElementById('pro-auth-gate').style.display='none';
-  document.getElementById('pro-registro').style.display='block';
-  document.getElementById('pro-dashboard').style.display='none';
-  inicDispReg(); goStep(1);
-  if(currentUser){
-    document.getElementById('reg-name').textContent=currentUser.name||'';
-    document.getElementById('reg-email').textContent=currentUser.email||'';
-    var av=document.getElementById('reg-avatar');
-    if(currentUser.picture) av.innerHTML='<img src="'+currentUser.picture+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%" referrerpolicy="no-referrer">';
-    else av.textContent=(currentUser.name||'?')[0].toUpperCase();
-  }
-}
-
-function mostrarDashboard(pro){
-  document.getElementById('pro-auth-gate').style.display='none';
-  document.getElementById('pro-registro').style.display='none';
-  document.getElementById('pro-dashboard').style.display='block';
-  document.getElementById('dash-nombre').textContent=pro.nombre||'—';
-  document.getElementById('dash-spec').textContent=pro.especialidad||'—';
-  document.getElementById('dash-precio').textContent='$'+Number(pro.precio).toLocaleString('es-AR')+' / sesión';
-  // FIX 2a: usar tiene_mp como fuente de verdad para mostrar estado
-  var tieneMp=!!(pro.tiene_mp||(pro.mp_access_token&&pro.mp_user_id));
-  var mpBadge=document.getElementById('dash-mp-badge');
-  mpBadge.textContent=tieneMp?'✅ MP vinculado':'⏳ Sin MP';
-  mpBadge.className='dash-mp-badge'+(tieneMp?' linked':'');
-  document.getElementById('dash-mp-alert').style.display=tieneMp?'none':'block';
-  document.getElementById('dash-mp-linked').style.display=tieneMp?'block':'none';
-  renderMpConfig(pro);
-  renderWaPanel(pro);
-  document.getElementById('config-user-email').textContent=currentUser?currentUser.email:'—';
-  showDashPanel('agenda',document.getElementById('dnav-agenda'));
-  cargarDashData(pro.id);
-  cargarDispDash(pro.id);
-}
-
-// ── FIX 1: cargarPerfilPro — usar tiene_mp del server como fuente de verdad ──
-async function cargarPerfilPro(forzarRecarga){
-  if(!currentUser){ mostrarAuthGate(); return; }
-  document.getElementById('pro-auth-gate').style.display='none';
-
-  var cached=ST.get('pro_actual');
-  if(cached && !forzarRecarga){
-    proActual=cached;
-    mostrarDashboard(cached);
-  }
-
-  try{
-    var data=await apiGet('profesionales');
-    var pro=(data.profesionales||[]).find(function(p){
-      return (p.email||'').toLowerCase()===(currentUser.email||'').toLowerCase();
-    });
-    if(pro){
-      var proCompleto=Object.assign({},cached||{},pro);
-      // FIX: usar tiene_mp del server como fuente de verdad, no el token local
-      if(pro.tiene_mp){
-        proCompleto.mp_access_token=(cached&&cached.mp_access_token)||'vinculado';
-        proCompleto.mp_user_id=(cached&&cached.mp_user_id)||pro.mp_email||'vinculado';
-        proCompleto.tiene_mp=true;
-      } else {
-        proCompleto.mp_access_token='';
-        proCompleto.mp_user_id='';
-        proCompleto.tiene_mp=false;
-      }
-      guardarPro(proCompleto);
-      mostrarDashboard(proCompleto);
-    } else if(!cached){
-      mostrarRegistro();
-    }
-  }catch(e){
-    if(!cached) mostrarRegistro();
-  }
-}
-
-function guardarPro(pro){ proActual=pro; ST.set('pro_actual',pro); }
-function handleProTab(tabEl){ showTab('profesional',tabEl); if(currentUser) cargarPerfilPro(); else mostrarAuthGate(); }
-
-var stepActual=1;
-
-function goStep(n){
-  document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
-  var sp=document.getElementById('sp-'+n); if(sp) sp.classList.add('active');
-  document.getElementById('step-bar').style.width=((n-1)/(STEP_TOTAL-1)*100)+'%';
-  for(var i=1;i<=STEP_TOTAL;i++){
-    var d=document.getElementById('sdot-'+i); if(!d) continue;
-    d.className='sdot-wrap'+(i<n?' done':i===n?' active':'');
-  }
-  stepActual=n;
-  var reg=document.getElementById('pro-registro');
-  if(reg) window.scrollTo({top:reg.offsetTop-70,behavior:'smooth'});
-}
-
-function stepNext(n){
-  if(n===1){
-    var nombre=document.getElementById('pro-nombre').value.trim();
-    var esp=document.getElementById('pro-especialidad').value.trim();
-    var err=document.getElementById('err-1');
-    if(!nombre||!esp){ err.textContent='Completá nombre y especialidad.'; err.style.display='block'; return; }
-    err.style.display='none'; goStep(2);
-  } else if(n===2){ goStep(3);
-  } else if(n===3){ goStep(4); renderDispReg();
-  } else if(n===4){ crearPerfil(); }
-}
-function stepBack(n){ goStep(n-1); }
-
-function setPrecio(v,el){ precioSel=v; document.getElementById('precio-custom').value=''; document.querySelectorAll('#sp-2 .pg-3 .picker-chip').forEach(function(c){ c.classList.remove('selected'); }); if(el) el.classList.add('selected'); }
-function setPrecioCustom(v){ var n=parseInt(v); if(n>0){ precioSel=n; document.querySelectorAll('#sp-2 .pg-3 .picker-chip').forEach(function(c){ c.classList.remove('selected'); }); } }
-function setDuracion(v,el){ durSel=v; document.querySelectorAll('#sp-2 .pg-4 .picker-chip').forEach(function(c){ c.classList.remove('selected'); }); if(el) el.classList.add('selected'); }
-
-async function crearPerfil(){
-  var btn=document.getElementById('btn-crear');
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Creando...';
-  try{
-    var waPhone=(document.getElementById('reg-wa-phone').value||'').trim();
-    var data=await apiPost('profesionales',{
-      nombre:document.getElementById('pro-nombre').value.trim(),
-      especialidad:document.getElementById('pro-especialidad').value.trim(),
-      precio:precioSel, duracion_min:durSel,
-      email:currentUser?currentUser.email:'',
-      acepta_mp:true, acepta_sinmp:false
-    });
-    if(data.error){ toast('❌ '+data.error,'error'); btn.disabled=false; btn.innerHTML='Crear perfil →'; return; }
-    proIdCreado=data.id;
-
-    if(waPhone){
-      try{ await apiPost('whatsapp_config',{profesional_id:proIdCreado,telefono:waPhone}); }
-      catch(e){ console.warn('WA config error',e); }
-    }
-
-    var bloques=buildBloques(dispStateReg);
-    if(bloques.length){ try{ await apiPost('disponibilidad',{profesional_id:proIdCreado,disponibilidad:bloques}); }catch(e){} }
-
-    var pro={
-      id:proIdCreado,
-      nombre:document.getElementById('pro-nombre').value.trim(),
-      especialidad:document.getElementById('pro-especialidad').value.trim(),
-      precio:precioSel, duracion_min:durSel,
-      email:currentUser?currentUser.email:'',
-      mp_access_token:'', mp_user_id:'', tiene_mp:false,
-      whatsapp_phone:waPhone, whatsapp_apikey:''
-    };
-    guardarPro(pro);
-    document.getElementById('reg-resumen').textContent=
-      pro.nombre+' — '+bloques.length+' bloque'+(bloques.length!==1?'s':'')+' de horarios configurados.';
-    goStep(5);
-    btn.disabled=false; btn.innerHTML='Crear perfil →';
-  }catch(e){
-    toast('❌ Error de conexión.','error');
-    btn.disabled=false; btn.innerHTML='Crear perfil →';
-  }
-}
-
-function irDashboard(){ if(proActual) mostrarDashboard(proActual); }
-
-function iniciarOAuth(){
-  if(!proActual){ toast('Sin profesional activo.','error'); return; }
-  var btn=event&&event.target?event.target.closest('button'):null;
-  if(btn){ btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Generando link...'; }
-  ST.set('retorno_tab','profesional');
-  ST.set('retorno_pro_id',proActual.id);
-  ST.set('mp_pending_pro_id', proActual.id);
-  apiGet('oauth_url',{profesional_id:proActual.id})
-    .then(function(data){
-      if(data&&data.mp_auth_url){ window.location.href=data.mp_auth_url; }
-      else{
-        toast('❌ '+(data&&data.error||'No se pudo generar el link de MP.'),'error');
-        if(btn){ btn.disabled=false; btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →'; }
-      }
-    })
-    .catch(function(e){
-      toast('❌ '+e.message,'error');
-      if(btn){ btn.disabled=false; btn.innerHTML='<span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →'; }
-    });
-}
-
-async function desvincularMP(){
-  if(!confirm('¿Desvincular Mercado Pago?')) return;
-  if(!proActual) return;
-  var btn=event.target.closest('button'); btn.disabled=true;
-  try{
-    var data=await apiPost('mp_desvincular',{profesional_id:proActual.id});
-    if(data&&data.ok){
-      proActual.mp_access_token=''; proActual.mp_user_id=''; proActual.tiene_mp=false;
-      guardarPro(proActual); mostrarDashboard(proActual);
-      toast('✅ Mercado Pago desvinculado.','ok');
-    }else{ toast('❌ '+(data&&data.error||'Error al desvincular.'),'error'); btn.disabled=false; }
-  }catch(e){ toast('❌ Error de conexión.','error'); btn.disabled=false; }
-}
-
-function renderMpConfig(pro){
-  // FIX 2b: usar tiene_mp como fuente de verdad
-  var tieneMp = !!(pro.tiene_mp||(pro.mp_access_token&&pro.mp_user_id));
-  var el = document.getElementById('mp-config-');
-  if (!el) return;
-  if (tieneMp) {
-    el.innerHTML = '<div class="success-box" style="margin-bottom:12px">✅ Mercado Pago vinculado correctamente.</div>'+
-      '<button class="btn btn-danger-outline" onclick="desvincularMP()" style="max-width:220px">Desvincular MP</button>';
-  } else {
-    el.innerHTML = '<div class="warning-box" style="margin-bottom:12px">Sin Mercado Pago vinculado no podés recibir pagos.</div>'+
-      '<button class="btn btn-mp" onclick="iniciarOAuth()"><span class="mp-logo"><span class="mp-dot"></span>Mercado Pago</span> Conectar mi cuenta →</button>';
-  }
-}
-
-function renderWaPanel(pro){
-  var el = document.getElementById('wa-status-box');
-  if (!el) return;
-  var phone = (pro && pro.whatsapp_phone) ? pro.whatsapp_phone : '';
-  var tiene = !!phone;
-  el.innerHTML = tiene
-    ? '<div class="success-box" style="margin-bottom:0">✅ WhatsApp configurado: ' + esc(phone) + '</div>'
-    : '<div class="warning-box" style="margin-bottom:0">⚠️ Sin WhatsApp — no recibirás avisos de nuevos turnos.</div>';
-  var ph = document.getElementById('wa-phone');
-  if (ph) ph.value = phone;
-}
-
-async function guardarWhatsapp(){
-  if(!proActual) return;
-  var phone=(document.getElementById('wa-phone').value||'').trim();
-  if(!phone){ toast('Ingresá tu número de WhatsApp.','error'); return; }
-  if(!/^\+?\d{8,15}$/.test(phone.replace(/\s/g,''))){ toast('Número inválido. Usá formato +5491122334455','error'); return; }
-  try{
-    var data=await apiPost('whatsapp_config',{profesional_id:proActual.id,telefono:phone});
-    if(data&&data.ok){
-      proActual.whatsapp_phone=phone; proActual.whatsapp_apikey='';
-      guardarPro(proActual); renderWaPanel(proActual);
-      toast('✅ WhatsApp guardado.','ok');
-    } else { toast('❌ '+(data&&data.error||'Error al guardar.'),'error'); }
-  }catch(e){ toast('❌ Error de conexión.','error'); }
-}
-
-function isoDate(y,m,d){ return y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'); }
-
-async function cargarCalendario(proId){
-  var hoy=new Date();
-  if(!calMes) calMes={year:hoy.getFullYear(),month:hoy.getMonth()+1};
-  renderCalendario(proId, true);
-  var y=calMes.year, m=calMes.month;
-  var diasEnMes=new Date(y,m,0).getDate();
-  var dur=proActual?Number(proActual.duracion_min)||45:45;
-  if(!dispCache[proId]){
-    try{ var r=await apiGet('disponibilidad',{profesional_id:proId}); dispCache[proId]=(r&&r.disponibilidad)?r.disponibilidad:[]; }
-    catch(e){ dispCache[proId]=[]; }
-  }
-  var slotsMap={};
-  var hoyStr=isoDate(hoy.getFullYear(),hoy.getMonth()+1,hoy.getDate());
-  var promesas=[];
-  for(var dia=1;dia<=diasEnMes;dia++){
-    var fecha=isoDate(y,m,dia);
-    if(fecha<hoyStr) continue;
-    (function(f){
-      promesas.push(calcularSlots(proId,f,dur).then(function(slots){ slotsMap[f]=slots; }));
-    })(fecha);
-  }
-  await Promise.all(promesas);
-  calDataCache[proId+'_'+y+'_'+m]=slotsMap;
-  renderCalendario(proId, false);
-}
-
-function renderCalendario(proId, loading){
-  var el=document.getElementById('dash-calendario'); if(!el) return;
-  var y=calMes.year, m=calMes.month;
-  var meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  var diasEnMes=new Date(y,m,0).getDate();
-  var primerDia=new Date(y,m-1,1).getDay();
-  var offset=(primerDia===0)?6:primerDia-1;
-  var slotsMap=calDataCache[proId+'_'+y+'_'+m]||{};
-  var hoy=new Date();
-  var hoyStr=isoDate(hoy.getFullYear(),hoy.getMonth()+1,hoy.getDate());
-  var html='<div class="cal-wrap">';
-  html+='<div class="cal-header">'+
-    '<button class="cal-nav-btn" onclick="calNavMes(-1,\''+proId+'\')">‹</button>'+
-    '<div class="cal-title">'+meses[m-1]+' '+y+'</div>'+
-    '<button class="cal-nav-btn" onclick="calNavMes(1,\''+proId+'\')">›</button>'+
-  '</div>';
-  html+='<div class="cal-grid">';
-  var dows=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-  dows.forEach(function(d){ html+='<div class="cal-dow">'+d+'</div>'; });
-  for(var i=0;i<offset;i++) html+='<div class="cal-day empty"></div>';
-  for(var d=1;d<=diasEnMes;d++){
-    var fecha=isoDate(y,m,d);
-    var esPasado=fecha<hoyStr;
-    var esHoy=fecha===hoyStr;
-    var slots=slotsMap[fecha]||null;
-    var cls='cal-day';
-    if(esPasado){ cls+=' past'; }
-    else if(loading||slots===null){ cls+=' sin-disponibilidad'; }
-    else if(!slots.length){ cls+=' sin-disponibilidad'; }
-    else {
-      var totalSlots=slots.length;
-      var ocupados=slots.filter(function(s){ return !s.disponible; }).length;
-      var libres=totalSlots-ocupados;
-      if(libres===0) cls+=' lleno';
-      else if(ocupados>0) cls+=' parcial';
-      else cls+=' disponible';
-    }
-    if(esHoy) cls+=' today';
-    var innerHtml='<div class="cal-day-num">'+d+'</div>';
-    if(!esPasado&&slots&&slots.length){
-      var totalSlots2=slots.length;
-      var ocupados2=slots.filter(function(s){ return !s.disponible; }).length;
-      var libres2=totalSlots2-ocupados2;
-      var maxDots=Math.min(totalSlots2,6);
-      var dotsHtml='<div class="cal-slots-mini">';
-      for(var si=0;si<maxDots;si++){
-        var disp2=si<libres2;
-        dotsHtml+='<div class="cal-slot-dot '+(disp2?'disp':'ocup')+'"></div>';
-      }
-      dotsHtml+='</div>';
-      innerHtml+=dotsHtml;
-      if(libres2===0) innerHtml+='<div class="cal-day-count">Lleno</div>';
-      else innerHtml+='<div class="cal-day-count">'+libres2+' libre'+(libres2===1?'':'s')+'</div>';
-    } else if(loading&&!esPasado){
-      innerHtml+='<div class="sk" style="height:4px;margin-top:3px;border-radius:3px"></div>';
-    }
-    var onclick=(!esPasado&&slots&&slots.length)?' onclick="mostrarDetalleDia(\''+fecha+'\',\''+proId+'\')"':'';
-    html+='<div class="'+cls+'"'+onclick+'>'+innerHtml+'</div>';
-  }
-  html+='</div>';
-  html+='<div class="cal-legend">'+
-    '<div class="cal-legend-item"><div class="cal-legend-dot disp"></div>Disponible</div>'+
-    '<div class="cal-legend-item"><div class="cal-legend-dot ocup"></div>Ocupado</div>'+
-  '</div>';
-  html+='</div>';
-  el.innerHTML=html;
-  if(calDiaDetalle&&slotsMap[calDiaDetalle]) mostrarDetalleDia(calDiaDetalle,proId,true);
-}
-
-function calNavMes(delta,proId){
-  calMes.month+=delta;
-  if(calMes.month>12){ calMes.month=1; calMes.year++; }
-  if(calMes.month<1){ calMes.month=12; calMes.year--; }
-  calDiaDetalle=null;
-  cargarCalendario(proId);
-}
-
-function mostrarDetalleDia(fecha,proId,noScroll){
-  calDiaDetalle=fecha;
-  var y=calMes.year, m=calMes.month;
-  var slotsMap=calDataCache[proId+'_'+y+'_'+m]||{};
-  var slots=slotsMap[fecha]||[];
-  var p=fecha.split('-'); var d=new Date(+p[0],+p[1]-1,+p[2]);
-  var dm=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  var mm=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  var titulo=dm[d.getDay()]+' '+d.getDate()+' de '+mm[d.getMonth()];
-  var prev=document.getElementById('cal-detail-box');
-  if(prev) prev.parentNode.removeChild(prev);
-  var box=document.createElement('div');
-  box.id='cal-detail-box'; box.className='cal-detail';
-  var libres=slots.filter(function(s){ return s.disponible; });
-  var ocupados=slots.filter(function(s){ return !s.disponible; });
-  var pillsHtml='';
-  libres.forEach(function(s){ pillsHtml+='<div class="cal-slot-pill disp">'+s.hora+'</div>'; });
-  ocupados.forEach(function(s){ pillsHtml+='<div class="cal-slot-pill ocup">'+s.hora+' ✓</div>'; });
-  box.innerHTML='<div class="cal-detail-header">'+
-    '<div class="cal-detail-title">'+titulo+'</div>'+
-    '<button class="cal-detail-close" onclick="cerrarDetalleDia()">✕</button>'+
-  '</div>'+
-    '<div class="cal-detail-slots">'+pillsHtml+'</div>';
-  var calWrap=document.querySelector('.cal-wrap');
-  if(calWrap) calWrap.appendChild(box);
-  if(!noScroll) box.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-function cerrarDetalleDia(){
-  calDiaDetalle=null;
-  var prev=document.getElementById('cal-detail-box');
-  if(prev) prev.parentNode.removeChild(prev);
-}
-
-async function cargarDashData(proId){
-  try{
-    var data=await apiGet('dashboard',{profesional_id:proId});
-    renderStats(data.resumen||{});
-    renderTurnos(data.proximos_turnos||[]);
-  }catch(e){ renderStats({}); }
-}
-
-function renderStats(res){
-  var c=Number(res.confirmados)||0, f=Number(res.facturado)||0;
-  document.getElementById('dash-stats').innerHTML=
-    '<div class="stat-card"><div class="stat-num">'+c+'</div><div class="stat-lbl">Confirmados este mes</div></div>'+
-    '<div class="stat-card"><div class="stat-num success">$'+Math.round(f).toLocaleString('es-AR')+'</div><div class="stat-lbl">Facturado este mes</div></div>';
-}
-
-function renderTurnos(turnos){
-  var el=document.getElementById('dash-turnos');
-  if(!turnos||!turnos.length){ el.innerHTML='<div class="empty"><div class="ico">🗓️</div><p>Sin turnos próximos.</p></div>'; return; }
-  var dias=['dom','lun','mar','mié','jue','vie','sáb'];
-  el.innerHTML=turnos.map(function(t){
-    var p=t.fecha.split('-'); var d=new Date(+p[0],+p[1]-1,+p[2]);
-    var estado=t.estado==='confirmado'?'<span class="badge badge-green">✓ Pagado</span>':'<span class="badge badge-orange">⏳ Pendiente</span>';
-    return '<div class="turno-row">'+
-      '<div class="turno-fecha-block">'+
-      '<div class="turno-fecha-dia">'+dias[d.getDay()]+'</div>'+
-      '<div class="turno-fecha-num">'+d.getDate()+'</div>'+
-      '<div class="turno-fecha-hora">'+t.hora+'</div>'+
-      '</div>'+
-      '<div class="turno-info">'+
-      '<div class="turno-nombre">'+esc(t.paciente_nombre||'Paciente')+'</div>'+
-      '<div class="turno-email">'+esc(t.paciente_email||'')+'</div>'+
-      '<div class="turno-status">'+estado+'</div>'+
-      '</div>'+
-      '</div>';
-  }).join('');
-}
-
-function inicDisp(){ DIAS.forEach(function(d){ dispState[d.num]={activo:false,bloques:[]}; }); }
-function inicDispReg(){ DIAS.forEach(function(d){ dispStateReg[d.num]={activo:false,bloques:[]}; }); }
-
-function buildBloques(state){
-  var bloques=[];
-  DIAS.forEach(function(d){
-    var st=state[d.num]; if(!st||!st.activo) return;
-    st.bloques.forEach(function(b){ if(b.inicio&&b.fin&&b.inicio<b.fin) bloques.push({dia:d.num,inicio:b.inicio,fin:b.fin}); });
-  });
-  return bloques;
-}
-
-function getState(pfx){ return pfx==='R'?dispStateReg:dispState; }
-
-function renderDisp(cid,state){
-  var c=document.getElementById(cid); if(!c) return;
-  c.innerHTML=DIAS.map(function(dia){
-    var st=state[dia.num];
-    var sum=!st.activo?'Cerrado':(st.bloques.length?st.bloques.map(function(b){ return b.inicio+'–'+b.fin; }).join(', '):'Sin bloques');
-    var pfx=cid==='disp-reg'?'R':'D';
-    var blocksHtml=st.bloques.map(function(b,i){
-      return '<div class="block-row">'+
-        '<div><label>Desde</label><input type="time" value="'+b.inicio+'" onchange="updBloque(\''+pfx+'\','+dia.num+','+i+',\'inicio\',this.value)"></div>'+
-        '<div><label>Hasta</label><input type="time" value="'+b.fin+'" onchange="updBloque(\''+pfx+'\','+dia.num+','+i+',\'fin\',this.value)"></div>'+
-        '<button class="btn-rm" onclick="rmBloque(\''+pfx+'\','+dia.num+','+i+')">✕</button>'+
-        '</div>';
-    }).join('');
-    return '<div class="disp-row'+(st.activo?' on':'')+'">'+
-      '<div class="disp-header" onclick="togDia(\''+pfx+'\','+dia.num+')">'+
-      '<div class="disp-toggle'+(st.activo?' on':'')+'" id="dt-'+pfx+'-'+dia.num+'"></div>'+
-      '<div class="disp-day-name">'+dia.n+'</div>'+
-      '<div class="disp-day-sum">'+sum+'</div>'+
-      '</div>'+
-      '<div class="disp-blocks'+(st.activo?' open':'')+'">'+
-      blocksHtml+'<button class="btn-add-block" onclick="addBloque(\''+pfx+'\','+dia.num+')">+ Agregar bloque</button>'+
-      '</div>'+
-      '</div>';
-  }).join('');
-}
-
-function renderDispReg(){ renderDisp('disp-reg',dispStateReg); }
-function renderDispDash(){ renderDisp('disp-dash',dispState); }
-
-function togDia(pfx,num){ var s=getState(pfx)[num]; s.activo=!s.activo; if(s.activo&&!s.bloques.length) s.bloques.push({inicio:'09:00',fin:'13:00'}); if(pfx==='R') renderDispReg(); else renderDispDash(); }
-function addBloque(pfx,num){ getState(pfx)[num].bloques.push({inicio:'14:00',fin:'18:00'}); if(pfx==='R') renderDispReg(); else renderDispDash(); }
-function rmBloque(pfx,num,idx){ getState(pfx)[num].bloques.splice(idx,1); if(pfx==='R') renderDispReg(); else renderDispDash(); }
-function updBloque(pfx,num,idx,campo,val){ getState(pfx)[num].bloques[idx][campo]=val; }
-
-function applyPreset(preset,pfx){
-  var state=getState(pfx);
-  if(preset==='lun-vie'){
-    DIAS.forEach(function(d){ if(d.num>=1&&d.num<=5){ state[d.num].activo=true; if(!state[d.num].bloques.length) state[d.num].bloques=[{inicio:'08:00',fin:'19:00'}]; } else state[d.num].activo=false; });
-  } else {
-    var activos=DIAS.filter(function(d){ return state[d.num].activo; }).map(function(d){ return d.num; });
-    if(!activos.length) activos=DIAS.map(function(d){ return d.num; });
-    activos.forEach(function(num){
-      var st=state[num]; st.activo=true;
-      if(preset==='manana')   st.bloques=[{inicio:'08:00',fin:'13:00'}];
-      if(preset==='tarde')    st.bloques=[{inicio:'14:00',fin:'19:00'}];
-      if(preset==='completo') st.bloques=[{inicio:'08:00',fin:'19:00'}];
-    });
-  }
-  if(pfx==='R') renderDispReg(); else renderDispDash();
-}
-
-async function cargarDispDash(proId){
-  try{
-    var data=await apiGet('disponibilidad',{profesional_id:proId});
-    if(data&&data.disponibilidad&&data.disponibilidad.length){
-      inicDisp();
-      data.disponibilidad.forEach(function(d){
-        if(dispState[d.dia]!==undefined){ dispState[d.dia].activo=true; dispState[d.dia].bloques.push({inicio:d.inicio,fin:d.fin}); }
-      });
-      dispCache[proId]=data.disponibilidad;
-    }
-  }catch(e){}
-  renderDispDash();
-  cargarCalendario(proId);
-}
-
-async function guardarDisp(){
-  var btn=document.getElementById('btn-save-disp');
-  var fb=document.getElementById('disp-fb');
-  var bloques=buildBloques(dispState);
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Guardando...';
-  try{
-    var data=await apiPost('disponibilidad',{profesional_id:proActual.id,disponibilidad:bloques});
-    if(data&&data.ok){
-      dispCache[proActual.id]=bloques;
-      fb.style.cssText='display:block;padding:9px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-align:center;background:var(--success-soft);color:#166534;border:1px solid #86EFAC';
-      fb.textContent='✅ Horarios guardados correctamente.';
-      toast('✅ Horarios guardados.','ok');
-      calDataCache={};
-      cargarCalendario(proActual.id);
-    } else {
-      fb.style.cssText='display:block;padding:9px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-align:center;background:var(--danger-soft);color:#991B1B';
-      fb.textContent='❌ '+(data&&data.error||'Error al guardar.');
-    }
-  }catch(e){
-    fb.style.cssText='display:block;padding:9px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-align:center;background:var(--danger-soft);color:#991B1B';
-    fb.textContent='❌ Error de conexión.';
-  }
-  btn.disabled=false; btn.innerHTML='Guardar horarios';
-  setTimeout(function(){ fb.style.display='none'; },5000);
-}
-
-function showTab(nombre,el){
-  ['reservar','profesional'].forEach(function(t){
-    document.getElementById('tab-'+t).classList.toggle('active',t===nombre);
-    document.getElementById('tab-btn-'+t).classList.toggle('active',t===nombre);
-  });
-}
-
-function showDashPanel(nombre,el){
-  ['agenda','horarios','whatsapp','config'].forEach(function(t){
-    var p=document.getElementById('dp-'+t), b=document.getElementById('dnav-'+t);
-    if(p) p.classList.toggle('active',t===nombre);
-    if(b) b.classList.toggle('active',t===nombre);
-  });
-}
-
-// ── FIX 3: checkReturn — limpiar caché y forzar recarga al volver de MP ──
-function checkReturn(){
-  var p = new URLSearchParams(window.location.search);
-  var estado    = p.get('estado');
-  var mpStatus  = p.get('mp_status');
-
-  if (!estado && !mpStatus) return;
-
-  window.history.replaceState({}, '', window.location.pathname);
-
-  if (mpStatus) {
-    showTab('profesional', document.getElementById('tab-btn-profesional'));
-
-    if (mpStatus === 'ok') {
-      // FIX: limpiar caché completo y forzar recarga desde server
-      ST.del('pro_actual');
-      ST.del('mp_pending_pro_id');
-      var savedUser = ST.get('google_user');
-      if (savedUser) {
-        currentUser = savedUser;
-        updateNavUser(savedUser);
-        setTimeout(function(){
-          toast('✅ Mercado Pago vinculado correctamente.', 'ok');
-          cargarPerfilPro(true);
-        }, 600);
-      } else {
-        mostrarAuthGate();
-        toast('✅ MP vinculado. Volvé a ingresar con Google.', 'ok');
-      }
-      return;
-    }
-
-    if (mpStatus === 'error') {
-      var mpMsg = p.get('mp_msg') || 'Error desconocido';
-      var savedUser2 = ST.get('google_user');
-      if (savedUser2) {
-        currentUser = savedUser2;
-        updateNavUser(savedUser2);
-        var cached = ST.get('pro_actual');
-        if (cached) { proActual = cached; mostrarDashboard(cached); }
-        else cargarPerfilPro();
-      } else {
-        mostrarAuthGate();
-      }
-      setTimeout(function(){
-        toast('❌ Error al vincular MP: ' + mpMsg, 'error');
-      }, 300);
-      return;
-    }
-  }
-
-  if (estado) {
-    var retTab = ST.get('retorno_tab') || 'reservar';
-    showTab(retTab, document.getElementById('tab-btn-' + retTab));
-    var cfg = {
-      confirmado: {cls:'success', msg:'✅ ¡Pago exitoso! Tu turno está confirmado.'},
-      error:      {cls:'error',   msg:'❌ Hubo un problema con el pago.'},
-      pendiente:  {cls:'pending', msg:'⏳ El pago está pendiente de acreditación.'}
-    };
-    var c = cfg[estado] || {cls:'info', msg:'Estado: '+estado};
-    var b = document.getElementById('payment-banner');
-    b.innerHTML = '<div class="pay-banner ' + c.cls + '">' + c.msg + '</div>';
-    b.style.display = 'block';
-    setTimeout(function(){ toast(c.msg, estado==='confirmado'?'ok':estado==='error'?'error':'info'); }, 300);
-    if (estado === 'confirmado') {
-      setTimeout(function(){
-        b.style.opacity='0'; b.style.transition='opacity 0.5s';
-        setTimeout(function(){ b.style.display='none'; b.style.opacity=''; }, 500);
-      }, 8000);
-    }
-  }
-}
-
-function hoyISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function fmtFecha(iso,corto){
-  if(!iso) return '—';
-  var p=iso.split('-'); var d=new Date(+p[0],+p[1]-1,+p[2]);
-  var dc=['dom','lun','mar','mié','jue','vie','sáb'];
-  var dm=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  var mm=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  return corto?(dc[d.getDay()]+' '+d.getDate()):(dm[d.getDay()]+' '+d.getDate()+' de '+mm[d.getMonth()]);
-}
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function escA(s){ return (s||'').replace(/'/g,"\\'"); }
-
-document.addEventListener('DOMContentLoaded',function(){
-  inicDisp(); inicDispReg(); renderFechas();
-  var savedUser=ST.get('google_user');
-  if(savedUser){ currentUser=savedUser; updateNavUser(savedUser); }
-  var savedPro=ST.get('pro_actual');
-  if(savedPro) proActual=savedPro;
-
-  checkReturn();
-
-  var p2=new URLSearchParams(window.location.search);
-  if(p2.get('mp_status')) return;
-
-  cargarPros();
-  var retTab=ST.get('retorno_tab');
-  if(retTab==='profesional' && !window._mpReturnHandled){
-    showTab('profesional',document.getElementById('tab-btn-profesional'));
-    if(currentUser) cargarPerfilPro();
-    else mostrarAuthGate();
-  }
-});
-</script>
-  <!-- ═════════════════════════════════════════════════════════════════════
-     WIDGET DE CHAT — Mi Turno Seguro
-     Pegar este bloque completo justo ANTES de </body> en tu index.html
-     (después del <script> principal que define CFG, apiPost, ST, esc, etc.
-     Si tu <script> principal va después, este widget igual funciona porque
-     sólo se ejecuta cuando el usuario interactúa — pero para más prolijidad
-     ponelo después del script principal).
-     ═════════════════════════════════════════════════════════════════════ -->
-<style>
-#chat-fab{
-  position:fixed;bottom:calc(20px + var(--safe-bottom,0px));right:16px;z-index:300;
-  width:58px;height:58px;border-radius:50%;background:var(--brand);color:white;
-  border:none;box-shadow:0 6px 20px rgba(37,99,235,0.35);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-size:26px;
-  transition:transform 0.2s,box-shadow 0.2s;
-}
-#chat-fab:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(37,99,235,0.45)}
-#chat-fab .dot{position:absolute;top:6px;right:6px;width:11px;height:11px;border-radius:50%;background:#22C55E;border:2px solid white;display:none}
-#chat-fab .dot.show{display:block}
-
-#chat-panel{
-  position:fixed;bottom:calc(88px + var(--safe-bottom,0px));right:16px;z-index:300;
-  width:min(360px,calc(100vw - 32px));height:min(520px,calc(100vh - 160px));
-  background:white;border-radius:20px;box-shadow:0 12px 40px rgba(15,23,42,0.22);
-  display:none;flex-direction:column;overflow:hidden;border:1px solid var(--line);
-  animation:slideUp 0.25s cubic-bezier(.34,1.2,.64,1);
-}
-#chat-panel.open{display:flex}
-#chat-header{
-  background:linear-gradient(135deg,var(--brand-dark) 0%,var(--brand) 100%);
-  color:white;padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0
-}
-#chat-header .ico{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.18);
-  display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
-#chat-header .txt{flex:1;min-width:0}
-#chat-header .txt b{display:block;font-family:'Outfit',sans-serif;font-size:14px}
-#chat-header .txt span{font-size:11px;opacity:0.85;display:flex;align-items:center;gap:4px}
-#chat-header .txt span::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ADE80;display:inline-block}
-#chat-close{width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);
-  color:white;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-#chat-close:hover{background:rgba(255,255,255,0.28)}
-
-#chat-messages{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 12px;
-  display:flex;flex-direction:column;gap:10px;background:var(--paper)}
-.chat-bubble{max-width:82%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.45;
-  white-space:pre-wrap;word-wrap:break-word;animation:fadeIn 0.2s ease both}
-.chat-bubble.user{align-self:flex-end;background:var(--brand);color:white;border-bottom-right-radius:4px}
-.chat-bubble.bot{align-self:flex-start;background:white;color:var(--ink);border:1px solid var(--line);border-bottom-left-radius:4px}
-.chat-bubble.bot a{color:var(--brand);font-weight:700;text-decoration:underline}
-.chat-bubble.error{align-self:flex-start;background:var(--danger-soft);color:#991B1B;border:1px solid #FCA5A5;border-bottom-left-radius:4px}
-.chat-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:white;
-  border:1px solid var(--line);border-radius:14px;border-bottom-left-radius:4px}
-.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);opacity:0.5;animation:chatTyping 1s infinite}
-.chat-typing span:nth-child(2){animation-delay:0.15s}
-.chat-typing span:nth-child(3){animation-delay:0.3s}
-@keyframes chatTyping{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
-
-#chat-input-row{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:white;flex-shrink:0}
-#chat-input{flex:1;border:1.5px solid var(--line);border-radius:999px;padding:10px 15px;
-  font-size:15px!important;outline:none;font-family:'Inter',sans-serif;resize:none;max-height:80px;line-height:1.3}
-#chat-input:focus{border-color:var(--brand)}
-#chat-send{width:40px;height:40px;border-radius:50%;border:none;background:var(--brand);color:white;
-  font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.15s}
-#chat-send:hover{background:var(--brand-dark)}
-#chat-send:disabled{opacity:0.5;cursor:not-allowed}
-
-@media(max-width:400px){
-  #chat-panel{right:8px;bottom:calc(80px + var(--safe-bottom,0px));width:calc(100vw - 16px)}
-  #chat-fab{right:8px}
-}
-</style>
-
-<button id="chat-fab" onclick="toggleChat()" aria-label="Abrir chat">
-  💬<span class="dot" id="chat-dot"></span>
-</button>
-
-<div id="chat-panel">
-  <div id="chat-header">
-    <div class="ico">🤖</div>
-    <div class="txt">
-      <b>Asistente Mi Turno Seguro</b>
-      <span>En línea</span>
-    </div>
-    <button id="chat-close" onclick="toggleChat(false)">✕</button>
-  </div>
-  <div id="chat-messages"></div>
-  <div id="chat-input-row">
-    <textarea id="chat-input" rows="1" placeholder="Escribí tu consulta..." onkeydown="chatKeydown(event)" oninput="chatAutoGrow(this)"></textarea>
-    <button id="chat-send" onclick="enviarChat()">➤</button>
-  </div>
-</div>
-
-<script>
-(function(){
-  var CHAT_SALUDO = '¡Hola! 👋 Soy el asistente de Mi Turno Seguro. Te puedo ayudar a reservar un turno, resolver dudas, o si sos profesional, a gestionar tu agenda. ¿En qué te ayudo?';
-  var chatAbierto = false;
-  var chatEnviando = false;
-  var chatSessionId = null;
-
-  window.toggleChat = function(force){
-    var panel = document.getElementById('chat-panel');
-    chatAbierto = (force !== undefined) ? force : !chatAbierto;
-    panel.classList.toggle('open', chatAbierto);
-    if(chatAbierto){
-      document.getElementById('chat-dot').classList.remove('show');
-      if(!panel.dataset.iniciado){
-        panel.dataset.iniciado = '1';
-        chatAppend('bot', CHAT_SALUDO);
-      }
-      setTimeout(function(){ document.getElementById('chat-input').focus(); },150);
-      chatScrollBottom();
-    }
-  };
-
-  window.chatKeydown = function(e){
-    if(e.key === 'Enter' && !e.shiftKey){
-      e.preventDefault();
-      enviarChat();
-    }
-  };
-
-  window.chatAutoGrow = function(el){
-    el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
-  };
-
-  function chatScrollBottom(){
-    var box = document.getElementById('chat-messages');
-    box.scrollTop = box.scrollHeight;
-  }
-
-  // Conversión básica de **negrita** y links a HTML seguro (escapa todo lo demás)
-  function chatFormat(texto){
-    var out = esc(texto);
-    out = out.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
-    out = out.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-    return out;
-  }
-
-  function chatAppend(tipo, texto){
-    var box = document.getElementById('chat-messages');
-    var b = document.createElement('div');
-    b.className = 'chat-bubble ' + tipo;
-    b.innerHTML = chatFormat(texto);
-    box.appendChild(b);
-    chatScrollBottom();
-    return b;
-  }
-
-  function chatTypingShow(){
-    var box = document.getElementById('chat-messages');
-    var t = document.createElement('div');
-    t.className = 'chat-typing';
-    t.id = 'chat-typing-ind';
-    t.innerHTML = '<span></span><span></span><span></span>';
-    box.appendChild(t);
-    chatScrollBottom();
-  }
-  function chatTypingHide(){
-    var t = document.getElementById('chat-typing-ind');
-    if(t) t.remove();
-  }
-
-  window.enviarChat = function(){
-    if(chatEnviando) return;
-    var input = document.getElementById('chat-input');
-    var msg = input.value.trim();
-    if(!msg) return;
-
-    if(!chatSessionId){
-      chatSessionId = ST.get('chat_session_id');
-      if(!chatSessionId){
-        chatSessionId = 'WEB-' + Date.now().toString(36) + '-' + (Math.random()*1e6|0).toString(36);
-        ST.set('chat_session_id', chatSessionId);
-      }
-    }
-
-    chatAppend('user', msg);
-    input.value = '';
-    input.style.height = 'auto';
-    chatEnviando = true;
-    document.getElementById('chat-send').disabled = true;
-    chatTypingShow();
-
-    apiPost('agente_chat', { mensaje: msg, session_id: chatSessionId })
-      .then(function(data){
-        chatTypingHide();
-        chatEnviando = false;
-        document.getElementById('chat-send').disabled = false;
-        if(data && data.error){
-          chatAppend('error', '⚠️ ' + data.error);
-          return;
-        }
-        if(data && data.session_id) chatSessionId = data.session_id;
-        chatAppend('bot', (data && data.respuesta) || 'No pude generar una respuesta, ¿podés reformular?');
-      })
-      .catch(function(){
-        chatTypingHide();
-        chatEnviando = false;
-        document.getElementById('chat-send').disabled = false;
-        chatAppend('error', '⚠️ No se pudo conectar. Probá de nuevo en un momento.');
-      });
-  };
-
-  // Mostrar el puntito verde de "novedad" la primera vez que carga la página
-  document.addEventListener('DOMContentLoaded', function(){
-    if(!ST.get('chat_visto')){
-      setTimeout(function(){
-        var dot = document.getElementById('chat-dot');
-        if(dot && !chatAbierto) dot.classList.add('show');
-      }, 2500);
-      ST.set('chat_visto','1');
-    }
-  });
-})();
+function chips(){const F=[['all','Todos'],['ver','Verificados'],['top','Mejor puntuados'],['new','Nuevos']];$('#chips').innerHTML=F.map(f=>`<button class="chip ${S.filter===f[0]?'on':''}" onclick="S.filter='${f[0]}';chips();list()">${f[1]}</button>`).join('')}
+function card(p){return`<div class="card person" onclick="openPerson('${p.id}')" role="button">${av(p)}<div class="pi"><b>${esc(p.name)}</b><span>${esc(p.trait||'Sin frase todavía')}</span><div class="rt"><span><b>${ic('star','star')} ${p.refs?p.rating.toFixed(1):'–'}</b></span><span>${p.refs} referencias</span></div></div><button class="fav ${FAVS.has(p.id)?'on':''}" onclick="event.stopPropagation();fav('${p.id}')" aria-label="Guardar">${ic('heart')}</button></div>`}
+function list(){const q=S.q.toLowerCase().trim();let a=PEOPLE.filter(p=>((p.name||'')+(p.trait||'')).toLowerCase().includes(q));if(S.filter==='ver')a=a.filter(p=>p.verified);if(S.filter==='new')a=a.filter(p=>!p.refs);if(S.filter==='top')a=a.filter(p=>p.refs).sort((x,y)=>y.rating-x.rating);
+ $('#list').innerHTML=a.length?a.map(card).join(''):(PEOPLE.length?'<div class="empty">No encontramos a nadie con ese criterio.</div>':`<div class="empty">Todavía no hay otras personas registradas.<br>¡Invitá a tus conocidos!</div><button class="btn alt" onclick="shareApp()">${ic('share')} Invitar por WhatsApp</button>`)}
+async function fav(id){const on=FAVS.has(id);on?FAVS.delete(id):FAVS.add(id);rr();const r=on?await sb.from('favorites').delete().eq('person_id',id):await sb.from('favorites').insert({person_id:id});if(r.error){on?FAVS.add(id):FAVS.delete(id);rr();toast('No se pudo guardar')}else toast(on?'Quitado de guardados':'Guardado ♥')}
+
+// ---------- PERFIL DE OTRA PERSONA ----------
+async function openPerson(id){S.pid=id;S.view='person';S.data=null;render();scrollTo(0,0);
+ const [r,mine]=await Promise.all([sb.from('reviews_public').select('*').eq('person_id',id).order('created_at',{ascending:false}),sb.from('reviews').select('relation').eq('person_id',id)]);
+ const rows=r.data||[],ids=[...new Set(rows.map(x=>x.author_id).filter(Boolean))],names={};
+ if(ids.length){const q=await sb.from('profiles').select('id,name').in('id',ids);(q.data||[]).forEach(x=>names[x.id]=x.name)}
+ S.data={rows,names,done:(mine.data||[]).map(x=>x.relation)};if(S.pid===id&&S.view==='person')render()}
+function person(){
+ const p=find(S.pid);if(!p){S.view='search';return render()}
+ const d=S.data,f=FAVS.has(p.id);
+ $('#top').innerHTML=`${back('search')}<h2>Perfil</h2><button class="round" onclick="share()" aria-label="Compartir">${ic('share')}</button>`;
+ let tops='',body='<div class="empty">Cargando comentarios…</div>';
+ if(d){const c={};d.rows.forEach(r=>(r.tags||[]).forEach(t=>c[t]=(c[t]||0)+1));const t=Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,4),mx=t[0]?t[0][1]:1;
+  tops=t.length?`<div class="card"><div class="lab">Lo que más destacan</div><div class="bars">${t.map(x=>`<div class="bar"><span>${x[0]}</span><div><i style="width:${Math.max(12,x[1]/mx*100)}%"></i></div><b>${x[1]}</b></div>`).join('')}</div></div>`:'';
+  body=d.rows.length?d.rows.map(r=>`<div class="card rev"><small>${REL[r.relation]} · ${r.author_id?esc(d.names[r.author_id]||'Usuario'):'Anónimo'} · ${'★'.repeat(r.stars)}</small>${r.comment?`<p>“${esc(r.comment)}”</p>`:''}</div>`).join(''):'<div class="empty">Aún no hay comentarios. ¡Sé el primero!</div>'}
+ $('#main').innerHTML=`<div class="hdr">${av(p,'lg')}<h3>${esc(p.name)}</h3><span style="color:var(--mut)">${esc(p.trait||'')}</span>${p.verified?`<span class="seal">${ic('check')} Verificado</span>`:''}</div>
+ <div class="card stats"><div><b>${p.refs?p.rating.toFixed(1)+' ★':'–'}</b><span>Promedio</span></div><div><b>${p.refs}</b><span>Referencias</span></div><div><b>${d?d.done.length:'–'}</b><span>Tuyas</span></div></div>${tops}
+ <div class="lab" style="margin-top:6px">Comentarios</div>${body}
+ <div class="stick" style="display:flex;gap:10px"><button class="btn" onclick="startRate()">${ic('pen')} Calificar</button><button class="round" style="width:52px;height:52px;flex-shrink:0;${f?'color:var(--acc)':''}" onclick="fav('${p.id}')">${ic('heart')}</button></div>`}
+function shareApp(t){const u=location.origin+location.pathname+'#app',x=t||'Sumate a Referencias, entrás con Google en un toque';if(navigator.share)navigator.share({title:'Referencias',text:x,url:u}).catch(()=>{});else{try{navigator.clipboard.writeText(x+' '+u).then(()=>toast('Enlace copiado'),()=>toast('No se pudo copiar'))}catch(e){toast('No se pudo copiar')}}}
+function share(){const p=find(S.pid);shareApp(`Mirá las referencias de ${p.name} en Referencias`)}
+
+// ---------- CALIFICAR ----------
+function startRate(){R={rel:'trabajo',stars:0,tags:{},cm:-1,own:'',anon:false};go('rate')}
+function rate(){
+ const p=find(S.pid);if(!p||!R)return go('search');
+ $('#top').innerHTML=`${back('person')}<h2>Calificá a ${esc(p.name.split(' ')[0])}</h2><span style="width:40px"></span>`;
+ const done=S.data?S.data.done.includes(R.rel):false,cs=CM.map((c,i)=>[c,i]).filter(x=>x[0][0]===R.rel);
+ $('#main').innerHTML=`<div class="card"><div class="lab">¿Qué relación tienen?</div><div class="tags">${Object.entries(REL).map(r=>`<button class="chip ${R.rel===r[0]?'on':''}" onclick="R.rel='${r[0]}';R.cm=-1;rr()">${r[1]}</button>`).join('')}</div>${done?'<p style="color:var(--warn);font-size:13px;margin-top:10px">Ya calificaste a esta persona en esta relación. Elegí otra.</p>':''}</div>
+ <div class="card"><div class="lab">Tu puntuación</div><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${R.stars>=n?'on':''}" onclick="R.stars=${n};rr()" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div><p style="text-align:center;color:var(--mut);font-size:13px;margin-top:6px">${['Tocá una estrella','Muy malo','Malo','Regular','Bueno','Excelente'][R.stars]}</p></div>
+ ${Object.entries(TAGS).map(([c,t])=>{const sl=R.tags[c]||[];return`<div class="card"><div class="lab">${c}<span>${sl.length}/${LIM[c]}</span></div><div class="tags">${t.map(x=>`<button class="chip ${sl.includes(x)?'sel':''}" onclick="tg('${c}','${x}')">${sl.includes(x)?'✓ ':''}${x}</button>`).join('')}</div></div>`}).join('')}
+ <div class="card"><div class="lab">Comentario</div>${cs.map(x=>`<button class="opt ${R.cm===x[1]?'on':''}" onclick="R.cm=${x[1]};R.own='';rr()">${x[0][1]}</button>`).join('')}<textarea rows="3" maxlength="240" placeholder="O escribí el tuyo…" oninput="R.own=this.value;R.cm=-1">${esc(R.own)}</textarea></div>
+ <div class="card sw"><div><b>Calificar de forma anónima</b><small>Tu nombre no se mostrará a otros usuarios</small></div><button class="tg ${R.anon?'on':''}" onclick="R.anon=!R.anon;rr()" aria-label="Anónimo"></button></div>
+ <div class="stick"><button class="btn" onclick="send()">Enviar calificación</button></div>`}
+function tg(c,x){const a=R.tags[c]=R.tags[c]||[],i=a.indexOf(x);if(i>=0)a.splice(i,1);else if(a.length<LIM[c])a.push(x);else toast('Máximo '+LIM[c]+' en esta categoría');rr()}
+async function send(){
+ if(!R.stars)return toast('Elegí una puntuación');
+ if(S.data&&S.data.done.includes(R.rel))return toast('Ya calificaste en esa relación');
+ if(BUSY)return;BUSY=true;
+ const text=R.own.trim()||(R.cm>=0?CM[R.cm][1]:'');
+ const {error}=await sb.from('reviews').insert({person_id:S.pid,relation:R.rel,stars:R.stars,tags:Object.values(R.tags).flat(),comment:text||null,anonymous:R.anon});
+ BUSY=false;
+ if(error)return toast(error.code==='23505'?'Ya calificaste a esta persona en esa relación':'No se pudo enviar. Probá de nuevo');
+ toast('¡Gracias! Calificación enviada');S.mine=null;await refresh();openPerson(S.pid)}
+
+// ---------- MI PERFIL ----------
+async function loadMine(){const r=await sb.from('reviews').select('person_id,relation,stars,comment').order('created_at',{ascending:false});S.mine=r.data||[];if(S.view==='me')render()}
+async function saveTrait(){const t=$('#tr').value.trim().slice(0,60),r=await sb.from('profiles').update({trait:t}).eq('id',U.id);if(r.error)return toast('No se pudo guardar');ME.trait=t;toast('Guardado')}
+function me(){
+ $('#top').innerHTML=`<h2>Mi perfil</h2>${tbtn}`;if(!S.mine)loadMine();
+ const m=ME||{},sent=S.mine||[];
+ $('#main').innerHTML=`<div class="hdr">${av(m,'lg')}<h3>${esc(m.name||'')}</h3><span style="color:var(--mut)">${esc(U.email||'')}</span></div>
+ <div class="card stats"><div><b>${m.refs?(+m.rating).toFixed(1)+' ★':'–'}</b><span>Mi promedio</span></div><div><b>${m.refs||0}</b><span>Recibidas</span></div><div><b>${S.mine?sent.length:'–'}</b><span>Enviadas</span></div></div>
+ <div class="card"><div class="lab">Tu frase en el perfil</div><input id="tr" maxlength="60" placeholder="Ej: Diseñador responsable y buena onda" value="${esc(m.trait||'')}"><button class="btn alt" style="margin-top:10px" onclick="saveTrait()">Guardar</button></div>
+ <div class="card"><div class="lab">Mis calificaciones</div>${sent.length?sent.map(r=>{const p=find(r.person_id);return`<div class="rev" style="padding:8px 0;border-top:1px solid var(--line)"><small>${p?esc(p.name):'Usuario'} · ${REL[r.relation]} · ${r.stars}★</small>${r.comment?`<p>“${esc(r.comment)}”</p>`:''}</div>`}).join(''):'<p style="color:var(--mut);font-size:14px">Todavía no calificaste a nadie.</p>'}</div>
+ <button class="btn alt" onclick="shareApp()">${ic('share')} Invitar amigos</button><button class="btn line" onclick="logout()">Cerrar sesión</button>`}
+
+try{const t=localStorage.getItem('ref_theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+addEventListener('hashchange',route);route();
 </script>
 </body>
 </html>
