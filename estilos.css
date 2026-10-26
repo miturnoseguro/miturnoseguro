@@ -1,0 +1,104 @@
+/* =====================================================
+   estilos.css · Paleta BLANCO Y NEGRO para Referencias
+   Se carga con una sola línea en el <head> del index:
+   <link rel="stylesheet" href="estilos.css">
+   Funciona en modo claro y oscuro (sigue al teléfono o al
+   botón de la lunita). Para volver a los colores
+   anteriores, borrá esa línea.
+   ===================================================== */
+
+/* ---------- Variables (con !important: no importa el orden de carga) ---------- */
+:root{
+  --bg:#ffffff !important;
+  --card:#ffffff !important;
+  --ink:#000000 !important;
+  --mut:rgba(0,0,0,.62) !important;
+  --line:rgba(0,0,0,.14) !important;
+  --pri:#000000 !important;
+  --pri2:rgba(0,0,0,.82) !important;
+  --soft:rgba(0,0,0,.06) !important;
+  --acc:#000000 !important;
+  --ok:#000000 !important;
+  --oks:rgba(0,0,0,.06) !important;
+  --warn:#000000 !important;
+  --sh:0 6px 24px rgba(0,0,0,.08) !important;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#000000 !important;
+    --card:#000000 !important;
+    --ink:#ffffff !important;
+    --mut:rgba(255,255,255,.66) !important;
+    --line:rgba(255,255,255,.2) !important;
+    --pri:#ffffff !important;
+    --pri2:rgba(255,255,255,.85) !important;
+    --soft:rgba(255,255,255,.1) !important;
+    --acc:#ffffff !important;
+    --ok:#ffffff !important;
+    --oks:rgba(255,255,255,.1) !important;
+    --warn:#ffffff !important;
+    --sh:0 0 0 rgba(0,0,0,0) !important;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000000 !important;
+  --card:#000000 !important;
+  --ink:#ffffff !important;
+  --mut:rgba(255,255,255,.66) !important;
+  --line:rgba(255,255,255,.2) !important;
+  --pri:#ffffff !important;
+  --pri2:rgba(255,255,255,.85) !important;
+  --soft:rgba(255,255,255,.1) !important;
+  --acc:#ffffff !important;
+  --ok:#ffffff !important;
+  --oks:rgba(255,255,255,.1) !important;
+  --warn:#ffffff !important;
+  --sh:0 0 0 rgba(0,0,0,0) !important;
+}
+
+/* ---------- Colores que estaban fijos en el index ---------- */
+/* Texto sobre botones y chips activos: siempre el color contrario al fondo del botón */
+.btn,
+.chip.on{color:var(--bg) !important}
+.btn.alt,
+.btn.line{color:var(--ink) !important}
+.btn.alt{background:var(--soft) !important}
+.btn.line{background:transparent !important;border:1.5px solid var(--line) !important}
+
+/* Logo */
+.logo i{background:var(--ink) !important;color:var(--bg) !important}
+
+/* Título de la landing: sin degradado, todo en un solo color */
+h1 em{background:none !important;-webkit-text-fill-color:var(--ink) !important;color:var(--ink) !important}
+
+/* Avatares: círculo blanco o negro (pisa los colores que vienen en línea) */
+.av{background:var(--ink) !important;color:var(--bg) !important}
+.av s{background:var(--ink) !important;border-color:var(--card) !important}
+.av s .ic{color:var(--bg) !important}
+
+/* Barras de "lo que más destacan" y estrellas */
+.bar i{background:var(--ink) !important}
+.star,
+.stars .on .ic{color:var(--ink) !important;fill:var(--ink) !important}
+
+/* Interruptor de anónimo: la perilla se ve en claro y oscuro */
+.tg{background:var(--line) !important}
+.tg.on{background:var(--ink) !important}
+.tg::after{background:var(--bg) !important}
+
+/* Bloque final de la landing */
+.band{background:var(--ink) !important;color:var(--bg) !important;border:0 !important}
+.band .btn{background:var(--bg) !important;color:var(--ink) !important}
+
+/* Maqueta del celular y ventanas emergentes */
+.mock{box-shadow:0 30px 60px rgba(0,0,0,.25) !important}
+.sheet{background:rgba(0,0,0,.55) !important}
+
+/* Chips y comentarios seleccionados: borde marcado en vez de color */
+.chip.sel,
+.opt.on{border-color:var(--ink) !important;color:var(--ink) !important}
+.chip{border-width:1.5px !important}
+
+/* Tarjetas planas con borde fino */
+.card,
+.box{box-shadow:none !important;border:1px solid var(--line) !important}
