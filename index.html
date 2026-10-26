@@ -159,7 +159,7 @@ const CM=[['trabajo','Excelente profesional. Cumplió con todos los plazos y sup
 const TAGS={Profesional:['Responsable','Puntual','Comprometido','Organizado','Detallista'],Comunicación:['Claro','Rápido en responder','Empático','Asertivo'],Habilidades:['Experto','Resolutivo','Creativo','Proactivo'],Actitud:['Positivo','Colaborativo','Flexible','Honesto'],Personal:['Leal','Generoso','Divertido','De confianza'],Resultados:['Cumplió plazos','Superó expectativas','Calidad excelente','Volvería a trabajar']};
 const LIM={Profesional:5,Comunicación:4,Habilidades:4,Actitud:4,Personal:4,Resultados:4};
 // ====== CONFIG: completá con los datos de tu proyecto Supabase ======
-const SB_URL='https://TU-PROYECTO.supabase.co',SB_KEY='TU_CLAVE_PUBLICA';
+const SB_URL='https://tiajsxobclpcumbhtntb.supabase.co',SB_KEY='sb_publishable_tQaZ_kq5QNT2LTImHSj3Lg_6m2mOnGi';
 const GOOGLE_CLIENT_ID='962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com';
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{flowType:'pkce'}});
 let U=null,ME=null,PEOPLE=[],FAVS=new Set(),READY=false,BUSY=false,S={view:'search',pid:null,filter:'all',q:'',data:null,mine:null},R=null;
@@ -245,7 +245,7 @@ function rate(){
  $('#main').innerHTML=`<div class="card"><div class="lab">¿Qué relación tienen?</div><div class="tags">${Object.entries(REL).map(r=>`<button class="chip ${R.rel===r[0]?'on':''}" onclick="R.rel='${r[0]}';R.cm=-1;rr()">${r[1]}</button>`).join('')}</div>${done?'<p style="color:var(--warn);font-size:13px;margin-top:10px">Ya calificaste a esta persona en esta relación. Elegí otra.</p>':''}</div>
  <div class="card"><div class="lab">Tu puntuación</div><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${R.stars>=n?'on':''}" onclick="R.stars=${n};rr()" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div><p style="text-align:center;color:var(--mut);font-size:13px;margin-top:6px">${['Tocá una estrella','Muy malo','Malo','Regular','Bueno','Excelente'][R.stars]}</p></div>
  ${Object.entries(TAGS).map(([c,t])=>{const sl=R.tags[c]||[];return`<div class="card"><div class="lab">${c}<span>${sl.length}/${LIM[c]}</span></div><div class="tags">${t.map(x=>`<button class="chip ${sl.includes(x)?'sel':''}" onclick="tg('${c}','${x}')">${sl.includes(x)?'✓ ':''}${x}</button>`).join('')}</div></div>`}).join('')}
- <div class="card"><div class="lab">Comentario</div>${cs.map(x=>`<button class="opt ${R.cm===x[1]?'on':''}" onclick="R.cm=${x[1]};R.own='';rr()">${x[0][1]}</button>`).join('')}<textarea rows="3" maxlength="240" placeholder="O escribí el tuyo…" oninput="R.own=this.value;R.cm=-1">${esc(R.own)}</textarea></div>
+ <div class="card"><div class="lab">Comentario<span>opcional</span></div>${cs.map(x=>`<button class="opt ${R.cm===x[1]?'on':''}" onclick="R.cm=R.cm===${x[1]}?-1:${x[1]};rr()">${x[0][1]}</button>`).join('')}</div>
  <div class="card sw"><div><b>Calificar de forma anónima</b><small>Tu nombre no se mostrará a otros usuarios</small></div><button class="tg ${R.anon?'on':''}" onclick="R.anon=!R.anon;rr()" aria-label="Anónimo"></button></div>
  <div class="stick"><button class="btn" onclick="send()">Enviar calificación</button></div>`}
 function tg(c,x){const a=R.tags[c]=R.tags[c]||[],i=a.indexOf(x);if(i>=0)a.splice(i,1);else if(a.length<LIM[c])a.push(x);else toast('Máximo '+LIM[c]+' en esta categoría');rr()}
@@ -253,14 +253,13 @@ async function send(){
  if(!R.stars)return toast('Elegí una puntuación');
  if(S.data&&S.data.done.includes(R.rel))return toast('Ya calificaste en esa relación');
  if(BUSY)return;BUSY=true;
- const text=R.own.trim()||(R.cm>=0?CM[R.cm][1]:'');
- const {error}=await sb.from('reviews').insert({person_id:S.pid,relation:R.rel,stars:R.stars,tags:Object.values(R.tags).flat(),comment:text||null,anonymous:R.anon});
+ const {error}=await sb.from('reviews').insert({person_id:S.pid,relation:R.rel,stars:R.stars,tags:Object.values(R.tags).flat(),comment_id:R.cm>=0?R.cm:null,anonymous:R.anon});
  BUSY=false;
  if(error)return toast(error.code==='23505'?'Ya calificaste a esta persona en esa relación':'No se pudo enviar. Probá de nuevo');
  toast('¡Gracias! Calificación enviada');S.mine=null;await refresh();openPerson(S.pid)}
 
 // ---------- MI PERFIL ----------
-async function loadMine(){const r=await sb.from('reviews').select('person_id,relation,stars,comment').order('created_at',{ascending:false});S.mine=r.data||[];if(S.view==='me')render()}
+async function loadMine(){const r=await sb.from('reviews').select('person_id,relation,stars,comment_id').order('created_at',{ascending:false});S.mine=r.data||[];if(S.view==='me')render()}
 async function saveTrait(){const t=$('#tr').value.trim().slice(0,60),r=await sb.from('profiles').update({trait:t}).eq('id',U.id);if(r.error)return toast('No se pudo guardar');ME.trait=t;toast('Guardado')}
 function me(){
  $('#top').innerHTML=`<h2>Mi perfil</h2>${tbtn}`;if(!S.mine)loadMine();
@@ -268,7 +267,7 @@ function me(){
  $('#main').innerHTML=`<div class="hdr">${av(m,'lg')}<h3>${esc(m.name||'')}</h3><span style="color:var(--mut)">${esc(U.email||'')}</span></div>
  <div class="card stats"><div><b>${m.refs?(+m.rating).toFixed(1)+' ★':'–'}</b><span>Mi promedio</span></div><div><b>${m.refs||0}</b><span>Recibidas</span></div><div><b>${S.mine?sent.length:'–'}</b><span>Enviadas</span></div></div>
  <div class="card"><div class="lab">Tu frase en el perfil</div><input id="tr" maxlength="60" placeholder="Ej: Diseñador responsable y buena onda" value="${esc(m.trait||'')}"><button class="btn alt" style="margin-top:10px" onclick="saveTrait()">Guardar</button></div>
- <div class="card"><div class="lab">Mis calificaciones</div>${sent.length?sent.map(r=>{const p=find(r.person_id);return`<div class="rev" style="padding:8px 0;border-top:1px solid var(--line)"><small>${p?esc(p.name):'Usuario'} · ${REL[r.relation]} · ${r.stars}★</small>${r.comment?`<p>“${esc(r.comment)}”</p>`:''}</div>`}).join(''):'<p style="color:var(--mut);font-size:14px">Todavía no calificaste a nadie.</p>'}</div>
+ <div class="card"><div class="lab">Mis calificaciones</div>${sent.length?sent.map(r=>{const p=find(r.person_id);return`<div class="rev" style="padding:8px 0;border-top:1px solid var(--line)"><small>${p?esc(p.name):'Usuario'} · ${REL[r.relation]} · ${r.stars}★</small>${r.comment_id!=null&&CM[r.comment_id]?`<p>“${esc(CM[r.comment_id][1])}”</p>`:''}</div>`}).join(''):'<p style="color:var(--mut);font-size:14px">Todavía no calificaste a nadie.</p>'}</div>
  <button class="btn alt" onclick="shareApp()">${ic('share')} Invitar amigos</button><button class="btn line" onclick="logout()">Cerrar sesión</button>`}
 
 try{const t=localStorage.getItem('ref_theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
