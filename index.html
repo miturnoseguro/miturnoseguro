@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Referencias · Tu reputación, contada por quienes te conocen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="icon" type="image/png" href="logo.png">
 <link rel="stylesheet" href="estilos.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -16,7 +15,7 @@
 <!-- ===================== LANDING ===================== -->
 <div id="land">
  <div class="wrap">
-  <div class="nav"><a href="./" class="logo" style="display:flex;align-items:center"><img src="logo.png" alt="Rankea Gente" style="height:56px;width:auto;display:block"></a><a class="btn alt auto" style="padding:10px 18px" href="#app">Abrir app</a></div>
+  <div class="nav"><div class="logo"><i><svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></i>Referencias</div><a class="btn alt auto" style="padding:10px 18px" href="#app">Abrir app</a></div>
   <section class="hero">
    <div>
     <span class="pill">✦ Gratis · Entrás con Google</span>
@@ -115,7 +114,7 @@ sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0)); // setTimeout evit
 function render(){
  const top=$('#top'),m=$('#main'),tb=$('#tabs'),v=S.view;
  if(!READY){top.innerHTML=tb.innerHTML='';m.innerHTML='<div class="empty">Cargando…</div>';return}
- if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><img src="logo.png" alt="Rankea Gente" style="height:110px;width:auto;display:block;margin:0 auto"><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div><div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div><p class="empty" style="padding:6px;font-size:12.5px">Al continuar aceptás los términos y la política de privacidad.</p>`;mountGoogle();return}
+ if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo" style="font-size:24px"><i>${ic('star')}</i>Referencias</div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div><div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div><p class="empty" style="padding:6px;font-size:12.5px">Al continuar aceptás los términos y la política de privacidad.</p>`;mountGoogle();return}
  const T=[['search','search','Buscar'],['favs','heart','Guardados'],['me','user','Mi perfil']];
  tb.innerHTML=T.map(t=>`<button class="${(v===t[0]||(['person','rate'].includes(v)&&t[0]==='search'))?'on':''}" onclick="go('${t[0]}')">${ic(t[1])}${t[2]}</button>`).join('');
  if(v==='search'){top.innerHTML=`<h2>Buscar personas</h2>${tbtn}`;m.innerHTML=`<div class="search">${ic('search')}<input id="q" placeholder="Buscá por nombre o frase" value="${esc(S.q)}" oninput="S.q=this.value;list()"></div><div class="chips" id="chips"></div><div id="list" style="display:grid;gap:12px"></div>`;chips();list()}
