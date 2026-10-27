@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rankea Gente · Tu reputación, contada por quienes te conocen</title>
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/png" href="favicon.png?v=3">
+<meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="estilos.css">
+<link rel="stylesheet" href="estilos.css?v=3">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -16,7 +17,7 @@
 <!-- ===================== LANDING ===================== -->
 <div id="land">
  <div class="wrap">
-  <div class="nav"><div class="logo"><img src="logo.png" alt="Rankea Gente"></div><a class="btn alt auto" style="padding:10px 18px" href="#app">Abrir app</a></div>
+  <div class="nav"><div class="logo"><img src="logo.png?v=3" alt="Rankea Gente" style="height:40px;width:auto"></div><a class="btn alt auto" style="padding:10px 18px" href="#app">Abrir app</a></div>
   <section class="hero">
    <div>
     <span class="pill">✦ Gratis · Entrás con Google</span>
@@ -85,7 +86,7 @@ const back=to=>`<button class="round" onclick="go('${to}')" aria-label="Volver">
 const tbtn=`<button class="round" onclick="theme()" aria-label="Modo oscuro">${ic('moon')}</button>`;
 
 function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2400)}
-function theme(){const h=document.documentElement,d=h.dataset.theme==='dark',n=d?'light':'dark';h.dataset.theme=n;try{localStorage.setItem('ref_theme',n)}catch(e){}}
+function theme(){const h=document.documentElement,d=h.dataset.theme==='dark',n=d?'light':'dark';h.dataset.theme=n;try{localStorage.setItem('ref_theme_v2',n)}catch(e){}}
 function route(){const a=location.hash==='#app';$('#land').classList.toggle('hide',a);$('#app').classList.toggle('hide',!a);scrollTo(0,0);if(a)render()}
 function go(v){S.view=v;scrollTo(0,0);render()}
 const rr=()=>{const y=scrollY;render();scrollTo(0,y)};
@@ -115,7 +116,7 @@ sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0)); // setTimeout evit
 function render(){
  const top=$('#top'),m=$('#main'),tb=$('#tabs'),v=S.view;
  if(!READY){top.innerHTML=tb.innerHTML='';m.innerHTML='<div class="empty">Cargando…</div>';return}
- if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo big"><img src="logo.png" alt="Rankea Gente"></div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div><div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div><p class="empty" style="padding:6px;font-size:12.5px">Al continuar aceptás los términos y la política de privacidad.</p>`;mountGoogle();return}
+ if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo"><img src="logo.png?v=3" alt="Rankea Gente" style="height:40px;width:auto"></div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div><div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div><p class="empty" style="padding:6px;font-size:12.5px">Al continuar aceptás los términos y la política de privacidad.</p>`;mountGoogle();return}
  const T=[['search','search','Buscar'],['favs','heart','Guardados'],['me','user','Mi perfil']];
  tb.innerHTML=T.map(t=>`<button class="${(v===t[0]||(['person','rate'].includes(v)&&t[0]==='search'))?'on':''}" onclick="go('${t[0]}')">${ic(t[1])}${t[2]}</button>`).join('');
  if(v==='search'){top.innerHTML=`<h2>Buscar personas</h2>${tbtn}`;m.innerHTML=`<div class="search">${ic('search')}<input id="q" placeholder="Buscá por nombre o frase" value="${esc(S.q)}" oninput="S.q=this.value;list()"></div><div class="chips" id="chips"></div><div id="list" style="display:grid;gap:12px"></div>`;chips();list()}
@@ -183,7 +184,7 @@ function me(){
  <div class="card"><div class="lab">Mis calificaciones</div>${sent.length?sent.map(r=>{const p=find(r.person_id);return`<div class="rev" style="padding:8px 0;border-top:1px solid var(--line)"><small>${p?esc(p.name):'Usuario'} · ${REL[r.relation]} · ${r.stars}★</small>${r.comment_id!=null&&CM[r.comment_id]?`<p>“${esc(CM[r.comment_id][1])}”</p>`:''}</div>`}).join(''):'<p style="color:var(--mut);font-size:14px">Todavía no calificaste a nadie.</p>'}</div>
  <button class="btn alt" onclick="shareApp()">${ic('share')} Invitar amigos</button><button class="btn line" onclick="logout()">Cerrar sesión</button>`}
 
-try{const t=localStorage.getItem('ref_theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+try{const t=localStorage.getItem('ref_theme_v2');if(t)document.documentElement.dataset.theme=t}catch(e){}
 addEventListener('hashchange',route);route();
 </script>
 </body>
