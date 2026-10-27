@@ -2,7 +2,7 @@
    estilos.css · Referencias · Diseño completo + BLANCO Y NEGRO
    Un solo archivo. En el <head> del index.html:
    <link rel="stylesheet" href="estilos.css">
-   Sigue el modo claro/oscuro del teléfono y el botón de la lunita.
+   Arranca siempre en modo claro (fondo blanco, letras negras). El modo oscuro solo se activa con el botón de la lunita.
    ===================================================== */
 
 /* ---------- Variables ---------- */
@@ -21,16 +21,6 @@
   --warn:#000000;
   --sh:0 6px 24px rgba(0,0,0,.08);
   color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#000000;--card:#000000;--ink:#ffffff;
-    --mut:rgba(255,255,255,.66);--line:rgba(255,255,255,.2);
-    --pri:#ffffff;--pri2:rgba(255,255,255,.85);--soft:rgba(255,255,255,.1);
-    --acc:#ffffff;--ok:#ffffff;--oks:rgba(255,255,255,.1);--warn:#ffffff;
-    --sh:0 0 0 rgba(0,0,0,0);
-    color-scheme:dark;
-  }
 }
 :root[data-theme="dark"]{
   --bg:#000000;--card:#000000;--ink:#ffffff;
@@ -72,16 +62,14 @@ h1,h2,h3{line-height:1.15;letter-spacing:-.02em}
 .btn .ic{width:18px;height:18px}
 
 /* ---------- Logo ---------- */
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.02em}
-.logo i{
-  width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
-  background:var(--ink);color:var(--bg);font-style:normal;
-}
-.logo i .ic{width:18px;height:18px;fill:currentColor;stroke:none}
+.logo{display:flex;align-items:center}
+.logo img{height:46px;width:auto;display:block}
+.logo.big img{height:96px}
+:root[data-theme="dark"] .logo img{filter:invert(1)}
 
 /* ======================= LANDING ======================= */
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
 .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:36px 0 56px}
 .pill{
   display:inline-block;padding:7px 14px;border-radius:999px;
@@ -202,6 +190,7 @@ main{padding:16px 18px 120px;display:grid;gap:14px;align-content:start}
   display:grid;place-items:center;
   background:var(--ink);color:var(--bg);font-weight:800;font-size:17px;
 }
+.av{background:var(--ink) !important;color:var(--bg) !important}
 .av.lg{width:92px;height:92px;font-size:30px}
 .av s{
   position:absolute;right:-2px;bottom:-2px;width:20px;height:20px;border-radius:50%;
