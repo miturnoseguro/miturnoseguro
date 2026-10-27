@@ -63,8 +63,7 @@ h1,h2,h3{line-height:1.15;letter-spacing:-.02em}
 
 /* ---------- Logo ---------- */
 .logo{display:flex;align-items:center}
-.logo img{height:46px;width:auto;display:block}
-.logo.big img{height:96px}
+.logo img{height:40px;width:auto;max-width:none;display:block}
 :root[data-theme="dark"] .logo img{filter:invert(1)}
 
 /* ======================= LANDING ======================= */
