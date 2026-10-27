@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="favicon.png?v=3">
 <meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="estilos.css?v=3">
+<link rel="stylesheet" href="estilos.css?v=4">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -50,7 +50,7 @@
    </div>
   </section>
   <div class="band"><h2>Armá tu primera referencia hoy</h2><p>Es gratis y toma menos de un minuto.</p><a class="btn" href="#app">Abrir Rankea Gente</a></div>
-  <div class="foot">© 2026 Rankea Gente · Hecho con cariño</div>
+  <div class="foot">© 2026 Rankea Gente · Hecho con cariño · <a href="#" onclick="legal();return false" style="text-decoration:underline">Descargo de responsabilidad</a></div>
  </div>
 </div>
 
@@ -91,6 +91,26 @@ function route(){const a=location.hash==='#app';$('#land').classList.toggle('hid
 function go(v){S.view=v;scrollTo(0,0);render()}
 const rr=()=>{const y=scrollY;render();scrollTo(0,y)};
 
+
+// ---------- DESCARGO DE RESPONSABILIDAD ----------
+const CONTACTO=''; // ← poné acá tu email, ej: 'hola@tusitio.com'
+function legal(){
+ const c=CONTACTO?`<p>Si creés que un comentario sobre vos es falso, ofensivo o viola tu privacidad, escribinos a <b>${esc(CONTACTO)}</b> indicando el comentario y el motivo.</p>`:'';
+ const d=document.createElement('div');d.className='sheet';d.onclick=e=>{if(e.target===d)d.remove()};
+ d.innerHTML=`<div class="legalbox"><div class="lhead"><h3>Descargo de responsabilidad</h3><button class="round" onclick="this.closest('.sheet').remove()" aria-label="Cerrar">✕</button></div><div class="lbody">
+ <h4>1. Qué es Rankea Gente</h4><p>Es una plataforma donde los usuarios publican calificaciones y comentarios sobre otras personas. Todo el contenido lo escriben los usuarios. Rankea Gente no lo redacta, no lo verifica y no lo respalda.</p>
+ <h4>2. Opiniones personales</h4><p>Las calificaciones y comentarios son opiniones subjetivas de quienes los escriben. No son hechos comprobados ni reflejan la postura de Rankea Gente. Ninguna calificación garantiza la conducta, honestidad o capacidad de una persona.</p>
+ <h4>3. Sin responsabilidad por el contenido</h4><p>Rankea Gente no se hace responsable de ninguna calificación, comentario u opinión publicada por los usuarios, ni de los daños o perjuicios que puedan derivarse de ellos, en la medida que lo permita la ley.</p>
+ <h4>4. No uses esta información como única base de decisiones</h4><p>No tomes decisiones laborales, comerciales, financieras, legales o personales (contratar, prestar dinero, iniciar una relación, etc.) basándote solo en lo que ves acá. Verificá siempre por otros medios.</p>
+ <h4>5. Responsabilidad de los usuarios</h4><p>Cada usuario responde por lo que publica. Te comprometés a publicar solo experiencias reales y opiniones honestas, y a no difamar, injuriar, amenazar, acosar ni discriminar, ni publicar datos privados de terceros. Quien publique contenido ilícito puede responder civil y penalmente.</p>
+ <h4>6. Calificaciones anónimas</h4><p>Tu nombre no se muestra a otros usuarios si calificás de forma anónima, pero el anonimato no es impunidad: ante una orden judicial, los datos necesarios podrán ser entregados a la autoridad.</p>
+ <h4>7. Moderación</h4><p>Podemos ocultar o eliminar contenido y suspender cuentas que incumplan estas reglas, sin aviso previo.</p>${c}
+ <h4>8. Sin garantías</h4><p>El servicio se ofrece "tal cual está", sin garantía de funcionamiento continuo ni de que la información sea exacta o completa.</p>
+ <h4>9. Datos personales</h4><p>Al ingresar con Google guardamos tu nombre, correo, foto y las calificaciones que enviás o recibís. Podés pedir acceso, corrección o eliminación de tus datos. La Agencia de Acceso a la Información Pública (AAIP) es el órgano de control de la Ley 25.326.</p>
+ <h4>10. Uso permitido</h4><p>Solo para mayores de 18 años. Este descargo puede cambiar; seguir usando la plataforma implica aceptar la versión vigente. Rige la ley argentina.</p>
+ </div><button class="btn" onclick="this.closest('.sheet').remove()">Entendido</button></div>`;
+ document.body.appendChild(d)}
+
 // ---------- AUTH ----------
 // Login con Google (Google Identity Services + Supabase signInWithIdToken)
 const NONCE=btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))));let GREADY=false;
@@ -116,7 +136,7 @@ sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0)); // setTimeout evit
 function render(){
  const top=$('#top'),m=$('#main'),tb=$('#tabs'),v=S.view;
  if(!READY){top.innerHTML=tb.innerHTML='';m.innerHTML='<div class="empty">Cargando…</div>';return}
- if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo"><img src="logo.png?v=3" alt="Rankea Gente" style="height:40px;width:auto"></div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div><div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div><p class="empty" style="padding:6px;font-size:12.5px">Al continuar aceptás los términos y la política de privacidad.</p>`;mountGoogle();return}
+ if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo"><img src="logo.png?v=3" alt="Rankea Gente" style="height:40px;width:auto"></div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div><div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div><div class="legal"><b>Descargo de responsabilidad</b><p>Rankea Gente no se hace responsable de las calificaciones, comentarios ni opiniones publicadas por los usuarios. Son opiniones personales de quienes las escriben, no hechos comprobados ni la postura de la plataforma. Cada usuario responde por lo que publica. No tomes decisiones importantes basándote solo en esta información.</p><p>Al continuar con Google aceptás este descargo. <a href="#" onclick="legal();return false">Leer completo</a></p></div>`;mountGoogle();return}
  const T=[['search','search','Buscar'],['favs','heart','Guardados'],['me','user','Mi perfil']];
  tb.innerHTML=T.map(t=>`<button class="${(v===t[0]||(['person','rate'].includes(v)&&t[0]==='search'))?'on':''}" onclick="go('${t[0]}')">${ic(t[1])}${t[2]}</button>`).join('');
  if(v==='search'){top.innerHTML=`<h2>Buscar personas</h2>${tbtn}`;m.innerHTML=`<div class="search">${ic('search')}<input id="q" placeholder="Buscá por nombre o frase" value="${esc(S.q)}" oninput="S.q=this.value;list()"></div><div class="chips" id="chips"></div><div id="list" style="display:grid;gap:12px"></div>`;chips();list()}
