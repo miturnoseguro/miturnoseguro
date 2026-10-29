@@ -78,6 +78,31 @@
 .mini{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:600;height:40px;padding:0 4px}
 .mini .l{display:flex;align-items:center;gap:8px}
 .mini .lnk{border:0;background:none;color:var(--acc,#0b5563);font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline}
+/* ===== card v2 ===== */
+.sc{background:var(--card,#fff);border:0;border-radius:26px;box-shadow:0 14px 34px rgba(0,0,0,.16);text-align:left}
+.sc .ph{position:relative;flex:1 1 0;min-height:120px;overflow:hidden;background:#0b5563}
+.sc .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.sc .ph .ini{position:absolute;inset:0;display:grid;place-items:center;font-size:88px;font-weight:800;color:rgba(255,255,255,.92)}
+.sc .ph .gr{position:absolute;left:0;right:0;bottom:0;height:62%;background:linear-gradient(to top,rgba(0,0,0,.8),rgba(0,0,0,0))}
+.sc .cap{position:absolute;left:16px;right:16px;bottom:30px;color:#fff;z-index:2}
+.sc .cap h3{margin:0;font-size:26px;font-weight:800;line-height:1.1;text-shadow:0 1px 8px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px}
+.sc .cap .tr{display:block;margin-top:4px;font-size:14px;opacity:.92}
+.sc .cap .pill{display:inline-flex;gap:6px;align-items:center;margin-top:10px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-size:13px;font-weight:700}
+.sc .vf{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#1d9bf0;flex:none}
+.sc .vf svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none}
+.sc .info{padding:32px 14px 12px;text-align:center}
+.sc .info .tags{justify-content:center}
+.sc .stars{margin-top:8px;background:var(--soft,#f3f5f6)}
+.fullb{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:8px;padding:10px;border-radius:999px;border:1.5px solid var(--acc,#0b5563);background:transparent;color:var(--acc,#0b5563);font-weight:800;font-size:14px;cursor:pointer}
+.fullb svg{width:16px;height:16px}
+.mini .cnt{font-size:12px;color:var(--mut,#667);font-weight:600}
+.mini .cnt b{color:var(--acc,#0b5563)}
+.glim{text-align:center;padding:28px 6px 10px}
+.glim h3{margin:0 0 8px;font-size:22px}.glim p{color:var(--mut,#667);margin:0 auto 18px;max-width:320px;font-size:14px;line-height:1.45}
+.pend{padding:10px 0;border-top:1px solid var(--line,#e2e8ea)}
+.pend small{color:var(--mut,#667);margin-left:6px}
+.pend .stars button.on svg{fill:#f5a623;stroke:#f5a623}
+[data-theme=dark] .sc{background:#1e1e1e}[data-theme=dark] .sc .stars{background:#2e2e2e}
 </style>
 </head>
 <body>
@@ -106,11 +131,15 @@ const GOOGLE_CLIENT_ID='962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googl
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{flowType:'pkce'}});
 const DL=(location.hash.match(/^#app-(.+)$/)||[])[1]||new URLSearchParams(location.search).get('p');let DLDONE=false;
 let U=null,ME=null,PEOPLE=[],FAVS=new Set(),READY=false,BUSY=false,S={view:'swipe',pid:null,filter:'all',q:'',data:null,mine:null},R=null;
+const pic=u=>u?String(u).replace(/=s\d+(-c)?$/,'=s400-c'):u; // foto de Google en mejor resolución
+const GMAX=5,gN=()=>{try{return+localStorage.getItem('ref_guest')||0}catch(e){return 0}},gUse=()=>{try{localStorage.setItem('ref_guest',gN()+1)}catch(e){}};
+const pend=()=>{try{return JSON.parse(localStorage.getItem('ref_pend')||'[]')}catch(e){return[]}},savePend=a=>{try{localStorage.setItem('ref_pend',JSON.stringify(a))}catch(e){}};let PEND=[];
+const myPic=()=>{const m=(U&&U.user_metadata)||{};return pic(m.avatar_url||m.picture)};
 const hc=id=>COL[[...String(id)].reduce((a,c)=>a+c.charCodeAt(0),0)%6];
 const ini=n=>(n||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
 const norm=p=>({...p,refs:+p.refs,rating:+p.rating});
 const find=id=>PEOPLE.find(p=>p.id===id);
-const av=(p,c='')=>`<span class="av ${c}" style="background:${hc(p.id)}">${p.avatar_url?`<img src="${esc(p.avatar_url)}" referrerpolicy="no-referrer" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`:ini(p.name)}${p.verified?`<s>${ic('check')}</s>`:''}</span>`;
+const av=(p,c='')=>`<span class="av ${c}" style="background:${hc(p.id)}">${p.avatar_url?`<img src="${esc(pic(p.avatar_url))}" referrerpolicy="no-referrer" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`:ini(p.name)}${p.verified?`<s>${ic('check')}</s>`:''}</span>`;
 const back=to=>`<button class="round" onclick="go('${to}')" aria-label="Volver">${ic('back')}</button>`;
 const tbtn=`<button class="round" onclick="theme()" aria-label="Modo oscuro">${ic('moon')}</button>`;
 
@@ -153,22 +182,39 @@ async function mountGoogle(){const el=document.getElementById('gbox');if(!el)ret
  if(!GREADY){google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogle,nonce:await sha(NONCE),auto_select:false});GREADY=true}
  google.accounts.id.renderButton(el,{theme:'outline',size:'large',text:'continue_with',locale:'es',width:320})}
 const logout=async()=>{try{google.accounts.id.disableAutoSelect()}catch(e){}try{await sb.auth.signOut()}catch(e){}boot(null)};
-async function refresh(){const a=await sb.from('person_stats').select('*').order('rating',{ascending:false});if(a.error)return toast('Error al cargar datos');const all=(a.data||[]).map(norm);PEOPLE=all.filter(p=>p.id!==U.id);ME=all.find(p=>p.id===U.id)||{id:U.id,name:(U.user_metadata&&U.user_metadata.full_name)||'Yo',refs:0,rating:0}}
+async function refresh(){const a=await sb.from('person_stats').select('*').order('rating',{ascending:false});if(a.error)return toast('Error al cargar datos');const all=(a.data||[]).map(norm);PEOPLE=all.filter(p=>p.id!==U.id);ME=all.find(p=>p.id===U.id)||{id:U.id,name:(U.user_metadata&&U.user_metadata.full_name)||'Yo',refs:0,rating:0};ME.avatar_url=ME.avatar_url||myPic()}
+// guarda la foto de Google en el perfil para que otros la vean en las cards
+async function saveAvatar(){try{const u=myPic();if(u)await sb.from('profiles').update({avatar_url:u}).eq('id',U.id)}catch(e){}}
+async function loadGuest(){try{const a=await sb.from('person_stats').select('*').order('rating',{ascending:false});PEOPLE=a.error?[]:(a.data||[]).map(norm)}catch(e){PEOPLE=[]}}
+function gate(msg,after){S.after=after||null;document.querySelectorAll('.sheet.gt').forEach(x=>x.remove());
+ const d=document.createElement('div');d.className='sheet gt';d.onclick=e=>{if(e.target===d)d.remove()};
+ d.innerHTML=`<div class="legalbox"><div class="lhead"><h3>Entrá para continuar</h3><button class="round" onclick="this.closest('.sheet').remove()" aria-label="Cerrar">✕</button></div><div class="lbody"><p>${esc(msg)}</p>${IAB&&!FORCE?iabBox(true):'<div id="gbox" style="display:flex;justify-content:center;min-height:44px;margin:8px 0"></div>'}<p style="font-size:12px;color:var(--mut)">Al continuar con Google aceptás el <a href="#" onclick="legal();return false">descargo de responsabilidad</a>. Tu foto de Google será tu foto de perfil.</p></div></div>`;
+ document.body.appendChild(d);if(!IAB||FORCE)mountGoogle()}
+const tabGate=()=>gate('Entrá con Google para usar esta sección.');
+function showPending(){const a=pend().filter(x=>find(x.pid));if(!a.length){savePend([]);return intro()}PEND=a;
+ const d=document.createElement('div');d.className='sheet';
+ d.innerHTML=`<div class="legalbox"><div class="lhead"><h3>Confirmá tus calificaciones</h3><button class="round" onclick="this.closest('.sheet').remove()" aria-label="Cerrar">✕</button></div><div class="lbody"><p>Elegiste estas estrellas antes de entrar. Ajustalas: positiva o negativa, decidís vos. Se envían de forma anónima.</p>${a.map((x,i)=>`<div class="pend" data-i="${i}"><b>${esc(find(x.pid).name)}</b><small>${REL[x.rel]}</small><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${x.stars>=n?'on':''}" onclick="pset(${i},${n})" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div></div>`).join('')}</div><button class="btn" onclick="sendPend(this)">Enviar calificaciones</button><button class="btn line" onclick="dropPend(this)">Descartar</button></div>`;
+ document.body.appendChild(d)}
+function pset(i,n){PEND[i].stars=n;document.querySelectorAll('.pend[data-i="'+i+'"] button').forEach((b,j)=>b.classList.toggle('on',j<n))}
+function dropPend(b){savePend([]);b.closest('.sheet').remove()}
+async function sendPend(b){const sh=b.closest('.sheet');let ok=0;for(const x of PEND){const r=await sb.from('reviews').insert({person_id:x.pid,relation:x.rel,stars:x.stars,tags:[],comment_id:null,anonymous:true});if(!r.error)ok++}
+ savePend([]);sh.remove();toast(ok?'¡Listo! Enviaste '+ok+' calificación'+(ok>1?'es':''):'No se enviaron (¿ya calificadas?)');S.mine=null;await refresh();loadMine();render()}
 async function loadAll(){await refresh();const f=await sb.from('favorites').select('person_id');FAVS=new Set((f.data||[]).map(x=>x.person_id))}
 async function boot(s){
- if(s&&s.user){if(!U||U.id!==s.user.id){U=s.user;if(location.search)history.replaceState(null,'',location.pathname+'#app');await loadAll();loadMine();if(DL&&!DLDONE){DLDONE=true;if(DL===U.id)S.view='me';else if(find(DL)){READY=true;S.pid=DL;S.view='person';openPerson(DL);return}}}}
- else{U=ME=null;PEOPLE=[];FAVS=new Set();S.view='swipe';S.mine=null}
- READY=true;render();intro()}
+ if(s&&s.user){if(!U||U.id!==s.user.id){U=s.user;document.querySelectorAll('.sheet.gt').forEach(x=>x.remove());if(location.search)history.replaceState(null,'',location.pathname+'#app');await saveAvatar();await loadAll();loadMine();
+  if(S.after&&find(S.after.pid)){const a=S.after;S.after=null;READY=true;openPerson(a.pid);if(a.full)startRate();return}
+  if(DL&&!DLDONE){DLDONE=true;if(DL===U.id)S.view='me';else if(find(DL)){READY=true;S.pid=DL;S.view='person';openPerson(DL);return}}}}
+ else{U=ME=null;PEOPLE=[];FAVS=new Set();S.view='swipe';S.mine=null;await loadGuest()}
+ READY=true;render();if(U&&pend().length&&!window.PSH){window.PSH=1;showPending()}else intro()}
 sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0)); // setTimeout evita bloqueos de supabase-js
 
 // ---------- RENDER ----------
 function render(){
- const top=$('#top'),m=$('#main'),tb=$('#tabs'),v=S.view;
- document.documentElement.classList.toggle('noscroll',!!U&&v==='swipe');
+ const top=$('#top'),m=$('#main'),tb=$('#tabs'),v=U?S.view:'swipe';
+ document.documentElement.classList.toggle('noscroll',v==='swipe'&&(!!U||gN()<GMAX));
  if(!READY){top.innerHTML=tb.innerHTML='';m.innerHTML='<div class="empty">Cargando…</div>';return}
- if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo"><img src="logo.png?v=3" alt="Rankea Gente" style="height:40px;width:auto"></div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div>${IAB&&!FORCE?iabBox():'<div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div>'}<div class="legal"><b>Descargo de responsabilidad</b><p>Rankea Gente no se hace responsable de las calificaciones, comentarios ni opiniones publicadas por los usuarios. Son opiniones personales de quienes las escriben, no hechos comprobados ni la postura de la plataforma. Cada usuario responde por lo que publica. No tomes decisiones importantes basándote solo en esta información.</p><p>Al continuar con Google aceptás este descargo. <a href="#" onclick="legal();return false">Leer completo</a></p></div>`;if(!IAB||FORCE)mountGoogle();return}
  const T=[['swipe','star','Descubrir'],['search','search','Buscar'],['favs','heart','Guardados'],['me','user','Mi perfil']];
- tb.innerHTML=T.map(t=>`<button class="${(v===t[0]||(['person','rate'].includes(v)&&t[0]==='search'))?'on':''}" onclick="go('${t[0]}')">${ic(t[1])}${t[2]}</button>`).join('');
+ tb.innerHTML=T.map(t=>`<button class="${(v===t[0]||(['person','rate'].includes(v)&&t[0]==='search'))?'on':''}" onclick="${U||t[0]==='swipe'?`go('${t[0]}')`:'tabGate()'}">${ic(t[1])}${t[2]}</button>`).join('');
  if(v==='swipe')swipe();
  if(v==='search'){top.innerHTML=`<h2>Buscar personas</h2>${tbtn}`;m.innerHTML=`${welcome()||prog()}<div class="search">${ic('search')}<input id="q" placeholder="Buscá por nombre o frase" value="${esc(S.q)}" oninput="S.q=this.value;list()"></div><div class="chips" id="chips"></div><div id="list" style="display:grid;gap:12px"></div>`;chips();list()}
  if(v==='favs'){top.innerHTML=`<h2>Guardados</h2>${tbtn}`;const f=PEOPLE.filter(p=>FAVS.has(p.id));m.innerHTML=f.length?f.map(card).join(''):`<div class="empty">Todavía no guardaste a nadie.<br>Tocá el corazón en cualquier perfil.</div>`}
@@ -187,19 +233,22 @@ function undo(){const id=LAST.pop();if(!id)return;SK.delete(id);render()}
 function fit(){const w=$('#swp'),t=$('#tabs');if(!w||!t)return;w.style.height=Math.max(320,t.getBoundingClientRect().top-w.getBoundingClientRect().top-10)+'px'}
 addEventListener('resize',fit);
 const queue=()=>{const d=new Set((S.mine||[]).map(x=>x.person_id));return PEOPLE.filter(p=>!d.has(p.id)&&!SK.has(p.id))};
-function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2>${tbtn}`;
+function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2><div style="display:flex;gap:8px;align-items:center">${U?'':`<button class="round" style="width:auto;padding:0 14px;font-weight:700;font-size:13px" onclick="gate('Entrá con Google para calificar y tener tu propio perfil.')">Entrar</button>`}${tbtn}</div>`;
+ if(!U&&gN()>=GMAX){$('#main').innerHTML=`<div class="glim"><h3>Ya viste tus ${GMAX} cards gratis 🎉</h3><p>Entrá con Google para seguir. Ahí decidís si tu calificación es positiva o negativa${pend().length?' y confirmás las que ya elegiste':''}.</p></div>${IAB&&!FORCE?iabBox():'<div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div>'}<p style="text-align:center;font-size:12px;color:var(--mut)"><a href="#" onclick="legal();return false">Descargo de responsabilidad</a></p>`;if(!IAB||FORCE)mountGoogle();return}
  if(!p){$('#main').innerHTML=`<div class="empty">${PEOPLE.length?'Ya viste a todos por ahora 🎉':'Todavía no hay otras personas registradas.'}<br>Invitá a tus conocidos para seguir calificando.</div><button class="btn" onclick="inviteContacts()">Invitar desde mis contactos</button><button class="btn alt" onclick="shareApp()">${ic('share')} Invitar por WhatsApp</button>${SK.size?'<button class="btn line" onclick="SK.clear();render()">Volver a ver los salteados</button>':''}`;return}
  $('#main').innerHTML=`<div class="swp" id="swp"><p class="hint">← saltar (no calificás) · calificar con detalle →</p>
  <div class="deck"><div class="card sc ${ANIM?'ani':''}" id="sc" style="touch-action:pan-y;user-select:none">
- ${p.avatar_url?`<img class="hero" src="${esc(p.avatar_url)}" referrerpolicy="no-referrer" alt="" draggable="false">`:`<div class="hero" style="background:${hc(p.id)}">${ini(p.name)}</div>`}
- <div class="stamp st-l">SALTAR<small>no calificás</small></div><div class="stamp st-r">CALIFICAR<small>con detalle</small></div>
- <div class="acts"><button class="round sm ${LAST.length?'':'dis'}" onclick="undo()" aria-label="Volver atrás">${ic('undo')}</button><button class="round lg x" onclick="fly(-1,'skip')" aria-label="Saltar, no calificar">${ic('x')}</button><button class="round sm" onclick="openPerson('${p.id}')" aria-label="Ver perfil">${ic('user')}</button><button class="round lg ok" onclick="fly(1,'rate')" aria-label="Calificar con detalle">${ic('pen')}</button></div>
- <div class="info"><h3 style="margin:0 0 2px">${esc(p.name)}</h3><span style="color:var(--mut)">${esc(p.trait||'Sin frase todavía')}</span>
- <div style="margin:6px 0;font-weight:700">${p.refs?'★ '+p.rating.toFixed(1)+' · '+p.refs+' referencias':'Sé el primero en calificar ✨'}</div>
- <div class="tags" style="justify-content:center">${Object.entries(REL).map(r=>`<button class="chip ${Q.rel===r[0]?'on':''}" onclick="qset('rel','${r[0]}')">${r[1]}</button>`).join('')}</div>
+ <div class="ph">${p.avatar_url?`<img src="${esc(pic(p.avatar_url))}" referrerpolicy="no-referrer" alt="" draggable="false" onerror="this.remove()">`:''}<div class="ini" style="z-index:0;${p.avatar_url?'':'background:'+hc(p.id)}">${p.avatar_url?'':ini(p.name)}</div>
+  <div class="gr"></div>
+  <div class="cap"><h3>${esc(p.name)}${p.verified?`<span class="vf">${ic('check')}</span>`:''}</h3><span class="tr">${esc(p.trait||'Sin frase todavía')}</span><span class="pill">${p.refs?'★ '+p.rating.toFixed(1)+' · '+p.refs+' referencias':'Sé el primero en calificar ✨'}</span></div>
+  <div class="stamp st-l">SALTAR<small>no calificás</small></div><div class="stamp st-r">CALIFICAR<small>con detalle</small></div></div>
+ <div class="acts"><button class="round sm ${LAST.length&&U?'':'dis'}" onclick="undo()" aria-label="Volver atrás">${ic('undo')}</button><button class="round lg x" onclick="fly(-1,'skip')" aria-label="Saltar, no calificar">${ic('x')}</button><button class="round sm" onclick="openPerson('${p.id}')" aria-label="Ver perfil">${ic('user')}</button><button class="round lg ok" onclick="fly(1,'rate')" aria-label="Calificar con detalle">${ic('pen')}</button></div>
+ <div class="info">
+ <div class="tags">${Object.entries(REL).map(r=>`<button class="chip ${Q.rel===r[0]?'on':''}" onclick="qset('rel','${r[0]}')">${r[1]}</button>`).join('')}</div>
  <div class="stars">${[1,2,3,4,5].map(n=>`<button onclick="qrate(${n})" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div>
- <p style="color:var(--mut);font-size:12px;margin:6px 0 0">Tocá una estrella para calificar</p></div></div></div>
- <div class="mini"><div class="l"><button class="tg ${Q.anon?'on':''}" onclick="qset('anon',!Q.anon)" aria-label="Anónimo"></button>Calificar anónimo</div><button class="lnk" onclick="inviteContacts()">Invitar contactos</button></div></div>`;fit();requestAnimationFrame(fit);swipeInit()}
+ <button class="fullb" onclick="fullRate()">${ic('pen')} Calificar full</button></div></div></div>
+ <div class="mini">${U?`<div class="l"><button class="tg ${Q.anon?'on':''}" onclick="qset('anon',!Q.anon)" aria-label="Anónimo"></button>Calificar anónimo</div><button class="lnk" onclick="inviteContacts()">Invitar contactos</button>`:`<span class="cnt">Anónimo · te quedan <b>${Math.max(0,GMAX-gN())}</b> de ${GMAX} cards</span><button class="lnk" onclick="legal()">Descargo</button>`}</div></div>`;fit();requestAnimationFrame(fit);swipeInit()}
+function fullRate(){const p=queue()[0];if(!p)return;if(!U)return gate('Entrá con Google para calificar con todos los detalles (etiquetas y comentario).',{pid:p.id,full:true});openPerson(p.id);startRate()}
 function swipeInit(){const c=$('#sc');if(!c)return;let x0=null,dx=0;
  c.onpointerdown=e=>{if(e.target.closest('button'))return;x0=e.clientX;dx=0;c.setPointerCapture(e.pointerId);c.style.transition='none'};
  const L=c.querySelector('.st-l'),Rr=c.querySelector('.st-r');
@@ -207,9 +256,10 @@ function swipeInit(){const c=$('#sc');if(!c)return;let x0=null,dx=0;
  c.onpointerup=c.onpointercancel=()=>{if(x0===null)return;x0=null;c.style.transition='';if(dx>110)fly(1,'rate');else if(dx<-110)fly(-1,'skip');else{c.style.transform='';L.style.opacity=Rr.style.opacity=0}dx=0}}
 function fly(d,act){const c=$('#sc'),p=act==='done'?null:queue()[0];if(!p&&act!=='done')return;
  if(c){const t=c.querySelector(d>0?'.st-r':'.st-l');if(t&&act!=='done')t.style.opacity=1;c.style.transform=`translateX(${d*520}px) rotate(${d*20}deg)`;c.style.opacity=0}
- setTimeout(()=>{if(act==='rate'){openPerson(p.id);startRate()}else{if(act==='skip'){SK.add(p.id);LAST.push(p.id);toast('Saltaste a '+p.name.split(' ')[0]+' · no se envió calificación')}render()}},300)}
+ setTimeout(()=>{if(act==='rate'){if(!U){render();gate('Entrá con Google para calificar con todos los detalles (etiquetas y comentario).',{pid:p.id,full:true})}else{openPerson(p.id);startRate()}}else{if(act==='skip'){SK.add(p.id);if(U)LAST.push(p.id);else gUse();toast('Saltaste a '+p.name.split(' ')[0]+' · no se envió calificación')}render()}},300)}
 async function qrate(n){const p=queue()[0];if(!p||BUSY)return;BUSY=true;
  const bs=[...document.querySelectorAll('#sc .stars button')];bs.forEach((b,i)=>{b.classList.toggle('on',i<n);b.firstElementChild.style.animationDelay=i*45+'ms'});try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}
+ if(!U){const a=pend().filter(x=>x.pid!==p.id);a.push({pid:p.id,rel:Q.rel,stars:n});savePend(a);gUse();SK.add(p.id);toast('Guardamos tu '+'★'.repeat(n)+' · se confirma al entrar');setTimeout(()=>{BUSY=false;fly(1,'done')},380);return}
  const {error}=await sb.from('reviews').insert({person_id:p.id,relation:Q.rel,stars:n,tags:[],comment_id:null,anonymous:Q.anon});
  if(error){BUSY=false;bs.forEach(b=>b.classList.remove('on'));return toast(error.code==='23505'?'Ya calificaste a esta persona en esa relación':'No se pudo enviar. Probá de nuevo')}
  S.mine=(S.mine||[]).concat({person_id:p.id,relation:Q.rel,stars:n});toast('¡Enviado! '+'★'.repeat(n));setTimeout(()=>{BUSY=false;fly(1,'done')},380);refresh()}
@@ -222,13 +272,13 @@ async function inviteContacts(){
 function waInv(t){let n=t.replace(/\D/g,'');if(!t.trim().startsWith('+'))n='54'+n.replace(/^0+/,'');window.open('https://wa.me/'+n+'?text='+encodeURIComponent('Sumate a Rankea Gente, entrás con Google en un toque '+location.origin+location.pathname),'_blank')}
 // ---------- CARTELITO DE INTRO (5 s) ----------
 function intro(){const k='ref_intro'+(U?1:0);try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1')}catch(e){}
- const w=document.createElement('div');w.className='introw',nm=U&&((U.user_metadata&&U.user_metadata.full_name)||'').split(' ')[0];
+ const w=document.createElement('div'),nm=U&&((U.user_metadata&&U.user_metadata.full_name)||'').split(' ')[0];w.className='introw';
  w.onclick=e=>{if(e.target===w)w.remove()};
- w.innerHTML=U?`<div class="intro"><b>${nm?'¡Hola, '+esc(nm)+'!':'¡Bienvenido/a!'} 👋</b><span>Pedile a tus conocidos que te califiquen. Les lleva 1 minuto y las referencias quedan en tu perfil.</span><button class="wa" onclick="this.closest('.introw').remove();askRef(true)">Pedir que me califiquen por WhatsApp</button><button class="later" onclick="this.closest('.introw').remove()">Más tarde</button><div class="bar"><i></i></div></div>`:`<div class="intro"><b>Tu reputación, contada por quienes te conocen.</b><span>Rankea Gente: da y recibí referencias reales de trabajo, amistad o pareja. Gratis.</span><div class="bar"><i></i></div></div>`;
+ w.innerHTML=U?`<div class="intro"><b>${nm?'¡Hola, '+esc(nm)+'!':'¡Bienvenido/a!'} 👋</b><span>Pedile a tus conocidos que te califiquen. Les lleva 1 minuto y las referencias quedan en tu perfil.</span><button class="wa" onclick="this.closest('.introw').remove();askRef(true)">Pedir que me califiquen por WhatsApp</button><button class="later" onclick="this.closest('.introw').remove()">Más tarde</button><div class="bar"><i></i></div></div>`:`<div class="intro"><b>Tu reputación, contada por quienes te conocen.</b><span>Rankea Gente: da y recibí referencias reales de trabajo, amistad o pareja. Probá ${GMAX} cards gratis, sin registrarte.</span><button class="wa" style="background:#fff;color:#000" onclick="this.closest('.introw').remove()">Empezar</button><div class="bar"><i></i></div></div>`;
  document.body.appendChild(w);setTimeout(()=>w.remove(),5000)}
 
 // ---------- PERFIL DE OTRA PERSONA ----------
-async function openPerson(id){S.pid=id;S.view='person';S.data=null;render();scrollTo(0,0);
+async function openPerson(id){if(!U)return gate('Entrá con Google para ver el perfil completo y sus comentarios.',{pid:id});S.pid=id;S.view='person';S.data=null;render();scrollTo(0,0);
  const [r,mine]=await Promise.all([sb.from('reviews_public').select('*').eq('person_id',id).order('created_at',{ascending:false}),sb.from('reviews').select('relation').eq('person_id',id)]);
  const rows=r.data||[],ids=[...new Set(rows.map(x=>x.author_id).filter(Boolean))],names={};
  if(ids.length){const q=await sb.from('profiles').select('id,name').in('id',ids);(q.data||[]).forEach(x=>names[x.id]=x.name)}
@@ -245,7 +295,7 @@ function person(){
  <div class="card stats"><div><b>${p.refs?p.rating.toFixed(1)+' ★':'–'}</b><span>Promedio</span></div><div><b>${p.refs}</b><span>Referencias</span></div><div><b>${d?d.done.length:'–'}</b><span>Tuyas</span></div></div>${tops}
  <div class="lab" style="margin-top:6px">Comentarios</div>${body}
  <div class="stick" style="display:flex;gap:10px"><button class="btn" onclick="startRate()">${ic('pen')} Calificar</button><button class="round" style="width:52px;height:52px;flex-shrink:0;${f?'color:var(--acc)':''}" onclick="fav('${p.id}')">${ic('heart')}</button></div>`}
-function shareApp(t){const u=location.origin+location.pathname+'#app',x=t||'Sumate a Rankea Gente, entrás con Google en un toque';if(navigator.share&&!wa)navigator.share({title:'Rankea Gente',text:x,url:u}).catch(()=>{});else{try{navigator.clipboard.writeText(x+' '+u).then(()=>toast('Enlace copiado'),()=>toast('No se pudo copiar'))}catch(e){toast('No se pudo copiar')}}}
+function shareApp(t){const u=location.origin+location.pathname+'#app',x=t||'Sumate a Rankea Gente, entrás con Google en un toque';if(navigator.share)navigator.share({title:'Rankea Gente',text:x,url:u}).catch(()=>{});else{try{navigator.clipboard.writeText(x+' '+u).then(()=>toast('Enlace copiado'),()=>toast('No se pudo copiar'))}catch(e){toast('No se pudo copiar')}}}
 function share(){const p=find(S.pid);shareApp(`Mirá las referencias de ${p.name} en Rankea Gente`)}
 
 // ---------- CALIFICAR ----------
