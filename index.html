@@ -202,7 +202,7 @@ async function sendPend(b){const sh=b.closest('.sheet');let ok=0;for(const x of 
 async function loadAll(){await refresh();const f=await sb.from('favorites').select('person_id');FAVS=new Set((f.data||[]).map(x=>x.person_id))}
 async function boot(s){
  if(s&&s.user){if(!U||U.id!==s.user.id){U=s.user;document.querySelectorAll('.sheet.gt').forEach(x=>x.remove());if(location.search)history.replaceState(null,'',location.pathname+'#app');await saveAvatar();await loadAll();loadMine();
-  if(S.after&&find(S.after.pid)){const a=S.after;S.after=null;READY=true;openPerson(a.pid);if(a.full)startRate();return}
+  if(S.after&&find(S.after.pid)){const a=S.after;S.after=null;READY=true;if(a.full){S.pid=a.pid;S.data=null;startRate('swipe');loadPerson(a.pid)}else openPerson(a.pid);return}
   if(DL&&!DLDONE){DLDONE=true;if(DL===U.id)S.view='me';else if(find(DL)){READY=true;S.pid=DL;S.view='person';openPerson(DL);return}}}}
  else{U=ME=null;PEOPLE=[];FAVS=new Set();S.view='swipe';S.mine=null;await loadGuest()}
  READY=true;render();if(U&&pend().length&&!window.PSH){window.PSH=1;showPending()}else intro()}
@@ -248,7 +248,7 @@ function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2><
  <div class="stars">${[1,2,3,4,5].map(n=>`<button onclick="qrate(${n})" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div>
  <button class="fullb" onclick="fullRate()">${ic('pen')} Calificar full</button></div></div></div>
  <div class="mini">${U?`<div class="l"><button class="tg ${Q.anon?'on':''}" onclick="qset('anon',!Q.anon)" aria-label="Anónimo"></button>Calificar anónimo</div><button class="lnk" onclick="inviteContacts()">Invitar contactos</button>`:`<span class="cnt">Anónimo · te quedan <b>${Math.max(0,GMAX-gN())}</b> de ${GMAX} cards</span><button class="lnk" onclick="legal()">Descargo</button>`}</div></div>`;fit();requestAnimationFrame(fit);swipeInit()}
-function fullRate(){const p=queue()[0];if(!p)return;if(!U)return gate('Entrá con Google para calificar con todos los detalles (etiquetas y comentario).',{pid:p.id,full:true});openPerson(p.id);startRate()}
+function fullRate(){const p=queue()[0];if(!p)return;if(!U)return gate('Entrá con Google para calificar con todos los detalles (etiquetas y comentario).',{pid:p.id,full:true});S.pid=p.id;S.data=null;startRate('swipe');loadPerson(p.id)}
 function swipeInit(){const c=$('#sc');if(!c)return;let x0=null,dx=0;
  c.onpointerdown=e=>{if(e.target.closest('button'))return;x0=e.clientX;dx=0;c.setPointerCapture(e.pointerId);c.style.transition='none'};
  const L=c.querySelector('.st-l'),Rr=c.querySelector('.st-r');
@@ -256,7 +256,7 @@ function swipeInit(){const c=$('#sc');if(!c)return;let x0=null,dx=0;
  c.onpointerup=c.onpointercancel=()=>{if(x0===null)return;x0=null;c.style.transition='';if(dx>110)fly(1,'rate');else if(dx<-110)fly(-1,'skip');else{c.style.transform='';L.style.opacity=Rr.style.opacity=0}dx=0}}
 function fly(d,act){const c=$('#sc'),p=act==='done'?null:queue()[0];if(!p&&act!=='done')return;
  if(c){const t=c.querySelector(d>0?'.st-r':'.st-l');if(t&&act!=='done')t.style.opacity=1;c.style.transform=`translateX(${d*520}px) rotate(${d*20}deg)`;c.style.opacity=0}
- setTimeout(()=>{if(act==='rate'){if(!U){render();gate('Entrá con Google para calificar con todos los detalles (etiquetas y comentario).',{pid:p.id,full:true})}else{openPerson(p.id);startRate()}}else{if(act==='skip'){SK.add(p.id);if(U)LAST.push(p.id);else gUse();toast('Saltaste a '+p.name.split(' ')[0]+' · no se envió calificación')}render()}},300)}
+ setTimeout(()=>{if(act==='rate'){if(!U){render();gate('Entrá con Google para calificar con todos los detalles (etiquetas y comentario).',{pid:p.id,full:true})}else{S.pid=p.id;S.data=null;startRate('swipe');loadPerson(p.id)}}else{if(act==='skip'){SK.add(p.id);if(U)LAST.push(p.id);else gUse();toast('Saltaste a '+p.name.split(' ')[0]+' · no se envió calificación')}render()}},300)}
 async function qrate(n){const p=queue()[0];if(!p||BUSY)return;BUSY=true;
  const bs=[...document.querySelectorAll('#sc .stars button')];bs.forEach((b,i)=>{b.classList.toggle('on',i<n);b.firstElementChild.style.animationDelay=i*45+'ms'});try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}
  if(!U){const a=pend().filter(x=>x.pid!==p.id);a.push({pid:p.id,rel:Q.rel,stars:n});savePend(a);gUse();SK.add(p.id);toast('Guardamos tu '+'★'.repeat(n)+' · se confirma al entrar');setTimeout(()=>{BUSY=false;fly(1,'done')},380);return}
@@ -278,11 +278,12 @@ function intro(){const k='ref_intro'+(U?1:0);try{if(sessionStorage.getItem(k))re
  document.body.appendChild(w);setTimeout(()=>w.remove(),5000)}
 
 // ---------- PERFIL DE OTRA PERSONA ----------
-async function openPerson(id){if(!U)return gate('Entrá con Google para ver el perfil completo y sus comentarios.',{pid:id});S.pid=id;S.view='person';S.data=null;render();scrollTo(0,0);
+async function openPerson(id){if(!U)return gate('Entrá con Google para ver el perfil completo y sus comentarios.',{pid:id});S.pid=id;S.view='person';S.data=null;render();scrollTo(0,0);await loadPerson(id)}
+async function loadPerson(id){
  const [r,mine]=await Promise.all([sb.from('reviews_public').select('*').eq('person_id',id).order('created_at',{ascending:false}),sb.from('reviews').select('relation').eq('person_id',id)]);
  const rows=r.data||[],ids=[...new Set(rows.map(x=>x.author_id).filter(Boolean))],names={};
  if(ids.length){const q=await sb.from('profiles').select('id,name').in('id',ids);(q.data||[]).forEach(x=>names[x.id]=x.name)}
- S.data={rows,names,done:(mine.data||[]).map(x=>x.relation)};if(S.pid===id&&S.view==='person')render()}
+ S.data={rows,names,done:(mine.data||[]).map(x=>x.relation)};if(S.pid===id&&(S.view==='person'||S.view==='rate'))render()}
 function person(){
  const p=find(S.pid);if(!p){S.view='search';return render()}
  const d=S.data,f=FAVS.has(p.id);
@@ -299,10 +300,10 @@ function shareApp(t){const u=location.origin+location.pathname+'#app',x=t||'Suma
 function share(){const p=find(S.pid);shareApp(`Mirá las referencias de ${p.name} en Rankea Gente`)}
 
 // ---------- CALIFICAR ----------
-function startRate(){R={rel:'trabajo',stars:0,tags:{},cm:-1,own:'',anon:false};go('rate')}
+function startRate(from){R={rel:'trabajo',stars:0,tags:{},cm:-1,own:'',anon:false,from:from||null};go('rate')}
 function rate(){
  const p=find(S.pid);if(!p||!R)return go('search');
- $('#top').innerHTML=`${back('person')}<h2>Calificá a ${esc(p.name.split(' ')[0])}</h2><span style="width:40px"></span>`;
+ $('#top').innerHTML=`${back(R.from||'person')}<h2>Calificá a ${esc(p.name.split(' ')[0])}</h2><span style="width:40px"></span>`;
  const done=S.data?S.data.done.includes(R.rel):false,cs=CM.map((c,i)=>[c,i]).filter(x=>x[0][0]===R.rel);
  $('#main').innerHTML=`<p style="color:var(--mut);font-size:13px;text-align:center;margin:0 0 4px">⏱ Te toma 20 segundos · solo las estrellas son obligatorias</p><div class="card"><div class="lab">¿Qué relación tienen?</div><div class="tags">${Object.entries(REL).map(r=>`<button class="chip ${R.rel===r[0]?'on':''}" onclick="R.rel='${r[0]}';R.cm=-1;rr()">${r[1]}</button>`).join('')}</div>${done?'<p style="color:var(--warn);font-size:13px;margin-top:10px">Ya calificaste a esta persona en esta relación. Elegí otra.</p>':''}</div>
  <div class="card"><div class="lab">Tu puntuación</div><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${R.stars>=n?'on':''}" onclick="R.stars=${n};rr()" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div><p style="text-align:center;color:var(--mut);font-size:13px;margin-top:6px">${['Tocá una estrella','Muy malo','Malo','Regular','Bueno','Excelente'][R.stars]}</p></div>
@@ -319,7 +320,7 @@ async function send(){
  const {error}=await sb.from('reviews').insert({person_id:S.pid,relation:R.rel,stars:R.stars,tags:Object.values(R.tags).flat(),comment_id:R.cm>=0?R.cm:null,anonymous:R.anon});
  BUSY=false;
  if(error)return toast(error.code==='23505'?'Ya calificaste a esta persona en esa relación':'No se pudo enviar. Probá de nuevo');
- toast('¡Gracias! Calificación enviada');const rated=new Set((S.mine||[]).map(x=>x.person_id));rated.add(S.pid);S.mine=null;await refresh();openPerson(S.pid);loadMine();thanks(rated)}
+ toast('¡Gracias! Calificación enviada');const rated=new Set((S.mine||[]).map(x=>x.person_id));rated.add(S.pid);const fs=R.from==='swipe';S.mine=fs?(S.mine||[]).concat({person_id:S.pid,relation:R.rel,stars:R.stars}):null;await refresh();if(fs)go('swipe');else openPerson(S.pid);loadMine();thanks(rated)}
 
 // ---------- MI PERFIL ----------
 async function loadMine(){const r=await sb.from('reviews').select('person_id,relation,stars,comment_id').order('created_at',{ascending:false});S.mine=r.data||[];if(S.view==='me'||(S.view==='search'&&!S.q)||S.view==='swipe')render()}
