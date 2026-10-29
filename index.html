@@ -15,39 +15,6 @@
 .hero.one{display:block;text-align:center;max-width:640px;margin:0 auto;padding:36px 0 18px}
 .hero.one .lead{margin:14px auto 0}
 .hero.one .ctas{justify-content:center;margin-top:22px}
-/* carrusel */
-.car{max-width:380px;margin:18px auto 0}
-.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;gap:14px;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px}
-.car-track::-webkit-scrollbar{display:none}
-.slide{flex:0 0 100%;scroll-snap-align:center;display:flex;flex-direction:column;gap:14px}
-.shot{background:var(--soft,#eef5f6);border:1px solid var(--line,#e2e8ea);border-radius:22px;padding:18px;height:268px;display:flex;flex-direction:column;justify-content:center;gap:10px;overflow:hidden}
-.shot .mrow{background:#fff;border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;font-size:14px;color:#111}
-.shot .mrow small{display:block;color:#667;font-size:12px}
-.cap{text-align:center}
-.cap h3{margin:6px 0 2px;font-size:19px}
-.cap p{margin:0;color:var(--mut,#667);font-size:14px}
-.cap .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--acc,#0b5563);color:#fff;font-weight:800;font-size:13px}
-.s-logo{font-weight:800;font-size:22px;text-align:center;color:var(--acc,#0b5563)}
-.s-gbtn{background:#fff;border:1px solid #dadce0;border-radius:999px;padding:12px;text-align:center;font-weight:600;color:#222}
-.s-gbtn b{color:#4285f4;margin-right:6px}
-.s-note{text-align:center;color:#667}
-.s-search{background:#fff;border-radius:999px;padding:10px 14px;font-size:14px;color:#889}
-.s-lab{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#667}
-.s-stars{font-size:32px;color:#f5a623;letter-spacing:4px;text-align:center}
-.s-tags{display:flex;flex-wrap:wrap;gap:6px}
-.s-tags i{font-style:normal;background:#fff;border:1px solid #cfe0e3;border-radius:999px;padding:5px 11px;font-size:13px;color:#0b5563;font-weight:600}
-.s-anon{display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:14px;padding:10px 12px;font-size:13px;font-weight:600;color:#222}
-.s-anon u{width:38px;height:22px;border-radius:999px;background:var(--acc,#0b5563);position:relative}
-.s-anon u:after{content:"";position:absolute;right:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff}
-.s-prof{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#111}
-.s-stat{display:flex;gap:26px;margin-top:4px;text-align:center}
-.s-stat small{display:block;color:#667;font-size:12px}
-.s-wa{background:#25d366;color:#fff;border-radius:999px;padding:12px;text-align:center;font-weight:700}
-.car-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}
-.car-nav button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line,#dde4e6);background:#fff;font-size:22px;line-height:1;cursor:pointer;color:#222}
-.dots{display:flex;gap:7px}
-.dots i{width:8px;height:8px;border-radius:50%;background:#c9d3d6;transition:.2s}
-.dots i.on{background:var(--acc,#0b5563);width:22px;border-radius:99px}
 /* aviso navegador de Instagram / Facebook */
 .iab{background:#fff7e6;border:1px solid #f3d38a;color:#5b4300;border-radius:16px;padding:14px 16px;margin:12px auto;max-width:480px;text-align:left;font-size:14px;line-height:1.45}
 .iab b{display:block;font-size:15px;margin-bottom:4px}
@@ -67,64 +34,17 @@
 .prog .st.ok span{color:var(--acc,#0b5563);font-weight:800}
 .prog .nx{margin:10px 0 0;font-size:13px;color:var(--mut,#667)}
 .prog .btn{margin-top:12px}
+.intro{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;width:min(92vw,420px);transform:translateX(-50%);background:#000;color:#fff;border-radius:18px;padding:14px 16px 0;z-index:200;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:idn .35s ease;cursor:pointer;font-size:14px;line-height:1.4}
+.intro b{display:block;font-size:16px;margin-bottom:2px}.intro span{opacity:.75}
+.intro .bar{height:4px;margin:12px -16px 0;background:rgba(255,255,255,.2)}.intro .bar i{display:block;height:100%;background:#fff;animation:drain 5s linear forwards}
+@keyframes drain{from{width:100%}to{width:0}}@keyframes idn{from{transform:translate(-50%,-130%)}to{transform:translate(-50%,0)}}
+.sc{padding:22px 16px}.sc .stars button{cursor:pointer}
 </style>
 </head>
 <body>
 
-<!-- ===================== LANDING ===================== -->
-<div id="land">
- <div class="wrap">
-  <div class="nav"><div class="logo"><img src="logo.png?v=3" alt="Rankea Gente" style="height:40px;width:auto"></div><a class="btn alt auto" style="padding:10px 18px" href="#app">Abrir app</a></div>
-  <div id="iab-land"></div>
-  <section class="hero one">
-   <span class="pill">✦ Gratis · Entrás con Google</span>
-   <h1>Tu reputación, <em>contada por quienes te conocen.</em></h1>
-   <p class="lead">Rankea Gente es una app para dar y recibir referencias reales de trabajo, amistad o pareja. Todo queda en un perfil que compartís con un enlace.</p>
-   <div class="ctas"><a class="btn" href="#app">Empezar ahora</a></div>
-  </section>
-  <section class="sec" id="how">
-   <h2>Cómo funciona</h2>
-   <div class="car" id="car">
-    <div class="car-track" id="carTrack">
-     <article class="slide">
-      <div class="shot"><div class="s-logo">Rankea Gente</div><div class="s-gbtn"><b>G</b> Continuar con Google</div><small class="s-note">Un toque y listo. Tu perfil se crea solo.</small></div>
-      <div class="cap"><span class="n">1</span><h3>Entrá con Google</h3><p>Sin formularios ni contraseñas.</p></div>
-     </article>
-     <article class="slide">
-      <div class="shot">
-       <div class="s-search">🔍 Buscar personas</div>
-       <div class="mrow"><span class="av" style="background:#0b5563;width:36px;height:36px;font-size:13px">MG</span><div><b>María González</b><small>★ 4.9 · 127 referencias</small></div></div>
-       <div class="mrow"><span class="av" style="background:#111;width:36px;height:36px;font-size:13px">LF</span><div><b>Lucía Fernández</b><small>★ 5.0 · 42 referencias</small></div></div>
-       <div class="mrow"><span class="av" style="background:#14808f;width:36px;height:36px;font-size:13px">VR</span><div><b>Valentina Ruiz</b><small>★ 4.9 · 95 referencias</small></div></div>
-      </div>
-      <div class="cap"><span class="n">2</span><h3>Buscá a alguien</h3><p>Mirá su puntaje y lo que dicen de esa persona.</p></div>
-     </article>
-     <article class="slide">
-      <div class="shot">
-       <div class="s-lab">Tu puntuación</div><div class="s-stars">★★★★★</div>
-       <div class="s-lab">Etiquetas</div><div class="s-tags"><i>Responsable</i><i>Puntual</i><i>De confianza</i></div>
-       <div class="s-anon"><span>Calificar de forma anónima</span><u></u></div>
-      </div>
-      <div class="cap"><span class="n">3</span><h3>Calificá en segundos</h3><p>Estrellas, etiquetas y un comentario. Podés hacerlo anónimo.</p></div>
-     </article>
-     <article class="slide">
-      <div class="shot">
-       <div class="s-prof"><span class="av" style="background:#0b5563;width:54px;height:54px;font-size:18px">TU</span><b>Tu perfil</b><div class="s-stat"><div><b>4.9 ★</b><small>Promedio</small></div><div><b>12</b><small>Referencias</small></div></div></div>
-       <div class="s-wa">Compartir por WhatsApp</div>
-      </div>
-      <div class="cap"><span class="n">4</span><h3>Compartí tu enlace</h3><p>Que cualquiera vea quién sos en pocos segundos.</p></div>
-     </article>
-    </div>
-    <div class="car-nav"><button type="button" id="carPrev" aria-label="Anterior">‹</button><div class="dots" id="carDots"></div><button type="button" id="carNext" aria-label="Siguiente">›</button></div>
-   </div>
-  </section>
-  <div class="band"><h2>Armá tu primera referencia hoy</h2><p>Es gratis y toma menos de un minuto.</p><a class="btn" href="#app">Abrir Rankea Gente</a></div>
-  <div class="foot">© 2026 Rankea Gente · Hecho con cariño · <a href="#" onclick="legal();return false" style="text-decoration:underline">Descargo de responsabilidad</a></div>
- </div>
-</div>
-
 <!-- ===================== APP ===================== -->
-<div id="app" class="hide">
+<div id="app">
  <div class="top" id="top"></div>
  <main id="main"></main>
  <nav class="tabs" id="tabs"></nav>
@@ -146,7 +66,7 @@ const SB_URL='https://tiajsxobclpcumbhtntb.supabase.co',SB_KEY='sb_publishable_t
 const GOOGLE_CLIENT_ID='962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com';
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{flowType:'pkce'}});
 const DL=(location.hash.match(/^#app-(.+)$/)||[])[1]||new URLSearchParams(location.search).get('p');let DLDONE=false;
-let U=null,ME=null,PEOPLE=[],FAVS=new Set(),READY=false,BUSY=false,S={view:'search',pid:null,filter:'all',q:'',data:null,mine:null},R=null;
+let U=null,ME=null,PEOPLE=[],FAVS=new Set(),READY=false,BUSY=false,S={view:'swipe',pid:null,filter:'all',q:'',data:null,mine:null},R=null;
 const hc=id=>COL[[...String(id)].reduce((a,c)=>a+c.charCodeAt(0),0)%6];
 const ini=n=>(n||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
 const norm=p=>({...p,refs:+p.refs,rating:+p.rating});
@@ -157,7 +77,7 @@ const tbtn=`<button class="round" onclick="theme()" aria-label="Modo oscuro">${i
 
 function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2400)}
 function theme(){const h=document.documentElement,d=h.dataset.theme==='dark',n=d?'light':'dark';h.dataset.theme=n;try{localStorage.setItem('ref_theme_v2',n)}catch(e){}}
-function route(){const a=/^#app/.test(location.hash)||!!DL;$('#land').classList.toggle('hide',a);$('#app').classList.toggle('hide',!a);scrollTo(0,0);if(a)render()}
+function route(){scrollTo(0,0);render()}
 function go(v){S.view=v;scrollTo(0,0);render()}
 const rr=()=>{const y=scrollY;render();scrollTo(0,y)};
 
@@ -198,7 +118,7 @@ async function refresh(){const a=await sb.from('person_stats').select('*').order
 async function loadAll(){await refresh();const f=await sb.from('favorites').select('person_id');FAVS=new Set((f.data||[]).map(x=>x.person_id))}
 async function boot(s){
  if(s&&s.user){if(!U||U.id!==s.user.id){U=s.user;if(location.search)history.replaceState(null,'',location.pathname+'#app');await loadAll();loadMine();if(DL&&!DLDONE){DLDONE=true;if(DL===U.id)S.view='me';else if(find(DL)){READY=true;S.pid=DL;S.view='person';openPerson(DL);return}}}}
- else{U=ME=null;PEOPLE=[];FAVS=new Set();S.view='search';S.mine=null}
+ else{U=ME=null;PEOPLE=[];FAVS=new Set();S.view='swipe';S.mine=null}
  READY=true;render()}
 sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0)); // setTimeout evita bloqueos de supabase-js
 
@@ -207,8 +127,9 @@ function render(){
  const top=$('#top'),m=$('#main'),tb=$('#tabs'),v=S.view;
  if(!READY){top.innerHTML=tb.innerHTML='';m.innerHTML='<div class="empty">Cargando…</div>';return}
  if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo"><img src="logo.png?v=3" alt="Rankea Gente" style="height:40px;width:auto"></div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div>${IAB&&!FORCE?iabBox():'<div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div>'}<div class="legal"><b>Descargo de responsabilidad</b><p>Rankea Gente no se hace responsable de las calificaciones, comentarios ni opiniones publicadas por los usuarios. Son opiniones personales de quienes las escriben, no hechos comprobados ni la postura de la plataforma. Cada usuario responde por lo que publica. No tomes decisiones importantes basándote solo en esta información.</p><p>Al continuar con Google aceptás este descargo. <a href="#" onclick="legal();return false">Leer completo</a></p></div>`;if(!IAB||FORCE)mountGoogle();return}
- const T=[['search','search','Buscar'],['favs','heart','Guardados'],['me','user','Mi perfil']];
+ const T=[['swipe','star','Descubrir'],['search','search','Buscar'],['favs','heart','Guardados'],['me','user','Mi perfil']];
  tb.innerHTML=T.map(t=>`<button class="${(v===t[0]||(['person','rate'].includes(v)&&t[0]==='search'))?'on':''}" onclick="go('${t[0]}')">${ic(t[1])}${t[2]}</button>`).join('');
+ if(v==='swipe')swipe();
  if(v==='search'){top.innerHTML=`<h2>Buscar personas</h2>${tbtn}`;m.innerHTML=`${welcome()||prog()}<div class="search">${ic('search')}<input id="q" placeholder="Buscá por nombre o frase" value="${esc(S.q)}" oninput="S.q=this.value;list()"></div><div class="chips" id="chips"></div><div id="list" style="display:grid;gap:12px"></div>`;chips();list()}
  if(v==='favs'){top.innerHTML=`<h2>Guardados</h2>${tbtn}`;const f=PEOPLE.filter(p=>FAVS.has(p.id));m.innerHTML=f.length?f.map(card).join(''):`<div class="empty">Todavía no guardaste a nadie.<br>Tocá el corazón en cualquier perfil.</div>`}
  if(v==='me')me();if(v==='person')person();if(v==='rate')rate();
@@ -218,6 +139,41 @@ function card(p){return`<div class="card person" onclick="openPerson('${p.id}')"
 function list(){const q=S.q.toLowerCase().trim();let a=PEOPLE.filter(p=>((p.name||'')+(p.trait||'')).toLowerCase().includes(q));if(S.filter==='ver')a=a.filter(p=>p.verified);if(S.filter==='new')a=a.filter(p=>!p.refs);if(S.filter==='top')a=a.filter(p=>p.refs).sort((x,y)=>y.rating-x.rating);
  $('#list').innerHTML=a.length?a.map(card).join(''):(PEOPLE.length?'<div class="empty">No encontramos a nadie con ese criterio.</div>':`<div class="empty">Todavía no hay otras personas registradas.<br>¡Invitá a tus conocidos!</div><button class="btn alt" onclick="shareApp()">${ic('share')} Invitar por WhatsApp</button>`)}
 async function fav(id){const on=FAVS.has(id);on?FAVS.delete(id):FAVS.add(id);rr();const r=on?await sb.from('favorites').delete().eq('person_id',id):await sb.from('favorites').insert({person_id:id});if(r.error){on?FAVS.add(id):FAVS.delete(id);rr();toast('No se pudo guardar')}else toast(on?'Quitado de guardados':'Guardado ♥')}
+
+// ---------- DESCUBRIR (estilo Tinder) ----------
+const SK=new Set(),Q={rel:'trabajo',anon:false};
+const queue=()=>{const d=new Set((S.mine||[]).map(x=>x.person_id));return PEOPLE.filter(p=>!d.has(p.id)&&!SK.has(p.id))};
+function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2>${tbtn}`;
+ if(!p){$('#main').innerHTML=`<div class="empty">${PEOPLE.length?'Ya viste a todos por ahora 🎉':'Todavía no hay otras personas registradas.'}<br>Invitá a tus conocidos para seguir calificando.</div><button class="btn" onclick="inviteContacts()">Invitar desde mis contactos</button><button class="btn alt" onclick="shareApp()">${ic('share')} Invitar por WhatsApp</button>${SK.size?'<button class="btn line" onclick="SK.clear();render()">Volver a ver los salteados</button>':''}`;return}
+ $('#main').innerHTML=`<p style="text-align:center;color:var(--mut);font-size:13px;margin:0 0 10px">${q.length} para calificar · deslizá ← saltar · calificar con detalle →</p>
+ <div class="card sc" id="sc" style="text-align:center;touch-action:pan-y;user-select:none;transition:transform .25s,opacity .25s">${av(p,'lg')}<h3 style="margin:10px 0 2px">${esc(p.name)}</h3><span style="color:var(--mut)">${esc(p.trait||'Sin frase todavía')}</span>
+ <div style="margin:8px 0;font-weight:700">${p.refs?'★ '+p.rating.toFixed(1)+' · '+p.refs+' referencias':'Sé el primero en calificar ✨'}</div>
+ <div class="tags" style="justify-content:center">${Object.entries(REL).map(r=>`<button class="chip ${Q.rel===r[0]?'on':''}" onclick="Q.rel='${r[0]}';rr()">${r[1]}</button>`).join('')}</div>
+ <div class="stars" style="margin-top:12px">${[1,2,3,4,5].map(n=>`<button onclick="qrate(${n})" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div>
+ <p style="color:var(--mut);font-size:13px;margin:6px 0 0">Tocá una estrella para calificar</p></div>
+ <div style="display:flex;justify-content:center;gap:16px;margin:14px 0"><button class="round" style="width:56px;height:56px" onclick="fly(-1,'skip')" aria-label="Saltar">✕</button><button class="round" style="width:56px;height:56px" onclick="openPerson('${p.id}')" aria-label="Ver perfil">${ic('user')}</button><button class="round" style="width:56px;height:56px" onclick="fly(1,'rate')" aria-label="Calificar con detalle">${ic('pen')}</button></div>
+ <div class="card sw"><div><b>Calificar de forma anónima</b><small>Tu nombre no se mostrará a otros usuarios</small></div><button class="tg ${Q.anon?'on':''}" onclick="Q.anon=!Q.anon;rr()" aria-label="Anónimo"></button></div>
+ <button class="btn alt" onclick="inviteContacts()">Invitar desde mis contactos</button>`;swipeInit()}
+function swipeInit(){const c=$('#sc');if(!c)return;let x0=null,dx=0;
+ c.onpointerdown=e=>{if(e.target.closest('button'))return;x0=e.clientX;dx=0;c.setPointerCapture(e.pointerId);c.style.transition='none'};
+ c.onpointermove=e=>{if(x0===null)return;dx=e.clientX-x0;c.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`};
+ c.onpointerup=c.onpointercancel=()=>{if(x0===null)return;x0=null;c.style.transition='';if(dx>110)fly(1,'rate');else if(dx<-110)fly(-1,'skip');else c.style.transform='';dx=0}}
+function fly(d,act){const c=$('#sc'),p=queue()[0];if(!p)return;if(c){c.style.transform=`translateX(${d*480}px) rotate(${d*22}deg)`;c.style.opacity=0}
+ setTimeout(()=>{if(act==='rate'){openPerson(p.id);startRate()}else{if(act==='skip')SK.add(p.id);render()}},230)}
+async function qrate(n){const p=queue()[0];if(!p||BUSY)return;BUSY=true;
+ const {error}=await sb.from('reviews').insert({person_id:p.id,relation:Q.rel,stars:n,tags:[],comment_id:null,anonymous:Q.anon});BUSY=false;
+ if(error)return toast(error.code==='23505'?'Ya calificaste a esta persona en esa relación':'No se pudo enviar. Probá de nuevo');
+ S.mine=(S.mine||[]).concat({person_id:p.id,relation:Q.rel,stars:n});toast('¡Enviado! '+'★'.repeat(n));fly(1,'done');refresh()}
+// ---------- CONTACTOS (Android/Chrome) ----------
+async function inviteContacts(){
+ if(!(navigator.contacts&&navigator.contacts.select)){toast('Este navegador no deja leer contactos');return shareApp()}
+ try{const c=await navigator.contacts.select(['name','tel'],{multiple:true}),x=c.filter(k=>k.tel&&k.tel[0]);if(!x.length)return;
+  const d=document.createElement('div');d.className='sheet';d.onclick=e=>{if(e.target===d)d.remove()};
+  d.innerHTML=`<div class="legalbox"><div class="lhead"><h3>Invitá a tus contactos</h3><button class="round" onclick="this.closest('.sheet').remove()" aria-label="Cerrar">✕</button></div><div class="lbody">${x.map(k=>`<button class="opt" onclick="waInv('${esc(k.tel[0])}')">${esc((k.name&&k.name[0])||k.tel[0])} · enviar por WhatsApp</button>`).join('')}</div></div>`;document.body.appendChild(d)}catch(e){}}
+function waInv(t){let n=t.replace(/\D/g,'');if(!t.trim().startsWith('+'))n='54'+n.replace(/^0+/,'');window.open('https://wa.me/'+n+'?text='+encodeURIComponent('Sumate a Rankea Gente, entrás con Google en un toque '+location.origin+location.pathname),'_blank')}
+// ---------- CARTELITO DE INTRO (5 s) ----------
+function intro(){try{if(sessionStorage.getItem('ref_intro'))return;sessionStorage.setItem('ref_intro','1')}catch(e){}
+ const d=document.createElement('div');d.className='intro';d.onclick=()=>d.remove();d.innerHTML='<b>Tu reputación, contada por quienes te conocen.</b><span>Rankea Gente: da y recibí referencias reales de trabajo, amistad o pareja. Gratis.</span><div class="bar"><i></i></div>';document.body.appendChild(d);setTimeout(()=>d.remove(),5000)}
 
 // ---------- PERFIL DE OTRA PERSONA ----------
 async function openPerson(id){S.pid=id;S.view='person';S.data=null;render();scrollTo(0,0);
@@ -264,7 +220,7 @@ async function send(){
  toast('¡Gracias! Calificación enviada');const rated=new Set((S.mine||[]).map(x=>x.person_id));rated.add(S.pid);S.mine=null;await refresh();openPerson(S.pid);loadMine();thanks(rated)}
 
 // ---------- MI PERFIL ----------
-async function loadMine(){const r=await sb.from('reviews').select('person_id,relation,stars,comment_id').order('created_at',{ascending:false});S.mine=r.data||[];if(S.view==='me'||(S.view==='search'&&!S.q))render()}
+async function loadMine(){const r=await sb.from('reviews').select('person_id,relation,stars,comment_id').order('created_at',{ascending:false});S.mine=r.data||[];if(S.view==='me'||(S.view==='search'&&!S.q)||S.view==='swipe')render()}
 async function saveTrait(){const t=$('#tr').value.trim().slice(0,60),r=await sb.from('profiles').update({trait:t}).eq('id',U.id);if(r.error)return toast('No se pudo guardar');ME.trait=t;toast('Guardado')}
 function me(){
  $('#top').innerHTML=`<h2>Mi perfil</h2>${tbtn}`;if(!S.mine)loadMine();
@@ -304,20 +260,10 @@ function copyLink(){const u=location.href.split('#')[0]+'#app';const ok=()=>toas
 function fb(u){const t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast('Enlace copiado. Pegalo en Chrome o Safari')}catch(e){toast('No se pudo copiar')}t.remove()}
 function tryHere(){FORCE=true;render()}
 function iabBox(land){return`<div class="iab"><b>Abrilo en tu navegador para entrar</b>Google no permite iniciar sesión desde el navegador de Instagram.${IS_AND?'':`<ol><li>Tocá los <b style="display:inline">⋯</b> o el ícono de compartir (arriba o abajo a la derecha).</li><li>Elegí <b style="display:inline">“Abrir en el navegador”</b> o <b style="display:inline">“Abrir en Safari”</b>.</li></ol>`}<div class="row">${IS_AND?'<button onclick="openExt()">Abrir en Chrome</button>':''}<button class="${IS_AND?'sec':''}" onclick="copyLink()">Copiar enlace</button></div>${land?'':'<button class="try" onclick="tryHere()">Probar igual desde acá</button>'}</div>`}
-if(IAB){const el=document.getElementById('iab-land');if(el)el.innerHTML=iabBox(true)}
 
-// ---------- CARRUSEL ----------
-(function(){const t=document.getElementById('carTrack');if(!t)return;const n=t.children.length,dots=document.getElementById('carDots');let cur=0,timer;
- dots.innerHTML=Array.from({length:n},()=>'<i></i>').join('');
- const mark=()=>[...dots.children].forEach((d,i)=>d.classList.toggle('on',i===cur));
- const go=i=>{cur=(i+n)%n;t.scrollTo({left:cur*t.clientWidth+cur*14,behavior:'smooth'});mark()};
- t.addEventListener('scroll',()=>{const i=Math.round(t.scrollLeft/(t.clientWidth+14));if(i!==cur){cur=Math.max(0,Math.min(n-1,i));mark()}},{passive:true});
- document.getElementById('carPrev').onclick=()=>{go(cur-1);stop()};document.getElementById('carNext').onclick=()=>{go(cur+1);stop()};
- const stop=()=>clearInterval(timer);['touchstart','mousedown','wheel'].forEach(e=>t.addEventListener(e,stop,{passive:true}));
- timer=setInterval(()=>{if(!document.getElementById('land').classList.contains('hide'))go(cur+1)},4500);mark()})();
 
 try{const t=localStorage.getItem('ref_theme_v2');if(t)document.documentElement.dataset.theme=t}catch(e){}
-addEventListener('hashchange',route);route();
+addEventListener('hashchange',route);route();intro();
 </script>
 </body>
 </html>
