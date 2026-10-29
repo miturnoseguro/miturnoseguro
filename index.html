@@ -104,6 +104,27 @@
 .pend .stars button.on svg{fill:#f5a623;stroke:#f5a623}
 .sc .exp{margin-top:10px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut,#667)}
 .intro{position:relative}.intro .cd{position:absolute;top:12px;right:14px;width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.55);display:grid;place-items:center;font-size:14px;font-weight:800}
+/* ===== ajustes v3 ===== */
+.enter{border:0;background:none;padding:6px 4px;font:inherit;font-size:15px;font-weight:700;color:var(--acc,#0b5563);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.swp{gap:6px}.swp .hint{font-size:11px;line-height:1.2}
+.sc .ph{min-height:200px}
+.sc .ph .ini{font-size:60px;opacity:.35;align-items:start;padding-top:22%}
+.sc .cap{left:16px;right:16px;bottom:14px}
+.sc .cap h3{font-size:23px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.sc .cap h3 .vf{display:inline-grid;vertical-align:2px;margin-left:6px}
+.sc .cap .tr{font-size:13px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc .cap .pill{margin-top:8px;padding:4px 11px;font-size:12px}
+.sc .info{padding:12px 14px 14px}
+.sc .tags{flex-wrap:nowrap;gap:6px;margin:0}
+.sc .tags .chip{flex:1 1 0;min-width:0;padding:7px 0;font-size:13px;text-align:center}
+.sc .exp{margin:12px 0 0;font-size:11px}
+.sc .stars{margin-top:6px;padding:2px 4px;border-radius:14px}
+.sc .stars button{padding:5px 0}
+.sc .stars button svg{width:26px;height:26px}
+.fullb{margin-top:10px;padding:9px}
+.mini{height:34px}
+.tabs button{font-size:11px;gap:2px;padding-top:6px;padding-bottom:6px}
+.tabs button svg,.tabs .ic{width:20px;height:20px}
 [data-theme=dark] .sc{background:#1e1e1e}[data-theme=dark] .sc .stars{background:#2e2e2e}
 </style>
 </head>
@@ -235,7 +256,7 @@ function undo(){const id=LAST.pop();if(!id)return;SK.delete(id);render()}
 function fit(){const w=$('#swp'),t=$('#tabs');if(!w||!t)return;w.style.height=Math.max(320,t.getBoundingClientRect().top-w.getBoundingClientRect().top-10)+'px'}
 addEventListener('resize',fit);
 const queue=()=>{const d=new Set((S.mine||[]).map(x=>x.person_id));return PEOPLE.filter(p=>!d.has(p.id)&&!SK.has(p.id))};
-function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2><div style="display:flex;gap:8px;align-items:center">${U?'':`<button class="round" style="width:auto;padding:0 14px;font-weight:700;font-size:13px" onclick="gate('Entrá con Google para calificar y tener tu propio perfil.')">Entrar</button>`}${tbtn}</div>`;
+function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2><div style="display:flex;gap:8px;align-items:center">${U?'':`<button class="enter" onclick="gate('Entrá con Google para calificar y tener tu propio perfil.')">Entrar</button>`}${tbtn}</div>`;
  if(!U&&gN()>=GMAX){$('#main').innerHTML=`<div class="glim"><h3>Ya viste tus ${GMAX} cards gratis 🎉</h3><p>Entrá con Google para seguir. Ahí decidís si tu calificación es positiva o negativa${pend().length?' y confirmás las que ya elegiste':''}.</p></div>${IAB&&!FORCE?iabBox():'<div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div>'}<p style="text-align:center;font-size:12px;color:var(--mut)"><a href="#" onclick="legal();return false">Descargo de responsabilidad</a></p>`;if(!IAB||FORCE)mountGoogle();return}
  if(!p){$('#main').innerHTML=`<div class="empty">${PEOPLE.length?'Ya viste a todos por ahora 🎉':'Todavía no hay otras personas registradas.'}<br>Invitá a tus conocidos para seguir calificando.</div><button class="btn" onclick="inviteContacts()">Invitar desde mis contactos</button><button class="btn alt" onclick="shareApp()">${ic('share')} Invitar por WhatsApp</button>${SK.size?'<button class="btn line" onclick="SK.clear();render()">Volver a ver los salteados</button>':''}`;return}
  $('#main').innerHTML=`<div class="swp" id="swp"><p class="hint">← saltar (no calificás) · calificar con detalle →</p>
