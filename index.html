@@ -58,6 +58,26 @@
 .intro .wa{display:block;width:100%;margin-top:16px;border:0;border-radius:999px;padding:14px;background:#25d366;color:#fff;font-weight:800;font-size:15px;cursor:pointer}
 .intro .later{display:block;width:100%;margin-top:6px;border:0;background:none;color:#fff;opacity:.7;padding:10px;font-size:13px;cursor:pointer}
 @keyframes fd{from{opacity:0}to{opacity:1}}@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:none;opacity:1}}
+.noscroll,.noscroll body{overflow:hidden;overscroll-behavior:none}
+.swp{display:flex;flex-direction:column;gap:8px;min-height:0}
+.swp .hint{margin:0;text-align:center;color:var(--mut,#667);font-size:12px}
+.deck{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+.deck::before{content:"";position:absolute;inset:10px 14px -6px;background:#e4e6e8;border-radius:24px;z-index:0}
+.deck .sc{flex:1;min-height:0;display:flex;flex-direction:column;z-index:1;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .3s;will-change:transform}
+.sc.ani{animation:cin .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes cin{from{opacity:0;transform:translateY(18px) scale(.95)}to{opacity:1;transform:none}}
+.sc .hero{flex:1 1 0;min-height:80px;height:auto;aspect-ratio:auto;max-height:none}
+.sc .info{flex:none;padding:34px 14px 12px}
+.sc .stars{margin-top:8px}.sc .stars button svg{transition:fill .15s,stroke .15s}
+.sc .stars button.on svg{fill:#f5a623;stroke:#f5a623;animation:spop .35s both}
+@keyframes spop{0%{transform:scale(.6)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+.acts{margin:0;gap:12px;height:0;align-items:center;position:relative;z-index:3}
+.acts .round{box-shadow:0 4px 14px rgba(0,0,0,.2);transition:transform .15s}.acts .round:active{transform:scale(.9)}
+.acts .sm{width:44px;height:44px}.acts .lg{width:56px;height:56px}
+.acts .x svg{stroke:#c0392b}.acts .ok svg{stroke:#0b5563}.acts .dis{opacity:.4;pointer-events:none}
+.mini{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:600;height:40px;padding:0 4px}
+.mini .l{display:flex;align-items:center;gap:8px}
+.mini .lnk{border:0;background:none;color:var(--acc,#0b5563);font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -73,7 +93,7 @@
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const P={search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',back:'<path d="m15 18-6-6 6-6"/>',star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',heart:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>',share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4m0-11-6.8 4"/>',check:'<path d="M20 6 9 17l-5-5"/>',user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',pen:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'};
+const P={search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',back:'<path d="m15 18-6-6 6-6"/>',star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',heart:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>',share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4m0-11-6.8 4"/>',check:'<path d="M20 6 9 17l-5-5"/>',user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',undo:'<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',pen:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'};
 const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24">${P[n]}</svg>`;
 const COL=['#0b5563','#111111','#14808f','#083a44','#3a4446','#0f6b78'];
 const REL={trabajo:'Trabajo',amistad:'Amistad',pareja:'Pareja',familia:'Familia'};
@@ -144,6 +164,7 @@ sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0)); // setTimeout evit
 // ---------- RENDER ----------
 function render(){
  const top=$('#top'),m=$('#main'),tb=$('#tabs'),v=S.view;
+ document.documentElement.classList.toggle('noscroll',!!U&&v==='swipe');
  if(!READY){top.innerHTML=tb.innerHTML='';m.innerHTML='<div class="empty">Cargando…</div>';return}
  if(!U){top.innerHTML=tb.innerHTML='';m.innerHTML=`<div class="hdr" style="padding-top:60px"><div class="logo"><img src="logo.png?v=3" alt="Rankea Gente" style="height:40px;width:auto"></div><h3 style="margin-top:18px">Entrá para ver y dar referencias</h3><p style="color:var(--mut);max-width:320px">Usamos tu cuenta de Google para que cada opinión venga de una persona real.</p></div>${IAB&&!FORCE?iabBox():'<div id="gbox" style="display:flex;justify-content:center;min-height:44px"></div>'}<div class="legal"><b>Descargo de responsabilidad</b><p>Rankea Gente no se hace responsable de las calificaciones, comentarios ni opiniones publicadas por los usuarios. Son opiniones personales de quienes las escriben, no hechos comprobados ni la postura de la plataforma. Cada usuario responde por lo que publica. No tomes decisiones importantes basándote solo en esta información.</p><p>Al continuar con Google aceptás este descargo. <a href="#" onclick="legal();return false">Leer completo</a></p></div>`;if(!IAB||FORCE)mountGoogle();return}
  const T=[['swipe','star','Descubrir'],['search','search','Buscar'],['favs','heart','Guardados'],['me','user','Mi perfil']];
@@ -160,33 +181,38 @@ function list(){const q=S.q.toLowerCase().trim();let a=PEOPLE.filter(p=>((p.name
 async function fav(id){const on=FAVS.has(id);on?FAVS.delete(id):FAVS.add(id);rr();const r=on?await sb.from('favorites').delete().eq('person_id',id):await sb.from('favorites').insert({person_id:id});if(r.error){on?FAVS.add(id):FAVS.delete(id);rr();toast('No se pudo guardar')}else toast(on?'Quitado de guardados':'Guardado ♥')}
 
 // ---------- DESCUBRIR (estilo Tinder) ----------
-const SK=new Set(),Q={rel:'trabajo',anon:false};
+const SK=new Set(),Q={rel:'trabajo',anon:false},LAST=[];let ANIM=true;
+function qset(k,v){Q[k]=v;ANIM=false;render();ANIM=true}
+function undo(){const id=LAST.pop();if(!id)return;SK.delete(id);render()}
+function fit(){const w=$('#swp'),t=$('#tabs');if(!w||!t)return;w.style.height=Math.max(320,t.getBoundingClientRect().top-w.getBoundingClientRect().top-10)+'px'}
+addEventListener('resize',fit);
 const queue=()=>{const d=new Set((S.mine||[]).map(x=>x.person_id));return PEOPLE.filter(p=>!d.has(p.id)&&!SK.has(p.id))};
 function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2>${tbtn}`;
  if(!p){$('#main').innerHTML=`<div class="empty">${PEOPLE.length?'Ya viste a todos por ahora 🎉':'Todavía no hay otras personas registradas.'}<br>Invitá a tus conocidos para seguir calificando.</div><button class="btn" onclick="inviteContacts()">Invitar desde mis contactos</button><button class="btn alt" onclick="shareApp()">${ic('share')} Invitar por WhatsApp</button>${SK.size?'<button class="btn line" onclick="SK.clear();render()">Volver a ver los salteados</button>':''}`;return}
- $('#main').innerHTML=`<p style="text-align:center;color:var(--mut);font-size:13px;margin:0 0 10px">${q.length} para calificar · deslizá ← para saltar (no calificás) · → para calificar con detalle</p>
- <div class="card sc" id="sc" style="touch-action:pan-y;user-select:none;transition:transform .25s,opacity .25s">
+ $('#main').innerHTML=`<div class="swp" id="swp"><p class="hint">← saltar (no calificás) · calificar con detalle →</p>
+ <div class="deck"><div class="card sc ${ANIM?'ani':''}" id="sc" style="touch-action:pan-y;user-select:none">
  ${p.avatar_url?`<img class="hero" src="${esc(p.avatar_url)}" referrerpolicy="no-referrer" alt="" draggable="false">`:`<div class="hero" style="background:${hc(p.id)}">${ini(p.name)}</div>`}
  <div class="stamp st-l">SALTAR<small>no calificás</small></div><div class="stamp st-r">CALIFICAR<small>con detalle</small></div>
+ <div class="acts"><button class="round sm ${LAST.length?'':'dis'}" onclick="undo()" aria-label="Volver atrás">${ic('undo')}</button><button class="round lg x" onclick="fly(-1,'skip')" aria-label="Saltar, no calificar">${ic('x')}</button><button class="round sm" onclick="openPerson('${p.id}')" aria-label="Ver perfil">${ic('user')}</button><button class="round lg ok" onclick="fly(1,'rate')" aria-label="Calificar con detalle">${ic('pen')}</button></div>
  <div class="info"><h3 style="margin:0 0 2px">${esc(p.name)}</h3><span style="color:var(--mut)">${esc(p.trait||'Sin frase todavía')}</span>
- <div style="margin:8px 0;font-weight:700">${p.refs?'★ '+p.rating.toFixed(1)+' · '+p.refs+' referencias':'Sé el primero en calificar ✨'}</div>
- <div class="tags" style="justify-content:center">${Object.entries(REL).map(r=>`<button class="chip ${Q.rel===r[0]?'on':''}" onclick="Q.rel='${r[0]}';rr()">${r[1]}</button>`).join('')}</div>
+ <div style="margin:6px 0;font-weight:700">${p.refs?'★ '+p.rating.toFixed(1)+' · '+p.refs+' referencias':'Sé el primero en calificar ✨'}</div>
+ <div class="tags" style="justify-content:center">${Object.entries(REL).map(r=>`<button class="chip ${Q.rel===r[0]?'on':''}" onclick="qset('rel','${r[0]}')">${r[1]}</button>`).join('')}</div>
  <div class="stars">${[1,2,3,4,5].map(n=>`<button onclick="qrate(${n})" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div>
- <p style="color:var(--mut);font-size:13px;margin:8px 0 0">Tocá una estrella para calificar</p></div></div>
- <div class="acts"><div><button class="round" onclick="fly(-1,'skip')" aria-label="Saltar">${ic('x')}</button>No calificar</div><div><button class="round" onclick="openPerson('${p.id}')" aria-label="Ver perfil">${ic('user')}</button>Ver perfil</div><div><button class="round" onclick="fly(1,'rate')" aria-label="Calificar con detalle">${ic('pen')}</button>Con detalle</div></div>
- <div class="card sw"><div><b>Calificar de forma anónima</b><small>Tu nombre no se mostrará a otros usuarios</small></div><button class="tg ${Q.anon?'on':''}" onclick="Q.anon=!Q.anon;rr()" aria-label="Anónimo"></button></div>
- <button class="btn alt" onclick="inviteContacts()">Invitar desde mis contactos</button>`;swipeInit()}
+ <p style="color:var(--mut);font-size:12px;margin:6px 0 0">Tocá una estrella para calificar</p></div></div></div>
+ <div class="mini"><div class="l"><button class="tg ${Q.anon?'on':''}" onclick="qset('anon',!Q.anon)" aria-label="Anónimo"></button>Calificar anónimo</div><button class="lnk" onclick="inviteContacts()">Invitar contactos</button></div></div>`;fit();requestAnimationFrame(fit);swipeInit()}
 function swipeInit(){const c=$('#sc');if(!c)return;let x0=null,dx=0;
  c.onpointerdown=e=>{if(e.target.closest('button'))return;x0=e.clientX;dx=0;c.setPointerCapture(e.pointerId);c.style.transition='none'};
  const L=c.querySelector('.st-l'),Rr=c.querySelector('.st-r');
  c.onpointermove=e=>{if(x0===null)return;dx=e.clientX-x0;c.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;L.style.opacity=Math.min(Math.max(-dx,0)/110,1);Rr.style.opacity=Math.min(Math.max(dx,0)/110,1)};
  c.onpointerup=c.onpointercancel=()=>{if(x0===null)return;x0=null;c.style.transition='';if(dx>110)fly(1,'rate');else if(dx<-110)fly(-1,'skip');else{c.style.transform='';L.style.opacity=Rr.style.opacity=0}dx=0}}
-function fly(d,act){const c=$('#sc'),p=queue()[0];if(!p)return;if(c){const t=c.querySelector(d>0?'.st-r':'.st-l');if(t&&act!=='done')t.style.opacity=1;c.style.transform=`translateX(${d*480}px) rotate(${d*22}deg)`;c.style.opacity=0}
- setTimeout(()=>{if(act==='rate'){openPerson(p.id);startRate()}else{if(act==='skip'){SK.add(p.id);toast('Saltaste a '+p.name.split(' ')[0]+' · no se envió calificación')}render()}},230)}
+function fly(d,act){const c=$('#sc'),p=act==='done'?null:queue()[0];if(!p&&act!=='done')return;
+ if(c){const t=c.querySelector(d>0?'.st-r':'.st-l');if(t&&act!=='done')t.style.opacity=1;c.style.transform=`translateX(${d*520}px) rotate(${d*20}deg)`;c.style.opacity=0}
+ setTimeout(()=>{if(act==='rate'){openPerson(p.id);startRate()}else{if(act==='skip'){SK.add(p.id);LAST.push(p.id);toast('Saltaste a '+p.name.split(' ')[0]+' · no se envió calificación')}render()}},300)}
 async function qrate(n){const p=queue()[0];if(!p||BUSY)return;BUSY=true;
- const {error}=await sb.from('reviews').insert({person_id:p.id,relation:Q.rel,stars:n,tags:[],comment_id:null,anonymous:Q.anon});BUSY=false;
- if(error)return toast(error.code==='23505'?'Ya calificaste a esta persona en esa relación':'No se pudo enviar. Probá de nuevo');
- S.mine=(S.mine||[]).concat({person_id:p.id,relation:Q.rel,stars:n});toast('¡Enviado! '+'★'.repeat(n));fly(1,'done');refresh()}
+ const bs=[...document.querySelectorAll('#sc .stars button')];bs.forEach((b,i)=>{b.classList.toggle('on',i<n);b.firstElementChild.style.animationDelay=i*45+'ms'});try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}
+ const {error}=await sb.from('reviews').insert({person_id:p.id,relation:Q.rel,stars:n,tags:[],comment_id:null,anonymous:Q.anon});
+ if(error){BUSY=false;bs.forEach(b=>b.classList.remove('on'));return toast(error.code==='23505'?'Ya calificaste a esta persona en esa relación':'No se pudo enviar. Probá de nuevo')}
+ S.mine=(S.mine||[]).concat({person_id:p.id,relation:Q.rel,stars:n});toast('¡Enviado! '+'★'.repeat(n));setTimeout(()=>{BUSY=false;fly(1,'done')},380);refresh()}
 // ---------- CONTACTOS (Android/Chrome) ----------
 async function inviteContacts(){
  if(!(navigator.contacts&&navigator.contacts.select)){toast('Este navegador no deja leer contactos');return shareApp()}
