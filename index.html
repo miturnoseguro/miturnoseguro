@@ -102,6 +102,7 @@
 .pend{padding:10px 0;border-top:1px solid var(--line,#e2e8ea)}
 .pend small{color:var(--mut,#667);margin-left:6px}
 .pend .stars button.on svg{fill:#f5a623;stroke:#f5a623}
+.sc .exp{margin-top:10px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut,#667)}
 [data-theme=dark] .sc{background:#1e1e1e}[data-theme=dark] .sc .stars{background:#2e2e2e}
 </style>
 </head>
@@ -244,6 +245,7 @@ function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2><
   <div class="stamp st-l">SALTAR<small>no calificás</small></div><div class="stamp st-r">CALIFICAR<small>con detalle</small></div></div>
  <div class="info">
  <div class="tags">${Object.entries(REL).map(r=>`<button class="chip ${Q.rel===r[0]?'on':''}" onclick="qset('rel','${r[0]}')">${r[1]}</button>`).join('')}</div>
+ <div class="exp">⚡ Calificar express</div>
  <div class="stars">${[1,2,3,4,5].map(n=>`<button onclick="qrate(${n})" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div>
  <button class="fullb" onclick="fullRate()">${ic('pen')} Calificar full</button></div></div></div>
  <div class="mini">${U?`<div class="l"><button class="tg ${Q.anon?'on':''}" onclick="qset('anon',!Q.anon)" aria-label="Anónimo"></button>Calificar anónimo</div><button class="lnk" onclick="inviteContacts()">Invitar contactos</button>`:`<span class="cnt">Anónimo · te quedan <b>${Math.max(0,GMAX-gN())}</b> de ${GMAX} cards</span><button class="lnk" onclick="legal()">Descargo</button>`}</div></div>`;fit();requestAnimationFrame(fit);swipeInit()}
