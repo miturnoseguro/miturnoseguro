@@ -84,13 +84,13 @@
 .sc .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%}
 .sc .ph .ini{position:absolute;inset:0;display:grid;place-items:center;font-size:88px;font-weight:800;color:rgba(255,255,255,.92)}
 .sc .ph .gr{position:absolute;left:0;right:0;bottom:0;height:62%;background:linear-gradient(to top,rgba(0,0,0,.8),rgba(0,0,0,0))}
-.sc .cap{position:absolute;left:16px;right:16px;bottom:30px;color:#fff;z-index:2}
+.sc .cap{position:absolute;left:16px;right:16px;bottom:18px;color:#fff;z-index:2}
 .sc .cap h3{margin:0;font-size:26px;font-weight:800;line-height:1.1;text-shadow:0 1px 8px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px}
 .sc .cap .tr{display:block;margin-top:4px;font-size:14px;opacity:.92}
 .sc .cap .pill{display:inline-flex;gap:6px;align-items:center;margin-top:10px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);font-size:13px;font-weight:700}
 .sc .vf{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#1d9bf0;flex:none}
 .sc .vf svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none}
-.sc .info{padding:32px 14px 12px;text-align:center}
+.sc .info{padding:14px 14px 12px;text-align:center}
 .sc .info .tags{justify-content:center}
 .sc .stars{margin-top:8px;background:var(--soft,#f3f5f6)}
 .fullb{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:8px;padding:10px;border-radius:999px;border:1.5px solid var(--acc,#0b5563);background:transparent;color:var(--acc,#0b5563);font-weight:800;font-size:14px;cursor:pointer}
@@ -242,7 +242,6 @@ function swipe(){const q=queue(),p=q[0];$('#top').innerHTML=`<h2>Descubrir</h2><
   <div class="gr"></div>
   <div class="cap"><h3>${esc(p.name)}${p.verified?`<span class="vf">${ic('check')}</span>`:''}</h3><span class="tr">${esc(p.trait||'Sin frase todavía')}</span><span class="pill">${p.refs?'★ '+p.rating.toFixed(1)+' · '+p.refs+' referencias':'Sé el primero en calificar ✨'}</span></div>
   <div class="stamp st-l">SALTAR<small>no calificás</small></div><div class="stamp st-r">CALIFICAR<small>con detalle</small></div></div>
- <div class="acts"><button class="round sm ${LAST.length&&U?'':'dis'}" onclick="undo()" aria-label="Volver atrás">${ic('undo')}</button><button class="round lg x" onclick="fly(-1,'skip')" aria-label="Saltar, no calificar">${ic('x')}</button><button class="round sm" onclick="openPerson('${p.id}')" aria-label="Ver perfil">${ic('user')}</button><button class="round lg ok" onclick="fly(1,'rate')" aria-label="Calificar con detalle">${ic('pen')}</button></div>
  <div class="info">
  <div class="tags">${Object.entries(REL).map(r=>`<button class="chip ${Q.rel===r[0]?'on':''}" onclick="qset('rel','${r[0]}')">${r[1]}</button>`).join('')}</div>
  <div class="stars">${[1,2,3,4,5].map(n=>`<button onclick="qrate(${n})" aria-label="${n} estrellas">${ic('star')}</button>`).join('')}</div>
