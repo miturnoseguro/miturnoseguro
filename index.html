@@ -36,7 +36,7 @@
 .prog .btn{margin-top:12px}
 .intro{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;width:min(92vw,420px);transform:translateX(-50%);background:#000;color:#fff;border-radius:18px;padding:14px 16px 0;z-index:200;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.3);animation:idn .35s ease;cursor:pointer;font-size:14px;line-height:1.4}
 .intro b{display:block;font-size:16px;margin-bottom:2px}.intro span{opacity:.75}
-.intro .bar{height:4px;margin:12px -16px 0;background:rgba(255,255,255,.2)}.intro .bar i{display:block;height:100%;background:#fff;animation:drain 5s linear forwards}
+.intro .bar{height:4px;margin:12px -16px 0;background:rgba(255,255,255,.2)}.intro .bar i{display:block;height:100%;background:#fff;animation:drain 7s linear forwards}
 @keyframes drain{from{width:100%}to{width:0}}@keyframes idn{from{transform:translate(-50%,-130%)}to{transform:translate(-50%,0)}}
 .sc{position:relative;padding:0;overflow:hidden;background:#f1f2f3;border:1px solid #dfe2e4;text-align:center}
 .sc .hero{display:grid;place-items:center;width:100%;aspect-ratio:1/1;max-height:42vh;object-fit:cover;object-position:center 25%;color:#fff;font-size:64px;font-weight:800;border-radius:0}
@@ -103,6 +103,7 @@
 .pend small{color:var(--mut,#667);margin-left:6px}
 .pend .stars button.on svg{fill:#f5a623;stroke:#f5a623}
 .sc .exp{margin-top:10px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut,#667)}
+.intro{position:relative}.intro .cd{position:absolute;top:12px;right:14px;width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.55);display:grid;place-items:center;font-size:14px;font-weight:800}
 [data-theme=dark] .sc{background:#1e1e1e}[data-theme=dark] .sc .stars{background:#2e2e2e}
 </style>
 </head>
@@ -273,10 +274,11 @@ async function inviteContacts(){
 function waInv(t){let n=t.replace(/\D/g,'');if(!t.trim().startsWith('+'))n='54'+n.replace(/^0+/,'');window.open('https://wa.me/'+n+'?text='+encodeURIComponent('Sumate a Rankea Gente, entrás con Google en un toque '+location.origin+location.pathname),'_blank')}
 // ---------- CARTELITO DE INTRO (5 s) ----------
 function intro(){const k='ref_intro'+(U?1:0);try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1')}catch(e){}
- const w=document.createElement('div'),nm=U&&((U.user_metadata&&U.user_metadata.full_name)||'').split(' ')[0];w.className='introw';
+ const T=7,w=document.createElement('div'),nm=U&&((U.user_metadata&&U.user_metadata.full_name)||'').split(' ')[0];w.className='introw';
  w.onclick=e=>{if(e.target===w)w.remove()};
- w.innerHTML=U?`<div class="intro"><b>${nm?'¡Hola, '+esc(nm)+'!':'¡Bienvenido/a!'} 👋</b><span>Pedile a tus conocidos que te califiquen. Les lleva 1 minuto y las referencias quedan en tu perfil.</span><button class="wa" onclick="this.closest('.introw').remove();askRef(true)">Pedir que me califiquen por WhatsApp</button><button class="later" onclick="this.closest('.introw').remove()">Más tarde</button><div class="bar"><i></i></div></div>`:`<div class="intro"><b>Tu reputación, contada por quienes te conocen.</b><span>Rankea Gente: da y recibí referencias reales de trabajo, amistad o pareja. Probá ${GMAX} cards gratis, sin registrarte.</span><button class="wa" style="background:#fff;color:#000" onclick="this.closest('.introw').remove()">Empezar</button><div class="bar"><i></i></div></div>`;
- document.body.appendChild(w);setTimeout(()=>w.remove(),5000)}
+ const go1=U?"askRef(true)":"gate('Entrá con Google para tener tu perfil y pedir que te califiquen por WhatsApp.')";
+ w.innerHTML=`<div class="intro"><div class="cd" id="cd">${T}</div>${U?`<b>${nm?'¡Hola, '+esc(nm)+'!':'¡Bienvenido/a!'} 👋</b><span>Pedile a tus conocidos que te califiquen. Les lleva 1 minuto y las referencias quedan en tu perfil.</span>`:`<b>Tu reputación, contada por quienes te conocen.</b><span>Rankea Gente: da y recibí referencias reales de trabajo, amistad o pareja. Probá ${GMAX} cards gratis, sin registrarte.</span>`}<button class="wa" onclick="this.closest('.introw').remove();${go1}">Pedir que me califiquen por WhatsApp</button><button class="later" onclick="this.closest('.introw').remove()">${U?'Más tarde':'Empezar a calificar'}</button><div class="bar"><i></i></div></div>`;
+ document.body.appendChild(w);let n=T;const cd=w.querySelector('#cd'),iv=setInterval(()=>{if(!w.isConnected)return clearInterval(iv);n--;cd.textContent=n;if(n<=0){clearInterval(iv);w.remove()}},1000)}
 
 // ---------- PERFIL DE OTRA PERSONA ----------
 async function openPerson(id){if(!U)return gate('Entrá con Google para ver el perfil completo y sus comentarios.',{pid:id});S.pid=id;S.view='person';S.data=null;render();scrollTo(0,0);await loadPerson(id)}
@@ -339,7 +341,7 @@ function me(){
 const profileLink=()=>location.origin+location.pathname+'?p='+U.id+'#app';
 function askRef(wa){const x='¿Me dejás una referencia en Rankea Gente? Podés hacerlo anónimo y te toma 1 minuto 🙏',u=profileLink();
  try{localStorage.setItem('ref_asked','1')}catch(e){}
- if(navigator.share)navigator.share({title:'Rankea Gente',text:x,url:u}).then(()=>rr()).catch(()=>{});
+ if(navigator.share&&!wa)navigator.share({title:'Rankea Gente',text:x,url:u}).then(()=>rr()).catch(()=>{});
  else window.open('https://wa.me/?text='+encodeURIComponent(x+' '+u),'_blank')}
 function prog(){let asked=0;try{asked=localStorage.getItem('ref_asked')}catch(e){}
  const st=[['Entraste con Google',true],['Calificá a alguien',S.mine?S.mine.length>0:false],['Pedí que te califiquen',!!asked],['Escribí tu frase de perfil',!!(ME&&ME.trait)]],d=st.filter(x=>x[1]).length;
