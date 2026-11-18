@@ -33,6 +33,7 @@ input,select,textarea{width:100%;margin-top:4px;border:1px solid var(--b);border
 textarea{height:80px;resize:none}.age{display:flex;gap:4px}.profile label{margin-top:12px}
 .banner{border:1px solid #f3d38a;background:#fff7e6;border-radius:16px;padding:12px;margin:10px 0;font-size:14px}.banner .pill{margin-top:8px}
 .empty{text-align:center;color:var(--m);padding:40px 10px}
+.promo{width:100%;display:block;border-radius:16px;margin:8px 0 6px}
 .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.bar b{font-size:20px}
 .burger{position:relative;border:1px solid var(--b);background:#fff;border-radius:12px;width:42px;height:42px;font-size:20px;cursor:pointer}
 .sheet.m{place-items:stretch end}.sheet.m>div{width:240px;max-width:80vw;border-radius:0;padding:calc(18px + env(safe-area-inset-top,0px)) 8px 18px;text-align:left}
@@ -74,7 +75,7 @@ const sel=(a,b)=>a==b?' selected':'';
 const left=x=>Math.max(0,Math.floor((new Date(x)-Date.now())/1000)),fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 const nm=p=>esc(p.first_name||'Usuario')+(p.last_initial?' '+esc(p.last_initial)+'.':'');
 const av=p=>p.avatar_url?`<img class="av" src="${esc(p.avatar_url)}" referrerpolicy="no-referrer" alt="">`:`<div class="av ph">${esc((p.first_name||'?')[0])}</div>`;
-function toast(t){clearTimeout(TT);document.getElementById('toast')?.remove();const d=document.createElement('div');d.id='toast';d.textContent=t;document.body.appendChild(d);TT=setTimeout(()=>d.remove(),3500)}
+function toast(t,fn){clearTimeout(TT);document.getElementById('toast')?.remove();const d=document.createElement('div');d.id='toast';d.textContent=t;if(fn){d.style.cursor='pointer';d.onclick=()=>{d.remove();fn()}}document.body.appendChild(d);TT=setTimeout(()=>d.remove(),3500)}
 
 // ---------- AUTH (Google) ----------
 const NONCE=btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))));let GREADY=false;
@@ -100,9 +101,9 @@ sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0));
 
 // ---------- REALTIME ----------
 function listen(){unlisten();CH=sb.channel('inbox')
- .on('postgres_changes',{event:'INSERT',schema:'public',table:'chats'},p=>{if(p.new.user_b===U.id){loadChats();toast('Alguien quiere chatear con vos')}})
- .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>{const m=p.new;
-  if(C&&C.chat_id===m.chat_id)addMsg(m);else if(m.sender_id!==U.id){UNREAD=true;$('#dot')?.classList.remove('hid');toast('Nuevo mensaje');loadChats()}}).subscribe()}
+ .on('postgres_changes',{event:'INSERT',schema:'public',table:'chats'},async p=>{if(p.new.user_b!==U.id)return;await loadChats();
+  const c=CHATS.find(x=>x.chat_id===p.new.id)||{};BADGE++;title();UNREAD=true;$('#dot')?.classList.remove('hid');alertUser('👋 '+(who(c)||'Alguien')+' quiere chatear','Tenés 15 minutos',p.new.id)})
+ .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>{const m=p.new;if(C&&C.chat_id===m.chat_id)addMsg(m);if(m.sender_id!==U.id)incoming(m)}).subscribe()}
 function unlisten(){if(CH){sb.removeChannel(CH);CH=null}}
 
 // ---------- VISTAS ----------
@@ -117,11 +118,11 @@ function bar(){return `<div class="bar"><b>Cerca</b><button class="burger" oncli
 function menu(){$('#menu')?.remove();const d=document.createElement('div');d.id='menu';d.className='sheet m';d.onclick=e=>{if(e.target===d)d.remove()};
  d.innerHTML=`<div>${[['home','Inicio'],['chats','Chats'],['profile','Perfil']].map(o=>`<button class="${V===o[0]?'on':''}" onclick="pick('${o[0]}')">${o[1]}${o[0]==='chats'&&UNREAD?'<i class="dd"></i>':''}</button>`).join('')}<hr><button onclick="this.closest('.sheet').remove();logout()">Cerrar sesión</button></div>`;document.body.appendChild(d)}
 function pick(v){$('#menu')?.remove();go(v)}
-function go(v){V=v;if(v==='chats'){UNREAD=false;loadChats()}render()}
+function go(v){V=v;if(v==='chats'){UNREAD=false;clr();loadChats()}render()}
 function card(p,btn=true){return `<div class="card ${btn?'':'me'}" ${btn?`onclick="ask('${p.id}')"`:''}>${av(p)}<div class="t"><b>${nm(p)}</b><small>${p.age} · ${G[p.gender]||''}${p.distance_km?` · a ${p.distance_km} km`:''}</small></div>${btn?'<button class="pill">Chatear</button>':''}</div>`}
-function homeHTML(){return `<div class="bar" style="margin:0"><h2 style="margin:6px 0">Cerca tuyo</h2><button class="burger" style="width:auto;padding:0 12px;font:600 14px inherit;font-family:inherit" onclick="loadPeople();toast('Actualizado')">↻ Actualizar</button></div>
+function homeHTML(){return `<img class="promo" src="banner.jpg" alt="Multiplica conexiones" onerror="this.remove()"><div class="bar" style="margin:0"><h2 style="margin:6px 0">Cerca tuyo</h2><button class="burger" style="width:auto;padding:0 12px;font:600 14px inherit;font-family:inherit" onclick="loadPeople();toast('Actualizado')">↻ Actualizar</button></div>
 ${HASLOC?'':`<div class="banner">Activá tu ubicación para aparecer en el inicio y ver a qué distancia están los demás.<br><button class="pill" onclick="askLoc()">Permitir ubicación</button></div>`}
-<div class="filters"><label>Edad<div class="age"><input id="fa" type="number" min="18" max="60" value="${F.min}" onchange="applyF()"><input id="fb" type="number" min="18" max="60" value="${F.max}" onchange="applyF()"></div></label>
+${notifBanner()}<div class="filters"><label>Edad<div class="age"><input id="fa" type="number" min="18" max="60" value="${F.min}" onchange="applyF()"><input id="fb" type="number" min="18" max="60" value="${F.max}" onchange="applyF()"></div></label>
 <label>Sexo<select id="fg" onchange="applyF()"><option value="">Todos</option><option value="mujer"${sel(F.g,'mujer')}>Mujeres</option><option value="hombre"${sel(F.g,'hombre')}>Hombres</option><option value="otro"${sel(F.g,'otro')}>Otro</option></select></label>
 <label>Distancia<select id="fr" onchange="applyF()">${[['','Cualquiera'],[5,'5 km'],[10,'10 km'],[25,'25 km'],[50,'50 km'],[100,'100 km']].map(o=>`<option value="${o[0]}"${sel(F.r,o[0])}>${o[1]}</option>`).join('')}</select></label></div>
 <div id="list"></div>`}
@@ -151,7 +152,7 @@ function ask(id){const p=PEOPLE.find(x=>x.id===id);if(!p)return;const d=document
   await loadChats();PEOPLE=PEOPLE.filter(x=>x.id!==id);openChat(r.data)}}
 
 // ---------- CHAT ----------
-async function openChat(id){C=CHATS.find(c=>c.chat_id===id);if(!C)return;V='chat';MSGS=[];SEEN=new Set();renderChat();
+async function openChat(id){clr();C=CHATS.find(c=>c.chat_id===id);if(!C)return;V='chat';MSGS=[];SEEN=new Set();renderChat();
  const r=await sb.from('messages').select('*').eq('chat_id',id).order('created_at');(r.data||[]).forEach(addMsg)}
 function renderChat(){$('#app').innerHTML=`<div class="chat"><header><button class="ghost sm" onclick="leave()">‹</button>${av(C)}<b>${nm(C)}</b><span class="tm">⏱ <span data-exp="${C.expires_at}">${fmt(left(C.expires_at))}</span></span></header>
 <div class="note">Este chat se borra al terminar el tiempo y no podrán volver a hablar.</div><div id="msgs"></div>
@@ -162,6 +163,30 @@ async function send(e){e.preventDefault();const t=$('#mi').value.trim();if(!t||!
  const r=await sb.from('messages').insert({chat_id:C.chat_id,sender_id:U.id,body:t}).select().single();if(r.error)toast('No se pudo enviar (¿terminó el chat?)');else addMsg(r.data)}
 function leave(){C=null;V='chats';loadChats();render()}
 function endChat(){C=null;MSGS=[];SEEN=new Set();V='home';toast('El chat terminó y se borró para siempre');render();loadPeople()}
+
+// ---------- AVISOS (notificaciones, sonido, vibración, contador) ----------
+let BADGE=0,AC;
+const who=c=>c.first_name?c.first_name+(c.last_initial?' '+c.last_initial+'.':''):'';
+const title=()=>{document.title=(BADGE?'('+BADGE+') ':'')+'Cerca · Chats de 15 minutos'};
+const clr=()=>{BADGE=0;title()};
+document.addEventListener('click',()=>{try{AC=AC||new(window.AudioContext||window.webkitAudioContext)()}catch(e){}},{once:true});
+function beep(){try{if(!AC)return;const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.frequency.value=880;g.gain.setValueAtTime(.12,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.25);o.start();o.stop(AC.currentTime+.25)}catch(e){}}
+async function openChatId(id){if(!CHATS.find(c=>c.chat_id===id))await loadChats();openChat(id)}
+async function incoming(m){if(!CHATS.find(c=>c.chat_id===m.chat_id))await loadChats();
+ const c=CHATS.find(x=>x.chat_id===m.chat_id)||{};
+ if(C&&C.chat_id===m.chat_id&&!document.hidden&&document.hasFocus())return;
+ BADGE++;title();UNREAD=true;$('#dot')?.classList.remove('hid');alertUser('💬 '+(who(c)||'Nuevo mensaje'),m.body.slice(0,90),m.chat_id)}
+function alertUser(t,b,id){beep();try{navigator.vibrate&&navigator.vibrate([120,60,120])}catch(e){}
+ if(document.hidden||!document.hasFocus())sysNotify(t,b,id);else toast(t+(b?' · '+b:''),()=>openChatId(id))}
+async function sysNotify(t,b,id){if(!('Notification' in window)||Notification.permission!=='granted')return;
+ const o={body:b,tag:'chat-'+id,renotify:true,icon:'favicon.png',badge:'favicon.png',data:{chat:id},vibrate:[120,60,120]};
+ try{const reg=navigator.serviceWorker?await navigator.serviceWorker.getRegistration():null;if(reg)return reg.showNotification(t,o);
+  const n=new Notification(t,o);n.onclick=()=>{window.focus();openChatId(id);n.close()}}catch(e){console.warn(e)}}
+function askNotif(){Notification.requestPermission().then(p=>{render();toast(p==='granted'?'Avisos activados 🔔':'Avisos bloqueados: podés activarlos en los ajustes del sitio')})}
+const notifBanner=()=>('Notification' in window&&Notification.permission==='default')?`<div class="banner">🔔 Activá los avisos para enterarte cuando alguien te escriba, aunque estés en otra pestaña.<br><button class="pill" onclick="askNotif()">Activar avisos</button></div>`:'';
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.chat)openChatId(e.data.chat)})}
+addEventListener('focus',()=>{if(V==='chat'||V==='chats')clr()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&(V==='chat'||V==='chats'))clr()});
 
 // ---------- RELOJ (cuenta regresiva de 15 min) ----------
 setInterval(()=>{const now=Date.now();
