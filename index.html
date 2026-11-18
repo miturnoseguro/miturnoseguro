@@ -37,6 +37,7 @@ textarea{height:80px;resize:none}.age{display:flex;gap:4px}.profile label{margin
 .burger{position:relative;border:1px solid var(--b);background:#fff;border-radius:12px;width:42px;height:42px;font-size:20px;cursor:pointer}
 .sheet.m{place-items:stretch end}.sheet.m>div{width:240px;max-width:80vw;border-radius:0;padding:calc(18px + env(safe-area-inset-top,0px)) 8px 18px;text-align:left}
 .sheet.m button{display:block;width:100%;text-align:left;border:0;background:none;padding:16px 14px;font:600 17px inherit;font-family:inherit;border-radius:12px;cursor:pointer}.sheet.m .on{font-weight:800;background:#f1f2f3}
+.sheet.m hr{border:0;border-top:1px solid var(--b);margin:8px 14px}
 .dd{display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0245e;margin-left:8px}
 .tabs{position:fixed;left:0;right:0;bottom:0;display:flex;background:#fff;border-top:1px solid var(--b);padding-bottom:env(safe-area-inset-bottom,0px)}
 .tabs button{flex:1;border:0;background:none;padding:14px 0;font:600 14px inherit;font-family:inherit;color:var(--m);position:relative;cursor:pointer}
@@ -114,7 +115,7 @@ function render(){const a=$('#app');
  if(V==='home')drawList();if(need&&!$('#setup'))setup(true)}
 function bar(){return `<div class="bar"><b>Cerca</b><button class="burger" onclick="menu()" aria-label="Menú">☰<i id="dot" class="${UNREAD?'':'hid'}"></i></button></div>`}
 function menu(){$('#menu')?.remove();const d=document.createElement('div');d.id='menu';d.className='sheet m';d.onclick=e=>{if(e.target===d)d.remove()};
- d.innerHTML=`<div>${[['home','Inicio'],['chats','Chats'],['profile','Perfil']].map(o=>`<button class="${V===o[0]?'on':''}" onclick="pick('${o[0]}')">${o[1]}${o[0]==='chats'&&UNREAD?'<i class="dd"></i>':''}</button>`).join('')}</div>`;document.body.appendChild(d)}
+ d.innerHTML=`<div>${[['home','Inicio'],['chats','Chats'],['profile','Perfil']].map(o=>`<button class="${V===o[0]?'on':''}" onclick="pick('${o[0]}')">${o[1]}${o[0]==='chats'&&UNREAD?'<i class="dd"></i>':''}</button>`).join('')}<hr><button onclick="this.closest('.sheet').remove();logout()">Cerrar sesión</button></div>`;document.body.appendChild(d)}
 function pick(v){$('#menu')?.remove();go(v)}
 function go(v){V=v;if(v==='chats'){UNREAD=false;loadChats()}render()}
 function card(p,btn=true){return `<div class="card ${btn?'':'me'}" ${btn?`onclick="ask('${p.id}')"`:''}>${av(p)}<div class="t"><b>${nm(p)}</b><small>${p.age} · ${G[p.gender]||''}${p.distance_km?` · a ${p.distance_km} km`:''}</small></div>${btn?'<button class="pill">Chatear</button>':''}</div>`}
