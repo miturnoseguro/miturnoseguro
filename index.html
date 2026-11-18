@@ -12,7 +12,9 @@
 <style>
 :root{--b:#cfd3d6;--m:#667;--ink:#0f1419}
 *{box-sizing:border-box}html,body{margin:0;height:100%}
+html,body{overscroll-behavior:none}
 body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:#fff;padding-top:env(safe-area-inset-top,0px)}
+body.inchat{overflow:hidden;padding-top:0}
 .wrap{max-width:520px;margin:0 auto;padding:14px 14px 28px}
 h1{font-size:32px;margin:0 0 8px}h2{font-size:22px;margin:6px 0 10px}
 .hint,.login p,small{color:var(--m)}
@@ -23,13 +25,14 @@ h1{font-size:32px;margin:0 0 8px}h2{font-size:22px;margin:6px 0 10px}
 .ph{display:grid;place-items:center;font-weight:800;color:#fff;background:var(--ink)}
 .card .t{flex:1;min-width:0}.card b{display:block;font-size:15px}.card small{font-size:13px}
 .card p{margin:4px 0 0;font-size:14px;overflow-wrap:anywhere}
-.pill{border:0;border-radius:999px;background:var(--ink);color:#fff;font:700 14px inherit;font-family:inherit;padding:9px 18px;cursor:pointer}
+.pill{border:0;border-radius:999px;background:var(--ink);color:#fff;font-family:inherit;font-weight:700;font-size:14px;padding:9px 18px;cursor:pointer}
 .pill.big{width:100%;padding:14px;font-size:15px;margin-top:10px}
-.ghost{width:100%;border:1px solid var(--b);background:#fff;border-radius:999px;padding:12px;margin-top:8px;font:600 14px inherit;font-family:inherit;cursor:pointer}
+.ghost{width:100%;border:1px solid var(--b);background:#fff;border-radius:999px;padding:12px;margin-top:8px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer}
 .ghost.sm{width:auto;margin:0;padding:6px 12px;font-size:18px}
 .filters{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px;margin:8px 0 4px}
 label{display:block;font-size:12px;font-weight:600;color:var(--m)}
-input,select,textarea{width:100%;margin-top:4px;border:1px solid var(--b);border-radius:12px;padding:10px;font:500 16px inherit;font-family:inherit;color:var(--ink);background:#fff}
+/* font-size 16px evita el zoom automático de iOS al enfocar un campo */
+input,select,textarea{width:100%;margin-top:4px;border:1px solid var(--b);border-radius:12px;padding:10px;font-family:inherit;font-weight:500;font-size:16px;color:var(--ink);background:#fff}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--b)}
 textarea{height:80px;resize:none}.age{display:flex;gap:4px}.profile label{margin-top:12px}
 .banner{border:1px solid #f3d38a;background:#fff7e6;border-radius:16px;padding:12px;margin:10px 0;font-size:14px}.banner .pill{margin-top:8px}
@@ -37,27 +40,40 @@ textarea{height:80px;resize:none}.age{display:flex;gap:4px}.profile label{margin
 .promo{width:100%;display:block;border-radius:16px;margin:8px 0 6px}
 .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.bar b{font-size:20px}
 .burger{position:relative;border:1px solid var(--b);background:#fff;border-radius:12px;width:42px;height:42px;font-size:20px;cursor:pointer}
-.sheet.m{place-items:stretch end}.sheet.m>div{width:240px;max-width:80vw;border-radius:0;padding:calc(18px + env(safe-area-inset-top,0px)) 8px 18px;text-align:left}
-.sheet.m button{display:block;width:100%;text-align:left;border:0;background:none;padding:16px 14px;font:600 17px inherit;font-family:inherit;border-radius:12px;cursor:pointer}.sheet.m .on{font-weight:800;background:#f1f2f3}
+.sheet.m{place-items:stretch end}.sheet.m>div{width:240px;max-width:80vw;border-radius:0;padding:calc(18px + env(safe-area-inset-top,0px)) 8px 18px;text-align:left;overflow-y:auto}
+.sheet.m button{display:block;width:100%;text-align:left;border:0;background:none;padding:16px 14px;font-family:inherit;font-weight:600;font-size:17px;border-radius:12px;cursor:pointer}.sheet.m .on{font-weight:800;background:#f1f2f3}
 .sheet.m hr{border:0;border-top:1px solid var(--b);margin:8px 14px}
 .dd{display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0245e;margin-left:8px}
+.cnt{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;margin-left:8px;border-radius:11px;background:#e0245e;color:#fff;font-size:12px;font-weight:800;vertical-align:middle}
 .tabs{position:fixed;left:0;right:0;bottom:0;display:flex;background:#fff;border-top:1px solid var(--b);padding-bottom:env(safe-area-inset-bottom,0px)}
-.tabs button{flex:1;border:0;background:none;padding:14px 0;font:600 14px inherit;font-family:inherit;color:var(--m);position:relative;cursor:pointer}
+.tabs button{flex:1;border:0;background:none;padding:14px 0;font-family:inherit;font-weight:600;font-size:14px;color:var(--m);position:relative;cursor:pointer}
 .tabs .on{color:var(--ink);font-weight:800}
 #dot{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:#e0245e}.hid{display:none}
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:end center;z-index:50}
 .sheet>div{background:#fff;width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));text-align:center}
 .sheet.c{place-items:center;padding:16px}.sheet.c>div{border-radius:22px;max-width:420px;text-align:left}
-.seg{display:flex;gap:6px;margin:6px 0 16px}.seg button{flex:1;border:1px solid var(--b);background:#fff;border-radius:999px;padding:11px 0;font:600 14px inherit;font-family:inherit;cursor:pointer}.seg .on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.seg{display:flex;gap:6px;margin:6px 0 16px}.seg button{flex:1;border:1px solid var(--b);background:#fff;border-radius:999px;padding:11px 0;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer}.seg .on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .sheet .av{width:84px;height:84px;margin:0 auto 8px;font-size:32px}
-.chat{display:flex;flex-direction:column;height:calc(100dvh - env(safe-area-inset-top,0px));max-width:520px;margin:0 auto}
+
+/* ---- Chat: fijo y ajustado al viewport visual (el teclado de iPhone no tapa el botón) ---- */
+.chat{display:flex;flex-direction:column;position:fixed;top:0;left:0;right:0;height:var(--vh,100dvh);max-width:520px;margin:0 auto;background:#fff;padding-top:env(safe-area-inset-top,0px)}
 .chat header{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--b)}
 .chat header .av{width:36px;height:36px}.chat header b{flex:1}.tm{font-weight:800;font-variant-numeric:tabular-nums}
 .note{background:#f4f5f6;color:var(--m);font-size:12px;text-align:center;padding:8px}
-#msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:6px}
+#msgs{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:12px;display:flex;flex-direction:column;gap:6px}
 .bub{max-width:78%;padding:9px 13px;border-radius:18px;font-size:15px;overflow-wrap:anywhere}
 .bub.me{align-self:flex-end;background:var(--ink);color:#fff}.bub.ot{align-self:flex-start;background:#eceef0}
-.chat form{display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--b)}.chat form input{margin:0}
+.chat form{display:flex;flex-direction:column;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--b)}
+.chat form input{margin:0;width:100%}
+.chat form .pill{width:100%;padding:13px;font-size:15px}
+
+/* ---- Burbujas flotantes de chats activos (inicio) ---- */
+#fab{position:fixed;right:14px;bottom:calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column-reverse;gap:18px;z-index:40}
+.fb{position:relative;width:60px;height:60px;border:0;padding:0;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.28);cursor:pointer}
+.fb .av{width:60px;height:60px;border:2px solid #fff;font-size:22px}
+.fb .bd{position:absolute;top:-4px;right:-4px;display:grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:11px;border:2px solid #fff;background:#e0245e;color:#fff;font-style:normal;font-weight:800;font-size:12px}
+.fb .ft{position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;font-variant-numeric:tabular-nums;white-space:nowrap}
+
 #toast{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:14px;z-index:99;max-width:90vw;text-align:center}
 </style>
 </head>
@@ -71,7 +87,8 @@ const SB_URL='https://tiajsxobclpcumbhtntb.supabase.co',SB_KEY='sb_publishable_t
 const GOOGLE_CLIENT_ID='962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com';
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{flowType:'pkce'}});
 const G={mujer:'Mujer',hombre:'Hombre',otro:'Otro'};
-let SG='',U=null,ME=null,PEOPLE=[],CHATS=[],F={min:18,max:60,g:'',r:''},V='home',C=null,MSGS=[],SEEN=new Set(),CH=null,HASLOC=false,UNREAD=false,TT;
+let SG='',U=null,ME=null,PEOPLE=[],CHATS=[],F={min:18,max:60,g:'',r:''},V='home',C=null,MSGS=[],SEEN=new Set(),CH=null,HASLOC=false,UNREAD=false,UNR={},TT;
+const tot=()=>Object.values(UNR).reduce((a,b)=>a+b,0),hasUnr=()=>UNREAD||tot()>0;
 const sel=(a,b)=>a==b?' selected':'';
 const left=x=>Math.max(0,Math.floor((new Date(x)-Date.now())/1000)),fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 const nm=p=>esc(p.first_name||'Usuario')+(p.last_initial?' '+esc(p.last_initial)+'.':'');
@@ -93,11 +110,11 @@ function getLoc(){return new Promise(res=>{if(!navigator.geolocation){HASLOC=fal
  navigator.geolocation.getCurrentPosition(async p=>{const r=await sb.rpc('set_my_location',{p_lat:p.coords.latitude,p_lng:p.coords.longitude});if(r.error){console.error(r.error);toast('Error al guardar ubicación: '+r.error.message)}HASLOC=!r.error;res(HASLOC)},e=>{HASLOC=false;toast('No pudimos obtener tu ubicación: '+e.message);res(false)},{timeout:10000,maximumAge:600000})})}
 async function loadPeople(){const r=await sb.rpc('nearby_profiles',{p_min_age:F.min,p_max_age:F.max,p_gender:F.g||null,p_radius_km:F.r?+F.r:null});
  if(r.error){console.error(r.error);toast('Error al cargar gente: '+r.error.message)}PEOPLE=r.error?[]:(r.data||[]);if(V==='home')drawList()}
-async function loadChats(){const r=await sb.rpc('my_active_chats');CHATS=r.data||[];if(V==='chats')render()}
+async function loadChats(){const r=await sb.rpc('my_active_chats');CHATS=r.data||[];if(V==='chats')render();else if(V==='home')bubbles()}
 async function boot(s){
  if(s&&s.user){if(U&&U.id===s.user.id)return;U=s.user;{const ri=await sb.rpc('init_my_profile');if(ri.error){console.error(ri.error);toast('Error de perfil: '+ri.error.message)}}await loadMe();V='home';render();listen();
   if(ME.age&&ME.gender){await getLoc();loadChats();loadPeople();if(!HASLOC&&V==='home')render()}}
- else{U=ME=null;PEOPLE=[];CHATS=[];C=null;V='home';unlisten();render()}}
+ else{U=ME=null;PEOPLE=[];CHATS=[];UNR={};UNREAD=false;C=null;V='home';unlisten();render()}}
 sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0));
 
 // ---------- REALTIME ----------
@@ -108,29 +125,35 @@ function listen(){unlisten();CH=sb.channel('inbox')
 function unlisten(){if(CH){sb.removeChannel(CH);CH=null}}
 
 // ---------- VISTAS ----------
-function render(){const a=$('#app');
+function render(){const a=$('#app');$('#fab')?.remove();document.body.classList.remove('inchat');
  if(!U){a.innerHTML=`<div class="wrap login"><h1>Cerca</h1><p>Conocé gente cerca tuyo. Chats de 15 minutos que desaparecen para siempre.</p><div id="gbox"></div><small>Solo mayores de 18 años. Al ingresar aceptás el <a href="descargo.html" target="_blank" rel="noopener">descargo de responsabilidad</a>.</small></div>`;return mountGoogle()}
  const need=!(ME&&ME.age&&ME.gender);if(need&&V!=='home')V='home';
  if(V==='chat'&&C)return renderChat();
  const body=V==='home'?homeHTML():V==='chats'?chatsHTML():profileHTML();
  a.innerHTML=`<div class="wrap">${need?'':bar()}${body}</div>`;
- if(V==='home')drawList();if(need&&!$('#setup'))setup(true)}
-function bar(){return `<div class="bar"><b>Cerca</b><button class="burger" onclick="menu()" aria-label="Menú">☰<i id="dot" class="${UNREAD?'':'hid'}"></i></button></div>`}
+ if(V==='home')drawList();bubbles();if(need&&!$('#setup'))setup(true)}
+function bar(){return `<div class="bar"><b>Cerca</b><button class="burger" onclick="menu()" aria-label="Menú">☰<i id="dot" class="${hasUnr()?'':'hid'}"></i></button></div>`}
 function menu(){$('#menu')?.remove();const d=document.createElement('div');d.id='menu';d.className='sheet m';d.onclick=e=>{if(e.target===d)d.remove()};
- d.innerHTML=`<div>${[['home','Inicio'],['chats','Chats'],['profile','Perfil']].map(o=>`<button class="${V===o[0]?'on':''}" onclick="pick('${o[0]}')">${o[1]}${o[0]==='chats'&&UNREAD?'<i class="dd"></i>':''}</button>`).join('')}<hr><button onclick="this.closest('.sheet').remove();logout()">Cerrar sesión</button></div>`;document.body.appendChild(d)}
+ const t=tot(),badge=o=>o[0]==='chats'?(t?`<span class="cnt">${t}</span>`:UNREAD?'<i class="dd"></i>':''):'';
+ const live=CHATS.length?'<hr>'+CHATS.map(c=>`<button onclick="pickChat('${c.chat_id}')">💬 ${nm(c)}${UNR[c.chat_id]?`<span class="cnt">${UNR[c.chat_id]}</span>`:''}</button>`).join(''):'';
+ d.innerHTML=`<div>${[['home','Inicio'],['chats','Chats'],['profile','Perfil']].map(o=>`<button class="${V===o[0]?'on':''}" onclick="pick('${o[0]}')">${o[1]}${badge(o)}</button>`).join('')}${live}<hr><button onclick="this.closest('.sheet').remove();logout()">Cerrar sesión</button></div>`;document.body.appendChild(d)}
 function pick(v){$('#menu')?.remove();go(v)}
+function pickChat(id){$('#menu')?.remove();openChat(id)}
 function go(v){V=v;if(v==='chats'){UNREAD=false;clr();loadChats()}render()}
 function card(p,btn=true){return `<div class="card ${btn?'':'me'}" ${btn?`onclick="ask('${p.id}')"`:''}>${av(p)}<div class="t"><b>${nm(p)}</b><small>${p.age} · ${G[p.gender]||''}${p.distance_km?` · a ${p.distance_km} km`:''}</small></div>${btn?'<button class="pill">Chatear</button>':''}</div>`}
-function homeHTML(){return `<img class="promo" src="banner.jpg" alt="Multiplica conexiones" onerror="this.remove()"><div class="bar" style="margin:0"><h2 style="margin:6px 0">Cerca tuyo</h2><button class="burger" style="width:auto;padding:0 12px;font:600 14px inherit;font-family:inherit" onclick="loadPeople();toast('Actualizado')">↻ Actualizar</button></div>
+function homeHTML(){return `<img class="promo" src="banner.jpg" alt="Multiplica conexiones" onerror="this.remove()"><div class="bar" style="margin:0"><h2 style="margin:6px 0">Cerca tuyo</h2><button class="burger" style="width:auto;padding:0 12px;font-weight:600;font-size:14px;font-family:inherit" onclick="loadPeople();toast('Actualizado')">↻ Actualizar</button></div>
 ${HASLOC?'':`<div class="banner">Activá tu ubicación para aparecer en el inicio y ver a qué distancia están los demás.<br><button class="pill" onclick="askLoc()">Permitir ubicación</button></div>`}
 ${notifBanner()}<div class="filters"><label>Edad<div class="age"><input id="fa" type="number" min="18" max="60" value="${F.min}" onchange="applyF()"><input id="fb" type="number" min="18" max="60" value="${F.max}" onchange="applyF()"></div></label>
 <label>Sexo<select id="fg" onchange="applyF()"><option value="">Todos</option><option value="mujer"${sel(F.g,'mujer')}>Mujeres</option><option value="hombre"${sel(F.g,'hombre')}>Hombres</option><option value="otro"${sel(F.g,'otro')}>Otro</option></select></label>
 <label>Distancia<select id="fr" onchange="applyF()">${[['','Cualquiera'],[5,'5 km'],[10,'10 km'],[25,'25 km'],[50,'50 km'],[100,'100 km']].map(o=>`<option value="${o[0]}"${sel(F.r,o[0])}>${o[1]}</option>`).join('')}</select></label></div>
 <div id="list"></div>`}
 function drawList(){const l=$('#list');if(l)l.innerHTML=PEOPLE.length?PEOPLE.map(p=>card(p)).join(''):'<div class="empty">No hay personas por ahora. Para aparecer, cada persona tiene que completar su perfil y permitir la ubicación.</div>'}
+// burbujas flotantes: una por chat activo, con contador de mensajes sin leer
+function bubbles(){$('#fab')?.remove();if(!U||V!=='home'||!CHATS.length)return;const d=document.createElement('div');d.id='fab';
+ d.innerHTML=CHATS.map(c=>{const n=UNR[c.chat_id]||0;return `<button class="fb" onclick="openChat('${c.chat_id}')" aria-label="Chat con ${esc(c.first_name||'usuario')}">${av(c)}${n?`<i class="bd">${n>9?'9+':n}</i>`:''}<span class="ft" data-exp="${c.expires_at}">${fmt(left(c.expires_at))}</span></button>`}).join('');document.body.appendChild(d)}
 function applyF(){F.min=Math.max(18,+$('#fa').value||18);F.max=Math.min(60,+$('#fb').value||60);F.g=$('#fg').value;F.r=$('#fr').value;loadPeople()}
 async function askLoc(){if(await getLoc()){render();loadPeople()}else toast('Activá el permiso de ubicación en tu navegador')}
-function chatsHTML(){return `<h2>Tus chats</h2>`+(CHATS.length?CHATS.map(c=>`<div class="card" onclick="openChat('${c.chat_id}')">${av(c)}<div class="t"><b>${nm(c)}</b><small>Termina en <span data-exp="${c.expires_at}">${fmt(left(c.expires_at))}</span></small></div><button class="pill">Abrir</button></div>`).join(''):'<div class="empty">No tenés chats activos. Tocá a alguien en el inicio para empezar uno.</div>')}
+function chatsHTML(){return `<h2>Tus chats</h2>`+(CHATS.length?CHATS.map(c=>`<div class="card" onclick="openChat('${c.chat_id}')">${av(c)}<div class="t"><b>${nm(c)}${UNR[c.chat_id]?`<span class="cnt">${UNR[c.chat_id]}</span>`:''}</b><small>Termina en <span data-exp="${c.expires_at}">${fmt(left(c.expires_at))}</span></small></div><button class="pill">Abrir</button></div>`).join(''):'<div class="empty">No tenés chats activos. Tocá a alguien en el inicio para empezar uno.</div>')}
 function profileHTML(){return `<h2>Tu perfil</h2><p class="hint">Así te ven los demás:</p>${card(ME,false)}<button class="pill big" onclick="setup(false)">Editar edad y sexo</button><button class="ghost" onclick="hideMe()">Dejar de aparecer (borrar mi ubicación)</button><button class="ghost" onclick="logout()">Salir</button>`}
 function setup(first){const m=ME||{};SG=m.gender||'';$('#setup')?.remove();const d=document.createElement('div');d.id='setup';d.className='sheet c';if(!first)d.onclick=e=>{if(e.target===d)d.remove()};
  d.innerHTML=`<div><h2 style="margin-top:0">${first?'Un último paso':'Tus datos'}</h2><p class="hint" style="margin-top:0">Mostramos tu nombre (con la inicial del apellido) y tu foto de Google.</p>
@@ -153,30 +176,41 @@ function ask(id){const p=PEOPLE.find(x=>x.id===id);if(!p)return;const d=document
   await loadChats();PEOPLE=PEOPLE.filter(x=>x.id!==id);openChat(r.data)}}
 
 // ---------- CHAT ----------
-async function openChat(id){clr();C=CHATS.find(c=>c.chat_id===id);if(!C)return;V='chat';MSGS=[];SEEN=new Set();renderChat();
+async function openChat(id){clr();C=CHATS.find(c=>c.chat_id===id);if(!C)return;delete UNR[id];V='chat';MSGS=[];SEEN=new Set();renderChat();
  const r=await sb.from('messages').select('*').eq('chat_id',id).order('created_at');(r.data||[]).forEach(addMsg)}
-function renderChat(){$('#app').innerHTML=`<div class="chat"><header><button class="ghost sm" onclick="leave()">‹</button>${av(C)}<b>${nm(C)}</b><span class="tm">⏱ <span data-exp="${C.expires_at}">${fmt(left(C.expires_at))}</span></span></header>
+function renderChat(){$('#fab')?.remove();document.body.classList.add('inchat');
+ $('#app').innerHTML=`<div class="chat"><header><button class="ghost sm" onclick="leave()">‹</button>${av(C)}<b>${nm(C)}</b><span class="tm">⏱ <span data-exp="${C.expires_at}">${fmt(left(C.expires_at))}</span></span></header>
 <div class="note">Este chat se borra al terminar el tiempo y no podrán volver a hablar.</div><div id="msgs"></div>
-<form onsubmit="send(event);return false"><input id="mi" autocomplete="off" maxlength="1000" placeholder="Escribí un mensaje…"><button class="pill">Enviar</button></form></div>`;MSGS.forEach(m=>drawMsg(m))}
+<form onsubmit="send(event);return false"><input id="mi" autocomplete="off" maxlength="1000" enterkeyhint="send" placeholder="Escribí un mensaje…"><button class="pill">Enviar</button></form></div>`;vv();MSGS.forEach(m=>drawMsg(m))}
 function drawMsg(m){const b=document.createElement('div');b.className='bub '+(m.sender_id===U.id?'me':'ot');b.textContent=m.body;const l=$('#msgs');if(l){l.appendChild(b);l.scrollTop=l.scrollHeight}}
 function addMsg(m){if(SEEN.has(m.id))return;SEEN.add(m.id);MSGS.push(m);drawMsg(m)}
-async function send(e){e.preventDefault();const t=$('#mi').value.trim();if(!t||!C)return;$('#mi').value='';
+async function send(e){e.preventDefault();const t=$('#mi').value.trim();if(!t||!C)return;$('#mi').value='';$('#mi').focus();
  const r=await sb.from('messages').insert({chat_id:C.chat_id,sender_id:U.id,body:t}).select().single();if(r.error)toast('No se pudo enviar (¿terminó el chat?)');else addMsg(r.data)}
 function leave(){C=null;V='chats';loadChats();render()}
 function endChat(){C=null;MSGS=[];SEEN=new Set();V='home';toast('El chat terminó y se borró para siempre');render();loadPeople()}
+
+// Ajusta el chat al viewport visual: con el teclado abierto en iPhone el campo y el botón Enviar quedan visibles
+function vv(){const v=window.visualViewport;if(!v)return;document.documentElement.style.setProperty('--vh',v.height+'px');
+ const c=$('.chat');if(c){c.style.transform='translateY('+v.offsetTop+'px)';const l=$('#msgs');if(l)l.scrollTop=l.scrollHeight}}
+if(window.visualViewport){visualViewport.addEventListener('resize',vv);visualViewport.addEventListener('scroll',vv)}
+vv();
 
 // ---------- AVISOS (notificaciones, sonido, vibración, contador) ----------
 let BADGE=0,AC;
 const who=c=>c.first_name?c.first_name+(c.last_initial?' '+c.last_initial+'.':''):'';
 const title=()=>{document.title=(BADGE?'('+BADGE+') ':'')+'Cerca · Chats de 15 minutos'};
 const clr=()=>{BADGE=0;title()};
+const seen=()=>{if(V==='chat'&&C)delete UNR[C.chat_id]};
 document.addEventListener('click',()=>{try{AC=AC||new(window.AudioContext||window.webkitAudioContext)()}catch(e){}},{once:true});
 function beep(){try{if(!AC)return;const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.frequency.value=880;g.gain.setValueAtTime(.12,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.25);o.start();o.stop(AC.currentTime+.25)}catch(e){}}
 async function openChatId(id){if(!CHATS.find(c=>c.chat_id===id))await loadChats();openChat(id)}
 async function incoming(m){if(!CHATS.find(c=>c.chat_id===m.chat_id))await loadChats();
  const c=CHATS.find(x=>x.chat_id===m.chat_id)||{};
  if(C&&C.chat_id===m.chat_id&&!document.hidden&&document.hasFocus())return;
- BADGE++;title();UNREAD=true;$('#dot')?.classList.remove('hid');alertUser('💬 '+(who(c)||'Nuevo mensaje'),m.body.slice(0,90),m.chat_id)}
+ UNR[m.chat_id]=(UNR[m.chat_id]||0)+1;
+ BADGE++;title();UNREAD=true;$('#dot')?.classList.remove('hid');
+ if(V==='home')bubbles();else if(V==='chats')render();
+ alertUser('💬 '+(who(c)||'Nuevo mensaje'),m.body.slice(0,90),m.chat_id)}
 function alertUser(t,b,id){beep();try{navigator.vibrate&&navigator.vibrate([120,60,120])}catch(e){}
  if(document.hidden||!document.hasFocus())sysNotify(t,b,id);else toast(t+(b?' · '+b:''),()=>openChatId(id))}
 async function sysNotify(t,b,id){if(!('Notification' in window)||Notification.permission!=='granted')return;
@@ -186,14 +220,15 @@ async function sysNotify(t,b,id){if(!('Notification' in window)||Notification.pe
 function askNotif(){Notification.requestPermission().then(p=>{render();toast(p==='granted'?'Avisos activados 🔔':'Avisos bloqueados: podés activarlos en los ajustes del sitio')})}
 const notifBanner=()=>('Notification' in window&&Notification.permission==='default')?`<div class="banner">🔔 Activá los avisos para enterarte cuando alguien te escriba, aunque estés en otra pestaña.<br><button class="pill" onclick="askNotif()">Activar avisos</button></div>`:'';
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.chat)openChatId(e.data.chat)})}
-addEventListener('focus',()=>{if(V==='chat'||V==='chats')clr()});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&(V==='chat'||V==='chats'))clr()});
+addEventListener('focus',()=>{if(V==='chat'||V==='chats')clr();seen()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&(V==='chat'||V==='chats'))clr();if(!document.hidden)seen()});
 
 // ---------- RELOJ (cuenta regresiva de 15 min) ----------
 setInterval(()=>{const now=Date.now();
  document.querySelectorAll('[data-exp]').forEach(e=>{e.textContent=fmt(left(e.dataset.exp))});
  if(C&&new Date(C.expires_at)<=now)return endChat();
- const n=CHATS.length;CHATS=CHATS.filter(c=>new Date(c.expires_at)>now);if(n!==CHATS.length&&V==='chats')render()},1000);
+ const n=CHATS.length;CHATS=CHATS.filter(c=>new Date(c.expires_at)>now);
+ if(n!==CHATS.length){Object.keys(UNR).forEach(k=>{if(!CHATS.find(c=>c.chat_id===k))delete UNR[k]});if(V==='chats')render();else if(V==='home')bubbles()}},1000);
 
 setInterval(()=>{if(U&&V==='home'&&ME&&ME.age)loadPeople()},20000);
 render();
