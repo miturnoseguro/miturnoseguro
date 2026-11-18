@@ -39,6 +39,8 @@ textarea{height:80px;resize:none}.age{display:flex;gap:4px}.profile label{margin
 #dot{position:absolute;top:10px;margin-left:4px;width:8px;height:8px;border-radius:50%;background:#e0245e}.hid{display:none}
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:end center;z-index:50}
 .sheet>div{background:#fff;width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));text-align:center}
+.sheet.c{place-items:center;padding:16px}.sheet.c>div{border-radius:22px;max-width:420px;text-align:left}
+.seg{display:flex;gap:6px;margin:6px 0 16px}.seg button{flex:1;border:1px solid var(--b);background:#fff;border-radius:999px;padding:11px 0;font:600 14px inherit;font-family:inherit;cursor:pointer}.seg .on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .sheet .av{width:84px;height:84px;margin:0 auto 8px;font-size:32px}
 .chat{display:flex;flex-direction:column;height:calc(100dvh - env(safe-area-inset-top,0px));max-width:520px;margin:0 auto}
 .chat header{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--b)}
@@ -61,7 +63,7 @@ const SB_URL='https://tiajsxobclpcumbhtntb.supabase.co',SB_KEY='sb_publishable_t
 const GOOGLE_CLIENT_ID='962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com';
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{flowType:'pkce'}});
 const G={mujer:'Mujer',hombre:'Hombre',otro:'Otro'};
-let U=null,ME=null,PEOPLE=[],CHATS=[],F={min:18,max:99,g:'',r:''},V='home',C=null,MSGS=[],SEEN=new Set(),CH=null,HASLOC=false,UNREAD=false,TT;
+let SG='',U=null,ME=null,PEOPLE=[],CHATS=[],F={min:18,max:99,g:'',r:''},V='home',C=null,MSGS=[],SEEN=new Set(),CH=null,HASLOC=false,UNREAD=false,TT;
 const sel=(a,b)=>a==b?' selected':'';
 const left=x=>Math.max(0,Math.floor((new Date(x)-Date.now())/1000)),fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 const nm=p=>esc(p.first_name||'Usuario')+(p.last_initial?' '+esc(p.last_initial)+'.':'');
@@ -85,8 +87,8 @@ async function loadPeople(){const r=await sb.rpc('nearby_profiles',{p_min_age:F.
  if(r.error)toast('No se pudo cargar la gente');PEOPLE=r.error?[]:(r.data||[]);if(V==='home')drawList()}
 async function loadChats(){const r=await sb.rpc('my_active_chats');CHATS=r.data||[];if(V==='chats')render()}
 async function boot(s){
- if(s&&s.user){if(U&&U.id===s.user.id)return;U=s.user;await sb.rpc('init_my_profile');await loadMe();V=(ME.age&&ME.gender)?'home':'profile';render();listen();
-  if(V==='home'){await getLoc();loadChats();loadPeople();if(!HASLOC&&V==='home')render()}}
+ if(s&&s.user){if(U&&U.id===s.user.id)return;U=s.user;await sb.rpc('init_my_profile');await loadMe();V='home';render();listen();
+  if(ME.age&&ME.gender){await getLoc();loadChats();loadPeople();if(!HASLOC&&V==='home')render()}}
  else{U=ME=null;PEOPLE=[];CHATS=[];C=null;V='home';unlisten();render()}}
 sb.auth.onAuthStateChange((_e,s)=>setTimeout(()=>boot(s),0));
 
@@ -100,13 +102,13 @@ function unlisten(){if(CH){sb.removeChannel(CH);CH=null}}
 // ---------- VISTAS ----------
 function render(){const a=$('#app');
  if(!U){a.innerHTML=`<div class="wrap login"><h1>Cerca</h1><p>Conocé gente cerca tuyo. Chats de 15 minutos que desaparecen para siempre.</p><div id="gbox"></div><small>Solo mayores de 18 años. Al ingresar aceptás el <a href="descargo.html" target="_blank" rel="noopener">descargo de responsabilidad</a>.</small></div>`;return mountGoogle()}
- const need=!(ME&&ME.age&&ME.gender);if(need)V='profile';
+ const need=!(ME&&ME.age&&ME.gender);if(need&&V!=='home')V='home';
  if(V==='chat'&&C)return renderChat();
  const body=V==='home'?homeHTML():V==='chats'?chatsHTML():profileHTML();
  a.innerHTML=`<div class="wrap">${body}</div>`+(need?'':`<nav class="tabs"><button class="${V==='home'?'on':''}" onclick="go('home')">Inicio</button><button class="${V==='chats'?'on':''}" onclick="go('chats')">Chats<i id="dot" class="${UNREAD?'':'hid'}"></i></button><button class="${V==='profile'?'on':''}" onclick="go('profile')">Perfil</button></nav>`);
- if(V==='home')drawList()}
+ if(V==='home')drawList();if(need&&!$('#setup'))setup(true)}
 function go(v){V=v;if(v==='chats'){UNREAD=false;loadChats()}render()}
-function card(p,btn=true){return `<div class="card ${btn?'':'me'}" ${btn?`onclick="ask('${p.id}')"`:''}>${av(p)}<div class="t"><b>${nm(p)}</b><small>${p.age} · ${G[p.gender]||''}${p.distance_km?` · a ${p.distance_km} km`:''}</small>${p.bio?`<p>${esc(p.bio)}</p>`:''}</div>${btn?'<button class="pill">Chatear</button>':''}</div>`}
+function card(p,btn=true){return `<div class="card ${btn?'':'me'}" ${btn?`onclick="ask('${p.id}')"`:''}>${av(p)}<div class="t"><b>${nm(p)}</b><small>${p.age} · ${G[p.gender]||''}${p.distance_km?` · a ${p.distance_km} km`:''}</small></div>${btn?'<button class="pill">Chatear</button>':''}</div>`}
 function homeHTML(){return `<h2>Cerca tuyo</h2>
 ${HASLOC?'':`<div class="banner">Activá tu ubicación para aparecer en el inicio y ver a qué distancia están los demás.<br><button class="pill" onclick="askLoc()">Permitir ubicación</button></div>`}
 <div class="filters"><label>Edad<div class="age"><input id="fa" type="number" min="18" max="99" value="${F.min}" onchange="applyF()"><input id="fb" type="number" min="18" max="99" value="${F.max}" onchange="applyF()"></div></label>
@@ -117,22 +119,22 @@ function drawList(){const l=$('#list');if(l)l.innerHTML=PEOPLE.length?PEOPLE.map
 function applyF(){F.min=Math.max(18,+$('#fa').value||18);F.max=Math.min(99,+$('#fb').value||99);F.g=$('#fg').value;F.r=$('#fr').value;loadPeople()}
 async function askLoc(){if(await getLoc()){render();loadPeople()}else toast('Activá el permiso de ubicación en tu navegador')}
 function chatsHTML(){return `<h2>Tus chats</h2>`+(CHATS.length?CHATS.map(c=>`<div class="card" onclick="openChat('${c.chat_id}')">${av(c)}<div class="t"><b>${nm(c)}</b><small>Termina en <span data-exp="${c.expires_at}">${fmt(left(c.expires_at))}</span></small></div><button class="pill">Abrir</button></div>`).join(''):'<div class="empty">No tenés chats activos. Tocá a alguien en el inicio para empezar uno.</div>')}
-function profileHTML(){const m=ME||{};return `<div class="profile"><h2>Tu perfil</h2>${m.age&&m.gender?`<p class="hint">Así te ven los demás:</p>`+card(m,false):`<p class="hint">Completá tus datos para aparecer y chatear. Tomamos tu nombre (solo la inicial del apellido) y tu foto de Google.</p>`}
-<label>Edad (mayores de 18)<input id="pa" type="number" min="18" max="99" value="${m.age||''}"></label>
-<label>Sexo<select id="pg"><option value="">Elegí…</option><option value="mujer"${sel(m.gender,'mujer')}>Mujer</option><option value="hombre"${sel(m.gender,'hombre')}>Hombre</option><option value="otro"${sel(m.gender,'otro')}>Otro</option></select></label>
-<label>Sobre vos (opcional, 140 caracteres)<textarea id="pb" maxlength="140">${esc(m.bio||'')}</textarea></label>
-<button class="pill big" onclick="saveMe()">Guardar</button>
-${m.age&&m.gender?`<button class="ghost" onclick="hideMe()">Dejar de aparecer (borrar mi ubicación)</button>`:''}
-<button class="ghost" onclick="logout()">Salir</button></div>`}
-async function saveMe(){const age=+$('#pa').value,gender=$('#pg').value,bio=$('#pb').value.trim().slice(0,140);
- if(!(age>=18&&age<=99))return toast('Tenés que ser mayor de 18 años');if(!gender)return toast('Elegí tu sexo');
- const r=await sb.from('profiles').update({age,gender,bio:bio||null}).eq('id',U.id);if(r.error)return toast('No se pudo guardar');
- await loadMe();toast('Guardado');V='home';render();if(!HASLOC){await getLoc();render()}loadChats();loadPeople()}
+function profileHTML(){return `<h2>Tu perfil</h2><p class="hint">Así te ven los demás:</p>${card(ME,false)}<button class="pill big" onclick="setup(false)">Editar edad y sexo</button><button class="ghost" onclick="hideMe()">Dejar de aparecer (borrar mi ubicación)</button><button class="ghost" onclick="logout()">Salir</button>`}
+function setup(first){const m=ME||{};SG=m.gender||'';$('#setup')?.remove();const d=document.createElement('div');d.id='setup';d.className='sheet c';if(!first)d.onclick=e=>{if(e.target===d)d.remove()};
+ d.innerHTML=`<div><h2 style="margin-top:0">${first?'Un último paso':'Tus datos'}</h2><p class="hint" style="margin-top:0">Mostramos tu nombre (con la inicial del apellido) y tu foto de Google.</p>
+<label>Edad</label><select id="pa" style="margin-bottom:16px"><option value="">Elegí tu edad…</option>${Array.from({length:82},(_,i)=>18+i).map(n=>`<option value="${n}"${sel(m.age,n)}>${n}</option>`).join('')}</select>
+<label>Sexo</label><div class="seg">${[['mujer','Mujer'],['hombre','Hombre'],['otro','Otro']].map(o=>`<button type="button" data-g="${o[0]}" class="${SG===o[0]?'on':''}" onclick="pickG('${o[0]}')">${o[1]}</button>`).join('')}</div>
+<button class="pill big" onclick="saveMe()">Continuar</button>${first?'<button class="ghost" onclick="logout()">Salir</button>':'<button class="ghost" onclick="this.closest(\'.sheet\').remove()">Cancelar</button>'}</div>`;document.body.appendChild(d)}
+function pickG(g){SG=g;document.querySelectorAll('#setup .seg button').forEach(b=>b.classList.toggle('on',b.dataset.g===g))}
+async function saveMe(){const age=+$('#pa').value,gender=SG;
+ if(!(age>=18&&age<=99))return toast('Elegí tu edad');if(!gender)return toast('Elegí tu sexo');
+ const r=await sb.from('profiles').update({age,gender}).eq('id',U.id);if(r.error)return toast('No se pudo guardar');
+ $('#setup')?.remove();await loadMe();V='home';render();if(!HASLOC){await getLoc();render()}loadChats();loadPeople()}
 async function hideMe(){await sb.rpc('clear_my_location');HASLOC=false;toast('Ya no aparecés en el inicio');render()}
 
 // ---------- INICIAR CHAT ----------
 function ask(id){const p=PEOPLE.find(x=>x.id===id);if(!p)return;const d=document.createElement('div');d.className='sheet';d.onclick=e=>{if(e.target===d)d.remove()};
- d.innerHTML=`<div>${av(p)}<b style="font-size:18px">${nm(p)}</b><br><small>${p.age} · ${G[p.gender]||''}${p.distance_km?` · a ${p.distance_km} km`:''}</small>${p.bio?`<p>${esc(p.bio)}</p>`:''}
+ d.innerHTML=`<div>${av(p)}<b style="font-size:18px">${nm(p)}</b><br><small>${p.age} · ${G[p.gender]||''}${p.distance_km?` · a ${p.distance_km} km`:''}</small>
  <p class="hint">Vas a poder chatear <b>15 minutos</b>. Después el chat se borra para siempre y no podrán volver a hablar.</p><button class="pill big" id="go">Empezar chat</button><button class="ghost" onclick="this.closest('.sheet').remove()">Cancelar</button></div>`;
  document.body.appendChild(d);$('#go').onclick=async()=>{$('#go').disabled=true;const r=await sb.rpc('start_chat',{p_other:id});d.remove();
   if(r.error){const m=r.error.message||'';toast(m.includes('already_chatted')?'Ya chatearon antes: no pueden volver a conectar.':'No se pudo iniciar el chat');return loadPeople()}
