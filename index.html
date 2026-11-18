@@ -128,7 +128,7 @@ function setup(first){const m=ME||{};SG=m.gender||'';$('#setup')?.remove();const
 function pickG(g){SG=g;document.querySelectorAll('#setup .seg button').forEach(b=>b.classList.toggle('on',b.dataset.g===g))}
 async function saveMe(){const age=+$('#pa').value,gender=SG;
  if(!(age>=18&&age<=99))return toast('Elegí tu edad');if(!gender)return toast('Elegí tu sexo');
- const r=await sb.from('profiles').update({age,gender}).eq('id',U.id);if(r.error)return toast('No se pudo guardar');
+ const r=await sb.rpc('save_my_profile',{p_age:age,p_gender:gender});if(r.error){console.error(r.error);return toast('Error: '+r.error.message)}
  $('#setup')?.remove();await loadMe();V='home';render();if(!HASLOC){await getLoc();render()}loadChats();loadPeople()}
 async function hideMe(){await sb.rpc('clear_my_location');HASLOC=false;toast('Ya no aparecés en el inicio');render()}
 
