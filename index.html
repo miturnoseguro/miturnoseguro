@@ -13,7 +13,7 @@
 :root{--b:#cfd3d6;--m:#667;--ink:#0f1419}
 *{box-sizing:border-box}html,body{margin:0;height:100%}
 body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:#fff;padding-top:env(safe-area-inset-top,0px)}
-.wrap{max-width:520px;margin:0 auto;padding:14px 14px 96px}
+.wrap{max-width:520px;margin:0 auto;padding:14px 14px 28px}
 h1{font-size:32px;margin:0 0 8px}h2{font-size:22px;margin:6px 0 10px}
 .hint,.login p,small{color:var(--m)}
 .login{text-align:center;padding-top:12vh}.login #gbox{display:flex;justify-content:center;margin:22px 0;min-height:44px}.login small{font-size:12px}
@@ -33,10 +33,15 @@ input,select,textarea{width:100%;margin-top:4px;border:1px solid var(--b);border
 textarea{height:80px;resize:none}.age{display:flex;gap:4px}.profile label{margin-top:12px}
 .banner{border:1px solid #f3d38a;background:#fff7e6;border-radius:16px;padding:12px;margin:10px 0;font-size:14px}.banner .pill{margin-top:8px}
 .empty{text-align:center;color:var(--m);padding:40px 10px}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.bar b{font-size:20px}
+.burger{position:relative;border:1px solid var(--b);background:#fff;border-radius:12px;width:42px;height:42px;font-size:20px;cursor:pointer}
+.sheet.m{place-items:stretch end}.sheet.m>div{width:240px;max-width:80vw;border-radius:0;padding:calc(18px + env(safe-area-inset-top,0px)) 8px 18px;text-align:left}
+.sheet.m button{display:block;width:100%;text-align:left;border:0;background:none;padding:16px 14px;font:600 17px inherit;font-family:inherit;border-radius:12px;cursor:pointer}.sheet.m .on{font-weight:800;background:#f1f2f3}
+.dd{display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0245e;margin-left:8px}
 .tabs{position:fixed;left:0;right:0;bottom:0;display:flex;background:#fff;border-top:1px solid var(--b);padding-bottom:env(safe-area-inset-bottom,0px)}
 .tabs button{flex:1;border:0;background:none;padding:14px 0;font:600 14px inherit;font-family:inherit;color:var(--m);position:relative;cursor:pointer}
 .tabs .on{color:var(--ink);font-weight:800}
-#dot{position:absolute;top:10px;margin-left:4px;width:8px;height:8px;border-radius:50%;background:#e0245e}.hid{display:none}
+#dot{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:#e0245e}.hid{display:none}
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:end center;z-index:50}
 .sheet>div{background:#fff;width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));text-align:center}
 .sheet.c{place-items:center;padding:16px}.sheet.c>div{border-radius:22px;max-width:420px;text-align:left}
@@ -63,7 +68,7 @@ const SB_URL='https://tiajsxobclpcumbhtntb.supabase.co',SB_KEY='sb_publishable_t
 const GOOGLE_CLIENT_ID='962671080910-teo032pq4mrcp5b7av8k6q1j8741h90q.apps.googleusercontent.com';
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{flowType:'pkce'}});
 const G={mujer:'Mujer',hombre:'Hombre',otro:'Otro'};
-let SG='',U=null,ME=null,PEOPLE=[],CHATS=[],F={min:18,max:99,g:'',r:''},V='home',C=null,MSGS=[],SEEN=new Set(),CH=null,HASLOC=false,UNREAD=false,TT;
+let SG='',U=null,ME=null,PEOPLE=[],CHATS=[],F={min:18,max:60,g:'',r:''},V='home',C=null,MSGS=[],SEEN=new Set(),CH=null,HASLOC=false,UNREAD=false,TT;
 const sel=(a,b)=>a==b?' selected':'';
 const left=x=>Math.max(0,Math.floor((new Date(x)-Date.now())/1000)),fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 const nm=p=>esc(p.first_name||'Usuario')+(p.last_initial?' '+esc(p.last_initial)+'.':'');
@@ -105,24 +110,28 @@ function render(){const a=$('#app');
  const need=!(ME&&ME.age&&ME.gender);if(need&&V!=='home')V='home';
  if(V==='chat'&&C)return renderChat();
  const body=V==='home'?homeHTML():V==='chats'?chatsHTML():profileHTML();
- a.innerHTML=`<div class="wrap">${body}</div>`+(need?'':`<nav class="tabs"><button class="${V==='home'?'on':''}" onclick="go('home')">Inicio</button><button class="${V==='chats'?'on':''}" onclick="go('chats')">Chats<i id="dot" class="${UNREAD?'':'hid'}"></i></button><button class="${V==='profile'?'on':''}" onclick="go('profile')">Perfil</button></nav>`);
+ a.innerHTML=`<div class="wrap">${need?'':bar()}${body}</div>`;
  if(V==='home')drawList();if(need&&!$('#setup'))setup(true)}
+function bar(){return `<div class="bar"><b>Cerca</b><button class="burger" onclick="menu()" aria-label="Menú">☰<i id="dot" class="${UNREAD?'':'hid'}"></i></button></div>`}
+function menu(){$('#menu')?.remove();const d=document.createElement('div');d.id='menu';d.className='sheet m';d.onclick=e=>{if(e.target===d)d.remove()};
+ d.innerHTML=`<div>${[['home','Inicio'],['chats','Chats'],['profile','Perfil']].map(o=>`<button class="${V===o[0]?'on':''}" onclick="pick('${o[0]}')">${o[1]}${o[0]==='chats'&&UNREAD?'<i class="dd"></i>':''}</button>`).join('')}</div>`;document.body.appendChild(d)}
+function pick(v){$('#menu')?.remove();go(v)}
 function go(v){V=v;if(v==='chats'){UNREAD=false;loadChats()}render()}
 function card(p,btn=true){return `<div class="card ${btn?'':'me'}" ${btn?`onclick="ask('${p.id}')"`:''}>${av(p)}<div class="t"><b>${nm(p)}</b><small>${p.age} · ${G[p.gender]||''}${p.distance_km?` · a ${p.distance_km} km`:''}</small></div>${btn?'<button class="pill">Chatear</button>':''}</div>`}
 function homeHTML(){return `<h2>Cerca tuyo</h2>
 ${HASLOC?'':`<div class="banner">Activá tu ubicación para aparecer en el inicio y ver a qué distancia están los demás.<br><button class="pill" onclick="askLoc()">Permitir ubicación</button></div>`}
-<div class="filters"><label>Edad<div class="age"><input id="fa" type="number" min="18" max="99" value="${F.min}" onchange="applyF()"><input id="fb" type="number" min="18" max="99" value="${F.max}" onchange="applyF()"></div></label>
+<div class="filters"><label>Edad<div class="age"><input id="fa" type="number" min="18" max="60" value="${F.min}" onchange="applyF()"><input id="fb" type="number" min="18" max="60" value="${F.max}" onchange="applyF()"></div></label>
 <label>Sexo<select id="fg" onchange="applyF()"><option value="">Todos</option><option value="mujer"${sel(F.g,'mujer')}>Mujeres</option><option value="hombre"${sel(F.g,'hombre')}>Hombres</option><option value="otro"${sel(F.g,'otro')}>Otro</option></select></label>
 <label>Distancia<select id="fr" onchange="applyF()">${[['','Cualquiera'],[5,'5 km'],[10,'10 km'],[25,'25 km'],[50,'50 km'],[100,'100 km']].map(o=>`<option value="${o[0]}"${sel(F.r,o[0])}>${o[1]}</option>`).join('')}</select></label></div>
 <div id="list"></div>`}
 function drawList(){const l=$('#list');if(l)l.innerHTML=PEOPLE.length?PEOPLE.map(p=>card(p)).join(''):'<div class="empty">No hay personas con estos filtros por ahora.</div>'}
-function applyF(){F.min=Math.max(18,+$('#fa').value||18);F.max=Math.min(99,+$('#fb').value||99);F.g=$('#fg').value;F.r=$('#fr').value;loadPeople()}
+function applyF(){F.min=Math.max(18,+$('#fa').value||18);F.max=Math.min(60,+$('#fb').value||60);F.g=$('#fg').value;F.r=$('#fr').value;loadPeople()}
 async function askLoc(){if(await getLoc()){render();loadPeople()}else toast('Activá el permiso de ubicación en tu navegador')}
 function chatsHTML(){return `<h2>Tus chats</h2>`+(CHATS.length?CHATS.map(c=>`<div class="card" onclick="openChat('${c.chat_id}')">${av(c)}<div class="t"><b>${nm(c)}</b><small>Termina en <span data-exp="${c.expires_at}">${fmt(left(c.expires_at))}</span></small></div><button class="pill">Abrir</button></div>`).join(''):'<div class="empty">No tenés chats activos. Tocá a alguien en el inicio para empezar uno.</div>')}
 function profileHTML(){return `<h2>Tu perfil</h2><p class="hint">Así te ven los demás:</p>${card(ME,false)}<button class="pill big" onclick="setup(false)">Editar edad y sexo</button><button class="ghost" onclick="hideMe()">Dejar de aparecer (borrar mi ubicación)</button><button class="ghost" onclick="logout()">Salir</button>`}
 function setup(first){const m=ME||{};SG=m.gender||'';$('#setup')?.remove();const d=document.createElement('div');d.id='setup';d.className='sheet c';if(!first)d.onclick=e=>{if(e.target===d)d.remove()};
  d.innerHTML=`<div><h2 style="margin-top:0">${first?'Un último paso':'Tus datos'}</h2><p class="hint" style="margin-top:0">Mostramos tu nombre (con la inicial del apellido) y tu foto de Google.</p>
-<label>Edad</label><select id="pa" style="margin-bottom:16px"><option value="">Elegí tu edad…</option>${Array.from({length:82},(_,i)=>18+i).map(n=>`<option value="${n}"${sel(m.age,n)}>${n}</option>`).join('')}</select>
+<label>Edad</label><select id="pa" style="margin-bottom:16px"><option value="">Elegí tu edad…</option>${Array.from({length:43},(_,i)=>18+i).map(n=>`<option value="${n}"${sel(m.age,n)}>${n}</option>`).join('')}</select>
 <label>Sexo</label><div class="seg">${[['mujer','Mujer'],['hombre','Hombre'],['otro','Otro']].map(o=>`<button type="button" data-g="${o[0]}" class="${SG===o[0]?'on':''}" onclick="pickG('${o[0]}')">${o[1]}</button>`).join('')}</div>
 <button class="pill big" onclick="saveMe()">Continuar</button>${first?'<button class="ghost" onclick="logout()">Salir</button>':'<button class="ghost" onclick="this.closest(\'.sheet\').remove()">Cancelar</button>'}</div>`;document.body.appendChild(d)}
 function pickG(g){SG=g;document.querySelectorAll('#setup .seg button').forEach(b=>b.classList.toggle('on',b.dataset.g===g))}
